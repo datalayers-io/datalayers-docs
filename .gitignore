@@ -1,0 +1,22 @@
+node_modules
+_book
+yarn-error.log
+book.pdf
+.vscode
+*.lock
+*.pdf
+.DS_Store
+/.idea/
+directory.json
+directory_ee.json
+*.sw[op]
+# Emacs Backup files
+*~
+# Emacs temporary files
+.#*
+*#
+# For direnv
+.envrc
+*/admin/cfg.md
+*/configuration/configuration-manual.html
+*/configuration/configuration-manual.md
