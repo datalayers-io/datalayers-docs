@@ -20,18 +20,21 @@
   path: "./" # this is the index page, {en_US,zh_CN}/README.md is the content
 
 - title_en: Introduction
-  title_cn: 简介
+  title_cn: 关于DataLayers 
   collapsed: true
   children: 
-    - title_en: DataLayers Features
-      title_cn: Datalayers 特性
+    - title_en: Introduction 
+      title_cn: 简介 
       path: introduction/features
-    - title_en: Performance Test
-      title_cn: 性能测试
-      path: introduction/performance
+    - title_en: Architecture 
+      title_cn: 系统架构 
+      path: introduction/architecture
+    - title_en: Supported Architectures
+      title_cn: 支持平台 
+      path: introduction/architecture
 
 - title_en: Quick Start
-  title_cn: 快速体验
+  title_cn: 快速开始
   collapsed: true
   children:
     - title_en: Install & Deploy
@@ -44,36 +47,42 @@
       title_cn: 在线体验
       path: quick-start/online
 
-- title_en: developer-guide
+- title_en: Developer Guide
   title_cn: 开发指南
   collapsed: true
   children:
     - title_en: Concepts
       title_cn: 概念
       path: developer-guide/concepts
+    - title_en: Data Types
+      title_cn: 数据类型
+      path: developer-guide/data-writing
     - title_en: Data Writing
       title_cn: 数据写入
       path: developer-guide/data-writing
     - title_en: Data Reading
-      title_cn: 数据读取
-      path: developer-guide/data-reading
+      title_cn: 数据查询
+      path: developer-guide/data-querying
     - title_en: Query Optimization
       title_cn: 查询优化
       path: developer-guide/query-optimization
     - title_en: Tags & Indexs
       title_cn: 标签与索引
       path: developer-guide/tags-indexs
+    - title_en: Interface
+      title_cn: 应用接口
+      path: developer-guide/interface
 
 - title_en: sql-reference
   title_cn: SQL 参考
   collapsed: true
   children:
-    - title_en: Data Type
-      title_cn: 数据类型
-      path: sql-reference/data-type
-    - title_en: Database Setting
-      title_cn: 数据库设置
-      path: sql-reference/database-setting
+    - title_en: operator
+      title_cn: 运算符
+      path: sql-reference/operator
+    - title_en: Database Manager
+      title_cn: 数据库管理
+      path: sql-reference/database-manager
     - title_en: Table Manage
       title_cn: 表管理
       path: sql-reference/table-manage
@@ -141,9 +150,9 @@
     - title_en: Storage Node Expansion
       title_cn: 存储节点扩容
       path: operations-guide/storage-node-expansion
-    - title_en: Support Platforms
-      title_cn: 支持平台列表
-      path: operations-guide/support-platforms
+    - title_en: Edge to Cloud 
+      title_cn: 边云协同
+      path: operations-guide/edge-to-cloud
 
 - title_en: User & Security
   title_cn: 用户与安全
