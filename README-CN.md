@@ -4,7 +4,7 @@
 
 ---
 
-欢迎来到 [Datalayers](https://github.com/datalayers-io/docs-datalayers) 文档仓库，这里存放的是 [Datalayers 中文文档]( https://docs.datalayers.io/cn/broker/latest/) 的源文件。
+欢迎来到 [Datalayers](https://github.com/datalayers-io/docs-datalayers) 文档仓库，这里存放的是 [Datalayers 中文文档]( https://docs.datalayers.io/cn/) 的源文件。
 
 todo Datalayers 简要描述
 
@@ -15,21 +15,15 @@ todo Datalayers 简要描述
 
 如果您发现或遇到了 Datalayers 文档的问题，可随时向我们提交 Issue 或 Pull request。Datalayers 的文档是完全开源的，我们非常感谢社区的贡献！
 
-在开始贡献前，您需要了解 Datalayers 文档版本与文档仓库分支的对应关系：latest 对应 develop 分支、v4.1 对应 release-4.1、v4.0 对应 release-4.0，依此类推。
-
 文档编写时需要注意的相关事项，可查看我们的 [文档贡献指南](./CONTRIBUTING-CN.md)。
 
 ## 预览
 
 ```sh
-# 开源版
-./preview.sh ce 8080
-
-# 企业版
-./preview.sh ee 8080
+./preview.sh 8080
 ```
 
-现在浏览器打开 <http://localhost:8080/docs/zh/latest/> 或者 <http://localhost:8080/zh/enterprise/latest/>, 如果更新了 dir.yaml 文件, 你需要重新运行上面的命令。
+现在浏览器打开 <http://localhost:8080/docs/zh/latest/>, 如果更新了 dir.yaml 文件, 你需要重新运行上面的命令。
 
 ## 联系我们
 

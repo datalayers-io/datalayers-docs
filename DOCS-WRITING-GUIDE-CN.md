@@ -62,7 +62,7 @@ Datalayers 文档使用 Markdown 格式编写，并使用 [Vuepress](https://vue
       "title": "Introduction",
       "children": [
         {
-          "title": "Datalayers Broker",
+          "title": "Datalayers",
           "path": "./"
         },
         {
@@ -182,10 +182,10 @@ This is a dangerous warning
 
 ### 差异化编译
 
-Broker 和 Enterprise 之间共用一个文档仓库，使用如下语法可实现差异化编译。
+Open-source版本 和 Enterprise 之间共用一个文档仓库，使用如下语法可实现差异化编译。
 
 ```markdown
-# Broker Docs
+# Open-source Docs
 {% dls_ce %}
   contents
 {% dls_ce_end %}

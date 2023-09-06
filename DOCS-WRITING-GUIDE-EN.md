@@ -62,7 +62,7 @@ The corresponding configuration is:
       "title": "Introduction",
       "children": [
         {
-          "title": "Datalayers Broker",
+          "title": "Datalayers",
           "path": "./"
         },
         {
@@ -180,10 +180,10 @@ todo截图
 
 ### Differentiated compilation
 
-Broker and Enterprise share the same document repository and the differentiated compilation can be implemented by using the following syntax.
+Open-source edition and Enterprise share the same document repository and the differentiated compilation can be implemented by using the following syntax.
 
 ```markdown
-# Broker Docs
+# Open-source Docs
 {% dls_ce %}
   contents
 {% dls_ce_end %}

@@ -5,7 +5,7 @@ English | [简体中文](./README-CN.md)
 
 ---
 
-Welcome to the repo for [Datalayers](https://github.com/datalayers-io/docs-datalayers) documentation. This is the source for [Datalayers Documentation](https://docs.datalayers.io/cn/broker/latest/).
+Welcome to the repo for [Datalayers](https://github.com/datalayers-io/docs-datalayers) documentation. This is the source for [Datalayers Documentation](https://docs.datalayers.io/).
 
 todo Datalayers introductions
 
@@ -21,14 +21,10 @@ See [Datalayers Documentation Contributing Guide](./CONTRIBUTING-EN.md) to becom
 ## Preview
 
 ```sh
-# for community
-./preview.sh ce 8080
-
-# for enterprise
-./preview.sh ee 8080
+./preview.sh 8080
 ```
 
-Now, open <http://localhost:8080/docs/en/latest/> or <http://localhost:8080/en/enterprise/latest/>, if dir.yaml has been updated, you can re-run the above command to update the docs.
+Now, open <http://localhost:8080/docs/en/latest/>, if dir.yaml has been updated, you can re-run the above command to update the docs.
 
 ## Release a New Version
 
