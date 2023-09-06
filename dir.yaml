@@ -31,47 +31,47 @@
       path: introduction/architecture
     - title_en: Supported Architectures
       title_cn: 支持平台 
-      path: introduction/architecture
+      path: introduction/supported_architectures
 
 - title_en: Quick Start
   title_cn: 快速开始
   collapsed: true
   children:
-    - title_en: Install & Deploy
+    - title_en: Installation
       title_cn: 安装部署
-      path: quick-start/install
-    - title_en: Quick Experience
-      title_cn: 快速体验
-      path: quick-start/experience
-    - title_en: Playground
+      path: quick-start/installation
+    - title_en: Example Datasets
+      title_cn: 示例数据
+      path: quick-start/example-datasets
+    - title_en: Online Experience
       title_cn: 在线体验
-      path: quick-start/online
+      path: quick-start/online-experience
 
-- title_en: Developer Guide
+- title_en: Development Guide
   title_cn: 开发指南
   collapsed: true
   children:
     - title_en: Concepts
       title_cn: 概念
-      path: developer-guide/concepts
+      path: development-guide/concepts
     - title_en: Data Types
       title_cn: 数据类型
-      path: developer-guide/data-writing
+      path: development-guide/data-types
     - title_en: Data Writing
       title_cn: 数据写入
-      path: developer-guide/data-writing
-    - title_en: Data Reading
+      path: development-guide/data-writing
+    - title_en: Data Query
       title_cn: 数据查询
-      path: developer-guide/data-querying
+      path: development-guide/data-query
     - title_en: Query Optimization
       title_cn: 查询优化
-      path: developer-guide/query-optimization
+      path: development-guide/query-optimization
     - title_en: Tags & Indexs
       title_cn: 标签与索引
-      path: developer-guide/tags-indexs
+      path: development-guide/tags-indexs
     - title_en: Interface
       title_cn: 应用接口
-      path: developer-guide/interface
+      path: development-guide/interface
 
 - title_en: sql-reference
   title_cn: SQL 参考
@@ -80,21 +80,41 @@
     - title_en: operator
       title_cn: 运算符
       path: sql-reference/operator
-    - title_en: Database Manager
+    - title_en: Database Management
       title_cn: 数据库管理
-      path: sql-reference/database-manager
+      path: sql-reference/database-management
     - title_en: Table Manage
       title_cn: 表管理
-      path: sql-reference/table-manage
+      path: sql-reference/table-management
     - title_en: Data Writing
       title_cn: 数据写入
       path: sql-reference/writing
     - title_en: Data Query
       title_cn: 数据查询
       path: sql-reference/query
-    - title_en: Function
+    - title_en: Functions
       title_cn: 函数
-      path: sql-reference/function
+      path: sql-reference/sql-functions
+      children:
+      - title_en: Aggregation
+        title_cn: 聚合函数
+        path: sql-reference/aggregation
+      - title_en: Time
+        title_cn: 时间函数
+        path: sql-reference/time
+      - title_en: Selector
+        title_cn: Selector
+        path: sql-reference/selector
+      - title_en: Math
+        title_cn: 数学函数
+        path: sql-reference/math
+      - title_en: String
+        title_cn: 字符串函数
+        path: sql-reference/string
+      - title_en: System
+        title_cn: 系统函数
+        path: sql-reference/system
+
 
 - title_en: cluster-deploy
   title_cn: 集群部署
@@ -126,15 +146,12 @@
     - title_en: Server Config Optimization
       title_cn: 服务器配置优化
       path: operations-guide/server-config-optimization
-    - title_en: Config Parameters
-      title_cn: 配置参数
-      path: operations-guide/config-parameters
-    - title_en: Data Copy
-      title_cn: 数据副本
-      path: operations-guide/data-copy
-    - title_en: Volume Model
+    - title_en: DataLayers configuration
+      title_cn: DataLayers配置参数
+      path: operations-guide/datalayers-configuration
+    - title_en: Capacity Model
       title_cn: 容量模型
-      path: operations-guide/volume-model
+      path: operations-guide/capacity-model
     - title_en: Data Backup
       title_cn: 数据备份
       path: operations-guide/data-backup
@@ -144,12 +161,12 @@
     - title_en: System Monitor
       title_cn: 系统监控
       path: operations-guide/system-monitor
-    - title_en: Compute Node Expansion
-      title_cn: 计算节点扩容
-      path: operations-guide/compute-node-expansion
-    - title_en: Storage Node Expansion
-      title_cn: 存储节点扩容
-      path: operations-guide/storage-node-expansion
+    - title_en: Compute Node Scaling
+      title_cn: 计算节点扩缩容
+      path: operations-guide/compute-node-scaling
+    - title_en: Storage Node Scaling
+      title_cn: 存储节点扩缩容
+      path: operations-guide/storage-node-scaling
     - title_en: Edge to Cloud 
       title_cn: 边云协同
       path: operations-guide/edge-to-cloud
