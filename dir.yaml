@@ -31,7 +31,10 @@
       path: introduction/architecture
     - title_en: Supported Architectures
       title_cn: 支持平台 
-      path: introduction/supported_architectures
+      path: introduction/supported-architectures
+    - title_en: ANSI Compatibility
+      title_cn: ANSI兼容性
+      path: introduction/ansi-compatibility
 
 - title_en: Quick Start
   title_cn: 快速开始
@@ -86,11 +89,14 @@
     - title_en: Table Manage
       title_cn: 表管理
       path: sql-reference/table-management
-    - title_en: Data Writing
+    - title_en: Data Insert
       title_cn: 数据写入
-      path: sql-reference/writing
+      path: sql-reference/insert
     - title_en: Data Query
       title_cn: 数据查询
+      path: sql-reference/query
+    - title_en: Data Delete
+      title_cn: 数据删除
       path: sql-reference/query
     - title_en: Functions
       title_cn: 函数
@@ -115,26 +121,25 @@
         title_cn: 系统函数
         path: sql-reference/system
 
-
-- title_en: cluster-deploy
-  title_cn: 集群部署
+- title_en: Deployment Cluster
+  title_cn: 部署集群
   collapsed: true
   children:
     - title_en: Concept & Architecture
       title_cn: 概念与架构
-      path: cluster-deploy/concept-architecture
+      path: deployment/concept-architecture
     - title_en: Operating system optimization
       title_cn: 操作系统优化
-      path: cluster-deploy/os-optimization
+      path: deployment/os-optimization
     - title_en: Docker
       title_cn: Docker
-      path: cluster-deploy/docker
+      path: deployment/docker
     - title_en: Manual deployment
       title_cn: 手动部署
-      path: cluster-deploy/manual-deploy
+      path: deployment/manual-deployment
     - title_en: Kubernetes
       title_cn: Kubernetes
-      path: cluster-deploy/kubernetes
+      path: deployment/kubernetes
 
 - title_en: Operations Guide
   title_cn: 运维指南
