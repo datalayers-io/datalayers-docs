@@ -76,7 +76,7 @@
       title_cn: 应用接口
       path: development-guide/interface
 
-- title_en: sql-reference
+- title_en: SQL Reference
   title_cn: SQL 参考
   collapsed: true
   children:
@@ -121,8 +121,8 @@
         title_cn: 系统函数
         path: sql-reference/system
 
-- title_en: Deployment Cluster
-  title_cn: 部署集群
+- title_en: DataLayers Clustering
+  title_cn: DataLayers 集群 
   collapsed: true
   children:
     - title_en: Concept & Architecture
@@ -141,40 +141,40 @@
       title_cn: Kubernetes
       path: deployment/kubernetes
 
-- title_en: Operations Guide
+- title_en: Operation Guide 
   title_cn: 运维指南
   collapsed: true
   children:
-    - title_en: Directory
+    - title_en: Directory Structure
       title_cn: 文件目录结构
-      path: operations-guide/directory
+      path: operation-guide/directory-structure
     - title_en: Server Config Optimization
       title_cn: 服务器配置优化
-      path: operations-guide/server-config-optimization
+      path: operation-guide/server-config-optimization
     - title_en: DataLayers configuration
-      title_cn: DataLayers配置参数
-      path: operations-guide/datalayers-configuration
+      title_cn: 配置参数
+      path: operation-guide/datalayers-configuration
     - title_en: Capacity Model
       title_cn: 容量模型
-      path: operations-guide/capacity-model
+      path: operation-guide/capacity-model
     - title_en: Data Backup
       title_cn: 数据备份
-      path: operations-guide/data-backup
+      path: operation-guide/data-backup
     - title_en: Data Restore
       title_cn: 数据恢复
-      path: operations-guide/data-restore
+      path: operation-guides/data-restore
     - title_en: System Monitor
       title_cn: 系统监控
-      path: operations-guide/system-monitor
+      path: operation-guide/system-monitor
     - title_en: Compute Node Scaling
       title_cn: 计算节点扩缩容
-      path: operations-guide/compute-node-scaling
+      path: operation-guide/compute-node-scaling
     - title_en: Storage Node Scaling
       title_cn: 存储节点扩缩容
-      path: operations-guide/storage-node-scaling
+      path: operation-guide/storage-node-scaling
     - title_en: Edge to Cloud 
       title_cn: 边云协同
-      path: operations-guide/edge-to-cloud
+      path: operation-guide/edge-to-cloud
 
 - title_en: User & Security
   title_cn: 用户与安全
