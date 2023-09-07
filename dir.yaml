@@ -4,7 +4,6 @@
 #
 # - Each doc node is a yaml dict
 # - A doc node is either a grouping node or a content node
-# - A doc node may have edition: ee for enterprise only content
 #
 # Grouping node
 # - Must have a 'title_en' (English), 'title_cn' (Chinese) is optional wehn no need to translate. e.g. FAQ

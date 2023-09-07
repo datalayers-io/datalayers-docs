@@ -14,11 +14,11 @@ THIS_DIR="$(cd "$(dirname "$(readlink "$0" || echo "$0")")"; pwd -P)"
 
 docker rm datalayers-doc-preview > /dev/null 2>&1 || true
 
-python3 "$THIS_DIR/gen.py" ee > directory_ee.json
+python3 "$THIS_DIR/gen.py" > directory.json
 docker run -p ${PORT}:8080 -it --name datalayers-doc-preview \
--v "$THIS_DIR"/directory_ee.json:/app/docs/.vitepress/config/directory.json \
--v "$THIS_DIR"/en_US:/app/docs/en/enterprise/latest \
--v "$THIS_DIR"/zh_CN:/app/docs/zh/enterprise/latest \
--e DOCS_TYPE=enterprise \
+-v "$THIS_DIR"/directory.json:/app/docs/.vitepress/config/directory.json \
+-v "$THIS_DIR"/en_US:/app/docs/en/datalayers/latest \
+-v "$THIS_DIR"/zh_CN:/app/docs/zh/datalayers/latest \
+-e DOCS_TYPE=datalayers \
 -e VERSION=latest \
 ghcr.io/datalayers-io/docs-datalayers-frontend:latest

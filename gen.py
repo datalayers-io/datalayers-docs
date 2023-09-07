@@ -5,14 +5,6 @@ import json
 import sys
 import shutil
 
-if len(sys.argv) != 2:
-    print('expecting ce or ee as arg1')
-    exit(1)
-
-if sys.argv[1] != r'ce' and sys.argv[1] != r'ee':
-    print('expecting ce or ee as arg1')
-    exit(2)
-
 ## check if the 'lang' field matches expected input
 ## when no 'lang' is defined, it matches both 'en' and 'cn'
 def is_lang_match(i, en_or_cn):
@@ -21,15 +13,6 @@ def is_lang_match(i, en_or_cn):
     else:
         return True
 
-EDITION = sys.argv[1]
-
-## check if the 'edition' field matches expected input
-## when no 'edition' is defined, it matches both 'ce' and 'ee'
-def is_edition_match(i, ce_or_ee):
-    if 'edition' in i:
-        return i['edition'] == ce_or_ee
-    else:
-        return True
 
 def read_title_from_md(lang, path):
     if lang == 'en':
@@ -42,13 +25,11 @@ def read_title_from_md(lang, path):
             if line.strip():
                 return line.strip('\n').strip('#').strip()
 
-def parse(children, lang, edition):
+def parse(children, lang):
     acc=[]
     for i in range(len(children)):
         child = children[i]
         if not is_lang_match(child, lang):
-            continue
-        if not is_edition_match(child, edition):
             continue
 
         if 'title_en' in child:
@@ -69,7 +50,7 @@ def parse(children, lang, edition):
                 _child['collapsed'] = child['collapsed']
 
             if 'children' in child:
-                godeep = parse(child['children'], lang, edition)
+                godeep = parse(child['children'], lang)
                 _child['children'] = godeep
 
         acc.append(_child)
@@ -89,7 +70,7 @@ with open(r'dir.yaml', encoding='utf-8') as file:
     all = yaml.load(file, Loader=yaml.FullLoader)
     # move_manual('en', EDITION)
     # move_manual('cn', EDITION)
-    en = parse(all, 'en', EDITION)
-    cn = parse(all, 'cn', EDITION)
+    en = parse(all, 'en')
+    cn = parse(all, 'cn')
     res ={'en': en, 'cn': cn}
     json.dump(res, sys.stdout, indent=2, ensure_ascii=False)
