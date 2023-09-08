@@ -66,8 +66,8 @@ The corresponding configuration is:
           "path": "./"
         },
         {
-          "title": "Features List",
-          "path": "introduction/checklist"
+          "title": "introduction",
+          "path": "introduction/introduction"
         }
       ]
     },
@@ -86,7 +86,7 @@ Corresponding file structure:
 ├── en_US
 │   ├── README.md
 │   └── introduction
-│       └── checklist.md
+│       └── introduction.md
 ```
 
 The corresponding page routing of the file structure:
@@ -94,7 +94,7 @@ The corresponding page routing of the file structure:
 | Relative path to the file  | Page routing address         |
 | -------------------------- | ---------------------------- |
 | /README.md                 | /                            |
-| /introduction/checklist.md | /introduction/checklist.html |
+| /introduction/introduction.md | /introduction/introduction.html |
 
 ### Notes
 
@@ -172,73 +172,4 @@ This is a warning
 ::: danger
 This is a dangerous warning
 :::
-```
-
-The output is as follows.
-
-todo截图
-
-### Differentiated compilation
-
-Open-source edition and Enterprise share the same document repository and the differentiated compilation can be implemented by using the following syntax.
-
-```markdown
-# Open-source Docs
-{% dls_ce %}
-  contents
-{% dls_ce_end %}
-
-# Enterprise Docs
-{% dls_ee %}
-  contents
-{% dls_ee_end %}
-```
-
-Correct
-
-```markdown
-{% dls_ee %}
-  contents
-{% dls_ee_end %}
-
-or
-
-{% dls_ee %} contents {% dls_ee_end %}
-```
-
-Incorrect
-
-```markdown
-{% dls_ee %} contents
-{% dls_ee_end %}
-
-or
-
-{% dls_ee %}
-contents {% dls_ee_end %}
-```
-
-### Configuration
-
-The configuration docs are generated from source code.
-Steps to  update:
-
-1. Re-build Datalayers (opensource and enterprise edition)
-1. Copy the gnerated `md` files to this repo (see commands below)
-1. Rename the heading-1 of each file
-    - Configuration Files (for en_US/admin/cfg-*.md)
-    - 配置文件 (in zh_CN/admin/cfg-*.md)
-
-#### Commands to copy generated markdown
-
-For opensource edition
-
-```shell
-todo shell
-```
-
-For enterprise edition
-
-```shell
-todo shell
 ```

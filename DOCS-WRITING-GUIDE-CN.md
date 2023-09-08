@@ -49,9 +49,7 @@ Datalayers 文档使用 Markdown 格式编写，并使用 [Vuepress](https://vue
 
 ### 配置示例
 
-我们以配置如下 Introduction 为例进行说明。
-
-![introduction-dir](./assets/introduction-dir.jpg)
+我们以 Introduction 为例进行说明。
 
 对应的配置为：
 
@@ -62,13 +60,9 @@ Datalayers 文档使用 Markdown 格式编写，并使用 [Vuepress](https://vue
       "title": "Introduction",
       "children": [
         {
-          "title": "Datalayers",
-          "path": "./"
+          "title": "Introduction",
+          "path": "introduction/introduction"
         },
-        {
-          "title": "Features List",
-          "path": "introduction/checklist"
-        }
       ]
     },
     ...
@@ -86,7 +80,7 @@ Datalayers 文档使用 Markdown 格式编写，并使用 [Vuepress](https://vue
 ├── en_US
 │   ├── README.md
 │   └── introduction
-│       └── checklist.md
+│       └── introduction.md
 ```
 
 文件结构对应的页面路由：
@@ -94,7 +88,7 @@ Datalayers 文档使用 Markdown 格式编写，并使用 [Vuepress](https://vue
 | 文件的相对路径             | 页面路由地址                 |
 | -------------------------- | ---------------------------- |
 | /README.md                 | /                            |
-| /introduction/checklist.md | /introduction/checklist.html |
+| /introduction/introduction.md | /introduction/introduction.html |
 
 ### 注意事项
 
@@ -174,72 +168,4 @@ This is a warning
 ::: danger
 This is a dangerous warning
 :::
-```
-
-输出效果如下。
-
-![block](./assets/block.jpg)
-
-### 差异化编译
-
-Open-source版本 和 Enterprise 之间共用一个文档仓库，使用如下语法可实现差异化编译。
-
-```markdown
-# Open-source Docs
-{% dls_ce %}
-  contents
-{% dls_ce_end %}
-
-# Enterprise Docs
-{% dls_ee %}
-  contents
-{% dls_ee_end %}
-```
-
-正确写法
-
-```markdown
-{% dls_ee %}
-  contents
-{% dls_ee_end %}
-
-or
-
-{% dls_ee %} contents {% dls_ee_end %}
-```
-
-错误写法
-
-```markdown
-{% dls_ee %} contents
-{% dls_ee_end %}
-
-or
-
-{% dls_ee %}
-contents {% dls_ee_end %}
-```
-
-### 配置文档更新
-
-配置文档是自动生成的。下面列出了更新的步骤。
-
-1. 重新编译 Datalayers （开源版和企业版）
-1. 复制生成的 `md` 文件到该项目 （具体命令见后续）
-1. 修改文档首行标题：
-    - Configuration Files (en_US/admin/cfg-*.md)
-    - 配置文件 (zh_CN/admin/cfg-*.md)
-
-#### Commands to copy generated markdown
-
-开源版
-
-```shell
-todo shell命令
-```
-
-企业版
-
-```shell
-todo shell命令
 ```
