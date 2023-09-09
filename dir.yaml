@@ -32,19 +32,19 @@
       title_cn: 支持平台 
       path: introduction/supported-architectures
 
-- title_en: Quick Start
+- title_en: Getting Started
   title_cn: 快速开始
   collapsed: true
   children:
     - title_en: Installation
       title_cn: 安装部署
-      path: quick-start/installation
+      path: getting-started/installation
     - title_en: Example Datasets
       title_cn: 示例数据
-      path: quick-start/example-datasets
+      path: getting-started/example-datasets
     - title_en: Online Experience
       title_cn: 在线体验
-      path: quick-start/online-experience
+      path: getting-started/online-experience
 
 - title_en: Development Guide
   title_cn: 开发指南
