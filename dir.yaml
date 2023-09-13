@@ -91,6 +91,16 @@
     - title_en: Table Manage
       title_cn: 表管理
       path: sql-reference/table-management
+      children:
+      - title_en: Time-Series Engine
+        title_cn: 时序引擎
+        path: sql-reference/table-management-timeseries
+      - title_en: key-Value Engine
+        title_cn: KV引擎
+        path: sql-reference/table-management-kv
+      - title_en: Queue Engine
+        title_cn: 队列引擎
+        path: sql-reference/table-management-queue
     - title_en: Data Insert
       title_cn: 数据写入
       path: sql-reference/insert
