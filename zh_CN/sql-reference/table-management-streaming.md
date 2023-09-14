@@ -1,4 +1,4 @@
-# Queue Table Engine
+# STREAMING Table Engine
 
 ## 创建表
 ```SQL
@@ -11,7 +11,7 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     INDEX index_name2 expr2,
     ...
     [PRIMARY KEY expr]
-) 
+) ENGINE = STREAMING() 
 [SETTINGS name=value, ...]
 ```
 

@@ -98,9 +98,9 @@
       - title_en: key-Value Engine
         title_cn: KV引擎
         path: sql-reference/table-management-kv
-      - title_en: Queue Engine
-        title_cn: 队列引擎
-        path: sql-reference/table-management-queue
+      - title_en: Streaming Engine
+        title_cn: 流引擎
+        path: sql-reference/table-management-streaming
     - title_en: Data Insert
       title_cn: 数据写入
       path: sql-reference/insert
