@@ -34,7 +34,7 @@
 
 - title_en: Getting Started
   title_cn: 快速开始
-  collapsed: true
+  collapsed: false
   children:
     - title_en: Installation
       title_cn: 安装部署
@@ -101,6 +101,9 @@
       - title_en: Streaming Engine
         title_cn: 流引擎
         path: sql-reference/table-management-streaming
+    - title_en: Access Control
+      title_cn: 权限管理
+      path: sql-reference/access-control
     - title_en: Data Insert
       title_cn: 数据写入
       path: sql-reference/insert
@@ -109,10 +112,11 @@
       path: sql-reference/query
     - title_en: Data Delete
       title_cn: 数据删除
-      path: sql-reference/query
+      path: sql-reference/delete
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
+      collapsed: true
       children:
       - title_en: Aggregation
         title_cn: 聚合函数
@@ -200,15 +204,16 @@
   title_cn: 应用场景
   collapsed: true
   children:
-    - title_en: Releases
-      title_cn: 版本发布
-- title_en: Releases
-  title_cn: 版本发布说明
-  collapsed: true
-  children:
     - title_en: IIot
       title_cn: 工业物联网
       path: use-cases/iiot
     - title_en: IoV
       title_cn: 车联网
       path: use-cases/iov
+
+- title_en: Releases
+  title_cn: 版本发布说明
+  collapsed: true
+  children:
+    - title_en: Releases
+      title_cn: 版本发布
