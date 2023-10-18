@@ -22,22 +22,24 @@ TableEngine = TimeSeries,
 * PARTITION KEY: 该设置用于数据分区。设置后数据将按该key进行分区组织数据。在时序场景合理设置分区多键有利于提升写入与查询效率，建议将 **数据源唯一标识** 作为数据分区KEY。PARTITION KEY 指定后不可修改。
 * TTL: 指定表中存储数据的保留时长， 如不配置默认则永久保存。value 为字符串，支持 m（分钟）、h（小时）和 d（天）三个单位，不加时间单位时默认单位为天。如: TTTL = 90, 则表示该 database 中的数据保留90天。
 * PRECISION: 指定表中数据时间戳精度。ms 表示毫秒，us 表示微秒，ns 表示纳秒，默认 ms 毫秒
+* CACHE_POLICY: Cache 策略，用于配置缓存最新数据。 //todo 
 
 ### 示例
 
-```
-CREATE TABLE Car (
-  ts timestamp NOT NULL,
+```SQL
+CREATE TABLE vehicle_info (
+  ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   sn char(20) NOT NULL,
-  model char(10) NOT NULL,
-  color char(10),
   speed int,
-  price float,
+  longitude float,
+  latitude float,
+  temp float,
+  direction float,
   PRIMARY KEY (ts),
   PARTITION KEY (sn),
   [index xxx xxxx]
 )
-TableEngine = TimeSeries
+TableEngine = TimeSeries,
 TTL=30d
 ```
 
