@@ -8,9 +8,6 @@ CREATE DATABASE [IF NOT EXISTS] database_name [database_options]
 ```
 
 
-### Options 说明
-Protection: 设置为1时，则必须要超级管理员才能够删除数据库与数据库中的表。
-
 
 ### 示例
 ```SQL
@@ -29,8 +26,6 @@ DROP DATABASE [IF EXISTS] database_name
 ALTER DATABASE database_name database_options...
 ```
 ## 查看数据库
-
-## show database
 
 ## show create database
 

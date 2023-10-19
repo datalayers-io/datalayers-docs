@@ -79,9 +79,6 @@
   title_cn: SQL 参考
   collapsed: true
   children:
-    - title_en: ANSI Compatibility
-      title_cn: ANSI兼容性
-      path: sql-reference/ansi-compatibility
     - title_en: operator
       title_cn: 运算符
       path: sql-reference/operator
@@ -99,8 +96,8 @@
         title_cn: KV引擎
         path: sql-reference/table-management-kv
       - title_en: Queue Engine
-        title_cn: 队列引擎
-        path: sql-reference/table-management-queue
+        title_cn: 流引擎
+        path: sql-reference/table-management-streaming
     - title_en: Data Insert
       title_cn: 数据写入
       path: sql-reference/insert
@@ -203,7 +200,7 @@
     - title_en: Releases
       title_cn: 版本发布
 - title_en: Releases
-  title_cn: 版本发布说明
+  title_cn: 应用场景
   collapsed: true
   children:
     - title_en: IIot
