@@ -74,6 +74,9 @@
   title_cn: SQL 参考
   collapsed: true
   children:
+    - title_en: Data Type
+      title_cn: 数据类型
+      path: sql-reference/data-type
     - title_en: operator
       title_cn: 运算符
       path: sql-reference/operator

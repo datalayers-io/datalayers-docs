@@ -11,7 +11,7 @@ CREATE TIMESERIES TABLE [IF NOT EXISTS] [database.]table_name
     name2 type2 [DEFAULT expr2],
     ...
     PRIMARY KEY expr,
-    PARITITION KEY expr,
+    PARTITION KEY expr,
     INDEX expr1,
     INDEX expr2,
     ...
