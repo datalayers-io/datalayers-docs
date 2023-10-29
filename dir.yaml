@@ -79,7 +79,7 @@
       path: sql-reference/data-type
     - title_en: operator
       title_cn: 运算符
-      path: sql-reference/operator
+      path: sql-reference/operators
     - title_en: Database Management
       title_cn: 数据库管理
       path: sql-reference/database-management
