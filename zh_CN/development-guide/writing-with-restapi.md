@@ -7,7 +7,7 @@ DataLayers 支持 HTTP 协议，使用 `JSON` 格式进行交互。 本章节重
 以下示例均使用 [时序表引擎](../sql-reference/table-management-timeseries.md)进行演示，如使用其他类型的表引擎，请参考[表引擎](../sql-reference/table-engine.md)。
 
 ## 认证
-DataLayers 的 REST API 使用 [`HTTP Basic`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#通用的_http_认证框架) 认证 携带认证凭据，API 密钥位置 `.......config.yaml` 中进行配置，详细信息请参考 [DataLayers 配置](../operation-guide/datalayers-configuration.md) 章节。
+DataLayers 的 REST API 使用 [`HTTP Bearer TOKEN `](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#通用的_http_认证框架) 认证 携带认证凭据，API 密钥位置 `.......config.yaml` 中进行配置，详细信息请参考 [DataLayers 配置](../operation-guide/datalayers-configuration.md) 章节。
 
 ## 写入数据
 

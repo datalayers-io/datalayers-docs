@@ -10,3 +10,7 @@ DataLayers 是一款分布式多模数据库，本章节主要介绍 DataLayers 
 ### Database
 
 ### Table
+
+### 时间戳
+数据（指标值）产⽣的时间点。
+

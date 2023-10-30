@@ -69,6 +69,11 @@
     - title_en: Interface
       title_cn: 应用接口
       path: development-guide/interface
+      collapsed: false
+      children:
+        - title_en: Arrow Flight SQL
+          title_cn: Arrow Flight SQL
+          path: development-guide/arrow-flight-sql
 
 - title_en: SQL Reference
   title_cn: SQL 参考
