@@ -22,9 +22,9 @@ CREATE TIMESERIES TABLE [IF NOT EXISTS] [database.]table_name
 ### 选项说明
 * PRIMARY KEY: 用户必须指定 `PRIMARY KEY`，PRIMARY KEY 可设置一个或多个列，其中必须包含一个(有且仅有一个)字段类型为`TIMESTAMP`的字段。
 * PARTITION KEY: 该设置用于数据分区。设置后数据将按该key进行分区组织数据。在时序场景合理设置分区多键有利于提升写入与查询效率，建议将 **数据源唯一标识** 作为数据分区 `KEY`。`PARTITION KEY` 指定后不可修改。
-* TTL: 指定表中存储数据的保留时长， 如不配置默认则永久保存。value 为字符串，支持 m（分钟）、h（小时）和 d（天）三个单位，不加时间单位时默认单位为天。如: TTTL = 90, 则表示该 `database` 中的数据保留90天。
+* TTL: 指定表中存储数据的保留时长， 如不配置默认则永久保存。value 为字符串，支持 m（分钟）、h（小时）和 d（天）三个单位，不加时间单位时默认单位为天。如: TTTL = 90, 则表示该 `table` 中的数据保留90天。
 * PRECISION: 指定表中数据时间戳精度。ms 表示毫秒，us 表示微秒，ns 表示纳秒，默认 ms 毫秒。
-* CACHE_POLICY: `Cache` 策略，用于配置缓存最新数据。 //todo 
+* CACHE_POLICY: `Cache` 策略。如果开启，则在内存中保留最新一条记录(唯一键对应的数据记录，保留最新的一条)。 //todo 
 * COMMENT：表注释说明。
 
 ### 主键的选择

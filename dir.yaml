@@ -62,7 +62,20 @@
         path: development-guide/writing-with-sql
       - title_en: REST API
         title_cn: REST API
-        path: development-guide/writing-with-restapi
+        collapsed: true
+        children:
+          - title_en: Authentication
+            title_cn: 认证
+            path: development-guide/auth-with-restapi
+          - title_en: Insert
+            title_cn: 数据写入
+            path: development-guide/insert-with-restapi
+          - title_en: Query
+            title_cn: 数据查询
+            path: development-guide/query-with-restapi
+          - title_en: ERROR CODE
+            title_cn: 错误码说明
+            path: development-guide/errno-with-restapi
       - title_en: InfluxDB Line Protocol
         title_cn: InfluxDB Line Protocol
         path: development-guide/writing-with-influxdb-line-protocol
