@@ -48,7 +48,7 @@
 
 - title_en: Development Guide
   title_cn: 开发指南
-  collapsed: true
+  collapsed: false
   children:
     - title_en: Concepts
       title_cn: 概念
@@ -69,7 +69,7 @@
     - title_en: Interface
       title_cn: 应用接口
       path: development-guide/interface
-      collapsed: false
+      collapsed: true
       children:
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL
@@ -174,7 +174,7 @@
       path: operation-guide/data-restore
     - title_en: System Monitor
       title_cn: 系统监控
-      path: operation-guide/system-monitor
+      path: operation-guide/system-monitor-grafana
     - title_en: Compute Node Scaling
       title_cn: 计算节点扩缩容
       path: operation-guide/compute-node-scaling
