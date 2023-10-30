@@ -12,6 +12,6 @@ DataLayers REST API 支持以下两种认证方式，可根据使用场景自由
 ## HTTP BASIC 认证
 DataLayers 的 REST API 使用 [`HTTP BASIC 认证 `](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#basic) 认证 携带认证凭据，API 密钥位置 `.......config.yaml` 中进行配置，详细信息请参考 [DataLayers 配置](../operation-guide/datalayers-configuration.md) 章节。
 
-##  HTTP Bearer 认证
+## HTTP Bearer 认证
 //todo 需支持 [`HTTP Bearer 认证`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#bearer)
 
