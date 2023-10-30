@@ -3,7 +3,7 @@ DataLayers 兼容 InfluxDB Line Protocol。
 
 
 ## 兼容协议版本
-[InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/reference/syntax/line-protocol/)  
+[InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/)  
 [InfluxDB Line Protocol V2](https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/)  
 
 
