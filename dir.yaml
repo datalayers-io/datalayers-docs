@@ -114,15 +114,6 @@
       - title_en: Queue Engine
         title_cn: 流引擎
         path: sql-reference/table-management-streaming
-    - title_en: Data Insert
-      title_cn: 数据写入
-      path: sql-reference/insert
-    - title_en: Data Query
-      title_cn: 数据查询
-      path: sql-reference/query
-    - title_en: Data Delete
-      title_cn: 数据删除
-      path: sql-reference/query
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
