@@ -1,5 +1,8 @@
 # 安装部署
+DataLayers 基于存算分离的架构，
 
-```
-docker/docker-compose/k8s重点强调一键拉起，用户能够快速试用。 重点用于单机部署或者测试体验
-```
+
+## docker-compose
+
+
+

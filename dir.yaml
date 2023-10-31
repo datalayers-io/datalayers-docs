@@ -37,7 +37,7 @@
   collapsed: true
   children:
     - title_en: Installation
-      title_cn: 安装部署
+      title_cn: 快速开始
       path: getting-started/installation
     - title_en: Example Datasets
       title_cn: 示例数据
@@ -48,7 +48,7 @@
 
 - title_en: Development Guide
   title_cn: 开发指南
-  collapsed: false
+  collapsed: true
   children:
     - title_en: Concepts
       title_cn: 概念
@@ -147,21 +147,32 @@
         path: sql-reference/system
 
 - title_en: Clustering
-  title_cn: 配置集群
+  title_cn: 构建集群
+  path: cluster/introduction
   collapsed: true
   children:
     - title_en: Concept & Architecture
       title_cn: 概念与架构
-      path: deployment/concept-architecture
+      path: cluster/concept-architecture
     - title_en: Docker
       title_cn: Docker
-      path: deployment/docker
+      path: cluster/docker
     - title_en: Manual deployment
       title_cn: 手动部署
-      path: deployment/manual-deployment
+      path: cluster/manual-deployment
     - title_en: Kubernetes
       title_cn: Kubernetes
-      path: deployment/kubernetes
+      path: cluster/kubernetes
+    - title_en: Performance and Tuning
+      title_cn: 性能与调优
+      path: cluster/server-config-optimization
+- title_en: Edge to Cloud
+  title_cn: 边云同步
+  collapsed: true
+  children:
+    - title_en: introduction
+      title_cn: 介绍
+      path: edge2cloud/introduction
 
 - title_en: Operation Guide 
   title_cn: 运维指南
@@ -170,11 +181,8 @@
     - title_en: Directory Structure
       title_cn: 文件目录结构
       path: operation-guide/directory-structure
-    - title_en: Server Config Optimization
-      title_cn: 服务器配置优化
-      path: operation-guide/server-config-optimization
     - title_en: DataLayers configuration
-      title_cn: 配置参数
+      title_cn: 配置手册
       path: operation-guide/datalayers-configuration
     - title_en: Capacity Model
       title_cn: 容量模型
@@ -194,9 +202,6 @@
     - title_en: Storage Node Scaling
       title_cn: 存储节点扩缩容
       path: operation-guide/storage-node-scaling
-    - title_en: Edge to Cloud 
-      title_cn: 边云协同
-      path: operation-guide/edge-to-cloud
 - title_en: Integration
   title_cn: 应用集成
   collapsed: true

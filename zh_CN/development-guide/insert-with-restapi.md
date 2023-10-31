@@ -7,7 +7,7 @@
 ```shell
 curl -X POST \
 http://<HOST>:<PORT>/api/v1/write?db=<database_name> \
--H 'Content-Type: application/json' \
+-H 'Content-Type: <content-type>' \
 -H 'Authorization: <token>' \
 -d '<SQL STATEMENT>'
 ```
@@ -16,7 +16,7 @@ http://<HOST>:<PORT>/api/v1/write?db=<database_name> \
 ```shell
 curl -X POST \
 http://127.0.0.1:3308/api/v1/write?db=test \
--H 'Content-Type: application/json' \
+-H 'Content-Type: application/binary' \
 -H 'Authorization: 62142d26f55fd8e42c24da7d772accb9' \
 -d 'CREATE TABLE vehicle_info (
   ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,7 +39,7 @@ todo
 ```shell
 curl -X POST \
 http://127.0.0.1:3308/api/v1/query?db=test \
--H 'Content-Type: application/json' \
+-H 'Content-Type: application/binary' \
 -H 'Authorization: 62142d26f55fd8e42c24da7d772accb9' \
 -d 'INSERT INTO vehicle_info(`ts`, `sn`, `speed`, `longitude`, `latitude`) VALUES(NOT(), 88888888, 120, 104.07, 30.59)'
 ```
