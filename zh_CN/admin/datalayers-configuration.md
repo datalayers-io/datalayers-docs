@@ -80,9 +80,28 @@ server_addr_type = "hostname" # enum: [hostname | ip]
 
 [license]
 key = "MjIwMTExCjAKMTAKRXZhbHVhdGlvbgpjb250YWN0QGVtcXguaW8KZGVmYXVsdAoyMDIzMDEwOQoxODI1CjEwMAo=.MEUCIG62t8W15g05f1cKx3tA3YgJoR0dmyHOPCdbUxBGxgKKAiEAhHKh8dUwhU+OxNEaOn8mgRDtiT3R8RZooqy6dEsOmDI="
-
-
 ```
+
+### 环境变量
+
+除了配置文件外，DataLayers 支持通过环境变量设置配置。
+
+比如 `DATALAYERS_SERVER__AUTH__USERNAME=admin` 环境变量将覆盖以下配置：
+
+```toml
+# datalayers.toml
+[server.auth]
+username = "admin"
+```
+
+配置项与环境变量之前可以通过以下规则转换：
+* 由于配置文件中的 `.` 分隔符不能使用于环境变量，因此 DataLayers 选用双下划线 `__` 作为配置分割；
+* 为了与其他的环境变量有所区分，DataLayers 还增加了一个前缀 `DATALAYERS_` 来用作环境变量命名空间;
+
+### 配置覆盖规则
+* DATALAYERS 配置按以下顺序进行优先级排序：环境变量 > datalayers.toml。
+* 以“DATALAYERS_”开头的环境变量设置具有最高优先级，并将覆盖 etc/datalayers.toml 文件中的任何设置。
+
 
 ## 存储层
 

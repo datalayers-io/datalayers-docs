@@ -3,7 +3,7 @@
 
 
 ## HTTP 响应状态码
-EMQX 遵循 [HTTP响应状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 标准，可能的状态码如下：
+DataLayers 遵循 [HTTP响应状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 标准，可能的状态码如下：
 
 |  HTTP CODE   | 描述                                                                |
 |  ----        | ----                                                               |

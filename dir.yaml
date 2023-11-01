@@ -171,28 +171,31 @@
   children:
     - title_en: Directory Structure
       title_cn: 文件目录结构
-      path: operation-guide/directory-structure
+      path: admin/directory-structure
     - title_en: DataLayers configuration
       title_cn: 配置手册
-      path: operation-guide/datalayers-configuration
+      path: admin/datalayers-configuration
+    - title_en: Command Line Interface
+      title_cn: 命令行接口
+      path: admin/datalayers-cli
     - title_en: Capacity Model
       title_cn: 容量模型
-      path: operation-guide/capacity-model
+      path: admin/capacity-model
     - title_en: Data Backup
       title_cn: 数据备份
-      path: operation-guide/data-backup
+      path: admin/data-backup
     - title_en: Data Restore
       title_cn: 数据恢复
-      path: operation-guide/data-restore
+      path: admin/data-restore
     - title_en: System Monitor
       title_cn: 系统监控
-      path: operation-guide/system-monitor-grafana
+      path: admin/system-monitor-grafana
     - title_en: Compute Node Scaling
       title_cn: 计算节点扩缩容
-      path: operation-guide/compute-node-scaling
+      path: admin/compute-node-scaling
     - title_en: Storage Node Scaling
       title_cn: 存储节点扩缩容
-      path: operation-guide/storage-node-scaling
+      path: admin/storage-node-scaling
 - title_en: Integration
   title_cn: 应用集成
   collapsed: true
