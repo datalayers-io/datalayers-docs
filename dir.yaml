@@ -187,15 +187,22 @@
     - title_en: Data Restore
       title_cn: 数据恢复
       path: admin/data-restore
-    - title_en: System Monitor
-      title_cn: 系统监控
-      path: admin/system-monitor-grafana
     - title_en: Compute Node Scaling
       title_cn: 计算节点扩缩容
       path: admin/compute-node-scaling
     - title_en: Storage Node Scaling
       title_cn: 存储节点扩缩容
       path: admin/storage-node-scaling
+    - title_en: Statistics and Metrics
+      title_cn: 可观测性
+      collapsed: false
+      children:
+      - title_en: Metrics
+        title_cn: 指标
+        path: admin/system-metrics
+      - title_en: Monitor
+        title_cn: 系统监控
+        path: admin/system-monitor-grafana
 - title_en: Integration
   title_cn: 应用集成
   collapsed: true
