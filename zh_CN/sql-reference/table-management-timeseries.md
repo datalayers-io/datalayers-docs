@@ -47,17 +47,23 @@ CREATE TABLE vehicle_info (
   ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   sn char(20) NOT NULL,
   speed int,
+  model int,
   longitude float,
   latitude float,
   temp float,
   direction float,
-  PRIMARY KEY (sn, ts),
-  PARTITION KEY (sn),
+  PRIMARY KEY (ts, sn, model, color),
+  PARTITION KEY (model),
   [index xxxx]
 )
 TableEngine = TimeSeries
 TTL=30d
 ```
+
+- PRIMARY KEY 中出现的第一个 timestamp 类型，作为 TIME INDEX
+- 分区以 PARTITION KEY 为主, 以 PRIMARY KEY 为辅
+  - 以上表为例，真正在 Parquet 文件中的的 SORT KEY 是 “model + sn + color”
+- 第一版先不加 PARTITION KEY
 
 
 ## 修改表
