@@ -14,6 +14,7 @@
 | UINTEGER      | unsigned four-byte integer  [0, 2^32-1]                              |
 | BIGINT        | signed eight-byte integer  [-2^63, 2^63-1]                           |
 | UBIGINT       | unsigned eight-byte integer [0, 2^64-1]                              |
+| REAL          | single-precision floating-point number (4 bytes)                     |
 | DOUBLE        | double-precision floating-point number (8 bytes)                     |
 | BOOLEAN       | logical boolean (true/false)                                         |
 | BIT           | string of 1’s and 0’s                                                |
