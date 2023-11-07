@@ -1,8 +1,21 @@
 # 数据类型说明
+下表显示了所有内置的通用数据类型。
 
 ## 数据类型
-|  类型   | Bytes  | 说明  |
-|  ----  | ----  |----  |
-| TIMESTAMP  | 8 | 时间戳。默认精度为ms |
-| TIMESTAMPZ  | 8 | 时间戳。默认精度为ms，当设置为 TIMESTAMPZ 时，如果在会话 SESSION 中设置了时区，数据库会将源时间转化为目标时间进行存储（目标时区为 DataLayers 配置的时区）|
-| INT  | 4 | 整型，范围 [-2^31, 2^31-1] |
+|  Name         | Description                                                          |
+|  -------------|--------------------------------------------------------------------- |
+| TIMESTAMP     | combination of time and date                                         |
+| TIMESTAMPZ    | combination of time and date that uses the current time zone         |
+| TINYINT       | signed one-byte integer [-128, 127]                                  |
+| UTINYINT      | unsigned one-byte integer [0, 255]                                   |
+| SMALLINT      | signed two-byte integer [-32768, 32767]                              |
+| USMALLINT     | unsigned two-byte integer  [0, 65535]                                |
+| INTEGER       | signed four-byte integer [-2^31, 2^31-1]                             |
+| UINTEGER      | unsigned four-byte integer  [0, 2^32-1]                              |
+| BIGINT        | signed eight-byte integer  [-2^63, 2^63-1]                           |
+| UBIGINT       | unsigned eight-byte integer [0, 2^64-1]                              |
+| DOUBLE        | double-precision floating-point number (8 bytes)                     |
+| BOOLEAN       | logical boolean (true/false)                                         |
+| BIT           | string of 1’s and 0’s                                                |
+| BLOB          | variable-length binary data                                          |
+| VARCHAR       | variable-length character string                                     |
