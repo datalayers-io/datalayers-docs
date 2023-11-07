@@ -20,3 +20,4 @@
 | BIT           | string of 1’s and 0’s                                                |
 | BLOB          | variable-length binary data                                          |
 | VARCHAR       | variable-length character string                                     |
+| INTERVAL      | date / time delta                                                    |
