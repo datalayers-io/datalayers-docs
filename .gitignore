@@ -1,7 +1,6 @@
 node_modules
 _book
 yarn-error.log
-book.pdf
 .vscode
 *.lock
 *.pdf
@@ -16,6 +15,3 @@ directory.json
 *#
 # For direnv
 .envrc
-*/admin/cfg.md
-*/configuration/configuration-manual.html
-*/configuration/configuration-manual.md

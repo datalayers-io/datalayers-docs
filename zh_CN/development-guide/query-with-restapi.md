@@ -6,7 +6,7 @@ Datalayers 支持通过 HTTP/HTTPS 进行交互，`SQL STATEMENT` 通过 `HTTP B
 **执行请求**
 ```shell
 curl -u"<username>:<password>" -X POST \
-http://127.0.0.1:3308/api/v1/query?db=test \
+http://127.0.0.1:3308/api/v1/sql?db=test \
 -H 'Content-Type: application/binary' \
 -d 'SELECT speed from vehicle_info where ts > NOW() - interval "1h" and sn = 88888888'
 ```
@@ -18,3 +18,40 @@ http://127.0.0.1:3308/api/v1/query?db=test \
   "data":[]
 }
 ```
+
+## 编程语言示例
+
+::: code-group
+
+```golang [Golang]
+/**
+ * @type {import('vitepress').UserConfig}
+ */
+const config = {
+  // ...
+}
+
+export default config
+```
+
+```java [JAVA]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+```rust [Rust]
+import type { UserConfig } from 'vitepress'
+
+const config: UserConfig = {
+  // ...
+}
+
+export default config
+```
+
+:::

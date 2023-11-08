@@ -53,6 +53,9 @@
     - title_en: Concepts
       title_cn: 概念
       path: development-guide/concepts
+    - title_en: Data Model
+      title_cn: 数据建模
+      path: development-guide/data-model
     - title_en: Data Writing
       title_cn: 数据写入
       path: development-guide/data-writing
@@ -79,14 +82,12 @@
       - title_en: InfluxDB Line Protocol
         title_cn: InfluxDB Line Protocol
         path: development-guide/writing-with-influxdb-line-protocol
-    - title_en: Interface
-      title_cn: 应用接口
-      path: development-guide/interface
-      collapsed: true
-      children:
-        - title_en: Arrow Flight SQL
-          title_cn: Arrow Flight SQL
-          path: development-guide/arrow-flight-sql
+      - title_en: Arrow Flight SQL
+        title_cn: Arrow Flight SQL
+        path: development-guide/arrow-flight-sql
+    - title_en: Down Sampling
+      title_cn: 降采样
+      path: development-guide/down-sampling
 
 - title_en: SQL Reference
   title_cn: SQL 参考

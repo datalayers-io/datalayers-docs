@@ -1,25 +1,20 @@
 # InfluxDB Line Protocol
-DataLayers 兼容 InfluxDB Line Protocol。
+DataLayers 兼容 InfluxDB Line Protocol。  
+[InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/)    
+[InfluxDB Line Protocol V2](https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/)    
 
+**注**： InfluxDB Line Protocol 兼容，认证统一使用 DataLayers REST API 的[认证](./auth-with-restapi.md)。
 
-## 兼容协议版本
-[InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/)  
-[InfluxDB Line Protocol V2](https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/)  
+## API 参考
 
-
-## 路径
-
-### Line Protocol V1  
 ```SHELL
 HTTP://<HOST>:<PORT>/influxdb/v1/write
 
 ```
 
-
-### Line Protocol V2  
-```SHELL
-HTTP://<HOST>:<PORT>/influxdb/v2/write
-
+## 示例 
+```shell
+curl -u"admin:public" -i -XPOST "http://127.0.0.1:3333/influxdb/v1/write?db=bucket" -d 'weather,location=us-midwest temperature=82 1699429527\nweather,location=us-midwest temperature=83 1699429528'
 ```
 
 ## 注意事项
