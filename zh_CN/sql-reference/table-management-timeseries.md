@@ -90,6 +90,7 @@ CREATE INDEX gy_idx ON films (genre, year);
 -- Remove the index title_idx.
 DROP INDEX title_idx;
 ```
+注：索引删除时，并不会对已建立的索引进行删除，仅针对新数据生效。
 
 ## 数据查询
 索引支持的多种过滤条件，如：>, <, =, <> 。  
