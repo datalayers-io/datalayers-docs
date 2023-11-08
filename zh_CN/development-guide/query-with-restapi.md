@@ -5,10 +5,9 @@ Datalayers 支持通过 HTTP/HTTPS 进行交互，`SQL STATEMENT` 通过 `HTTP B
 
 **执行请求**
 ```shell
-curl -X POST \
+curl -u"<username>:<password>" -X POST \
 http://127.0.0.1:3308/api/v1/query?db=test \
 -H 'Content-Type: application/binary' \
--H 'Authorization: 62142d26f55fd8e42c24da7d772accb9' \
 -d 'SELECT speed from vehicle_info where ts > NOW() - interval "1h" and sn = 88888888'
 ```
 **返回值**
