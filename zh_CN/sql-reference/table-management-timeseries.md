@@ -18,7 +18,7 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
 
 **说明**  
 * PRIMARY KEY: 用户必须指定 `PRIMARY KEY`，PRIMARY KEY 可设置一个或多个列，其中第一个字段必须为 `TIMESTAMP` 类型。
-* 在 时序引擎 中，主键用于表示唯一一条数据记录。一般建议将 `唯一数据源 + 时间` 设置主键。如: `PRIMARY KEY (ts, device_id)`, `ts` 为时间戳，`sn` 为数据源的唯一标识, 如下示例。
+* 在 时序引擎 中，主键用于表示唯一一条数据记录。一般建议将 `唯一数据源 + 时间` 设置主键。如: `PRIMARY KEY (ts, sn)`, `ts` 为时间戳，`sn` 为数据源的唯一标识, 如下示例。
 
 **示例**
 
@@ -28,7 +28,7 @@ CREATE TABLE sensor_info (
      sn BIGINT NOT NULL,
      region VARCHAR(10) NOT NULL,
      speed DOUBLE,
-     temp REAL,
+     temperature REAL,
      direction REAL,
      PRIMARY KEY (ts,sn)
 )
@@ -44,11 +44,6 @@ ALTER TABLE integers ADD COLUMN l INTEGER DEFAULT 10;
 
 -- drop the column "k" from the table integers
 ALTER TABLE integers DROP k;
-
--- change the type of the column "i" to the type "VARCHAR" using a standard cast
-ALTER TABLE integers ALTER i TYPE VARCHAR;
--- change the type of the column "i" to the type "VARCHAR", using the specified expression to convert the data for each row
-ALTER TABLE integers ALTER i SET DATA TYPE VARCHAR USING CONCAT(i, '_', j);
 
 -- set the default value of a column
 ALTER TABLE integers ALTER COLUMN i SET DEFAULT 10;
@@ -83,7 +78,9 @@ CREATE INDEX s_idx ON films (revenue);
 -- Create compound index 'gy_idx' on genre and year columns.
 CREATE INDEX gy_idx ON films (genre, year);
 ```
-注：不支持联合索引，同一列不能重复建立索引。
+注：
+* 不支持联合索引，同一列不能重复建立索引。
+* 新添加索引仅针对新写入数据生效，对历史数据不生效。
 
 ## 删除索引
 ```
@@ -92,15 +89,27 @@ DROP INDEX title_idx;
 ```
 注：索引删除时，并不会对已建立的索引进行删除，仅针对新数据生效。
 
-## 数据查询
-索引支持的多种过滤条件，如：>, <, =, <> 。  
-fields value 的多种过滤条件：>, <, =, <>, like 等, 不支持索引。
 
+## 数据写入
+```
+-- 向表中写入数据 
+INSERT INTO table_name VALUES (1), (2), (3);
+-- 指定列名写入数据
+INSERT INTO table_name (column1,column2,column3,...) VALUES (value1,value2,value3,...);
+```
+**示例**
+```SQL
+INSERT INTO sensor_info (ts, sn, region, speed, temperature, direction) VALUES 
+('2023-11-09 09:08:10.017', 20230629, 'CHENGDU', 100, 23, 360), 
+('2023-11-09 09:08:15.018', 20230629, 'CHENGDU', 100, 23, 360);
+```
+
+## 数据查询  
 查询sn = 202301 最近七天的 speed 数据。interval 支持 day, hour, minuter。
 ```SQL
-SELECT speed FROM vehicle_info 
+SELECT sn, region, speed FROM sensor_info 
 WHERE 
-sn = '202301' and ts > NOW() - interval '7 day';
+sn = '20230629' and ts > NOW() - interval '7 day';
 ```
 interval 函数允许在日期与时间之间进行数学计算。可用于添加或减去分钟（minute）、小时(hour)、天(day)、月(monty)、年(year)的时间间隔。
 ## 删除表
