@@ -26,23 +26,8 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 # system charset
 # charset                   UTF-8
 
-[server.http]
-addr = ":3309" # 支持 IPV4 IPV6
-timeout = "10s" 
-# backlog .......
-
-[server.http.tls]
-enable = false  # default false
-# keyfile = "etc/certs/key.pem"
-keyfile = "etc/certs/server.key"
-# certfile = "etc/certs/cert.pem"
-certfile = "etc/certs/server.crt"
-# cacertfile = "etc/certs/cacert.pem"
-cacertfile = "etc/certs/rootCA.crt"
-
-
 [server.rpc]
-addr = ":3308"
+addr = ":3308" # 支持 IPV4 IPV6
 timeout = "10s" 
 # backlog .......
 
