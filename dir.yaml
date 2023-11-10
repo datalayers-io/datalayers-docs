@@ -210,7 +210,7 @@
   children:
     - title_en: Grafana
       title_cn: Grafana
-      path: integration/grafana
+      path: integration/datalayers-grafana
 - title_en: User & Security
   title_cn: 用户与安全
   collapsed: true

@@ -18,6 +18,11 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 ### 配置文件示例
 ```toml
 [server]
+# work directory, default: "/var/run/datalayers"
+workdir = "/var/run/datalayers"
+# pid file, default "run/datalayers.pid" under workdir
+pid = "run/datalayers.pid"
+
 # system time zone 
 # default: Asia/Shanghai (CST, +0800)
 # timezone              Asia/Shanghai (CST, +0800)
