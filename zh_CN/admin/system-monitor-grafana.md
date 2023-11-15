@@ -5,7 +5,7 @@
 
 ## 获取 Datalayers Exporter
 
-```
+```shell
 docker run  ghcr.io/datalayers-io/datalayers-exporter:latest
 ```
 
@@ -15,7 +15,7 @@ Exporter 容器暴露端口为 `9555`
 
 获取 prometheus 官方镜像，并启动。
 
-```
+```shell
 docker run -p 9090:9090 prom/prometheus
 ```
 

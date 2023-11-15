@@ -14,7 +14,7 @@ HTTP://<HOST>:<PORT>/influxdb/v1/write
 
 ## 示例 
 ```shell
-curl -u"admin:public" -i -XPOST "http://127.0.0.1:3333/influxdb/v1/write?db=bucket" -d 'weather,location=us-midwest temperature=82 1699429527\nweather,location=us-midwest temperature=83 1699429528'
+curl -u"admin:public" -i -XPOST "http://127.0.0.1:3333/influxdb/v1/write?db=db_name" -d 'weather,location=us-midwest temperature=82 1699429527\nweather,location=us-midwest temperature=83 1699429528'
 ```
 
 ## 注意事项
@@ -22,3 +22,4 @@ curl -u"admin:public" -i -XPOST "http://127.0.0.1:3333/influxdb/v1/write?db=buck
 * 行协议中，Tag 第一个字段会默认作为数据分区键
 * TAG + TIMESTAMP 会建立唯一索引，用该索引表示数据库中唯一记录
 * 该协议仅针对 DataLayers 的时序引擎，其他表引擎使用该协议写入会被拒绝
+* TAG Value 将使用字符串进行存储

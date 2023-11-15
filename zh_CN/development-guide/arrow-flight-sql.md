@@ -11,3 +11,12 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 **数据元数据支持**：Arrow Flight SQL 还提供了命令来获取数据库服务器的目录元数据，如列出可用的表、架构、主键等。这有助于了解数据库结构和元数据信息。  
 
 ## 接入
+目前我们支持Arrow Flight SQL 客户端的环境有：
+* Go
+* C++
+* Rust
+* Java
+* 基于Arrow Flight SQL 的 JDBC
+* 基于Arrow Flight SQL 的 ODBC
+
+// todo , 链接到 github 代码示例。

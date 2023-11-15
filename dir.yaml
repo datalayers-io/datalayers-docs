@@ -37,7 +37,7 @@
   collapsed: true
   children:
     - title_en: Installation
-      title_cn: 快速开始
+      title_cn: 安装部署
       path: getting-started/installation
     - title_en: Example Datasets
       title_cn: 示例数据
@@ -60,9 +60,6 @@
       title_cn: 数据写入
       path: development-guide/data-writing
       children:
-      - title_en: Writing with SQL
-        title_cn: SQL 写入
-        path: development-guide/writing-with-sql
       - title_en: REST API
         title_cn: REST API
         collapsed: true
@@ -99,11 +96,9 @@
     - title_en: operator
       title_cn: 运算符
       path: sql-reference/operators
-    - title_en: Database Management
-      title_cn: 数据库管理
-      path: sql-reference/database-management
     - title_en: Table Engine
       title_cn: 表引擎
+      collapsed: true
       path: sql-reference/table-engine
       children:
       - title_en: Time-Series Engine
@@ -115,9 +110,44 @@
       - title_en: Queue Engine
         title_cn: 流引擎
         path: sql-reference/table-management-streaming
+    - title_en: SQL STATEMENTS
+      title_cn: SQL 语句
+      collapsed: true
+      children:
+      - title_en: CREATE
+        title_cn: CREATE
+        path: sql-reference/statements/create
+      - title_en: INSERT
+        title_cn: INSERT
+        path: sql-reference/statements/insert
+      - title_en: UPDATE
+        title_cn: UPDATE
+        path: sql-reference/statements/update
+      - title_en: SELECT
+        title_cn: SELECT
+        path: sql-reference/statements/select
+      - title_en: DELETE
+        title_cn: DELETE
+        path: sql-reference/statements/delete
+      - title_en: ALTER
+        title_cn: ALTER
+        path: sql-reference/statements/alter
+      - title_en: USE
+        title_cn: USE
+        path: sql-reference/statements/use
+      - title_en: SHOW
+        title_cn: SHOW
+        path: sql-reference/statements/show
+      - title_en: DROP
+        title_cn: DROP
+        path: sql-reference/statements/drop
+      - title_en: KILL
+        title_cn: KILL
+        path: sql-reference/statements/kill
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
+      collapsed: true
       children:
       - title_en: Aggregation
         title_cn: 聚合函数
@@ -188,6 +218,12 @@
     - title_en: Data Restore
       title_cn: 数据恢复
       path: admin/data-restore
+    - title_en: Data Import
+      title_cn: 数据导入
+      path: admin/data-export
+    - title_en: Data Export
+      title_cn: 数据导出
+      path: admin/data-import
     - title_en: Compute Node Scaling
       title_cn: 计算节点扩缩容
       path: admin/compute-node-scaling
