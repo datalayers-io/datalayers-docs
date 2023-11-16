@@ -77,7 +77,6 @@ log_path = "/mnt/1/datalayers/log"
 data_path = "/mnt/1/datalayers/data"
 
 [[storage.disk]]
-# 存储引擎
 log_path = "/mnt/2/datalayers/log"
 data_path = "/mnt/2/datalayers/data"
 
