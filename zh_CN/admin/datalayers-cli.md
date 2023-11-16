@@ -17,6 +17,7 @@ datalayers -h
 | -v             | show version and exit                                             |
 | -t             | test configuration and exit                                       |
 | -s             | send signal to a master process: stop, reload                     |
+| -d             | daemon                                                            |
 | -c filename    | set configuration file (default: /etc/datalayers/datalayers.toml) |
 
 ## DataLayers CLI
