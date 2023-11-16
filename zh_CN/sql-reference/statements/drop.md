@@ -11,3 +11,9 @@ DROP DATABASE [IF EXISTS] database_name
 ```SQL
 DROP TABLE [IF EXISTS] [db.]table_name 
 ```
+
+## DROP INDEX
+```SQL
+-- Remove the index title_idx.
+DROP INDEX title_idx;
+```

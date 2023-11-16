@@ -38,3 +38,20 @@ CREATE TABLE sensor_info (
      PRIMARY KEY (ts,sn)
 )
 ```
+
+## CREATE INDEX
+**语法**
+```SQL
+-- Create index 's_idx' that allows for duplicate values on column revenue of table films.
+CREATE INDEX s_idx ON films (revenue);
+-- Create compound index 'gy_idx' on genre and year columns.
+CREATE INDEX gy_idx ON films (genre, year);
+```
+
+**说明**
+|Name       | Description                                                          |
+|------     | ------------------------------                                       |
+|name       | The name of the index to be created.                                 |
+|table      | The name of the table to be indexed.                                 |
+|column     | The name of the column to be indexed.                                |
+|expression | An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call.|
