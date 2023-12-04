@@ -16,7 +16,43 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 * C++
 * Rust
 * Java
+* Python
 * 基于Arrow Flight SQL 的 JDBC
 * 基于Arrow Flight SQL 的 ODBC
 
 // todo , 链接到 github 代码示例。
+
+::: code-group
+
+```Go [Go]
+/**
+ * todo
+ */
+
+```
+
+```python [Python]
+/**
+ * todo
+ */
+
+```
+
+```c++ [C++]
+//todo
+
+```
+
+```rust [Rust]
+//todo
+
+```
+
+```java [Java]
+//todo
+
+```
+
+:::
+
+完整示例参考：https://github.com/datalayers-io/datalayers/bindings
