@@ -126,6 +126,26 @@
       - title_en: SELECT
         title_cn: SELECT
         path: sql-reference/statements/select
+        collapsed: true
+        children:
+        - title_en: WHERE
+          title_cn: WHERE
+          path: sql-reference/statements/where
+        - title_en: LIMIT
+          title_cn: LIMIT
+          path: sql-reference/statements/limit
+        - title_en: GROUP BY
+          title_cn: GROUP BY
+          path: sql-reference/statements/group-by
+        - title_en: ORDER BY
+          title_cn: ORDER BY
+          path: sql-reference/statements/order-by
+        - title_en: DISTINCT 
+          title_cn: DISTINCT 
+          path: sql-reference/statements/distinct
+        - title_en: HAVING 
+          title_cn: HAVING 
+          path: sql-reference/statements/having
       - title_en: DELETE
         title_cn: DELETE
         path: sql-reference/statements/delete
@@ -200,9 +220,6 @@
   title_cn: 运维指南
   collapsed: true
   children:
-    - title_en: Directory Structure
-      title_cn: 文件目录结构
-      path: admin/directory-structure
     - title_en: DataLayers configuration
       title_cn: 配置手册
       path: admin/datalayers-configuration
