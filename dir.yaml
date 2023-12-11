@@ -172,9 +172,9 @@
       - title_en: Aggregation
         title_cn: 聚合函数
         path: sql-reference/aggregation
-      - title_en: Time
-        title_cn: 时间函数
-        path: sql-reference/time
+      - title_en: Date
+        title_cn: 时间与日期函数
+        path: sql-reference/date
       - title_en: Selector
         title_cn: Selector
         path: sql-reference/selector
