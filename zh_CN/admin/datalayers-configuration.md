@@ -35,6 +35,11 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 workdir = "/var/run/datalayers"
 # pid file, default "run/datalayers.pid" under workdir
 pid = "run/datalayers.pid"
+# max idle of connection, in second
+connection_max_idle = 300
+# check interval of idle connection, in second
+#   default 1/10 of connection_max_idle, and in [10, 60]
+connection_check_interval = 30
 
 # system time zone 
 # default: Asia/Shanghai (CST, +0800)
@@ -61,6 +66,10 @@ cacertfile = "etc/certs/rootCA.crt"
 [server.auth]
 username = "admin"
 password = "public"
+# 支持 token 时用于解密的公钥文件路径，绝对路径或相对于 configdir
+certfile = "certs/auth_cert.pem"
+# token 有效期，单位秒
+token_expire = 86400
 
 [logger]
 console_log = true
