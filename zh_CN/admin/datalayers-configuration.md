@@ -29,6 +29,8 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 ### 配置文件示例
 ```toml
 [server]
+# config directory, default: parent directory of config file
+# configdir = "/etc/datalayers"
 # work directory, default: "/var/run/datalayers"
 workdir = "/var/run/datalayers"
 # pid file, default "run/datalayers.pid" under workdir
