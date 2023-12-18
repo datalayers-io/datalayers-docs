@@ -35,7 +35,7 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 workdir = "/var/run/datalayers"
 # pid file, default "run/datalayers.pid" under workdir
 pid = "run/datalayers.pid"
-# max idle of connection, in second
+# max idle of connection, in second, must in [60, 3600]
 connection_max_idle = 300
 # check interval of idle connection, in second
 #   default 1/10 of connection_max_idle, and in [10, 60]
