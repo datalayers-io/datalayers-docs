@@ -48,6 +48,9 @@ connection_check_interval = 30
 # locale                    en_US.UTF-8
 # system charset
 # charset                   UTF-8
+# Timestamp accuracy of DataLayers. ms stands for millisecond, us stands for microsecond, ns stands for nanosecond, and ms milliseconds is the default
+precision: ms
+
 
 [server.rpc]
 addr = ":3308" # 支持 IPV4 IPV6
