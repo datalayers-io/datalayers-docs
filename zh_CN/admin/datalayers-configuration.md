@@ -48,7 +48,7 @@ connection_check_interval = 30
 # locale                    en_US.UTF-8
 # system charset
 # charset                   UTF-8
-# Timestamp accuracy of DataLayers. ms stands for millisecond, us stands for microsecond, ns stands for nanosecond, and ms milliseconds is the default
+# Timestamp accuracy of DataLayers. s: second, ms: millisecond, us: microsecond, ns: nanosecond. ms is the default value
 precision = "ms"
 
 
