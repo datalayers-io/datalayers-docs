@@ -71,8 +71,10 @@ username = "admin"
 password = "public"
 # 支持 token 时用于解密的公钥文件路径，绝对路径或相对于 configdir
 certfile = "certs/auth_cert.pem"
-# token 有效期，单位秒
-token_expire = 86400
+# token 有效期，单位秒，discard，设置有效期会影响第三方工具接入
+#token_expire = 86400
+# jwt 密钥，尽量配置且保持不变，否则会影响第三方工具接入
+jwt_secret = "YbqNwa9rX4F5DsevAr5H"
 
 [logger]
 console_log = true
