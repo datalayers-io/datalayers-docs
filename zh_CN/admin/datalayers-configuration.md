@@ -20,7 +20,7 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 | 安装方式          | 配置文件所在位置          |
 | ----------------- | ------------------------- |
 | DEB 或 RPM 包安装 | `/etc/datalayers/datalayers.toml`     |
-| Docker 容器       | `/opt/datalayers/etc/datalayers.toml` |
+| Docker 容器       | `/etc/datalayers/datalayers.toml` |
 | 解压缩包安装      | `./etc/datalayers.toml`         |
 
 主配置文件包含了大部分常用的配置项，如果您没有在配置文件中明确指定某个配置项，DataLayers 将使用默认配置。
