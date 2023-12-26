@@ -88,28 +88,27 @@ max_age = 7
 # 保存日志数量
 max_backups = 3
 
-[storage]
-# 数据存储方式 fdb | local
-type = "fdb"
-
 [storage.meta]
 # 创建 checkpoint 的时间间隔，单位秒
 checkpoint_internal = 3600
 # 单个 meta log 文件最大记录行数
 max_archive_record = 4096
 
-# 当 type 为 local 时，使用该配置项，一个 disk 配置项中 log 和 data 必须成对出现。disk 可以有多个
-[[storage.disk]]
-log_path = "/mnt/1/datalayers/log"
-data_path = "/mnt/1/datalayers/data"
-
-[[storage.disk]]
-log_path = "/mnt/2/datalayers/log"
-data_path = "/mnt/2/datalayers/data"
-
+[storage.disk.log]
+# 数据存储方式 fdb | local
+type = "local"
+path = "/tmp/datalayers/log"
 # 当 type 为 fdb 时，使用该配置项
-[storage.fdb]
-cluster_file = "/etc/foundationdb/fdb.cluster"
+#fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
+
+[storage.disk.data]
+# 数据存储方式 fdb | local
+type = "fdb"
+path = "/tmp/datalayers/data"
+# 当 type 为 fdb 时，使用该配置项
+fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
+# 最大page缓存大小(Byte、KB、MB、GB)
+max_cache_size = 1073741824
 
 [cluster]
 server_addr_type = "hostname" # enum: [hostname | ip]
