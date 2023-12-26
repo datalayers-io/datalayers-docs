@@ -6,5 +6,11 @@ DataLayers 基于存算分离的架构，在部署过程中需涉及存储层与
 
 ## docker-compose
 
-
-
+```bash
+$ git clone //github.com/datalayers-io/datalayers.git
+$ cd datalayers/deploy/docker-compose
+## 拉取镜像
+$ docker compose pull
+## 启动服务
+$ docker compose up -d
+```
