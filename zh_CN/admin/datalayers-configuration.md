@@ -111,7 +111,17 @@ fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
 max_cache_size = "500MB"
 
 [cluster]
-server_addr_type = "hostname" # enum: [hostname | ip]
+# enum: [single | cluster]
+# 其它配置只在 cluster 下有效
+mode = "cluster"
+name = "ds01"
+# 能够外部连接的地址
+server_addr = "172.17.0.3:3308"
+# 绝对路径或相对路径，相对路径会相对于 configdir 
+fdb_cluster = "/etc/foundationdb/fdb.cluster"
+# 记录 node id 的文件路径，相对于 workdir，不配置则每次启动会创建不同的 node id
+node_id_file = "run/coordinator.nid"
+##server_addr_type = "hostname" # enum: [hostname | ip]
 
 [license]
 key = "MjIwMTExCjAKMTAKRXZhbHVhdGlvbgpjb250YWN0QGVtcXguaW8KZGVmYXVsdAoyMDIzMDEwOQoxODI1CjEwMAo=.MEUCIG62t8W15g05f1cKx3tA3YgJoR0dmyHOPCdbUxBGxgKKAiEAhHKh8dUwhU+OxNEaOn8mgRDtiT3R8RZooqy6dEsOmDI="
