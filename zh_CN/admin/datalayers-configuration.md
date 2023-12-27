@@ -70,7 +70,7 @@ cacertfile = "etc/certs/rootCA.crt"
 username = "admin"
 password = "public"
 # 支持 token 时用于解密的公钥文件路径，绝对路径或相对于 configdir
-certfile = "certs/auth_cert.pem"
+#certfile = "certs/auth_cert.pem"
 # token 有效期，单位秒，discard，设置有效期会影响第三方工具接入
 #token_expire = 86400
 # jwt 密钥，尽量配置且保持不变，否则会影响第三方工具接入
@@ -108,7 +108,7 @@ path = "/tmp/datalayers/data"
 # 当 type 为 fdb 时，使用该配置项
 fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
 # 最大page缓存大小(Byte、KB、MB、GB)
-max_cache_size = 1073741824
+max_cache_size = "500MB"
 
 [cluster]
 server_addr_type = "hostname" # enum: [hostname | ip]
