@@ -161,6 +161,9 @@
       - title_en: DROP
         title_cn: DROP
         path: sql-reference/statements/drop
+      - title_en: SET
+        title_cn: SET
+        path: sql-reference/statements/set
       - title_en: KILL
         title_cn: KILL
         path: sql-reference/statements/kill
@@ -187,6 +190,9 @@
       - title_en: System
         title_cn: 系统函数
         path: sql-reference/system
+      - title_en: Cast
+        title_cn: 类型转换
+        path: sql-reference/cast
 
 - title_en: Clustering
   title_cn: 构建集群
