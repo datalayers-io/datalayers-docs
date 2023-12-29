@@ -1,23 +1,21 @@
-# Date Functions
+# TIMESTAMP Functions
 
 
 ## 函数列表
-下表显示了`DATE`类型的可用函数。
-|  Function         |Return Type    |      Description                                           |
-|  -----------------|-------------- |------------------------------------------------------------|
-| now()             | TIMESTAMP     |  返回当前时间, 时序与精度与 配置 保持一致                        |
+下表显示了`TIMESTAMP`类型的可用函数。
+|  Function        |Input Type     |Return Type    |      Description                                           |
+|  -----------------|-------------- |-------------- |------------------------------------------------------------|
+| now()             | | TIMESTAMPTZ   |  返回配置时区或客户端设置时区的当前时间, 精度为微秒             |
+| to_timestamp_sec()   |           | TIMESTAMP_S   |  仅在insert时可用，输入为Unix时间戳(INT64)，输出是精度为秒的时间戳             |
+| to_timestamp_ms()    |          | TIMESTAMP_MS   |  仅在insert时可用，输入为Unix时间戳(INT64)，输出是精度为毫秒的时间戳             |
+| to_timestamp_us()    |          | TIMESTAMP   |  仅在insert时可用，输入为Unix时间戳(INT64)，输出是精度为微秒的时间戳             |
+| to_timestamp_ns()    |          | TIMESTAMP_NS   |  仅在insert时可用，输入为Unix时间戳(INT64)，输出是精度为纳秒的时间戳             |
+| to_timestamp_tz()     |         | TIMESTAMPTZ   |  仅在insert时可用，输入为Unix时间戳(INT64)，输出是配置时区或客户端设置时区的精度为微秒的时间戳             |
+| date_trunc('UNIT',expression)  |  (VARCHAR,TIMESTAMP*)     | TIMESTAMP*   |  根据输入的时间单位对TIMESTAMP*类型进行截断，例如: date_trunc('hour', TIMESTAMPTZ '1992-09-20 20:38:40')           |
 
 ::: tip
-支持对时间进行加减操作， 如：NOW() - interval '7 day'
-:::
-
-## 日期函数运算
-下表展示了`DATE`类型可用的数学运算符
-|  Operator     |Description    |   Example                      |  结果                           |
-|  -------------|-------------- |--------------------------------| -------------------------------|
-|  +            |               |                                |                                 |
-|  -            |               |                                |                                 |
-
+`date_trunc('UNIT',expression)`函数可用的精度单位：'microsecond', 'us', 'millisecond', 'ms', 'second', 's', 'minute', 'min', 'hour', 'h', 'day', 'd', 'week', 'w', 'month', 'mon', 'quarter', 'year', 'y'
+:::    
 
 ## 示例
 ```SQL
