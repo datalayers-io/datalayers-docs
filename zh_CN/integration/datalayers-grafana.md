@@ -8,8 +8,7 @@ DataLayers 支持与开源数据可视化系统 Grafana 快速集成搭建数据
 docker-compose ...
 ```
 
-除 docker-compose 安装外， DataLayers 还支持多种安装方式，具体安装方法请参考 EMQX 5.0 安装指南。
-更多参: [DataLayers 安装](../getting-started/installation.md)
+除 docker-compose 安装外， DataLayers 还支持多种安装方式，具体安装方法请参考安装指南: [DataLayers 安装](../getting-started/installation.md)。
 
 ### 安装 Grafana
 **注：**  Grafana >=9.2.5
