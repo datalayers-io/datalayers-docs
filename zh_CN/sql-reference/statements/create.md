@@ -18,23 +18,23 @@ CREATE DATABASE hello_datalayers
 ```SQL
 CREATE TABLE [IF NOT EXISTS] [database.]table_name 
 (
-    name1 type1 [ DEFAULT default_expr ],
-    name2 type2 [ DEFAULT default_expr ] ,
+    column_name data_type [column_constraint] [ DEFAULT default_expr ],
     ...
     PRIMARY KEY expr,
     ...
 )
+with(k=v,k1=v1)
 ```
 
 ::: tip
 针对非TIMESTAMP*类型，默认值只支持常量设置。针对TIMESTAMP\*类型，默认值除了常量外还支持输出'CURRENT_TIMESTAMP',在在写入数据时如果没有给出时间戳值将会使用写入时间。例如：
-'create table car(ts timestamp default CURRENT_TIMESTAMP ,price double default 1.0);'
+'create table car(ts timestamp DEFAULT CURRENT_TIMESTAMP ,price double DEFAULT 1.0);'
 :::  
 
 **示例**
 ```SQL
 CREATE TABLE sensor_info (
-     ts TIMESTAMP NOT NULL,
+     ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
      sn BIGINT NOT NULL,
      region VARCHAR(10) NOT NULL,
      speed DOUBLE DEFAULT 1.0,
