@@ -19,6 +19,14 @@ todo Datalayers 简要描述
 
 ## 预览
 
+请先确保已经安装 `python3`，且安装 `PyYAML` 模块：
+
+```
+pip install PyYAML
+```
+
+启动预览：
+
 ```sh
 ./preview.sh 8080
 ```

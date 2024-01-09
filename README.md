@@ -20,6 +20,14 @@ See [Datalayers Documentation Contributing Guide](./CONTRIBUTING-EN.md) to becom
 
 ## Preview
 
+Please make sure `python3` are installed. And `PyYAML` module are installed：
+
+```
+pip install PyYAML
+```
+
+Start preview：
+
 ```sh
 ./preview.sh 8080
 ```
