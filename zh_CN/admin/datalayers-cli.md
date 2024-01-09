@@ -19,6 +19,7 @@ datalayers -h
 | -s             | send signal to a master process: stop, reload                     |
 | -d             | daemon                                                            |
 | -c filename    | set configuration file (default: /etc/datalayers/datalayers.toml) |
+| --standalone   | standalone mode                                                   |
 
 ## DataLayers CLI
 在 DataLayers 的镜像中已经包含 CLI 交互式工具。如在其他环境中运行，则需单独安装该工具，具体请参考：todo  
@@ -40,7 +41,7 @@ dlsql -h 127.0.0.1 -u datalayers -p 123456 -d sensor_info -P 3098
 | --dbname        | -d       | 设置连接 DataLayers 时使用的数据库                                  |
 | --command       | -c       | 运行一次 SQL STATEMENT后退出                                      |
 | --version       | -V       | 显示 CLI 工具的版本                                               |
-| --help          | -?       | show this help, then exit                                       |
+| --help          |          | show this help, then exit                                       |
 
 ### 示例 
 //todo  gif 显示一个交互过程
