@@ -3,7 +3,7 @@
 
 ## 函数列表
 下表显示了`TIMESTAMP`类型的可用函数。
-|  Function        |Input Type     |Return Type    |      Description                                           |
+|  <div style="width:45px"> Function </div>        |Input Type     |Return Type    |      Description                                           |
 |  -----------------|-------------- |-------------- |------------------------------------------------------------|
 | now()             | | TIMESTAMPTZ   |  返回配置时区或客户端设置时区的当前时间, 精度为微秒             |
 | date_trunc('UNIT',expression)  |  (VARCHAR,TIMESTAMP*)     | TIMESTAMP*   |  根据输入的时间单位对TIMESTAMP*类型进行截断，例如: date_trunc('hour', TIMESTAMPTZ '1992-09-20 20:38:40') ，数值将会被截断舍入至最近的整点小时          |
