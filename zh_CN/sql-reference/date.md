@@ -1,6 +1,5 @@
 ---
 aside: false
-pageClass: 'doc-full-width'
 ---
 
 # TIMESTAMP Functions

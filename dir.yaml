@@ -28,9 +28,6 @@
     - title_en: Architecture 
       title_cn: 系统架构 
       path: introduction/architecture
-    - title_en: Supported Architectures
-      title_cn: 支持平台 
-      path: introduction/supported-architectures
 
 - title_en: Getting Started
   title_cn: 快速开始
@@ -42,9 +39,6 @@
     - title_en: Example Datasets
       title_cn: 示例数据
       path: getting-started/example-datasets
-    - title_en: Online Experience
-      title_cn: 在线体验
-      path: getting-started/online-experience
 
 - title_en: Development Guide
   title_cn: 开发指南
