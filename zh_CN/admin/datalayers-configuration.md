@@ -29,99 +29,65 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 ### 配置文件示例
 ```toml
 [server]
-# config directory, default: parent directory of config file
-# configdir = "/etc/datalayers"
-# work directory, default: "/var/run/datalayers"
-workdir = "/var/run/datalayers"
-# pid file, default "run/datalayers.pid" under workdir
-pid = "run/datalayers.pid"
-# max idle of connection, in second, must in [60, 3600]
-connection_max_idle = 300
-# check interval of idle connection, in second
-#   default 1/10 of connection_max_idle, and in [10, 60]
-connection_check_interval = 30
+workdir = "/usr/local/datalayers"
 
-# system time zone 
-# default: Asia/Shanghai (CST, +0800)
-# timezone              Asia/Shanghai (CST, +0800)
-# system locale
-# locale                    en_US.UTF-8
-# system charset
-# charset                   UTF-8
-# Timestamp accuracy of DataLayers. s: second, ms: millisecond, us: microsecond, ns: nanosecond. ms is the default value
-precision = "ms"
+# 服务器时区，默认为系统时区
+# timezone = "Asia/Shanghai"
 
-
-[server.rpc]
-addr = ":3308" # 支持 IPV4 IPV6
-timeout = "10s" 
-# backlog .......
-
-[server.rpc.tls]
-enable = false  # default false
-# keyfile = "etc/certs/key.pem"
-keyfile = "etc/certs/server.key"
-# certfile = "etc/certs/cert.pem"
-certfile = "etc/certs/server.crt"
-# cacertfile = "etc/certs/cacert.pem"
-cacertfile = "etc/certs/rootCA.crt"
+port = ":3308"
+timeout = "10s"
 
 [server.auth]
 username = "admin"
 password = "public"
-# 支持 token 时用于解密的公钥文件路径，绝对路径或相对于 configdir
-#certfile = "certs/auth_cert.pem"
-# token 有效期，单位秒，discard，设置有效期会影响第三方工具接入
-#token_expire = 86400
-# jwt 密钥，尽量配置且保持不变，否则会影响第三方工具接入
-jwt_secret = "YbqNwa9rX4F5DsevAr5H"
+
+[cache]
+# Read Cache 的容量
+file_cache_size = "4G"
 
 [logger]
 console_log = true
-file_log = true
-log_path = "/var/log/datalayers/datalayers.log"
-level = "info" # debug | info | error | warning
+file_log = false
+# 相对于 `workdir` 路径，也可使用绝对路径
+# log_path = "log/"
+# debug | info | error | warning
+level = "debug" 
 # 单个日志大小，单位M, eg: 10  即 10M
 rotation_size = 10
-# 保存天数 , 7day
-max_age = 7
+# 保存天数， 7 day
+max_age_days = 7
 # 保存日志数量
 max_backups = 3
 
-[storage.meta]
-# 创建 checkpoint 的时间间隔，单位秒
-checkpoint_internal = 3600
+[wal]
+# 相对于 `workdir`, 也可使用绝对路径
+path = "wal/"
+
+[meta]
 # 单个 meta log 文件最大记录行数
 max_archive_record = 4096
+# 创建 checkpoint 的时间间隔，单位秒
+checkpoint_internal_s = 3600
 
-[storage.disk.log]
-# 数据存储方式 fdb | local
-type = "local"
-path = "/tmp/datalayers/log"
-# 当 type 为 fdb 时，使用该配置项
-#fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
+# standalone 模式仅支持 local 存储
+[storage]
 
-[storage.disk.data]
-# 数据存储方式 fdb | local
-type = "fdb"
-path = "/tmp/datalayers/data"
-# 当 type 为 fdb 时，使用该配置项
-fdb_cluster_file = "/etc/foundationdb/fdb.cluster"
-# 最大page缓存大小(Byte、KB、MB、GB)
-max_cache_size = "500MB"
+# [storage.fdb]
+# cluster_file = "/etc/foundationdb/fdb.cluster"
+# tls.....
 
-[cluster]
-# enum: [single | cluster]
-# 其它配置只在 cluster 下有效
-mode = "cluster"
-name = "ds01"
-# 能够外部连接的地址
-server_addr = "172.17.0.3:3308"
-# 绝对路径或相对路径，相对路径会相对于 configdir 
-fdb_cluster = "/etc/foundationdb/fdb.cluster"
-# 记录 node id 的文件路径，相对于 workdir，不配置则每次启动会创建不同的 node id
-node_id_file = "run/coordinator.nid"
-##server_addr_type = "hostname" # enum: [hostname | ip]
+[[storage.local]]
+# 数据存储路径
+path = "/datalayers/data"
+# .....
+
+#[[storage.local]]
+#path = "/datalayers/data2"
+
+
+[node]
+# FQDN | ip , 推荐使用 FQDN。 节点在集群中的唯一标识，同时也是节点间通讯地址
+name = "192.168.3.3"
 
 [license]
 key = "MjIwMTExCjAKMTAKRXZhbHVhdGlvbgpjb250YWN0QGVtcXguaW8KZGVmYXVsdAoyMDIzMDEwOQoxODI1CjEwMAo=.MEUCIG62t8W15g05f1cKx3tA3YgJoR0dmyHOPCdbUxBGxgKKAiEAhHKh8dUwhU+OxNEaOn8mgRDtiT3R8RZooqy6dEsOmDI="
