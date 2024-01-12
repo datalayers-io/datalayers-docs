@@ -13,12 +13,17 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     PRIMARY KEY expr,
     ...
 )
-
+[ WITH ( [ key = value] [, ... ] ) ] 
 ```
 
 **说明**  
 * PRIMARY KEY: 用户必须指定 `PRIMARY KEY`，PRIMARY KEY 可设置一个或多个列，其中第一个字段必须为 `TIMESTAMP` 类型。
 * 在 时序引擎 中，主键用于表示唯一一条数据记录。一般建议将 `唯一数据源 + 时间` 设置主键。如: `PRIMARY KEY (ts, sn)`, `ts` 为时间戳，`sn` 为数据源的唯一标识, 如下示例。
+* 创建表时可以通过`WITH`参数对表进行配置。
+  * TTL: 数据文件的过期时间，超过该时间的文件将被自动删除。默认7天
+  * MAX_MEMTABLE_SIZE: 内存中缓存的数据大小。默认32MiB
+  * FLUSH_INTERVAL: 每间隔多长时间将内存数据持久化到文件中。默认86400秒
+  * MAX_ROW_GROUP_LENGTH: 数据文件中单个 Row Group 存放的最大行数。默认1MiB
 
 **示例**
 
@@ -31,7 +36,7 @@ CREATE TABLE sensor_info (
      temperature REAL,
      direction REAL,
      PRIMARY KEY (ts,sn)
-)
+) WITH (ttl=7, max_memtable_size=1, max_row_group_length=110, flush_interval=86400)
 ```
 
 ## 修改表
