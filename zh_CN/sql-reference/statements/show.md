@@ -14,11 +14,11 @@ show tables
 ## SHOW CREATE DATABASE
 获取指定 database 的 SCHEMA
 ```SQL
-show crate database database_name
+show create database database_name
 ```
 
 ## SHOW CREATE TABLE
 获取指定 table 的 SCHEMA
 ```SQL
-show crate table table_name
+show create table table_name
 ```
