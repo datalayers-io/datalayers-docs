@@ -53,7 +53,7 @@ http://127.0.0.1:3308/api/v1/sql?db=test \
 
 ::: code-group
 
-```golang [Golang]
+```go
 /**
  * @type {import('vitepress').UserConfig}
  */
