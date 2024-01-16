@@ -92,9 +92,8 @@ jobs:
         wget -q https://gosspublic.alicdn.com/ossutil/1.7.8/ossutil64
         chmod 755 ./ossutil64
         ./ossutil64 config -e https://oss-accelerate.aliyuncs.com -i ${{ secrets.ALI_OSS_ACCESSKEY_ID }} -k ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }} -L CH
-        ./ossutil64 rm -r -f oss://datalayers-io-docs/docs/zh/${VERSION}/ || true
-        ./ossutil64 rm -r -f oss://datalayers-io-docs/docs/en/${VERSION}/ || true
-        ./ossutil64 cp -r -f dist/ oss://datalayers-io-docs/docs/
+        ./ossutil64 rm -r -f oss://datalayers-io-docs/ || true
+        ./ossutil64 cp -r -f dist/ oss://datalayers-io-docs/
 
     - name: refresh cdn
       uses: Swilder-M/refresh-ali-cdn@v1
