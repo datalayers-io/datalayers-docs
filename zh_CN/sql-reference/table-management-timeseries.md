@@ -36,7 +36,7 @@ CREATE TABLE sensor_info (
      temperature REAL,
      direction REAL,
      PRIMARY KEY (ts,sn)
-) WITH (ttl=7d, max_memtable_size=10MiB, max_row_group_length=1000000, flush_interval=86400s)
+) WITH (ttl='7d', max_memtable_size='10MiB', max_row_group_length=1000000, flush_interval='86400s')
 ```
 
 ## 修改表
