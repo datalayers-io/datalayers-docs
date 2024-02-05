@@ -4,7 +4,8 @@
 ## 数据类型
 |  Name         | Aliases                                                          | Description                                                          |
 |  -------------|--------------------------------------------------------------------- |--------------------------------------------------------------------- |
-| BIGINT     | INT8, LONG                                         |有符号八字节整数
+| HUGEINT     |                                          |有符号十六字节整数|
+| BIGINT     | INT8, LONG                                         |有符号八字节整数|
 | BIT     | BITSTRING                                        |1和0的字符串|
 | BOOLEAN     | BOOL, LOGICAL                                       |逻辑布尔值(true/false)|
 | BLOB     | BYTEA, BINARY, VARBINARY                                        |可变长度二进制数据|
