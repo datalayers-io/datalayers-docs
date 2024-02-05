@@ -9,7 +9,7 @@ aside: false
 下表显示了`TIMESTAMP`类型的可用函数。
 |  <div style="width:45px"> Function </div>        |Input Type     |Return Type    |      Description                                           |
 |  -----------------|-------------- |-------------- |------------------------------------------------------------|
-| now()             | | TIMESTAMPTZ   |  返回配置时区或客户端设置时区的当前时间, 精度为微秒             |
+| now()             | | TIMESTAMP_US   |  返回精度为微妙的UTC时间             |
 | date_trunc('UNIT',expression)  |  (VARCHAR,TIMESTAMP*)     | TIMESTAMP*   |  根据输入的时间单位对TIMESTAMP*类型进行截断，例如: date_trunc('hour', TIMESTAMPTZ '1992-09-20 20:38:40') ，数值将会被截断舍入至最近的整点小时          |
 | date_trunc(INTEGER,'UNIT',expression)  |  (INTEGER,VARCHAR,TIMESTAMP*)     | TIMESTAMP*   |  根据输入的时间单位和数量对TIMESTAMP*类型进行截断，例如: date_trunc(3,'hour', TIMESTAMPTZ '1992-09-20 20:38:40'), 每三小时进行一次截断 |
 | time_split('[COUNT]UNIT',expression)  |  (VARCHAR,TIMESTAMP*)     | TIMESTAMP*   |  作用和date_trunc相似, 根据输入的时间单位和数量对TIMESTAMP*类型进行截断，但直接支持数值+单位的字符串输入。例如: time_split('3 hour', ts), 以3小时为分割点，数值将会被分割舍入。'[COUNT]UNIT' 可以匹配'hour','3 hour','3hour'。 |
