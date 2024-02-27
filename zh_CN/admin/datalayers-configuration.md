@@ -17,14 +17,14 @@ DataLayers 安装完成后会创建一些目录用来存放运行文件和配置
 
 DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置有所不同：
 
-| 安装方式          | 配置文件所在位置          |
-| ----------------- | ------------------------- |
-| DEB 或 RPM 包安装 | `/etc/datalayers/datalayers.toml`     |
-| Docker 容器       | `/etc/datalayers/datalayers.toml` |
-| 解压缩包安装      | `./etc/datalayers.toml`         |
+| 安装方式           | 配置文件所在位置                         |
+| ----------------- | -------------------------             |
+| DEB 或 RPM 包安装  | `/etc/datalayers/datalayers.toml`     |
+| Docker 容器       | `/etc/datalayers/datalayers.toml`     |
+| 解压缩包安装       | `./etc/datalayers.toml`                |
 
 主配置文件包含了大部分常用的配置项，如果您没有在配置文件中明确指定某个配置项，DataLayers 将使用默认配置。
-所有可用的配置项及其说明可参考主配置同路径下的 `datgalayers.toml.example` 文件。
+所有可用的配置项及其说明可参考主配置同路径下的 `datalayers.toml.example` 文件。
 
 ### 配置文件示例
 ```toml
@@ -88,6 +88,8 @@ path = "/datalayers/data"
 [node]
 # FQDN | ip , 推荐使用 FQDN。 节点在集群中的唯一标识，同时也是节点间通讯地址
 name = "192.168.3.3"
+# 节点间通信使用的认证key, 部署新集群时建议更新该值
+cookie = "7e2c284b4d901b2661e67b1962fb11f6"
 
 [license]
 key = "MjIwMTExCjAKMTAKRXZhbHVhdGlvbgpjb250YWN0QGVtcXguaW8KZGVmYXVsdAoyMDIzMDEwOQoxODI1CjEwMAo=.MEUCIG62t8W15g05f1cKx3tA3YgJoR0dmyHOPCdbUxBGxgKKAiEAhHKh8dUwhU+OxNEaOn8mgRDtiT3R8RZooqy6dEsOmDI="

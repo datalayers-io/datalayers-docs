@@ -24,6 +24,7 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
   * MAX_MEMTABLE_SIZE: 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB。
   * FLUSH_INTERVAL: 每间隔多长时间将内存数据持久化到文件中，缺省值为86400s。支持单位：s（秒）、m（分钟）、h（小时）。
   * MAX_ROW_GROUP_LENGTH: 数据文件中单个 Row Group 存放的最大行数，缺省值为1000000。
+  * VNODE：该表在集群中 vnode 的数量。一个 vnode 代表一个处理线程。缺省值为：2, 最大不能超过 65535。实际大小受系统资源限制，当前单个 CPU核心 最多可以设置4个vnode。
 
 **示例**
 
@@ -36,7 +37,7 @@ CREATE TABLE sensor_info (
      temperature REAL,
      direction REAL,
      PRIMARY KEY (ts,sn)
-) WITH (ttl='7d', max_memtable_size='10MiB', max_row_group_length=1000000, flush_interval='86400s')
+) WITH (vnode=2, ttl='7d', max_memtable_size='10MiB', max_row_group_length=1000000, flush_interval='86400s')
 ```
 
 ## 修改表
