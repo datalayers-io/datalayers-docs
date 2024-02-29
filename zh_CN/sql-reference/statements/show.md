@@ -22,3 +22,15 @@ show create database database_name
 ```SQL
 show create table table_name
 ```
+
+## SHOW LICENCES
+获取系统的 Licence 信息
+```SQL
+SHOW LICENCES  
+```
+## SHOW CLUSTER
+获取集群节点信息。注：该指令仅在集群模式下生效。  
+```SQL
+SHOW CLUSTER
+```
+
