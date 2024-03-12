@@ -21,9 +21,10 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
 * 在 时序引擎 中，主键用于表示唯一一条数据记录。一般建议将 `唯一数据源 + 时间` 设置主键。如: `PRIMARY KEY (ts, sn)`, `ts` 为时间戳，`sn` 为数据源的唯一标识, 如下示例。
 * 创建表时可以通过`WITH`参数对表进行配置。
   * TTL: 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为3650d。支持时间单位：m（分钟）、h（小时）、d（天）。
-  * MAX_MEMTABLE_SIZE: 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB。
+  * MAX_MEMTABLE_SIZE: 每个 `vnode` 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB。
   * FLUSH_INTERVAL: 每间隔多长时间将内存数据持久化到文件中，缺省值为86400s。支持单位：s（秒）、m（分钟）、h（小时）。
   * MAX_ROW_GROUP_LENGTH: 数据文件中单个 Row Group 存放的最大行数，缺省值为1000000。
+  * WAL_FSYNC_INTERVAL: 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：3000， 最大值：60000（60秒）。单位：ms（毫秒）。
   * VNODE：该表在集群中 vnode 的数量。一个 vnode 代表一个处理线程。缺省值为：2, 最大不能超过 65535。实际大小受系统资源限制，当前单个 CPU核心 最多可以设置4个vnode。
 
 **示例**
