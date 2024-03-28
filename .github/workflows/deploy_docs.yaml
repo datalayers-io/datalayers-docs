@@ -15,6 +15,10 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     if: github.repository_owner == 'datalayers-io'
+    strategy:
+      matrix:
+        docs_language: [zh, en]
+
     steps:
     - name: clone docs
       uses: actions/checkout@main
@@ -55,6 +59,7 @@ jobs:
          echo "DOCS_BRANCH=$BRANCH" >> $GITHUB_ENV
          echo "VERSION=$VERSION" >> $GITHUB_ENV
          echo "DOCS_TYPE=datalayers" >> $GITHUB_ENV
+         echo "LANGUAGES=${{ matrix.docs_language }}" >> $GITHUB_ENV
 
     - name: remove unused files
       run: |
@@ -67,11 +72,13 @@ jobs:
       run: |
         rm frontend/docs/*.md || true
         rm frontend/README.md || true
-        mkdir -p frontend/docs/en/${DOCS_TYPE}/${VERSION}/
-        mkdir -p frontend/docs/zh/${DOCS_TYPE}/${VERSION}/
+        mkdir -p frontend/docs/${DOCS_TYPE}/${VERSION}/
         mkdir -p frontend/docs/public/api/
-        cp -r docs-files/en_US/* frontend/docs/en/${DOCS_TYPE}/${VERSION}/
-        cp -r docs-files/zh_CN/* frontend/docs/zh/${DOCS_TYPE}/${VERSION}/
+        if [ "${LANGUAGES}" = "en" ]; then
+          cp -r docs-files/en_US/* frontend/docs/${DOCS_TYPE}/${VERSION}/
+        else
+          cp -r docs-files/zh_CN/* frontend/docs/${DOCS_TYPE}/${VERSION}/
+        fi
         cp docs-files/directory.json frontend/docs/.vitepress/config/directory.json
 
     - name: generate version config
@@ -92,21 +99,22 @@ jobs:
         wget -q https://gosspublic.alicdn.com/ossutil/1.7.8/ossutil64
         chmod 755 ./ossutil64
         ./ossutil64 config -e https://oss-accelerate.aliyuncs.com -i ${{ secrets.ALI_OSS_ACCESSKEY_ID }} -k ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }} -L CH
-        ./ossutil64 rm -r -f oss://datalayers-io-docs/ || true
-        ./ossutil64 cp -r -f dist/ oss://datalayers-io-docs/
+        oss_bucket=datalayers-docs-${LANGUAGES}
+        ./ossutil64 rm -r -f oss://${oss_bucket}/ || true
+        ./ossutil64 cp -r -f dist/ oss://${oss_bucket}/
 
-    - name: refresh cdn
-      uses: Swilder-M/refresh-ali-cdn@v1
-      with:
-        access_key_id: ${{ secrets.ALI_OSS_ACCESSKEY_ID }}
-        access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
-        file_paths: https://docs.datalayers.io/
+    # - name: refresh en cdn
+    #   uses: Swilder-M/refresh-ali-cdn@v1
+    #   with:
+    #     access_key_id: ${{ secrets.ALI_OSS_ACCESSKEY_ID }}
+    #     access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
+    #     file_paths: https://docs.datalayers.io/
 
-    - name: update search index
-      uses: Swilder-M/docsearch-scraper-simple@next
-      env:
-        APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID_NEXT }}
-        API_KEY: ${{ secrets.ALGOLIA_API_KEY_NEXT }}
-      with:
-        docs_type: ${{ env.DOCS_TYPE }}
-        docs_version: ${{ env.VERSION }}
+    # - name: update search index
+    #   uses: Swilder-M/docsearch-scraper-simple@next
+    #   env:
+    #     APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID_NEXT }}
+    #     API_KEY: ${{ secrets.ALGOLIA_API_KEY_NEXT }}
+    #   with:
+    #     docs_type: ${{ env.DOCS_TYPE }}
+    #     docs_version: ${{ env.VERSION }}
