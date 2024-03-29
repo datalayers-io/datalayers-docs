@@ -70,10 +70,9 @@ jobs:
 
     - name: move files
       run: |
-        rm frontend/docs/*.md || true
-        rm frontend/README.md || true
         mkdir -p frontend/docs/${DOCS_TYPE}/${VERSION}/
         mkdir -p frontend/docs/public/api/
+        cp frontend/docs/${LANGUAGES}/index.md frontend/docs/
         if [ "${LANGUAGES}" = "en" ]; then
           cp -r docs-files/en_US/* frontend/docs/${DOCS_TYPE}/${VERSION}/
         else
