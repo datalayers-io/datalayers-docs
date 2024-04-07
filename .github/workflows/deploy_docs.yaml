@@ -107,12 +107,21 @@ jobs:
         ./ossutil64 rm -r -f oss://${oss_bucket}/ || true
         ./ossutil64 cp -r -f dist/ oss://${oss_bucket}/
 
-    # - name: refresh en cdn
-    #   uses: Swilder-M/refresh-ali-cdn@v1
-    #   with:
-    #     access_key_id: ${{ secrets.ALI_OSS_ACCESSKEY_ID }}
-    #     access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
-    #     file_paths: https://docs.datalayers.io/
+    - name: refresh zh cdn
+      if: matrix.docs_language == 'zh'
+      uses: Swilder-M/refresh-huawei-cdn@master
+      with:
+        access_key_id: ${{ secrets.HUAWEI_ACCESS_KEY_ID }}
+        access_key_secret: ${{ secrets.HUAWEI_ACCESS_KEY_SECRET }}
+        file_paths: https://docs.datalayers.cn/
+
+    - name: refresh en cdn
+      if: matrix.docs_language == 'en'
+      uses: Swilder-M/refresh-ali-cdn@master
+      with:
+        access_key_id: ${{ secrets.ALI_OSS_ACCESSKEY_ID }}
+        access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
+        file_paths: https://docs.datalayers.io/
 
     # - name: update search index
     #   uses: Swilder-M/docsearch-scraper-simple@next
