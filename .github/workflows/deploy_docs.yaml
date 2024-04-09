@@ -70,6 +70,8 @@ jobs:
 
     - name: move files
       run: |
+        rm -r frontend/docs/en || true
+        rm -r frontend/docs/zh || true
         mkdir -p frontend/docs/${DOCS_TYPE}/${VERSION}/
         mkdir -p frontend/docs/public/api/
         cp frontend/docs/${LANGUAGES}/index.md frontend/docs/
