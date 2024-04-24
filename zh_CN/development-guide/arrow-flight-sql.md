@@ -23,19 +23,91 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 // todo , 链接到 github 代码示例。
 
 ::: code-group
-
 ```Go [Go]
-/**
- * todo
- */
+package main
 
-```
+import (
+	"context"
+	"fmt"
 
-```python [Python]
-/**
- * todo
- */
+	"github.com/apache/arrow/go/v16/arrow/flight/flightsql"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
+)
 
+type customClientInterceptor struct {
+}
+
+// use the Interceptor to 
+func (i *customClientInterceptor) UnaryInterceptor(
+	ctx context.Context,
+	method string,
+	req, reply interface{},
+	cc *grpc.ClientConn,
+	invoker grpc.UnaryInvoker,
+	opts ...grpc.CallOption,
+) error {
+	md := metadata.Pairs(
+		"database", "demo",
+	)
+	ctx = metadata.NewOutgoingContext(ctx, md)
+	return invoker(ctx, method, req, reply, cc, opts...)
+}
+
+func (i *customClientInterceptor) StreamInterceptor(
+	ctx context.Context,
+	desc *grpc.StreamDesc,
+	cc *grpc.ClientConn,
+	method string,
+	streamer grpc.Streamer,
+	opts ...grpc.CallOption,
+) (grpc.ClientStream, error) {
+	md := metadata.Pairs(
+		"database", "demo",
+	)
+	ctx = metadata.NewOutgoingContext(ctx, md)
+	return streamer(ctx, desc, cc, method, opts...)
+}
+
+func main() {
+	addr := "127.0.0.1:5360"
+
+	interceptor := &customClientInterceptor{}
+	var dialOpts = []grpc.DialOption{
+		grpc.WithUnaryInterceptor(interceptor.UnaryInterceptor),
+		grpc.WithStreamInterceptor(interceptor.StreamInterceptor),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	}
+	cl, err := flightsql.NewClient(addr, nil, nil, dialOpts...)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	ctx := context.Background()
+	info, err := cl.Execute(ctx, "SELECT 1;")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}	
+	rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer rdr.Release()
+
+	n := 0
+	for rdr.Next() {
+		record := rdr.Record()
+		for i, col := range record.Columns() {
+			fmt.Printf("rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
+		}
+		record.Column(0)
+		n++
+	}
+}
 ```
 
 ```c++ [C++]
@@ -43,9 +115,184 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 
 ```
 
-```rust [Rust]
-//todo
+```toml [Rust-dependencies]
+[package]
+name = "datalayers-rust-example"
+version = "0.1.0"
+edition = "2021"
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tonic = { version = "*", features = ["transport", "codegen", "prost"] }
+arrow-array = "51.0.0"
+arrow-cast = { version = "*", features = ["prettyprint"] }
+arrow-flight = { version = "*", features = ["flight-sql-experimental", "tls"] }
+arrow-schema = "51.0.0"
+tokio = "*"
+futures = "*"
+anyhow = "1.0.82"
+prost = "0.12"
+prost-types = "0.12"
+
+```
+
+```rust [Rust-code]
+use arrow_array::RecordBatch;
+use arrow_cast::pretty::pretty_format_batches;
+use arrow_flight::sql::client::FlightSqlServiceClient;
+use arrow_schema::Schema;
+use futures::TryStreamExt;
+use std::{sync::Arc, time::Duration};
+
+use anyhow::{bail, Context, Result};
+use tokio::sync::Mutex;
+use tonic::transport::{Channel, Endpoint};
+pub struct Ctx {
+    pub host: String,
+    pub port: u16,
+    pub username: Option<String>,
+    pub password: Option<String>,
+    pub database: Option<String>,
+    pub _timezone: Option<String>,
+}
+use prost::Message;
+pub struct Executor {
+    ctx: Arc<Mutex<Ctx>>,
+    client: FlightSqlServiceClient<Channel>,
+}
+
+impl Executor {
+    pub async fn new(ctx: Arc<Mutex<Ctx>>) -> anyhow::Result<Executor> {
+        let protocol = "http";
+
+        let ctx_cp = ctx.clone();
+
+        let ctx = ctx.lock().await;
+
+        let endpoint = Endpoint::new(format!("{}://{}:{}", protocol, ctx.host, ctx.port))
+            .context("create endpoint")?
+            .connect_timeout(Duration::from_secs(20))
+            .timeout(Duration::from_secs(20))
+            .tcp_nodelay(true) // Disable Nagle's Algorithm since we don't want packets to wait
+            .tcp_keepalive(Option::Some(Duration::from_secs(3600)))
+            .http2_keep_alive_interval(Duration::from_secs(300))
+            .keep_alive_timeout(Duration::from_secs(20))
+            .keep_alive_while_idle(true);
+
+        let channel = endpoint.connect().await.context("connect to endpoint")?;
+
+        let mut client = FlightSqlServiceClient::new(channel);
+
+        if let Some(database) = &ctx.database {
+            client.set_header("database", database);
+        }
+
+        match (ctx.username.clone(), ctx.password.clone()) {
+            (None, None) => {}
+            (Some(username), Some(password)) => {
+                client
+                    .handshake(&username, &password)
+                    .await
+                    .context("handshake")?;
+            }
+            (Some(_), None) => {
+                bail!("when username is set, you also need to set a password")
+            }
+            (None, Some(_)) => {
+                bail!("when password is set, you also need to set a username")
+            }
+        }
+
+        Ok(Executor {
+            ctx: ctx_cp,
+            client,
+        })
+    }
+
+    pub async fn execute_flight(&mut self, sql: String) -> Result<Vec<RecordBatch>> {
+        let ctx = self.ctx.clone();
+        let session = ctx.lock().await;
+        if session.database.is_some() {
+            self.client
+                .set_header("database", session.database.clone().unwrap());
+            println!("database is : {}", session.database.clone().unwrap());
+        }
+
+        let flight_info = self.client.execute(sql, None).await?;
+
+        let schema = Arc::new(Schema::try_from(flight_info.clone()).context("valid schema")?);
+        let mut batches = Vec::with_capacity(flight_info.endpoint.len() + 1);
+        batches.push(RecordBatch::new_empty(schema));
+
+        for endpoint in flight_info.endpoint {
+            let Some(ticket) = &endpoint.ticket else {
+                bail!("did not get ticket");
+            };
+
+            let mut flight_data = self.client.do_get(ticket.clone()).await?;
+
+            let endpoint_batches: std::prelude::v1::Result<
+                Vec<_>,
+                arrow_flight::error::FlightError,
+            > = (&mut flight_data).try_collect().await;
+
+            if endpoint_batches.is_err() {
+                let err = endpoint_batches.err().unwrap();
+                println!("DataLayers connection error: {:?}", err);
+                bail!(err);
+            }
+
+            batches.append(&mut endpoint_batches.unwrap());
+        }
+
+        Ok(batches)
+    }
+}
+
+#[tokio::main]
+async fn main() {
+    let ctx = Ctx {
+        host: "localhost".to_string(),
+        port: 5360,
+        username: Some("admin".to_string()),
+        password: Some("public".to_string()),
+        database: Some("test".to_string()),
+        _timezone: Some("UTC+8".to_string()),
+    };
+
+    println!("host: {}", ctx.host);
+    println!("port: {}", ctx.port);
+    match ctx.username {
+        Some(ref username) => println!("username: {}", username),
+        None => println!("username: None"),
+    }
+    match ctx.password {
+        Some(ref password) => println!("password: {}", password),
+        None => println!("password: None"),
+    }
+    match ctx.database {
+        Some(ref database) => println!("database: {}", database),
+        None => println!("database: None"),
+    }
+    match ctx._timezone {
+        Some(ref timezone) => println!("timezone: {}", timezone),
+        None => println!("timezone: None"),
+    }
+
+    // construct the executor
+    let ctx = Arc::new(Mutex::new(ctx));
+    let mut executor = Executor::new(ctx).await.unwrap();
+
+    // change the sql what you want
+    let some = executor.execute_flight(format!("select 1")).await.unwrap();
+
+    // print the formated results
+    let res = pretty_format_batches(some.as_slice())
+        .context("format results")
+        .unwrap();
+    println!("{}", res.to_string());
+}
 ```
 
 ```java [Java]
@@ -55,4 +302,4 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 
 :::
 
-完整示例参考：https://github.com/datalayers-io/datalayers/bindings
+完整示例参考：https://github.com/datalayers-io/datalayers/tree/main/examples
