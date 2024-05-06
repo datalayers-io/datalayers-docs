@@ -14,14 +14,14 @@ aside: false
 
 
 ::: tip
-函数可用的精度单位：'microsecond', 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year'
+函数可用的精度单位：'nanoseconds', 'microseconds', 'milliseconds', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years'
 :::    
 
 ## 示例
 ```SQL
 -- 返回当前连接节点的版本信息
-SELECT speed,temperature FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval '7 day';
+SELECT speed,temperature FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval '7 days';
 
 -- 以 `1 day` 分割点进行聚合
-SELECT date_bin('1 day', ts) as timepoint, count(*) as total from sx1  group by timepoint;
+SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sx1  group by timepoint;
 ```
