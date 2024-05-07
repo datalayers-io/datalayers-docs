@@ -20,9 +20,10 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
 (
     column_name data_type [column_constraint] [ DEFAULT default_expr ]，
     ...
-    PRIMARY KEY expr,
     ...
 )
+PARTITION BY HASH(expr) PARTITIONS 16
+ENGINE=TimeSeries
 with(k=v,k1=v1)
 ```
 
@@ -35,30 +36,14 @@ create table car(ts timestamp DEFAULT CURRENT_TIMESTAMP, price double DEFAULT 1.
 
 **示例**
 ```SQL
-CREATE TABLE sensor_info (
-     ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     sn BIGINT NOT NULL,
-     region VARCHAR(10) NOT NULL,
-     speed DOUBLE DEFAULT 1.0,
-     temperature REAL,
-     direction REAL,
-     PRIMARY KEY (ts,sn)
-)
+CREATE TABLE sx1(
+    ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    sid INT32,
+    value REAL,
+    flag INT8,
+    )
+    PARTITION BY HASH(sid) PARTITIONS 16
+    ENGINE=TimeSeries
+    with (ttl='10d')
 ```
 
-## CREATE INDEX
-**语法**
-```SQL
--- Create index 's_idx' that allows for duplicate values on column revenue of table films.
-CREATE INDEX s_idx ON films (revenue);
--- Create compound index 'gy_idx' on genre and year columns.
-CREATE INDEX gy_idx ON films (genre, year);
-```
-
-**说明**
-|Name       | Description                                                          |
-|------     | ------------------------------                                       |
-|name       | The name of the index to be created.                                 |
-|table      | The name of the table to be indexed.                                 |
-|column     | The name of the column to be indexed.                                |
-|expression | An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses can be omitted if the expression has the form of a function call.|
