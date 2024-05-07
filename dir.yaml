@@ -184,10 +184,6 @@
       - title_en: System
         title_cn: 系统函数
         path: sql-reference/system
-      - title_en: Cast
-        title_cn: 类型转换
-        path: sql-reference/cast
-
 - title_en: Clustering
   title_cn: 构建集群
   path: cluster/introduction
