@@ -114,9 +114,6 @@
       - title_en: INSERT
         title_cn: INSERT
         path: sql-reference/statements/insert
-      - title_en: UPDATE
-        title_cn: UPDATE
-        path: sql-reference/statements/update
       - title_en: SELECT
         title_cn: SELECT
         path: sql-reference/statements/select
@@ -140,9 +137,6 @@
         - title_en: HAVING 
           title_cn: HAVING 
           path: sql-reference/statements/having
-      - title_en: DELETE
-        title_cn: DELETE
-        path: sql-reference/statements/delete
       - title_en: ALTER
         title_cn: ALTER
         path: sql-reference/statements/alter

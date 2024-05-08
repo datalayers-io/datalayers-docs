@@ -34,3 +34,15 @@ SHOW LICENCES
 SHOW CLUSTER
 ```
 
+## SHOW PARTITIONS [ON TABLE/NODE name]
+查看 partitions 分布
+```SQL
+# 查看所有 partitions 
+SHOW PARTITIONS
+
+# 查看指定 table 的 partitons
+SHOW PARTITIONS ON TABLE table_name
+
+# 查看指定 Node 的 partitons
+SHOW PARTITIONS ON NODE node_name
+```
