@@ -11,22 +11,16 @@ show databases
 show tables
 ```
 
-## SHOW CREATE DATABASE
-获取指定 database 的 SCHEMA
-```SQL
-show create database database_name
-```
-
 ## SHOW CREATE TABLE
 获取指定 table 的 SCHEMA
 ```SQL
 show create table table_name
 ```
 
-## SHOW LICENCES
+## SHOW LICENCE
 获取系统的 Licence 信息
 ```SQL
-SHOW LICENCES  
+SHOW LICENCE  
 ```
 ## SHOW CLUSTER
 获取集群节点信息。注：该指令仅在集群模式下生效。  
@@ -41,7 +35,7 @@ SHOW CLUSTER
 SHOW PARTITIONS
 
 # 查看指定 table 的 partitons
-SHOW PARTITIONS ON TABLE table_name
+SHOW PARTITIONS ON TABLE [db].table_name
 
 # 查看指定 Node 的 partitons
 SHOW PARTITIONS ON NODE node_name
