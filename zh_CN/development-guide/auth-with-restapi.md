@@ -23,8 +23,8 @@ DataLayers 的 REST API 使用 [`HTTP BASIC 认证`](https://developer.mozilla.o
 **示例：**
 ```
 curl -u"<username>:<password>" -X POST \
-http://<HOST>:<PORT>/api/v1/write?db=<database_name> \
--H 'Content-Type: <content-type>' \
+http://<HOST>:<PORT>/api/v1/sql?db=<database_name> \
+-H 'Content-Type: application/binary' \
 -d '<SQL STATEMENT>'
 ```
 
