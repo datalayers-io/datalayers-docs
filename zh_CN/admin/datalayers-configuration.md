@@ -24,75 +24,74 @@ DataLayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 | 解压缩包安装       | `./etc/datalayers.toml`                |
 
 主配置文件包含了大部分常用的配置项，如果您没有在配置文件中明确指定某个配置项，DataLayers 将使用默认配置。
-所有可用的配置项及其说明可参考主配置同路径下的 `datalayers.toml.example` 文件。
 
 ### 配置文件示例
 ```toml
 [server]
-workdir = "/usr/local/datalayers"
+timezone = "Asia/Shanghai"
+# Confirm that have write permission for this location.
+pid = "/var/run/datalayers/datalayers.pid"
 
-# 服务器时区，默认为系统时区
-# timezone = "Asia/Shanghai"
-
-port = ":3308"
+addr = "0.0.0.0:8360"
 timeout = "10s"
 
 [server.auth]
 username = "admin"
 password = "public"
+# This parameter cannot be empty. If it is empty, token authentication is not used
+token = "c720790361da729344983bfc44238f24"
+jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
-[cache]
-# Read Cache 的容量
-file_cache_size = "4G"
+[server.http]
+addr = "0.0.0.0:8361"
 
-[logger]
-console_log = true
-file_log = false
-# 相对于 `workdir` 路径，也可使用绝对路径
-# log_path = "log/"
-# debug | info | error | warning
-level = "debug" 
-# 单个日志大小，单位M, eg: 10  即 10M
-rotation_size = 10
-# 保存天数， 7 day
-max_age_days = 7
-# 保存日志数量
-max_backups = 3
+[logger]  
+# Option for level: Trace | Debug | Info | Warn | Error , default: Info
+level = "info"
+# Option for log: Console | File (case sensitive)
+# Note: If option is File, three options: path, max_log_files and rotation 
+# should be set.
+log = "Console"
+# path = "/var/log/datalayers/"
+#max_log_files = 7
+# Option for rotation: Minutely | Hourly | Daily | Never , default : Daily
+#rotation = "Daily"
 
-[wal]
-# 相对于 `workdir`, 也可使用绝对路径
-path = "wal/"
+[ts_engine]
+# Request channel size of each worker (default 128).
+worker_channel_size = 128
 
-[meta]
-# 单个 meta log 文件最大记录行数
-max_archive_record = 4096
-# 创建 checkpoint 的时间间隔，单位秒
-checkpoint_internal_s = 3600
+[ts_engine.wal]
+# Only support local now
+type = "local"
+path = "/var/lib/datalayers/wal"
+flush_interval = "0s"
+max_file_size = "32MB"
 
-# standalone 模式仅支持 local 存储
+
 [storage]
+type = "fdb"
 
-# [storage.fdb]
-# cluster_file = "/etc/foundationdb/fdb.cluster"
-# tls.....
+[storage.fdb]
+cluster_file = "/etc/foundationdb/fdb.cluster"
+path = "/datalayers"
 
 [[storage.local]]
-# 数据存储路径
-path = "/datalayers/data"
-# .....
-
-#[[storage.local]]
-#path = "/datalayers/data2"
-
+path = "/var/lib/datalayers/storage"
 
 [node]
-# FQDN | ip , 推荐使用 FQDN。 节点在集群中的唯一标识，同时也是节点间通讯地址
-name = "192.168.3.3"
-# 节点间通信使用的认证key, 部署新集群时建议更新该值
-cookie = "7e2c284b4d901b2661e67b1962fb11f6"
+# The name is the unique identifier of the node, and the name cannot be repeated.
+name = "localhost:8366"
+# connect_timeout = "1s"
+# timeout = "10s"
+# Retry count, <= 1 means only once
+# retry_count = 1
+# rpc_max_conn = 20
+# rpc_min_conn = 3
 
 [license]
-key = "MjIwMTExCjAKMTAKRXZhbHVhdGlvbgpjb250YWN0QGVtcXguaW8KZGVmYXVsdAoyMDIzMDEwOQoxODI1CjEwMAo=.MEUCIG62t8W15g05f1cKx3tA3YgJoR0dmyHOPCdbUxBGxgKKAiEAhHKh8dUwhU+OxNEaOn8mgRDtiT3R8RZooqy6dEsOmDI="
+key = "eyJ2IjoxLCJ0IjoxLCJjbiI6InRlc3QiLCJjZSI6bnVsbCwic2QiOiIyMDI0MDUxNyIsInZkIjozNjUsIm5sIjoxMDAsImNsIjoyNTYsImVsIjoxMDAwLCJmcyI6W119.dLBEUr9WDhuTBllPiZ3lNXOL2YtjuvFVUYQvmc85Ak0jgqHhtoCVz09GHAqdPs8yrzMxnQRiGeK49/Puzvqi6X5X0rYEOx5eiKuifWEkYnXDjtUfdvY79Z4p1SWi5h56hyyyvgrc6lPCWnccqM+JWNWA1a3QHo6V288KBQPFZvOcUY1Kl6F9lHHs5NVx/Wq+92cqg+VJ+ONivxwt3Y35VRelFczARLrpYdngpUQtvXud4nRGuDTj4YkhEZAgpjZXg7WMS8w54zboDOPKcLL5bhUTYa4WSinhSeWLEniISPu0/TihSlXsp/UqamUnb+NHa2sjMTKzAp0CeOZwZA++fQ=="
+
 ```
 
 ### 环境变量
