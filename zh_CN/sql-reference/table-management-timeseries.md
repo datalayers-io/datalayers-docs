@@ -27,7 +27,7 @@ PARTITION BY HASH(expr) PARTITIONS 2
   * TTL: 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为3650d。支持时间单位：m（分钟）、h（小时）、d（天）。
   * MAX_MEMTABLE_SIZE: 每个 `partition` 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB。
   * FLUSH_INTERVAL: 每间隔多长时间将内存数据持久化到文件中，缺省值为86400s。支持单位：s（秒）、m（分钟）、h（小时）。
-  * MAX_ROW_GROUP_LENGTH: 数据文件中单个 Row Group 存放的最大行数，缺省值为：8092。
+  * MAX_ROW_GROUP: 数据文件中单个 Row Group 存放的最大行数，缺省值为：8092。
   * WAL_FSYNC_INTERVAL: 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：3000， 最大值：60000（60秒）。单位：ms（毫秒）。
 
 
@@ -43,7 +43,7 @@ CREATE TABLE sensor_info (
 ) 
 PARTITION BY HASH(sn) PARTITIONS 6
 ENGINE=TimeSeries
-WITH (ttl='7d', max_memtable_size='10MiB', max_row_group_length=8092, flush_interval='86400s')
+WITH (ttl='7d', max_memtable_size='10MiB', max_row_group=8092, flush_interval='86400s')
 ```
 
 ## 修改表
