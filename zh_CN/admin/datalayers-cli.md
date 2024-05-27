@@ -15,9 +15,6 @@ datalayers -h
 | ----------     | ------------------------------------------------------------      |
 | -h             | this help                                                         |
 | -v             | show version and exit                                             |
-| -t             | test configuration and exit                                       |
-| -s             | send signal to a master process: stop, reload                     |
-| -d             | daemon                                                            |
 | -c filename    | set configuration file (default: /etc/datalayers/datalayers.toml) |
 | --standalone   | standalone mode                                                   |
 
@@ -28,7 +25,7 @@ datalayers -h
 ### 启动
 在终端下执行 `dlsql` 即可进行 DataLayers CLI 交互式界面。
 ```shell
-dlsql -h 127.0.0.1 -u datalayers -p 123456 -d sensor_info -P 3098
+dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
 
 相关参数：
@@ -39,13 +36,8 @@ dlsql -h 127.0.0.1 -u datalayers -p 123456 -d sensor_info -P 3098
 | --password      | -p       | 设置连接 DataLayers 使用的密码                                     |
 | --port          | -P       | 设置连接 DataLayers 的端口                                        |
 | --dbname        | -d       | 设置连接 DataLayers 时使用的数据库                                  |
-| --command       | -c       | 运行一次 SQL STATEMENT后退出                                      |
+| --execute       | -e       | 运行一次 SQL STATEMENT后退出                                      |
 | --version       | -V       | 显示 CLI 工具的版本                                               |
 | --help          |          | show this help, then exit                                       |
 
-### 示例 
-//todo  gif 显示一个交互过程
 
-
-
-使用 `dlsql` 可快速进行数据的导入、导出。请参考[数据导入](./data-import.md)、 [数据导出](./data-export.md)。
