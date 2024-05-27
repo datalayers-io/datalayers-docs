@@ -2,18 +2,19 @@
 下表显示了所有Datalayer SQL内置的通用数据类型。对应列出的别名列也可以用于创建和引用这些类型。
 
 ## Numeric Types
-|  Name                             | Description                                                                         |
-|  -------------                    |------------------------------------------------------------------------------------ |
-| TINYINT                           | Int8                                                                                |
-| SMALLINT                          | Int16                                                                               |
-| INT / INTEGER                     | Int32                                                                               |
-| BIGINT                            | Int64                                                                               |
-| TINYINT UNSIGNED                  | UInt8                                                                               |
-| SMALLINT UNSIGNED                 | UInt16                                                                              |
-| INT UNSIGNED / INTEGER UNSIGNED   | UInt32                                                                              |
-| BIGINT UNSIGNED                   | UInt64                                                                              |
-| FLOAT / REAL                      | Float32                                                                             |
-| DOUBLE                            | Float64                                                                             |
+|  Name                             | Aliases                               |  Description                                         |
+|  -------------                    |-------------------------------------  |---------------------------------------------------   |
+| INT8                              | TINYINT                               |                                                      |
+| INT16                             | SMALLINT                              |                                                      |
+| INT32                             | INT                                   |                                                      |
+| INT64                             | BIGINT                                |                                                      |
+| UINT8                             | TINYINT UNSIGNED                      |                                                      |
+| UINT16                            | SMALLINT UNSIGNED                     |                                                      |
+| UINT32                            | INT UNSIGNED                          |                                                      |
+| UINT64                            | BIGINT UNSIGNED                       |                                                      |
+| REAL                              |                                       | single precision floating-point number (4 bytes)     |
+| DOUBLE                            |                                       | double precision floating-point number (8 bytes)     |
+
 
 ## Date/Time Types
 |  Name                             | Description                                                                         |
@@ -29,8 +30,5 @@
 ## Character Types
 |  Name                             | Description                                                                         |
 |  -------------                    |----------------------------------------------------------------------------------   |
-| CHAR                              | Utf8                                                                                |
-| VARCHAR                           | Utf8                                                                                |
 | STRING                            | Utf8                                                                                |
-| TEXT                              | Utf8                                                                                |
 

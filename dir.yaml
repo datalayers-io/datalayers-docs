@@ -146,15 +146,12 @@
       - title_en: SHOW
         title_cn: SHOW
         path: sql-reference/statements/show
+      - title_en: DESC
+        title_cn: DESC
+        path: sql-reference/statements/desc
       - title_en: DROP
         title_cn: DROP
         path: sql-reference/statements/drop
-      - title_en: SET
-        title_cn: SET
-        path: sql-reference/statements/set
-      - title_en: KILL
-        title_cn: KILL
-        path: sql-reference/statements/kill
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions

@@ -36,7 +36,7 @@ PARTITION BY HASH(expr) PARTITIONS 2
 ```SQL
 CREATE TABLE sensor_info (
      ts TIMESTAMP NOT NULL,
-     sn BIGINT NOT NULL,
+     sn INT64 NOT NULL,
      speed DOUBLE,
      temperature REAL,
      TIMESTAMP KEY (ts)
