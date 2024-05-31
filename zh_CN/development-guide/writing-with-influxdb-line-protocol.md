@@ -12,7 +12,7 @@ HTTP://<HOST>:<PORT>/write
 
 ## 示例 
 ```shell
-curl -u"admin:public" -i -XPOST "http://127.0.0.1:3333/write?db=db_name" -d 'weather,location=us-midwest temperature=82 1699429527'
+curl -i -XPOST "http://127.0.0.1:8361/write?db=db_name&u=admin&p=public&precision=ns" -d 'weather,location=us-midwest temperature=82 1699429527'
 ```
 
 ## 注意事项

@@ -20,7 +20,6 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 * 基于Arrow Flight SQL 的 JDBC
 * 基于Arrow Flight SQL 的 ODBC
 
-// todo , 链接到 github 代码示例。
 
 ::: code-group
 ```Go [Go]
@@ -30,53 +29,17 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/apache/arrow/go/v16/arrow"
+	"github.com/apache/arrow/go/v16/arrow/array"
 	"github.com/apache/arrow/go/v16/arrow/flight/flightsql"
+	"github.com/apache/arrow/go/v16/arrow/memory"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/grpc/metadata"
 )
 
-type customClientInterceptor struct {
-}
-
-// use the Interceptor to 
-func (i *customClientInterceptor) UnaryInterceptor(
-	ctx context.Context,
-	method string,
-	req, reply interface{},
-	cc *grpc.ClientConn,
-	invoker grpc.UnaryInvoker,
-	opts ...grpc.CallOption,
-) error {
-	md := metadata.Pairs(
-		"database", "demo",
-	)
-	ctx = metadata.NewOutgoingContext(ctx, md)
-	return invoker(ctx, method, req, reply, cc, opts...)
-}
-
-func (i *customClientInterceptor) StreamInterceptor(
-	ctx context.Context,
-	desc *grpc.StreamDesc,
-	cc *grpc.ClientConn,
-	method string,
-	streamer grpc.Streamer,
-	opts ...grpc.CallOption,
-) (grpc.ClientStream, error) {
-	md := metadata.Pairs(
-		"database", "demo",
-	)
-	ctx = metadata.NewOutgoingContext(ctx, md)
-	return streamer(ctx, desc, cc, method, opts...)
-}
-
 func main() {
-	addr := "127.0.0.1:5360"
-
-	interceptor := &customClientInterceptor{}
+	addr := "127.0.0.1:8360"
 	var dialOpts = []grpc.DialOption{
-		grpc.WithUnaryInterceptor(interceptor.UnaryInterceptor),
-		grpc.WithStreamInterceptor(interceptor.StreamInterceptor),
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	}
 	cl, err := flightsql.NewClient(addr, nil, nil, dialOpts...)
@@ -84,28 +47,139 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
-	ctx := context.Background()
-	info, err := cl.Execute(ctx, "SELECT 1;")
+	ctx, err := cl.Client.AuthenticateBasicToken(context.Background(), "admin", "public")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Print(err)
 		return
-	}	
-	rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
+	}
+
+	// create database
+	db_create_info, err := cl.Execute(ctx, "create database test;")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer rdr.Release()
+	_, err = cl.DoGet(ctx, db_create_info.GetEndpoint()[0].Ticket)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	n := 0
-	for rdr.Next() {
-		record := rdr.Record()
-		for i, col := range record.Columns() {
-			fmt.Printf("rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
+	// create table	test
+	table_create_info, err := cl.Execute(ctx, "CREATE TABLE test.sx1 (" +
+	              "ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+	              "sid INT32," +
+	              "value REAL," +
+	              "flag INT8,"  +
+	              "timestamp key(ts)" +
+	              ")" +
+	              "PARTITION BY HASH(sid) PARTITIONS 32" +
+	              "ENGINE=TimeSeries")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = cl.DoGet(ctx, table_create_info.GetEndpoint()[0].Ticket)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// insert some value
+	insert_info, err := cl.Execute(ctx, "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = cl.DoGet(ctx, insert_info.GetEndpoint()[0].Ticket)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	insert_info, err = cl.Execute(ctx, "INSERT INTO test.sx1 (sid, value, flag) VALUES (2, 1.1, 1);")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = cl.DoGet(ctx, insert_info.GetEndpoint()[0].Ticket)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	{
+		info, err := cl.Execute(ctx, "SELECT count(*) from test.sx1;")
+		if err != nil {
+			fmt.Println(err)
+			return
 		}
-		record.Column(0)
-		n++
+		rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		defer rdr.Release()
+
+		n := 0
+		for rdr.Next() {
+			record := rdr.Record()
+			for i, col := range record.Columns() {
+				fmt.Printf("Normal request: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
+			}
+			n++
+			if n == 10 {
+				break
+			}
+		}
+	}
+
+	{
+		prp, err := cl.Prepare(ctx, "SELECT count(*) from test.sx1 where sid = ?;")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		defer prp.Close(ctx)
+		alloc := memory.NewGoAllocator()
+
+		// only sid in the statment
+		prepared_schema := arrow.NewSchema([]arrow.Field{
+			{Name: "sid", Type: arrow.PrimitiveTypes.Uint32},
+		}, nil)
+
+		bldr := array.NewRecordBuilder(alloc, prepared_schema)
+		defer bldr.Release()
+
+		sid_builder := bldr.Field(0).(*array.Uint32Builder)
+		sid_builder.Append(1)
+
+		binding := bldr.NewRecord()
+		defer binding.Release()
+
+		prp.SetParameters(binding)
+		info, err := prp.Execute(ctx)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		defer rdr.Release()
+		n := 0
+		for rdr.Next() {
+			record := rdr.Record()
+			for i, col := range record.Columns() {
+				fmt.Printf("prepared_statment: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
+			}
+			n++
+			if n == 10 {
+				break
+			}
+		}
 	}
 }
 ```
@@ -135,19 +209,26 @@ anyhow = "1.0.82"
 prost = "0.12"
 prost-types = "0.12"
 
+[workspace]
+
 ```
 
 ```rust [Rust-code]
-use arrow_array::RecordBatch;
+use arrow_array::{Array, Int32Array, RecordBatch};
 use arrow_cast::pretty::pretty_format_batches;
 use arrow_flight::sql::client::FlightSqlServiceClient;
-use arrow_schema::Schema;
-use futures::TryStreamExt;
+use arrow_schema::{DataType, Field, Schema};
+use futures::{StreamExt, TryStreamExt};
 use std::{sync::Arc, time::Duration};
 
 use anyhow::{bail, Context, Result};
 use tokio::sync::Mutex;
-use tonic::transport::{Channel, Endpoint};
+use tonic::{
+    transport::{Channel, Endpoint},
+    IntoRequest,
+};
+
+#[derive(Clone)]
 pub struct Ctx {
     pub host: String,
     pub port: u16,
@@ -156,19 +237,14 @@ pub struct Ctx {
     pub database: Option<String>,
     pub _timezone: Option<String>,
 }
-use prost::Message;
 pub struct Executor {
-    ctx: Arc<Mutex<Ctx>>,
+    ctx: Ctx,
     client: FlightSqlServiceClient<Channel>,
 }
 
 impl Executor {
-    pub async fn new(ctx: Arc<Mutex<Ctx>>) -> anyhow::Result<Executor> {
+    pub async fn new(ctx: Ctx) -> anyhow::Result<Executor> {
         let protocol = "http";
-
-        let ctx_cp = ctx.clone();
-
-        let ctx = ctx.lock().await;
 
         let endpoint = Endpoint::new(format!("{}://{}:{}", protocol, ctx.host, ctx.port))
             .context("create endpoint")?
@@ -204,19 +280,14 @@ impl Executor {
             }
         }
 
-        Ok(Executor {
-            ctx: ctx_cp,
-            client,
-        })
+        Ok(Executor { ctx: ctx, client })
     }
 
     pub async fn execute_flight(&mut self, sql: String) -> Result<Vec<RecordBatch>> {
         let ctx = self.ctx.clone();
-        let session = ctx.lock().await;
-        if session.database.is_some() {
+        if ctx.database.is_some() {
             self.client
-                .set_header("database", session.database.clone().unwrap());
-            println!("database is : {}", session.database.clone().unwrap());
+                .set_header("database", ctx.database.clone().unwrap());
         }
 
         let flight_info = self.client.execute(sql, None).await?;
@@ -248,13 +319,39 @@ impl Executor {
 
         Ok(batches)
     }
+
+    pub async fn execute_prepared_statment(
+        &mut self,
+        sql: String,
+        batch: RecordBatch,
+    ) -> Result<Vec<RecordBatch>> {
+        let ctx = self.ctx.clone();
+        if ctx.database.is_some() {
+            self.client
+                .set_header("database", ctx.database.clone().unwrap());
+        }
+
+        let mut channel = self.client.prepare(sql, None).await.unwrap();
+        channel.set_parameters(batch)?;
+
+        let mut info = channel.execute().await?;
+        let ticket = info.endpoint.remove(0).ticket.unwrap();
+        let batches = self
+            .client
+            .do_get(ticket)
+            .await?
+            .try_collect()
+            .await
+            .unwrap();
+        Ok(batches)
+    }
 }
 
 #[tokio::main]
 async fn main() {
     let ctx = Ctx {
         host: "localhost".to_string(),
-        port: 5360,
+        port: 8360,
         username: Some("admin".to_string()),
         password: Some("public".to_string()),
         database: Some("test".to_string()),
@@ -281,22 +378,248 @@ async fn main() {
     }
 
     // construct the executor
-    let ctx = Arc::new(Mutex::new(ctx));
     let mut executor = Executor::new(ctx).await.unwrap();
 
-    // change the sql what you want
-    let some = executor.execute_flight(format!("select 1")).await.unwrap();
+    // create database
+    {
+        let some: Vec<RecordBatch> = executor
+            .execute_flight(format!("create database test;"))
+            .await
+            .unwrap();
+        let res = pretty_format_batches(some.as_slice())
+            .context("format results")
+            .unwrap();
+        println!("{}", res.to_string());
+    }
 
-    // print the formated results
-    let res = pretty_format_batches(some.as_slice())
-        .context("format results")
-        .unwrap();
-    println!("{}", res.to_string());
+    // create table
+    {
+        let some: Vec<RecordBatch> = executor
+            .execute_flight(format!(
+                "CREATE TABLE test.sx1 (
+                 ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                 sid INT32,
+                 value REAL,
+                 flag INT8,
+                 timestamp key(ts)
+                 )
+                 PARTITION BY HASH(sid) PARTITIONS 32
+                 ENGINE=TimeSeries"
+            ))
+            .await
+            .unwrap();
+        let res = pretty_format_batches(some.as_slice())
+            .context("format results")
+            .unwrap();
+        println!("{}", res.to_string());
+    }
+
+    // insert some data
+    {
+        let some: Vec<RecordBatch> = executor
+            .execute_flight(format!(
+                "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);"
+            ))
+            .await
+            .unwrap();
+        let res = pretty_format_batches(some.as_slice())
+            .context("format results")
+            .unwrap();
+        println!("{}", res.to_string());
+    }
+
+    // run normal query
+    {
+        let some: Vec<RecordBatch> = executor
+            .execute_flight(format!("SELECT count(*) from test.sx1;"))
+            .await
+            .unwrap();
+        let res = pretty_format_batches(some.as_slice())
+            .context("format results")
+            .unwrap();
+        println!("{}", res.to_string());
+    }
+
+    // run prepared statment
+    {
+        // declare a RecordBatch
+        let schema = Arc::new(Schema::new(vec![Field::new("t", DataType::Int32, false)]));
+        // int32 array
+        let array = Int32Array::from(vec![1]);
+        let columns = vec![Arc::new(array) as Arc<dyn Array>];
+        let batch = RecordBatch::try_new(schema, columns).unwrap();
+
+        let some: Vec<RecordBatch> = executor
+            .execute_prepared_statment(
+                format!("SELECT count(*) from test.sx1 where sid = ?;"),
+                batch,
+            )
+            .await
+            .unwrap();
+
+        let res = pretty_format_batches(some.as_slice())
+            .context("format results")
+            .unwrap();
+        println!("{}", res.to_string());
+    }
 }
 ```
 
 ```java [Java]
-//todo
+package org.example;
+
+import org.apache.arrow.flight.*;
+import org.apache.arrow.flight.grpc.CredentialCallOption;
+import org.apache.arrow.flight.sql.FlightSqlClient;
+import org.apache.arrow.memory.BufferAllocator;
+import org.apache.arrow.memory.RootAllocator;
+import org.apache.arrow.vector.FieldVector;
+import org.apache.arrow.vector.IntVector;
+import org.apache.arrow.vector.VectorSchemaRoot;
+import org.apache.arrow.vector.types.pojo.Field;
+
+import java.util.*;
+
+
+public class SqlRunner {
+    public static void main(String[] args) {
+        BufferAllocator allocator = new RootAllocator(Integer.MAX_VALUE);
+        final Location clientLocation = Location.forGrpcInsecure("127.0.0.1", 8360);
+
+        FlightClient client = FlightClient.builder(allocator, clientLocation).build();
+        FlightSqlClient sqlClinet = new FlightSqlClient(client);
+
+        Optional<CredentialCallOption> credentialCallOption = client.authenticateBasicToken("admin", "public");
+        final CallHeaders headers = new FlightCallHeaders();
+        Set<CallOption> options = new HashSet<>();
+
+        credentialCallOption.ifPresent(options::add);
+        options.add(new HeaderCallOption(headers));
+        CallOption[] callOptions = options.toArray(new CallOption[0]);
+
+        try {
+            final FlightInfo info = sqlClinet.execute("create database test", callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("create database result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e){
+           throw new RuntimeException(e);
+        }
+
+        try {
+            String query = "CREATE TABLE test.sx1 (" +
+                    "ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                    "sid INT32," +
+                    "value REAL," +
+                    "flag INT8,"  +
+                    "timestamp key(ts)" +
+                    ")" +
+                    "PARTITION BY HASH(sid) PARTITIONS 32" +
+                    "ENGINE=TimeSeries";
+            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("create table result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        try {
+            String query = "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);";
+            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("insert result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        try {
+            String query = "SELECT count(*) from test.sx1;";
+            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("select result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+
+
+
+        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClinet.prepare("select count(*) from test.sx1 where sid = ?;", callOptions)) {
+            IntVector sids = new IntVector("sid",allocator);
+            sids.allocateNew();
+
+            sids.setSafe(0,1);
+            List<Field> fields = Arrays.asList(sids.getField());
+            List<FieldVector> fieldVectors = Arrays.asList(sids);
+            VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(fields, fieldVectors);
+            vectorSchemaRoot.setRowCount(1);
+            preparedStatement.setParameters(vectorSchemaRoot);
+            final FlightInfo info = preparedStatement.execute(callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClinet.getStream(ticket)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("prepared statment get result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            preparedStatement.close(callOptions);
+        }
+    }
+}
 
 ```
 
