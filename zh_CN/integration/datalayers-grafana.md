@@ -32,7 +32,7 @@ plugins = YOUR_UNZIP_DIRECTORY/myplugins
 allow_loading_unsigned_plugins = datalayers
 ```
 
-关于如何配置你的 `grafana.ini` ，可以参考 [Grafana 官网配置文档](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/)，当然你也可以通过脚本安装的方式，为你自动安装插件并生成相关配置文件。
+关于如何配置你的 `grafana.ini` ，可以参考 <a href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/" target="_blank">Grafana 官网配置文档</a>，当然你也可以通过脚本安装的方式，为你自动安装插件并生成相关配置文件。
 
 修改配置后，需要重启 grafana 服务。
 
@@ -48,7 +48,7 @@ allow_loading_unsigned_plugins = datalayers
 
 ![config datasource](../assets/config_datasource.jpg)
 
-
+**注意：图中的 `Host:Port` 需要根据你 Datalayers 部署的地址、端口进行调整。**
 :::
 
 ::: tab 通过脚本安装
@@ -56,7 +56,7 @@ allow_loading_unsigned_plugins = datalayers
 ``` bash
 bash -c "$(curl -fsSL \
   https://raw.githubusercontent.com/datalayers-io/grafana-flightsql-datasource/main/install.sh)" -- \
-  -h localhost:3308 \
+  -h localhost:8360 \
   -u admin \
   -p public
 

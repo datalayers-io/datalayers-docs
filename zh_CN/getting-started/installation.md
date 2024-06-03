@@ -6,11 +6,4 @@ DataLayers 基于存算分离的架构，在部署过程中需涉及存储层与
 
 ## docker-compose
 
-```bash
-$ git clone git@github.com:datalayers-io/datalayers-with-grafana.git
-$ cd datalayers-with-grafana
-## 拉取镜像
-$ docker compose pull
-## 启动服务
-$ docker compose up -d
-```
+Datalayers 支持通过 docker-compose 快速体验，请<a href="https://github.com/datalayers-io/datalayers-with-grafana" target="_blank">点击查看详情</a>。

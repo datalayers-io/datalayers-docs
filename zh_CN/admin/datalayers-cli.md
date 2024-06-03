@@ -13,10 +13,10 @@ datalayers -h
 
 | 参数            | 描述                                                              |
 | ----------     | ------------------------------------------------------------      |
-| -h             | this help                                                         |
-| -v             | show version and exit                                             |
-| -c filename    | set configuration file (default: /etc/datalayers/datalayers.toml) |
-| --standalone   | standalone mode                                                   |
+| -h             | 命令行使用帮助信息                                                         |
+| -v             | 显示版本号并退出                                             |
+| -c filename    | 配置文件参数 (默认: /etc/datalayers/datalayers.toml) |
+| --standalone   | 单机模式（默认：集群模式）                                                 |
 
 ## DataLayers CLI
 在 DataLayers 的镜像中已经包含 CLI 交互式工具。如在其他环境中运行，则需单独安装该工具，具体请参考：todo  
