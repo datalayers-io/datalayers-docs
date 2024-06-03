@@ -9,19 +9,27 @@ http://127.0.0.1:8361/api/v1/sql?db=<database_name> \
 -d '<SQL STATEMENT>'
 ```
 
-## 创建表
+## 示例
+### 创建数据库
 ```shell
-curl -u"<username>:<password>" -X POST \
-http://127.0.0.1:8361/api/v1/sql?db=test \
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql \
+-H 'Content-Type: application/binary' \
+-d 'create database demo'
+```
+
+### 创建表
+```shell
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
 -H 'Content-Type: application/binary' \
 -d 'CREATE TABLE sensor_info (
   ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  sn string NOT NULL,
+  sn INT32 NOT NULL,
   speed int,
   longitude float,
   latitude float,
-  timestamp KEY (ts)) PARTITION BY HASH(sn) PARTITIONS 2 ENGINE=TimeSeries;
-)'
+  timestamp KEY (ts)) PARTITION BY HASH(sn) PARTITIONS 2 ENGINE=TimeSeries;'
 ```
 返回值
 ```json
@@ -29,16 +37,24 @@ http://127.0.0.1:8361/api/v1/sql?db=test \
 ```
 
 
-## 数据插入
+### 数据写入
 ```shell
-curl -u"<username>:<password>" -X POST \
-http://127.0.0.1:8361/api/v1/sql?db=test \
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
 -H 'Content-Type: application/binary' \
--d 'INSERT INTO sensor_info(sn, speed, longitude, latitude) VALUES('abc', 120, 104.07, 30.59)'
+-d 'INSERT INTO sensor_info(sn, speed, longitude, latitude) VALUES(1, 120, 104.07, 30.59),(2, 120, 104.07, 30.59)'
 ```
 返回值
 ```json
-[{"affected_rows":1}]
+[{"affected_rows":2}]
+```
+
+### 数据查询
+```shell
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
+-H 'Content-Type: application/binary' \
+-d 'select * from sensor_info'
 ```
 
 ## 编程语言示例
@@ -47,14 +63,54 @@ http://127.0.0.1:8361/api/v1/sql?db=test \
 ::: code-group
 
 ```go
-/**
- * @type {import('vitepress').UserConfig}
- */
-const config = {
-  // ...
+package main
+
+import (
+	"bytes"
+	"encoding/base64"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+func main() {
+
+	username := "admin"
+	password := "public"
+
+	auth := username + ":" + password
+	authHeader := "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
+
+	sql := "select * from sensor_info limit 10"
+
+	url := "http://127.0.0.1:8361/api/v1/sql?db=demo"
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(sql)))
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+		return
+	}
+
+	req.Header.Set("Content-Type", "application/binary")
+	req.Header.Set("Authorization", authHeader)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error sending request:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response:", err)
+		return
+	}
+
+	fmt.Println("Response Status:", resp.Status)
+	fmt.Println("Response Body:", string(body))
 }
 
-export default config
 ```
 
 ```java [JAVA]
