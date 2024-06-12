@@ -98,4 +98,4 @@ DROP TABLE [IF EXISTS] [db_name.]tb_name
 * TABLE ENGINE 设置后不可修改  
 * PARTITION 设置后不可修改  
 * TIMESTAMP KEY 设置后不可修改   
-* 字段类型设置后不可个性  
+* 字段类型设置后不可修改

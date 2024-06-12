@@ -11,7 +11,7 @@ CREATE DATABASE [IF NOT EXISTS] database_name
 ```SQL
 CREATE DATABASE hello_datalayers
 ```
-表示创建了一个名为 `hello_datalayers` 的数据库。
+表示创建一个名为 `hello_datalayers` 的数据库。
 ## CREATE TABLE
 
 **语法**
@@ -42,8 +42,8 @@ CREATE TABLE sx1(
     value REAL,
     flag INT8,
     )
-    PARTITION BY HASH(sid) PARTITIONS 16
-    ENGINE=TimeSeries
-    with (ttl='10d')
+PARTITION BY HASH(sid) PARTITIONS 16
+ENGINE=TimeSeries
+with (ttl='10d')
 ```
 

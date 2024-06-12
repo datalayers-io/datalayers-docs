@@ -35,10 +35,19 @@
   children:
     - title_en: Installation
       title_cn: 安装部署
-      path: getting-started/installation
-    - title_en: Example Datasets
-      title_cn: 示例数据
-      path: getting-started/example-datasets
+      children:
+      - title_en: Docker 
+        title_cn: Docker
+        path: getting-started/docker  
+      - title_en: Ubuntu 
+        title_cn: Ubuntu
+        path: getting-started/ubuntu  
+      - title_en: Centos 
+        title_cn: Centos
+        path: getting-started/centos  
+    - title_en: Command-line tool
+      title_cn: 命令行工具 
+      path: getting-started/command-line-tool
 
 - title_en: Development Guide
   title_cn: 开发指南
@@ -47,9 +56,6 @@
     - title_en: Concepts
       title_cn: 概念
       path: development-guide/concepts
-    - title_en: Data Model
-      title_cn: 数据建模
-      path: development-guide/data-model
     - title_en: Data Writing
       title_cn: 数据写入
       path: development-guide/data-writing
@@ -76,9 +82,6 @@
       - title_en: Arrow Flight SQL
         title_cn: Arrow Flight SQL
         path: development-guide/arrow-flight-sql
-    - title_en: Down Sampling
-      title_cn: 降采样
-      path: development-guide/down-sampling
 
 - title_en: SQL Reference
   title_cn: SQL 参考
@@ -97,13 +100,16 @@
       children:
       - title_en: Time-Series Engine
         title_cn: 时序引擎
-        path: sql-reference/table-management-timeseries
+        path: sql-reference/table-engine-timeseries
       - title_en: key-Value Engine
         title_cn: KV引擎
-        path: sql-reference/table-management-kv
+        path: sql-reference/table-engine-kv
       - title_en: Queue Engine
         title_cn: 流引擎
-        path: sql-reference/table-management-streaming
+        path: sql-reference/table-engine-streaming
+      - title_en: Log Engine
+        title_cn: 日志引擎
+        path: sql-reference/table-engine-log
     - title_en: SQL STATEMENTS
       title_cn: SQL 语句
       collapsed: true
@@ -172,9 +178,6 @@
       - title_en: String
         title_cn: 字符串函数
         path: sql-reference/string
-      - title_en: System
-        title_cn: 系统函数
-        path: sql-reference/system
 - title_en: Clustering
   title_cn: 构建集群
   path: cluster/introduction
