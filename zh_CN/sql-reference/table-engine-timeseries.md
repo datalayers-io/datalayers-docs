@@ -26,14 +26,15 @@ PARTITION BY HASH(expr) PARTITIONS 2
 
 |  Name                 | Description                                                                                                                |  
 |  -------------------  |-------------------------------------------------------------------------------------------------------------------------   |  
-|  TTL                  | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期 。支持时间单位：m（分钟）、h（小时）、d（天）                     |  
+|  TTL                  | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期 。支持时间单位：m（分钟）、h（小时）、d（天）                    |  
 |  MAX_MEMTABLE_SIZE    | 每个 `partition` 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB                                                           |  
 |  FLUSH_INTERVAL       | 每间隔多长时间将内存数据持久化到文件中，缺省值为86400s。支持单位：s（秒）、m（分钟）、h（小时）                                          |  
 |  MAX_ROW_GROUP        | 数据文件中单个 Row Group 存放的最大行数，缺省值为：1000000                                                                        |  
 |  WAL_FSYNC_INTERVAL   | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：3000， 最大值：60000（60秒）。单位：ms（毫秒）                              |  
 |  COMPRESSION          | 用于设置持久化文件的压缩方式。缺省值为：ZSTD, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD、LZ4_RAW                  |  
 |  UPDATE_MODE          | 写入重复数据时的处理方式，目前仅支持：Overwrite                                                                                   |  
-|  STORAGE_TYPE         | 持久化文件存储类型，standalone 模式下默认为：local， 集群模式下默认为：fdb。 目前支持：S3、AZURE、GCS 等                                |  
+|  STORAGE_TYPE         | 持久化文件存储类型，standalone 模式下默认为：local，目前支持：S3、AZURE、GCS、FDB 等。注：集群模式下仅支持：S3、AZURE、GCS、FDB 这四种类型 |  
+|  META_CACHE_SIZE      | 数据元数据的缓存配置，缺省值为：10000, 表示缓存 10000 个元数据，如关闭则设置为 0                                                      |  
 
 
 **示例**

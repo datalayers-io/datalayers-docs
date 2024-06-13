@@ -5,9 +5,8 @@ DataLayers 支持与开源数据可视化系统 Grafana 快速集成搭建数据
 
 ## 安装 DataLayers
 
-DataLayers 支持多种安装方式，具体安装方法请参考安装指南: [DataLayers 安装](../getting-started/installation.md)。
+DataLayers 支持多种安装方式，具体安装方法请参考**快速开始**章节。
 
-安装完成后，可事先录入一些测试数据，请参考 [示例数据](../getting-started/example-datasets.md)
 
 ## 安装 Grafana
 
