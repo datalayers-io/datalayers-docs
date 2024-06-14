@@ -24,3 +24,12 @@ jobs:
       run: |
         python3 ./gen.py | tee directory.json
         python3 .github/scripts/directory_check.py directory.json $(pwd)
+
+  typo_check:
+      runs-on: ubuntu-latest
+      steps:
+      - name: check out code
+        uses: actions/checkout@main
+
+      - name: Check spelling with the `typos` checker 
+        uses: crate-ci/typos@master

@@ -270,7 +270,7 @@ global:
           "refId": "B"
         }
       ],
-      "title": "Momery Usage",
+      "title": "Memory Usage",
       "type": "timeseries"
     },
     {
@@ -1973,7 +1973,7 @@ global:
           "refId": "B"
         }
       ],
-      "title": "Parquet meta chache hit rate",
+      "title": "Parquet meta cache hit rate",
       "type": "timeseries"
     },
     {

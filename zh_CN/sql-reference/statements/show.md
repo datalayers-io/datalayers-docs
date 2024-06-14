@@ -34,9 +34,9 @@ SHOW CLUSTER
 # 查看所有 partitions 
 SHOW PARTITIONS
 
-# 查看指定 table 的 partitons
+# 查看指定 table 的 partitions
 SHOW PARTITIONS ON TABLE [db].table_name
 
-# 查看指定 Node 的 partitons
+# 查看指定 Node 的 partitions
 SHOW PARTITIONS ON NODE node_name
 ```
