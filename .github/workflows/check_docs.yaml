@@ -25,7 +25,7 @@ jobs:
         python3 ./gen.py | tee directory.json
         python3 .github/scripts/directory_check.py directory.json $(pwd)
 
-  typo_chekc:
+  typo_check:
       runs-on: ubuntu-latest
       steps:
       - name: check out code
