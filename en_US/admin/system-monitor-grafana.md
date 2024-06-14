@@ -3,7 +3,7 @@
 
 ## Metrics
 
-### Storge Layers
+### Storage Layers
 
 ### Compute Layers
 

@@ -143,7 +143,7 @@ func main() {
 		defer prp.Close(ctx)
 		alloc := memory.NewGoAllocator()
 
-		// only sid in the statment
+		// only sid in the statement
 		prepared_schema := arrow.NewSchema([]arrow.Field{
 			{Name: "sid", Type: arrow.PrimitiveTypes.Uint32},
 		}, nil)
@@ -173,7 +173,7 @@ func main() {
 		for rdr.Next() {
 			record := rdr.Record()
 			for i, col := range record.Columns() {
-				fmt.Printf("prepared_statment: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
+				fmt.Printf("prepared_statement: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
 			}
 			n++
 			if n == 10 {
@@ -320,7 +320,7 @@ impl Executor {
         Ok(batches)
     }
 
-    pub async fn execute_prepared_statment(
+    pub async fn execute_prepared_statement(
         &mut self,
         sql: String,
         batch: RecordBatch,
@@ -440,7 +440,7 @@ async fn main() {
         println!("{}", res.to_string());
     }
 
-    // run prepared statment
+    // run prepared statement
     {
         // declare a RecordBatch
         let schema = Arc::new(Schema::new(vec![Field::new("t", DataType::Int32, false)]));
@@ -450,7 +450,7 @@ async fn main() {
         let batch = RecordBatch::try_new(schema, columns).unwrap();
 
         let some: Vec<RecordBatch> = executor
-            .execute_prepared_statment(
+            .execute_prepared_statement(
                 format!("SELECT count(*) from test.sx1 where sid = ?;"),
                 batch,
             )
@@ -487,7 +487,7 @@ public class SqlRunner {
         final Location clientLocation = Location.forGrpcInsecure("127.0.0.1", 8360);
 
         FlightClient client = FlightClient.builder(allocator, clientLocation).build();
-        FlightSqlClient sqlClinet = new FlightSqlClient(client);
+        FlightSqlClient sqlClient = new FlightSqlClient(client);
 
         Optional<CredentialCallOption> credentialCallOption = client.authenticateBasicToken("admin", "public");
         final CallHeaders headers = new FlightCallHeaders();
@@ -498,9 +498,9 @@ public class SqlRunner {
         CallOption[] callOptions = options.toArray(new CallOption[0]);
 
         try {
-            final FlightInfo info = sqlClinet.execute("create database test", callOptions);
+            final FlightInfo info = sqlClient.execute("create database test", callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
                     System.out.println("create database result:");
@@ -527,9 +527,9 @@ public class SqlRunner {
                     ")" +
                     "PARTITION BY HASH(sid) PARTITIONS 32" +
                     "ENGINE=TimeSeries";
-            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final FlightInfo info = sqlClient.execute(query, callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
                     System.out.println("create table result:");
@@ -548,9 +548,9 @@ public class SqlRunner {
 
         try {
             String query = "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);";
-            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final FlightInfo info = sqlClient.execute(query, callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
                     System.out.println("insert result:");
@@ -569,9 +569,9 @@ public class SqlRunner {
 
         try {
             String query = "SELECT count(*) from test.sx1;";
-            final FlightInfo info = sqlClinet.execute(query, callOptions);
+            final FlightInfo info = sqlClient.execute(query, callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClinet.getStream(ticket, callOptions)) {
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
                     System.out.println("select result:");
@@ -591,7 +591,7 @@ public class SqlRunner {
 
 
 
-        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClinet.prepare("select count(*) from test.sx1 where sid = ?;", callOptions)) {
+        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("select count(*) from test.sx1 where sid = ?;", callOptions)) {
             IntVector sids = new IntVector("sid",allocator);
             sids.allocateNew();
 
@@ -603,10 +603,10 @@ public class SqlRunner {
             preparedStatement.setParameters(vectorSchemaRoot);
             final FlightInfo info = preparedStatement.execute(callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClinet.getStream(ticket)) {
+            try (FlightStream stream = sqlClient.getStream(ticket)) {
                 int n = 0;
                 while (stream.next()) {
-                    System.out.println("prepared statment get result:");
+                    System.out.println("prepared statement get result:");
                     List<FieldVector> vectors = stream.getRoot().getFieldVectors();
                     for (int i = 0; i < vectors.size(); i++) {
                         System.out.printf("%d %d %s\n", n, i , vectors.get(i));
