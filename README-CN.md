@@ -31,7 +31,7 @@ pip install PyYAML
 ./preview.sh 8080
 ```
 
-现在浏览器打开 <http://localhost:8080/docs/zh/latest/>, 如果更新了 dir.yaml 文件, 你需要重新运行上面的命令。
+现在浏览器打开 <http://localhost:8080/zh/>, 如果更新了 dir.yaml 文件, 你需要重新运行上面的命令。
 
 ## 联系我们
 

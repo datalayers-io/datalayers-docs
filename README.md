@@ -32,4 +32,4 @@ Start preview：
 ./preview.sh 8080
 ```
 
-Now, open <http://localhost:8080/docs/en/latest/>, if dir.yaml has been updated, you can re-run the above command to update the docs.
+Now, open <http://localhost:8080/en/>, if dir.yaml has been updated, you can re-run the above command to update the docs.
