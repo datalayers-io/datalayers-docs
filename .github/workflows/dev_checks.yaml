@@ -1,0 +1,16 @@
+name: Dev Checks
+
+concurrency:
+  group: dev-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  basic-checks:
+    uses: ./.github/workflows/check_docs.yaml
+    secrets: inherit

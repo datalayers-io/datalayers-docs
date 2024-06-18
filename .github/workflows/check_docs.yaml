@@ -1,35 +1,39 @@
 name: Check Docs
 
-on: [push, pull_request]
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+on: workflow_call
 
 jobs:
   markdown_check:
     runs-on: ubuntu-latest
     steps:
-    - name: check out code
-      uses: actions/checkout@main
+      - name: check out code
+        uses: actions/checkout@main
 
-    - name: check markdown
-      run: |
-        sudo npm install -g markdownlint-cli
-        markdownlint -c .github/workflows/markdown_config.json ./
+      - name: check markdown
+        run: |
+          sudo npm install -g markdownlint-cli
+          markdownlint -c .github/workflows/markdown_config.json ./
 
   directory_check:
     runs-on: ubuntu-latest
     steps:
-    - name: check out code
-      uses: actions/checkout@main
-
-    - name: check directory config
-      run: |
-        python3 ./gen.py | tee directory.json
-        python3 .github/scripts/directory_check.py directory.json $(pwd)
-
-  typo_check:
-      runs-on: ubuntu-latest
-      steps:
       - name: check out code
         uses: actions/checkout@main
 
-      - name: Check spelling with the `typos` checker 
+      - name: check directory config
+        run: |
+          python3 ./gen.py | tee directory.json
+          python3 .github/scripts/directory_check.py directory.json $(pwd)
+
+  typo_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out code
+        uses: actions/checkout@main
+
+      - name: Check spelling with the `typos` checker
         uses: crate-ci/typos@master
