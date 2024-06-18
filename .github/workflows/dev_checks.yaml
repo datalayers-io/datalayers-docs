@@ -1,0 +1,12 @@
+name: Dev Checks
+
+on:
+  push:
+    branches:
+      - ci/check
+  pull_request:
+
+jobs:
+  basic-checks:
+    uses: ./.github/workflows/check_docs.yaml
+    secrets: inherit
