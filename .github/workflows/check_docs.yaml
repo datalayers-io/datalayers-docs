@@ -1,9 +1,5 @@
 name: Check Docs
 
-concurrency:
-  group: check-${{ github.ref }}
-  cancel-in-progress: true
-
 on: workflow_call
 
 jobs:
