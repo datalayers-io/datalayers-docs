@@ -98,5 +98,6 @@ DROP TABLE [IF EXISTS] [db_name.]tb_name
 ## 限制
 * TABLE ENGINE 设置后不可修改  
 * PARTITION 设置后不可修改  
+* PARTITION KEY 不能为 REAL、DOUBLE 类型
 * TIMESTAMP KEY 设置后不可修改   
 * 字段类型设置后不可修改
