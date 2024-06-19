@@ -178,33 +178,33 @@
       - title_en: String
         title_cn: 字符串函数
         path: sql-reference/string
-- title_en: Clustering
-  title_cn: 构建集群
-  path: cluster/introduction
-  collapsed: true
-  children:
-    - title_en: Concept & Architecture
-      title_cn: 概念与架构
-      path: cluster/concept-architecture
-    - title_en: Docker
-      title_cn: Docker
-      path: cluster/docker
-    - title_en: Manual deployment
-      title_cn: 手动部署
-      path: cluster/manual-deployment
-    - title_en: Kubernetes
-      title_cn: Kubernetes
-      path: cluster/kubernetes
-    - title_en: Performance and Tuning
-      title_cn: 性能与调优
-      path: cluster/server-config-optimization
-- title_en: Edge to Cloud
-  title_cn: 边云同步
-  collapsed: true
-  children:
-    - title_en: introduction
-      title_cn: 介绍
-      path: edge2cloud/introduction
+#- title_en: Clustering
+#  title_cn: 构建集群
+#  path: cluster/introduction
+#  collapsed: true
+#  children:
+#    - title_en: Concept & Architecture
+#      title_cn: 概念与架构
+#      path: cluster/concept-architecture
+#    - title_en: Docker
+#      title_cn: Docker
+#      path: cluster/docker
+#    - title_en: Manual deployment
+#      title_cn: 手动部署
+#      path: cluster/manual-deployment
+#    - title_en: Kubernetes
+#      title_cn: Kubernetes
+#      path: cluster/kubernetes
+#    - title_en: Performance and Tuning
+#      title_cn: 性能与调优
+#      path: cluster/server-config-optimization
+#- title_en: Edge to Cloud
+#  title_cn: 边云同步
+#  collapsed: true
+#  children:
+#    - title_en: introduction
+#      title_cn: 介绍
+#      path: edge2cloud/introduction
 
 - title_en: Operation Guide 
   title_cn: 运维指南
