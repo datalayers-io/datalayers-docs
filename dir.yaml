@@ -31,7 +31,7 @@
 
 - title_en: Getting Started
   title_cn: 快速开始
-  collapsed: true
+  collapsed: false
   children:
     - title_en: Installation
       title_cn: 安装部署
@@ -51,7 +51,7 @@
 
 - title_en: Development Guide
   title_cn: 开发指南
-  collapsed: true
+  collapsed: false
   children:
     - title_en: Concepts
       title_cn: 概念
