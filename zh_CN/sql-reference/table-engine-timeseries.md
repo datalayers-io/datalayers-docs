@@ -35,7 +35,11 @@ PARTITION BY HASH(expr) PARTITIONS 2
 |  UPDATE_MODE          | 写入重复数据时的处理方式，目前仅支持：Overwrite                                                                                   |  
 |  STORAGE_TYPE         | 持久化文件存储类型，standalone 模式下默认为：local，目前支持：S3、AZURE、GCS、FDB 等。注：集群模式下仅支持：S3、AZURE、GCS、FDB 这四种类型 |  
 |  META_CACHE_SIZE      | 数据元数据的缓存配置，缺省值为：10000, 表示缓存 10000 个元数据，如关闭则设置为 0                                                      |  
-
+| COMPACT_WINDOW             | Compaction 的窗口大小，缺省值为：1天，支持单位：d（天），h（小时） |
+| COMPACT_MAX_ACTIVE_FILES   | 活跃窗口的可合并 Parquet 文件个数大于这个值时，会触发活跃窗口 Compaction，缺省值为：10，文件级别过大或文件大小过大的不累加到可合并个数 |
+| COMPACT_MAX_FILE_SIZE      | 可合并文件的最大尺寸，缺省值为：2GB，支持单位：MiB、GiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
+| COMPACT_TIME               | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 02:00~06:00。支持 UTC 时区设置形式如： UTC,02:00~06:00  支持多时间窗口设置形式如： UTC,02:00~04:00,13:00~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00~02:00 |
+| COMPACT_MODE               | Compaction 支持的模式，缺省值为开启所有支持，支持选项：COMPACT, TTL, DELTA，选项可以并列，选项值只允许全大写或全小写，不允许大小写交叉    |
 
 **示例**
 
