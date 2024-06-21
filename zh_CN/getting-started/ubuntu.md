@@ -12,8 +12,10 @@ Datalayers 支持的 Ubuntu 版本为：
 :::: tabs
 ::: tab amd64
 
+通过如下命令安装：
+
 ``` bash
-sudo dpkg -i datalayers_*_amd64.deb
+sudo apt install ./datalayers_1.0.0-1_amd64.deb
 ```
 
 :::
@@ -42,8 +44,12 @@ sudo systemctl stop datalayers
 sudo systemctl restart datalayers
 ```
 
+## 体验功能
+
+安装完成后，可通过[命令行工具](./command-line-tool.md)快速体验 Datalayers 的各项功能。
+
 ## 卸载 Datalayers
 
 ``` bash
-sudo dpkg -r datalayers
+apt remove --purge datalayers
 ```
