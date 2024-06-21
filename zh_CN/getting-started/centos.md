@@ -13,8 +13,10 @@ Datalayers 支持的 CentOS 版本为：
 :::: tabs
 ::: tab amd64
 
+通过如下命令安装：
+
 ``` bash
-sudo yum localinstall datalayers-*.x86_64.rpm
+sudo yum localinstall ./datalayers-1.0.0-1.el7.x86_64.rpm
 ```
 
 :::
@@ -43,8 +45,12 @@ sudo systemctl stop datalayers
 sudo systemctl restart datalayers
 ```
 
+## 体验功能
+
+安装完成后，可通过[命令行工具](./command-line-tool.md)快速体验 Datalayers 的各项功能。
+
 ## 卸载 Datalayers
 
 ``` bash
-sudo rpm remove datalayers
+sudo yum remove datalayers
 ```
