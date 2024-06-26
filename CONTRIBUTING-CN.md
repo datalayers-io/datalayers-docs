@@ -84,11 +84,11 @@ todo截图
 
 ### 文档翻译
 
-DataLayers 中文文档一般会先于英文文档发布，所以文档翻译大多数情况下都是中译英。目前，我们通过文档仓库的 PR Label 来追踪翻译任务状态。您可通过如下几个简单步骤来翻译并提交文档。
+Datalayers 中文文档一般会先于英文文档发布，所以文档翻译大多数情况下都是中译英。目前，我们通过文档仓库的 PR Label 来追踪翻译任务状态。您可通过如下几个简单步骤来翻译并提交文档。
 
 1. 查看待翻译 PR。
 
-   打开 [DataLayers 文档待翻译 PR 列表](https://github.com/datalayers-io/docs-datalayers/pulls?q=is%3Apr+is%3Aclosed+label%3Atranslation%2Ftodo)，即可看到所有已合并且打上了 `translation/todo` Label 的 PR，这些 PR 都是待翻译的。
+   打开 [Datalayers 文档待翻译 PR 列表](https://github.com/datalayers-io/docs-datalayers/pulls?q=is%3Apr+is%3Aclosed+label%3Atranslation%2Ftodo)，即可看到所有已合并且打上了 `translation/todo` Label 的 PR，这些 PR 都是待翻译的。
 
 2. 认领 PR。
 

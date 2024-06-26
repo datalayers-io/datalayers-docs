@@ -1,10 +1,10 @@
-# DataLayers Documentation Contributing Guide
+# Datalayers Documentation Contributing Guide
 
-Thank you for your contributions to DataLayers open-source project.
+Thank you for your contributions to Datalayers open-source project.
 
 ## Table of Contents
 
-- [DataLayers Documentation Contributing Guide](#datalayers-documentation-contributing-guide)
+- [Datalayers Documentation Contributing Guide](#datalayers-documentation-contributing-guide)
   - [Table of Contents](#table-of-contents)
   - [Documentation Writing Guide](#documentation-writing-guide)
   - [How to contribute](#how-to-contribute)
@@ -20,14 +20,14 @@ Thank you for your contributions to DataLayers open-source project.
 
 ## Documentation Writing Guide
 
-To ensure consistency throughout all DataLayers documentation,
+To ensure consistency throughout all Datalayers documentation,
 we kindly request all contributors reference our [Documentation Writing Guide](./DOCS-WRITING-GUIDE-EN.md).
 This guideline provides detailed instructions on document **directory configuration** and **Markdown writing specifications**.
 
 
 ## How to contribute
 
-DataLayers's documentation is published at [https://docs.datalayers.io/](https://docs.datalayers.io/).
+Datalayers's documentation is published at [https://docs.datalayers.io/](https://docs.datalayers.io/).
 You can make contributions in several different ways listed below.
 
 > **Note:** You will need a GitHub account to make contributions.
@@ -87,14 +87,14 @@ We recommend first-time contributors to directly use the [Online editing](#onlin
    ```
 
 1. Checkout the earliest branch which is subject to the change.
-   e.g. if an issue is found in DataLayers 4.3, checkout `release-4.3` with command `git checkout --track upstream/release-4.3`
+   e.g. if an issue is found in Datalayers 1.0, checkout `release-1.0` with command `git checkout --track upstream/release-1.0`
 
-1. Optional: Checkout a work-branch `git checkout -b my-first-pr-branch-for-datalayers-4.3`
+1. Optional: Checkout a work-branch `git checkout -b my-first-pr-branch-for-datalayers-1.0`
 
 1. Edit, commit, and push the branch to your fork
    ```
    git commit -a -m 'docs(WHICH_DOC): fix xxxx in WHICH_DOC'
-   git push origin my-first-pr-branch-for-datalayers-4.3
+   git push origin my-first-pr-branch-for-datalayers-1.0
    ```
 
 1. Create a Pull request from your forked repository to the upstream repository.

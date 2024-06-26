@@ -2,24 +2,24 @@
 下表显示了所有Datalayer SQL内置的通用数据类型。对应列出的别名列也可以用于创建和引用这些类型。
 
 ## Numeric Types
-|  Name                             | Aliases                               |  Description                                         |
+|  类型名称                             | 别名                               |  备注                                         |
 |  -------------                    |-------------------------------------  |---------------------------------------------------   |
-| INT8                              | TINYINT                               |                                                      |
-| INT16                             | SMALLINT                              |                                                      |
-| INT32                             | INT                                   |                                                      |
-| INT64                             | BIGINT                                |                                                      |
-| UINT8                             | TINYINT UNSIGNED                      |                                                      |
-| UINT16                            | SMALLINT UNSIGNED                     |                                                      |
-| UINT32                            | INT UNSIGNED                          |                                                      |
-| UINT64                            | BIGINT UNSIGNED                       |                                                      |
-| REAL                              |                                       | single precision floating-point number (4 bytes)     |
-| DOUBLE                            |                                       | double precision floating-point number (8 bytes)     |
+| INT8                              | TINYINT                               |  单字节整数，范围[-128, 127]                    |
+| INT16                             | SMALLINT                              |  双字节整数，范围[-32768, 32767]               |
+| INT32                             | INT                                   |  四字节整数，范围[-2^31, 2^31-1]               |
+| INT64                             | BIGINT                                |  八字节整数，范围[-2^63, 2^63-1]               |
+| UINT8                             | TINYINT UNSIGNED                      |  无符号单字节整数，范围[0, 255]                 |
+| UINT16                            | SMALLINT UNSIGNED                     |  无符号双字节整数，范围[0, 2^16-1]               |
+| UINT32                            | INT UNSIGNED                          |  无符号四字节整数，范围[0, 2^32-1]                 |
+| UINT64                            | BIGINT UNSIGNED                       |  无符号八字节整数，范围[0, 2^64-1]                 |
+| REAL                              | FLOAT                                 |  单精度浮点数（四字节）     |
+| DOUBLE                            | -                                     |  双精度浮点数（八字节）    |
 
 
 ## Date/Time Types
 |  Name                             | Description                                                                         |
 |  -------------                    |-----------------------------------------------------------------------------------  |
-| TIMESTAMP                         | Int64, Timestamp(precision), 可选值为0、3、6、9， 代表秒、毫秒、纳秒、微秒, 缺省值: 毫秒     |
+| TIMESTAMP                         | Int64, Timestamp(precision), 可选值为0、3、6、9， 代表秒、毫秒、微秒、纳秒, 缺省值: 毫秒     |
 
 ## Boolean Types
 |  Name                             | Description                                                                         |

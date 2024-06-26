@@ -1,11 +1,11 @@
 # Grafana
-DataLayers 支持与开源数据可视化系统 Grafana 快速集成搭建数据监测仪表盘与告警系统，通过简单的配置，DataLayers 中的数据可以在仪表盘(DashBoard)上进行可视化展现。
+Datalayers 支持与开源数据可视化系统 Grafana 快速集成搭建数据监测仪表盘与告警系统，通过简单的配置，Datalayers 中的数据可以在仪表盘(DashBoard)上进行可视化展现。
 
 若你想通过 docker compose 零配置快速体验，请点击[详情](https://github.com/datalayers-io/datalayers-with-grafana)查看。
 
-## 安装 DataLayers
+## 安装 Datalayers
 
-DataLayers 支持多种安装方式，具体安装方法请参考**快速开始**章节。
+Datalayers 支持多种安装方式，具体安装方法请参考**快速开始**章节。
 
 
 ## 安装 Grafana
