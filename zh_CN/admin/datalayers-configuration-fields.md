@@ -42,6 +42,8 @@ Datalayers 进程 pid 路径设置。
 
 ### enable_influxdb_schemaless
 
+是否开启 InfluxDB 的`influxdb schemaless`功能。默认为`true`
+
 对应环境变量为`DATALAYERS_SERVER__ENABLE_INFLUXDB_SCHEMALESS`
 
 ## [server.auth]
@@ -130,8 +132,6 @@ WAL 文件最大尺寸。
 对应环境变量为`DATALAYERS_TS_ENGINE__WAL__MAX_FILE_SIZE`
 
 ## [storage]
-
-todo
 
 ## [storage.local]
 
