@@ -218,7 +218,7 @@
           path: admin/datalayers-configuration
         - title_en: Datalayers configuration fields
           title_cn: 配置文件字段
-          path: admin/configuration-fields
+          path: admin/datalayers-configuration-fields
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
