@@ -1,5 +1,4 @@
 ---
-
 # How it is organised
 #
 # - Each doc node is a yaml dict
@@ -19,14 +18,14 @@
   path: "./" # this is the index page, {en_US,zh_CN}/README.md is the content
 
 - title_en: Introduction
-  title_cn: 关于DataLayers 
+  title_cn: 关于Datalayers
   collapsed: false
-  children: 
-    - title_en: Introduction 
-      title_cn: 产品简介 
+  children:
+    - title_en: Introduction
+      title_cn: 产品简介
       path: introduction/introduction
-    - title_en: Architecture 
-      title_cn: 系统架构 
+    - title_en: Architecture
+      title_cn: 系统架构
       path: introduction/architecture
 
 - title_en: Getting Started
@@ -36,17 +35,17 @@
     - title_en: Installation
       title_cn: 安装部署
       children:
-      - title_en: Docker 
-        title_cn: Docker
-        path: getting-started/docker  
-      - title_en: Ubuntu 
-        title_cn: Ubuntu
-        path: getting-started/ubuntu  
-      - title_en: Centos 
-        title_cn: Centos
-        path: getting-started/centos  
+        - title_en: Docker
+          title_cn: Docker
+          path: getting-started/docker
+        - title_en: Ubuntu
+          title_cn: Ubuntu
+          path: getting-started/ubuntu
+        - title_en: Centos
+          title_cn: Centos
+          path: getting-started/centos
     - title_en: Command-line tool
-      title_cn: 命令行工具 
+      title_cn: 命令行工具
       path: getting-started/command-line-tool
 
 - title_en: Development Guide
@@ -60,28 +59,28 @@
       title_cn: 数据写入
       path: development-guide/data-writing
       children:
-      - title_en: REST API
-        title_cn: REST API
-        collapsed: true
-        children:
-          - title_en: Authentication
-            title_cn: 认证
-            path: development-guide/auth-with-restapi
-          - title_en: Insert
-            title_cn: 数据写入
-            path: development-guide/insert-with-restapi
-          - title_en: Query
-            title_cn: 数据查询
-            path: development-guide/query-with-restapi
-          - title_en: ERROR CODE
-            title_cn: 错误码说明
-            path: development-guide/errno-with-restapi
-      - title_en: InfluxDB Line Protocol
-        title_cn: InfluxDB Line Protocol
-        path: development-guide/writing-with-influxdb-line-protocol
-      - title_en: Arrow Flight SQL
-        title_cn: Arrow Flight SQL
-        path: development-guide/arrow-flight-sql
+        - title_en: REST API
+          title_cn: REST API
+          collapsed: true
+          children:
+            - title_en: Authentication
+              title_cn: 认证
+              path: development-guide/auth-with-restapi
+            - title_en: Insert
+              title_cn: 数据写入
+              path: development-guide/insert-with-restapi
+            - title_en: Query
+              title_cn: 数据查询
+              path: development-guide/query-with-restapi
+            - title_en: ERROR CODE
+              title_cn: 错误码说明
+              path: development-guide/errno-with-restapi
+        - title_en: InfluxDB Line Protocol
+          title_cn: InfluxDB Line Protocol
+          path: development-guide/writing-with-influxdb-line-protocol
+        - title_en: Arrow Flight SQL
+          title_cn: Arrow Flight SQL
+          path: development-guide/arrow-flight-sql
 
 - title_en: SQL Reference
   title_cn: SQL 参考
@@ -98,86 +97,86 @@
       collapsed: true
       path: sql-reference/table-engine
       children:
-      - title_en: Time-Series Engine
-        title_cn: 时序引擎
-        path: sql-reference/table-engine-timeseries
-      - title_en: key-Value Engine
-        title_cn: KV引擎
-        path: sql-reference/table-engine-kv
-      - title_en: Queue Engine
-        title_cn: 流引擎
-        path: sql-reference/table-engine-streaming
-      - title_en: Log Engine
-        title_cn: 日志引擎
-        path: sql-reference/table-engine-log
+        - title_en: Time-Series Engine
+          title_cn: 时序引擎
+          path: sql-reference/table-engine-timeseries
+        - title_en: key-Value Engine
+          title_cn: KV引擎
+          path: sql-reference/table-engine-kv
+        - title_en: Queue Engine
+          title_cn: 流引擎
+          path: sql-reference/table-engine-streaming
+        - title_en: Log Engine
+          title_cn: 日志引擎
+          path: sql-reference/table-engine-log
     - title_en: SQL STATEMENTS
       title_cn: SQL 语句
       collapsed: true
       children:
-      - title_en: CREATE
-        title_cn: CREATE
-        path: sql-reference/statements/create
-      - title_en: INSERT
-        title_cn: INSERT
-        path: sql-reference/statements/insert
-      - title_en: SELECT
-        title_cn: SELECT
-        path: sql-reference/statements/select
-        collapsed: true
-        children:
-        - title_en: WHERE
-          title_cn: WHERE
-          path: sql-reference/statements/where
-        - title_en: LIMIT
-          title_cn: LIMIT
-          path: sql-reference/statements/limit
-        - title_en: GROUP BY
-          title_cn: GROUP BY
-          path: sql-reference/statements/group-by
-        - title_en: ORDER BY
-          title_cn: ORDER BY
-          path: sql-reference/statements/order-by
-        - title_en: DISTINCT 
-          title_cn: DISTINCT 
-          path: sql-reference/statements/distinct
-        - title_en: HAVING 
-          title_cn: HAVING 
-          path: sql-reference/statements/having
-      - title_en: ALTER
-        title_cn: ALTER
-        path: sql-reference/statements/alter
-      - title_en: USE
-        title_cn: USE
-        path: sql-reference/statements/use
-      - title_en: SHOW
-        title_cn: SHOW
-        path: sql-reference/statements/show
-      - title_en: DESC
-        title_cn: DESC
-        path: sql-reference/statements/desc
-      - title_en: DROP
-        title_cn: DROP
-        path: sql-reference/statements/drop
+        - title_en: CREATE
+          title_cn: CREATE
+          path: sql-reference/statements/create
+        - title_en: INSERT
+          title_cn: INSERT
+          path: sql-reference/statements/insert
+        - title_en: SELECT
+          title_cn: SELECT
+          path: sql-reference/statements/select
+          collapsed: true
+          children:
+            - title_en: WHERE
+              title_cn: WHERE
+              path: sql-reference/statements/where
+            - title_en: LIMIT
+              title_cn: LIMIT
+              path: sql-reference/statements/limit
+            - title_en: GROUP BY
+              title_cn: GROUP BY
+              path: sql-reference/statements/group-by
+            - title_en: ORDER BY
+              title_cn: ORDER BY
+              path: sql-reference/statements/order-by
+            - title_en: DISTINCT
+              title_cn: DISTINCT
+              path: sql-reference/statements/distinct
+            - title_en: HAVING
+              title_cn: HAVING
+              path: sql-reference/statements/having
+        - title_en: ALTER
+          title_cn: ALTER
+          path: sql-reference/statements/alter
+        - title_en: USE
+          title_cn: USE
+          path: sql-reference/statements/use
+        - title_en: SHOW
+          title_cn: SHOW
+          path: sql-reference/statements/show
+        - title_en: DESC
+          title_cn: DESC
+          path: sql-reference/statements/desc
+        - title_en: DROP
+          title_cn: DROP
+          path: sql-reference/statements/drop
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
       collapsed: true
       children:
-      - title_en: Aggregation
-        title_cn: 聚合函数
-        path: sql-reference/aggregation
-      - title_en: Date
-        title_cn: 时间与日期函数
-        path: sql-reference/date
-      - title_en: Selector
-        title_cn: Selector
-        path: sql-reference/selector
-      - title_en: Math
-        title_cn: 数学函数
-        path: sql-reference/math
-      - title_en: String
-        title_cn: 字符串函数
-        path: sql-reference/string
+        - title_en: Aggregation
+          title_cn: 聚合函数
+          path: sql-reference/aggregation
+        - title_en: Date
+          title_cn: 时间与日期函数
+          path: sql-reference/date
+        - title_en: Selector
+          title_cn: Selector
+          path: sql-reference/selector
+        - title_en: Math
+          title_cn: 数学函数
+          path: sql-reference/math
+        - title_en: String
+          title_cn: 字符串函数
+          path: sql-reference/string
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction
@@ -206,13 +205,20 @@
 #      title_cn: 介绍
 #      path: edge2cloud/introduction
 
-- title_en: Operation Guide 
+- title_en: Operation Guide
   title_cn: 运维指南
   collapsed: true
   children:
-    - title_en: DataLayers configuration
+    - title_en: Datalayers configuration
       title_cn: 配置手册
-      path: admin/datalayers-configuration
+      collapsed: false
+      children:
+        - title_en: Config File Summary
+          title_cn: 配置文件介绍
+          path: admin/datalayers-configuration
+        - title_en: Datalayers configuration fields
+          title_cn: 配置文件字段
+          path: admin/datalayers-configuration-fields
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
@@ -241,12 +247,12 @@
       title_cn: 可观测性
       collapsed: false
       children:
-      - title_en: Metrics
-        title_cn: 指标
-        path: admin/system-metrics
-      - title_en: Monitor
-        title_cn: 系统监控
-        path: admin/system-monitor-grafana
+        - title_en: Metrics
+          title_cn: 指标
+          path: admin/system-metrics
+        - title_en: Monitor
+          title_cn: 系统监控
+          path: admin/system-monitor-grafana
 - title_en: Integration
   title_cn: 应用集成
   collapsed: true
@@ -264,7 +270,7 @@
     - title_en: TLS
       title_cn: TLS
       path: user-security/tls
-- title_en: Release Notes 
+- title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true
   children:

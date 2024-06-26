@@ -1,6 +1,6 @@
 # Arrow Flight SQL
 
-Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。DataLayers 支持 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可使用支持 Arrow Flight SQL 的相关 SDK 进行接入。
+Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。Datalayers 支持 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可使用支持 Arrow Flight SQL 的相关 SDK 进行接入。
 
 ## Arrow Flight SQL 优势
 **高性能数据交互**：Arrow Flight SQL 基于 Arrow 数据格式和 Flight RPC 框架，可实现高性能的数据交互。Arrow 格式的内存表示和优化的网络通信使数据传输更加高效。  
@@ -310,7 +310,7 @@ impl Executor {
 
             if endpoint_batches.is_err() {
                 let err = endpoint_batches.err().unwrap();
-                println!("DataLayers connection error: {:?}", err);
+                println!("Datalayers connection error: {:?}", err);
                 bail!(err);
             }
 
