@@ -21,13 +21,18 @@ docker pull datalayers/datalayers:1.0.0
 
 ``` bash
 docker run --name my-datalayers -d \
-  -v ./my-data:/var/lib/datalayers/storage \
+  -v /home/my/data:/var/lib/datalayers/storage \
+  --network host \
   datalayers/datalayers:nightly \
   datalayers standalone
 ```
 
 ::: tip
-其中`./my-data`是期望容器运行结束后数据能持久化的目录。
+其中`/home/my/data`是期望容器运行结束后数据能持久化的目录。
+
+host 参数表示 Datalayers 容器将以主机模式启动，Datalayers 将占用 `8360` 和 `8361` 端口。
+
+你可以根据需要通过 `-p` 参数调整端口映射。
 :::
 
 通过 `docker ps` 命令确认容器已经正常启动后，执行以下命令进入容器：
