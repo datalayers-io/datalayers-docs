@@ -47,7 +47,7 @@ allow_loading_unsigned_plugins = datalayers
 
 ![config datasource](../assets/config_datasource.jpg)
 
-**注意：图中的 `Host:Port` 需要根据你 Datalayers 部署的地址、端口进行调整。**
+请注意：图中的 `http://datalayers:8360` 需要根据你 Datalayers 部署的地址、端口进行调整。
 :::
 
 ::: tab 通过脚本安装
@@ -75,7 +75,7 @@ bash -c "$(curl -fsSL \
 docker run \
   -v $PWD/plugins/datalayers:/var/lib/grafana/plugins/datalayers \
   -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=datalayers \
-  -p 3000:3000 \
+  --network host \
   --name grafana-datalayers \
   grafana/grafana:latest
 ```
@@ -91,6 +91,8 @@ docker run \
 - 配置数据源插件, 你可以点击 `Save & test` 按钮保存并测试连通性.
 
 ![config datasource](../assets/config_datasource.jpg)
+
+请注意：图中的网络地址 `http://datalayers:8360` 请替换为实际网络地址。这里 Docker 启动 Grafana 使用了 host 模式，若你希望通过端口映射来启动，请注意使用 Docker 容器内部能够访问的网络地址。
 
 :::
 
