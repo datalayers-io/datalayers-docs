@@ -18,10 +18,10 @@ HAVING condition2;
 
 **示例**
 ```sql
-SELECT CustomerID, SUM(OrderAmount) AS TotalAmount
-FROM Orders
-GROUP BY CustomerID
-HAVING SUM(OrderAmount) > 500;
+SELECT customer_id, SUM(order_amount) AS total_amount
+FROM orders
+GROUP BY customer_id
+HAVING SUM(order_amount) > 500;
 ```
 
 这个查询会返回订单总额超过 500 的所有客户及其订单总额。

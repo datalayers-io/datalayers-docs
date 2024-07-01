@@ -20,7 +20,7 @@ LIMIT number OFFSET start;
 
 ```sql
 --跳过前 5 条记录，从第 6 条记录开始获取 5 条记录
-SELECT * FROM Products
+SELECT * FROM products
 LIMIT 5 OFFSET 5;
 ```
 

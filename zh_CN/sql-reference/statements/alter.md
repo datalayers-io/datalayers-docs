@@ -24,6 +24,6 @@ ALTER TABLE table_name DROP column k;
 修改 Table Options。
 ```SQL
 -- Modify options of a table
-ALTER TABLE table_name MODIFY OPTIONS ttl='10d',max_memtable_size=64M;
+ALTER TABLE table_name MODIFY OPTIONS ttl='10d',max_memtable_size='64M';
 ```
 

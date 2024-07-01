@@ -14,16 +14,16 @@ WHERE condition;
 **示例**
 
 ```sql
--- 选择 `Employees` 表中 `LastName` 为 'Doe' 的所有记录
-SELECT * FROM Employees
-WHERE LastName = 'Doe';
+-- 选择 `employees` 表中 `last_name` 为 'doe' 的所有记录
+SELECT * FROM employees
+WHERE last_name = 'doe';
 
--- 选择 `Employees` 表中 `Salary` 大于 50000 且 `Department` 为 'IT' 的所有记录
-SELECT * FROM Employees
-WHERE Salary > 50000 AND Department = 'IT';
+-- 选择 `employees` 表中 `salary` 大于 50000 且 `department` 为 'IT' 的所有记录
+SELECT * FROM employees
+WHERE salary > 50000 AND department = 'IT';
 
--- 选择 `Employees` 表中 `Ts` 在 2020-01-01 至 2020-12-31 之间的所有记录
-SELECT * FROM Employees
-WHERE Ts BETWEEN '2020-01-01' AND '2020-12-31';
+-- 选择 `employees` 表中 `ts` 在 2020-01-01 至 2020-12-31 之间的所有记录
+SELECT * FROM employees
+WHERE ts BETWEEN '2020-01-01' AND '2020-12-31';
 
 ```
