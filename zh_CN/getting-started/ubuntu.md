@@ -51,5 +51,5 @@ sudo systemctl restart datalayers
 ## 卸载 Datalayers
 
 ``` bash
-apt remove --purge datalayers
+sudo apt remove --purge datalayers
 ```
