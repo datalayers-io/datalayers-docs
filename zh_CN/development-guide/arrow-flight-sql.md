@@ -189,31 +189,20 @@ func main() {
 
 ```
 
-```toml [Rust-dependencies]
-[package]
-name = "datalayers-rust-example"
-version = "0.1.0"
-edition = "2021"
+```rust [Rust]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+// [dependencies]
+// tonic = { version = "*", features = ["transport", "codegen", "prost"] }
+// arrow-array = "51.0.0"
+// arrow-cast = { version = "*", features = ["prettyprint"] }
+// arrow-flight = { version = "*", features = ["flight-sql-experimental", "tls"] }
+// arrow-schema = "51.0.0"
+// tokio = "*"
+// futures = "*"
+// anyhow = "1.0.82"
+// prost = "0.12"
+// prost-types = "0.12"
 
-[dependencies]
-tonic = { version = "*", features = ["transport", "codegen", "prost"] }
-arrow-array = "51.0.0"
-arrow-cast = { version = "*", features = ["prettyprint"] }
-arrow-flight = { version = "*", features = ["flight-sql-experimental", "tls"] }
-arrow-schema = "51.0.0"
-tokio = "*"
-futures = "*"
-anyhow = "1.0.82"
-prost = "0.12"
-prost-types = "0.12"
-
-[workspace]
-
-```
-
-```rust [Rust-code]
 use arrow_array::{Array, Int32Array, RecordBatch};
 use arrow_cast::pretty::pretty_format_batches;
 use arrow_flight::sql::client::FlightSqlServiceClient;
@@ -625,4 +614,3 @@ public class SqlRunner {
 
 :::
 
-完整示例参考：https://github.com/datalayers-io/datalayers/tree/main/examples
