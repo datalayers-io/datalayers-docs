@@ -14,5 +14,5 @@ FROM table_name;
 
 **示例**
 ```sql
-SELECT DISTINCT Department FROM Employees;
+SELECT DISTINCT department FROM employees;
 ```

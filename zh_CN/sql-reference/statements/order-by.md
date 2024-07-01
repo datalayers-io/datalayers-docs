@@ -14,13 +14,13 @@ ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...;
 **示例**
 
 ```sql
--- 按照 `LastName` 升序排序
-SELECT * FROM Employees
-ORDER BY LastName ASC;
+-- 按照 `last_name` 升序排序
+SELECT * FROM employees
+ORDER BY last_name ASC;
 
--- 首先按照 `Country` 升序排序，然后在每个国家内部按照 `Salary` 降序排序
-SELECT * FROM Employees
-ORDER BY Country ASC, Salary DESC;
+-- 首先按照 `country` 升序排序，然后在每个国家内部按照 `salary` 降序排序
+SELECT * FROM employees
+ORDER BY country ASC, salary DESC;
 ```
 
 ::: tip
