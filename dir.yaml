@@ -17,16 +17,16 @@
   title_cn: 概述
   path: "./" # this is the index page, {en_US,zh_CN}/README.md is the content
 
-- title_en: Introduction
-  title_cn: 关于Datalayers
-  collapsed: false
-  children:
-    - title_en: Introduction
-      title_cn: 产品简介
-      path: introduction/introduction
-    - title_en: Architecture
-      title_cn: 系统架构
-      path: introduction/architecture
+#- title_en: Introduction
+#  title_cn: 关于Datalayers
+#  collapsed: false
+#  children:
+#    - title_en: Introduction
+#      title_cn: 产品简介
+#      path: introduction/introduction
+#    - title_en: Architecture
+#      title_cn: 系统架构
+#      path: introduction/architecture
 
 - title_en: Getting Started
   title_cn: 快速开始
