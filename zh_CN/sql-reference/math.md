@@ -5,7 +5,7 @@
 
 ## 函数列表
 
-|  Function            | Argument Type(s)                        |  Return Type                                                                            |      Description                                           |
+|  Function            | Input Type                        |  Return Type                                                                            |      Description                                           |
 |  -----------------   |------------------------------------     |------------------------------------------------------------------------------           |------------------------------------------------------------|
 | abs(expression)      | 数值类型 | 输入类型 | 返回绝对值，例如：abs(-17.4) = 17.4 |
 | acos(expression)     | 数值类型 | DOUBLE | 反余弦函数 |
@@ -14,7 +14,7 @@
 | asinh(expression)    | 数值类型 | DOUBLE | 双曲正弦或反正弦函数 |
 | atan(expression)     | 数值类型 | DOUBLE | 反正切函数 |
 | atahh(expression)    | 数值类型 | DOUBLE | 双曲正切或反正切函数 |
-| atan2(expression\_y, expression\_x) | DOUBLE | 反正切函数，expression\_y 是要操作的第一个数值表达式，expression\_x 是要操作的第二个数值表达式 |
+| atan2(expression\_y, expression\_x) | 数值类型 | DOUBLE | 反正切函数，expression\_y 是要操作的第一个数值表达式，expression\_x 是要操作的第二个数值表达式 |
 | cbrt(expression)     | 数值类型 | DOUBLE | 返回立方根 |
 | ceil(expression)     | 数值类型 | DOUBLE |  将数字向上舍入，例如：ceil(17.4) = 18 |
 | cos(expression)      | 数值类型 | DOUBLE | 余弦函数 |
@@ -33,7 +33,7 @@
 | log10(expression)    | 数值类型 | DOUBLE | 计算以 10 为底的对数 |
 | log2(expression)     | 数值类型 | DOUBLE | 计算以 2 为底的对数 |
 | nanvl(expression\_x, expression\_y) | 数值类型 | 输入类型 | 如果第一个参数不是 NaN 则返回第一个参数，否则返回第二个参数 |
-| pi()                 | - | DOUBLE | 返回 \pi 的近似值 |
+| pi()                 | - | DOUBLE | 返回 π 的近似值 |
 | power(base, exponent) | 数值类型 | DOUBLE | 计算 base 的 exponent 次幂 |
 | pow(base, exponent)  | 数值类型 | DOUBLE | 计算 base 的 exponent 次幂 |
 | radians(expression)  | 数值类型 | DOUBLE | 度数转换成弧度 |
