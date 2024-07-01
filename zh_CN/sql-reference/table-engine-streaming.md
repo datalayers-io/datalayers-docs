@@ -1,2 +1,3 @@
-# STREAMING Table Engine
+# STREAMING ngine
 
+即将支持。

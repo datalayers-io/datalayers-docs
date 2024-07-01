@@ -100,10 +100,10 @@
         - title_en: Time-Series Engine
           title_cn: 时序引擎
           path: sql-reference/table-engine-timeseries
-        - title_en: key-Value Engine
-          title_cn: KV引擎
+        - title_en: key-value Engine
+          title_cn: Key-value引擎
           path: sql-reference/table-engine-kv
-        - title_en: Queue Engine
+        - title_en: Streaming Engine
           title_cn: 流引擎
           path: sql-reference/table-engine-streaming
         - title_en: Log Engine
@@ -168,15 +168,12 @@
         - title_en: Date
           title_cn: 时间与日期函数
           path: sql-reference/date
-        - title_en: Selector
-          title_cn: Selector
-          path: sql-reference/selector
         - title_en: Math
           title_cn: 数学函数
           path: sql-reference/math
-        - title_en: String
-          title_cn: 字符串函数
-          path: sql-reference/string
+        #- title_en: String
+        #  title_cn: 字符串函数
+        #  path: sql-reference/string
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction

@@ -16,5 +16,5 @@ Selector 用于从一组输入值中选择结果。
 ## 示例
 ```SQL
 -- 计算 sn = 20230629 最新 speed 的值
-SELECT last(speed) FROM sensor_info WHERE sn = '20230629' ;
+SELECT last_value(speed) FROM sensor_info WHERE sn = '20230629' ;
 ```
