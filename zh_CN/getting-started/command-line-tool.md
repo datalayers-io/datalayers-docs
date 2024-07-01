@@ -122,7 +122,7 @@ DROP TABLE sensor_info;
 ``` bash
 DROP DATABASE demo;
 ```
-**注需：删除数据库，需要先删除所有表。**
+**注：删除数据库，需要先删除所有表。**
 
 ## 退出交互
 
