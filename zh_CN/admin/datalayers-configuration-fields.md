@@ -1,6 +1,6 @@
 # 配置文件字段
 
-## [server]
+## server
 
 ### standalone
 
@@ -28,7 +28,7 @@ Datalayers 服务端所在时区设置。
 
 是否开启 InfluxDB 的`influxdb schemaless`功能。默认为`true`
 
-## [server.auth]
+## server.auth
 
 ### username
 
@@ -47,7 +47,7 @@ Datalayers 服务端所在时区设置。
 JSON Web Token。
 
 
-## [ts_engine]
+## ts_engine
 
 ### worker_channel_size
 
@@ -61,7 +61,7 @@ JSON Web Token。
 设置为false时，退出则更为快速，但是系统重新启动时将花费更长的时间（需将`wal`中的数据重放到内存）。
 ```
 
-## [ts_engine.wal]
+## ts_engine.wal
 
 ### type
 
@@ -81,15 +81,15 @@ wal 文件最大尺寸。
 
 注：仅当`type=local`时该配置有效。
 
-## [storage]
+## storage
 
-## [storage.local]
+## storage.local
 
 ### path
 
 本地存储目录设置。
 
-## [storage.fdb]
+## storage.fdb
 
 ### cluster_file
 
@@ -101,7 +101,7 @@ wal 文件最大尺寸。
 
 用于隔离 Datalayers 键值的命名空间设置。
 
-## [storage.object_store.s3]
+## storage.object_store.s3
 
 ### buket
 
@@ -127,7 +127,7 @@ s3 对象存储相关设置。
 
 s3 对象存储相关设置。
 
-## [node]
+## node
 
 ### name
 
@@ -157,9 +157,9 @@ RPC 端口间最大并发连接数设置。
 
 RPC 端口间最小并发连接数设置。
 
-## [scheduler]
+## scheduler
 
-## [scheduler.flush]
+## scheduler.flush
 
 ### concurrence_limit
 
@@ -169,7 +169,7 @@ RPC 端口间最小并发连接数设置。
 
 刷盘的最大队列数量设置。
 
-## [scheduler.gc]
+## scheduler.gc
 
 ### concurrence_limit
 
@@ -179,19 +179,19 @@ RPC 端口间最小并发连接数设置。
 
 gc 作业的最大队列数量设置。
 
-## [scheduler.cluster_compact_inactive]
+## scheduler.cluster_compact_inactive
 
 ### concurrence_limit
 
 同时运行“cluster compact inactive”作业的最大数量设置。
 
-## [license]
+## license
 
 ### key
 
 配置 License。
 
-## [log]
+## log
 
 ### dir
 
