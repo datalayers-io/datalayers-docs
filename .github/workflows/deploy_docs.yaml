@@ -21,7 +21,7 @@ jobs:
     needs: check-docs
     strategy:
       matrix:
-        docs_language: [zh, en]
+        docs_language: [zh]
 
     steps:
       - name: clone docs
