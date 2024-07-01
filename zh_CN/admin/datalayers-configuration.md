@@ -27,69 +27,237 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 
 ### 配置文件示例
 ```toml
+# DataLayers' configurations.
+
+# The configurations of DataLayers server.
 [server]
-timezone = "Asia/Shanghai"
-# Confirm that have write permission for this location.
-pid = "/var/run/datalayers/datalayers.pid"
+# In which mode to start the DataLayers server.
+# - true: standalone mode.
+# - false: cluster mode.
+# Default: false.
+standalone = false
 
+# The Arrow FlightSql endpoint of the server. 
+# Users are expected to connect to this endpoint for communicating with the server through the Arrow FlightSql protocol.
+# Default: "0.0.0.0:8360".
 addr = "0.0.0.0:8360"
-timeout = "10s"
 
+# The HTTP endpoint of the server.
+# Default: "0.0.0.0:8361".
+http = "0.0.0.0:8361"
+
+# A session is regarded timeout if it's not active in the past `session_timeout` duration.
+# Default: "10s".
+session_timeout = "10s"
+
+# The timezone the server lives in.
+# Default is Asia/Shanghai, if timezone not exist in configuration, we will use the machine local time.
+timezone = "Asia/Shanghai"
+
+# Whether or not to enable InfluxDB's schemaless feature.
+# Default: true.
+enable_influxdb_schemaless = true
+
+# The configurations of authorization.
 [server.auth]
+# The username.
+# Default: "admin".
 username = "admin"
+
+# The password.
+# Default: "public".
 password = "public"
-# This parameter cannot be empty. If it is empty, token authentication is not used
+
+# The provided token.
+# Default: "c720790361da729344983bfc44238f24".
 token = "c720790361da729344983bfc44238f24"
+
+# The provided JSON Web Token.
+# Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
-[server.http]
-addr = "0.0.0.0:8361"
-
-[logger]  
-# Option for level: Trace | Debug | Info | Warn | Error , default: Info
-level = "info"
-# Option for log: Console | File (case sensitive)
-# Note: If option is File, three options: path, max_log_files and rotation 
-# should be set.
-log = "Console"
-# path = "/var/log/datalayers/"
-#max_log_files = 7
-# Option for rotation: Minutely | Hourly | Daily | Never , default : Daily
-#rotation = "Daily"
-
+# The configurations of the Time-Series engine.
 [ts_engine]
-# Request channel size of each worker (default 128).
+# The size of the request channel for each worker.
+# Default: 128.
 worker_channel_size = 128
 
+# Whether or not to flush memtable before the system or worker exits
+# Default: true.
+flush_on_exit = true
+
+# The configurations of the Write-Ahead Logging (WAL) component.
 [ts_engine.wal]
-# Only support local now
+# The type of the WAL.
+# Currently, only the local WAL is supported.
+# Default: "local".
 type = "local"
+
+# Whether or not to disable writing to WAL and replaying from WAL.
+# It's required to set to false in production environment if strong consistency is necessary.
+# Default: false.
+disable = false
+
+# Whether or not to skip WAL replay upon restart.
+# It's meant to be used for development only.
+# Default: false.
+skip_replay = false
+
+# The directory to store WAL files.
+# Default: "/var/lib/datalayers/wal".
 path = "/var/lib/datalayers/wal"
+
+# The fixed time period to flush cached WAL files to persistent storage.
+# Triggers flush immediately if the `flush_interval` is 0.
+# Default: "0s".
+# ** It's only used when the type is `local` **.
 flush_interval = "0s"
-max_file_size = "32MB"
 
+# The maximum size of a WAL file.
+# Default: "32MB".
+# ** It's only used when the type is `local` **.
+max_file_size = "64MB"
 
+# The configurations of storage.
 [storage]
-type = "fdb"
 
-[storage.fdb]
-cluster_file = "/etc/foundationdb/fdb.cluster"
-path = "/datalayers"
-
+# The configurations of the local storage.
 [storage.local]
+# The directory to store files in the local storage.
+# Default: "/var/lib/datalayers/storage".
 path = "/var/lib/datalayers/storage"
 
-[node]
-# The name is the unique identifier of the node, and the name cannot be repeated.
-name = "localhost:8366"
-# connect_timeout = "1s"
-# timeout = "10s"
-# Retry count, <= 1 means only once
-# retry_count = 1
-# rpc_max_conn = 20
-# rpc_min_conn = 3
+# The configurations of the FoundationDB-backed storage.
+[storage.fdb]
+# The cluster file of FoundationDB. Foundation clients and servers use the cluster file to connect to a cluster.
+# Default: "/etc/foundationdb/fdb.cluster" on Linux system.
+cluster_file = "/etc/foundationdb/fdb.cluster"
 
+# The namespace with which to isolate key-values of DataLayers'.
+# Default: "DL".
+namespace = "DL"
+
+# The speed limitation per second of the FoundationDB-backed storage.
+# Default: "15MB".
+max_flush_speed = "5MB"
+
+# The configurations of the S3 object store.
+# TODO(niebayes): add comments for object store configs.
+[storage.object_store.s3]
+bucket = "datalayers"
+root = "datalayers"
+access_key = "ZHKs9zvS101fHP5cOSJq"
+secret_key = "e9BlzvVHItNu8kHZZ16WRyFNEPF78y6Ne5wnshaT"
+endpoint = "http://127.0.0.1:9000"
+region = "datalayers"
+
+# [storage.azure]
+# container = "datalayers" # your can change it as you want
+# root = "PLEASE CHANGE ME"
+# account_name = "PLEASE CHANGE ME"
+# account_key = "PLEASE CHANGE ME"
+# endpoint = "PLEASE CHANGE ME"
+
+# [storage.gcs]
+# bucket = "datalayers" # your can change it as you want
+# root= = "PLEASE CHANGE ME"
+# scope = "PLEASE CHANGE ME"
+# credential_path = "PLEASE CHANGE ME"
+# endpoint = "PLEASE CHANGE ME"
+
+[node]
+# The name of the node. It's the unique identifier of the node in the cluster and cannot be repeated.
+# Default: "localhost:8366".
+name = "localhost:8366"
+
+# The timeout of connecting to the cluster.
+# Default: "1s".
+connect_timeout = "1s"
+
+# The timeout applied each request sent to the FoundationDB cluster.
+# Default: "10s".
+timeout = "10s"
+
+# The maximum number of retries for internal connection.
+# Default: 1.
+retry_count = 1
+
+# The directory to store data of the node.
+# Default: "/var/run/datalayers".
+data_path = "/var/run/datalayers"
+
+# The maximum number of active connections at a time between each RPC endpoints.
+# Default: 20.
+rpc_max_conn = 20
+
+# The minimum number of active connections at a time between each RPC endpoints.
+# Default: 3.
+rpc_min_conn = 3
+
+# The configurations of the scheduler.
+[scheduler]
+
+# The configurations of the flush job.
+[scheduler.flush]
+# The maximum number of running flush jobs at the same time.
+concurrence_limit = 3
+# The maximum number of pending flush jobs at the same time
+queue_limit = 10000
+
+[scheduler.gc]
+# The maximum number of running gc jobs at the same time.
+concurrence_limit = 1
+# The maximum number of pending gc jobs at the same time
+queue_limit = 10000
+
+[scheduler.cluster_compact_inactive]
+# The maximum number of running `cluster compact inactive` jobs at the same time.
+concurrence_limit = 1
+
+# The configurations of logging.
+[log]
+# The directory to store log files.
+# Default: "/var/log/datalayers".
+dir = "/var/log/datalayers/"
+
+# The verbose level of logging. 
+# Supported levels (the case is not sensitive): 
+# - trace. 
+# - debug. 
+# - info. 
+# - warn. 
+# - error. 
+# Default: "info".
+level = "info"
+
+# The fixed time period for switching to a new log file.
+# Supported rotation kinds: 
+# - "MINUTELY" or "M".
+# - "HOURLY" or "H".
+# - "DAILY" or "D".
+# - "NEVER" or "N".
+# Default: "HOURLY".
+rotation = "HOURLY"
+
+# Enables logging to stdout if set to true.
+# Default: true.
+enable_stdout = true
+
+# Enables logging to files if set to true.
+# Default: false.
+enable_file = false
+
+# Enables logging errors to dedicated files if set to true.
+# Default: false.
+enable_err_file = false
+
+# Makes the logging more verbose by inserting line number and file name.
+# Default: true.
+more_verbose = true
+
+# The configurations of license.
 [license]
+# A trial license key which may be deprecated.
 key = "eyJ2IjoxLCJ0IjoxLCJjbiI6InRlc3QiLCJjZSI6bnVsbCwic2QiOiIyMDI0MDUxNyIsInZkIjozNjUsIm5sIjoxMDAsImNsIjoyNTYsImVsIjoxMDAwLCJmcyI6W119.dLBEUr9WDhuTBllPiZ3lNXOL2YtjuvFVUYQvmc85Ak0jgqHhtoCVz09GHAqdPs8yrzMxnQRiGeK49/Puzvqi6X5X0rYEOx5eiKuifWEkYnXDjtUfdvY79Z4p1SWi5h56hyyyvgrc6lPCWnccqM+JWNWA1a3QHo6V288KBQPFZvOcUY1Kl6F9lHHs5NVx/Wq+92cqg+VJ+ONivxwt3Y35VRelFczARLrpYdngpUQtvXud4nRGuDTj4YkhEZAgpjZXg7WMS8w54zboDOPKcLL5bhUTYa4WSinhSeWLEniISPu0/TihSlXsp/UqamUnb+NHa2sjMTKzAp0CeOZwZA++fQ=="
 
 ```
@@ -113,10 +281,9 @@ username = "admin"
 * 为了与其他的环境变量有所区分，Datalayers 还增加了一个前缀 `DATALAYERS_` 来用作环境变量命名空间;
 
 ### 配置覆盖规则
-* DATALAYERS 配置按以下顺序进行优先级排序：环境变量 > datalayers.toml。
+* DATALAYERS 配置按以下顺序进行优先级排序：命令行参数 > 环境变量 > datalayers.toml > 操作系统设置(timezone)。
 * 以“DATALAYERS_”开头的环境变量设置具有最高优先级，并将覆盖 etc/datalayers.toml 文件中的任何设置。
 
 
-## 存储层
 
 

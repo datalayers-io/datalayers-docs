@@ -225,24 +225,24 @@
     - title_en: Capacity Model
       title_cn: 容量模型
       path: admin/capacity-model
-    - title_en: Data Backup
-      title_cn: 数据备份
-      path: admin/data-backup
-    - title_en: Data Restore
-      title_cn: 数据恢复
-      path: admin/data-restore
-    - title_en: Data Import
-      title_cn: 数据导入
-      path: admin/data-export
-    - title_en: Data Export
-      title_cn: 数据导出
-      path: admin/data-import
-    - title_en: Compute Node Scaling
-      title_cn: 计算节点扩缩容
-      path: admin/compute-node-scaling
-    - title_en: Storage Node Scaling
-      title_cn: 存储节点扩缩容
-      path: admin/storage-node-scaling
+    #- title_en: Data Backup
+    #  title_cn: 数据备份
+    #  path: admin/data-backup
+    #- title_en: Data Restore
+    #  title_cn: 数据恢复
+    #  path: admin/data-restore
+    #- title_en: Data Import
+    #  title_cn: 数据导入
+    #  path: admin/data-export
+    #- title_en: Data Export
+    #  title_cn: 数据导出
+    #  path: admin/data-import
+    #- title_en: Compute Node Scaling
+    #  title_cn: 计算节点扩缩容
+    #  path: admin/compute-node-scaling
+    #- title_en: Storage Node Scaling
+    #  title_cn: 存储节点扩缩容
+    #  path: admin/storage-node-scaling
     - title_en: Statistics and Metrics
       title_cn: 可观测性
       collapsed: false
