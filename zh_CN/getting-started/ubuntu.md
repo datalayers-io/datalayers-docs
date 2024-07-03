@@ -15,7 +15,7 @@ Datalayers 支持的 Ubuntu 版本为：
 通过如下命令安装：
 
 ``` bash
-sudo apt install ./datalayers_1.0.0-1_amd64.deb
+sudo dpkg -i ./datalayers_1.0.0-1_amd64.deb
 ```
 
 :::
@@ -51,5 +51,5 @@ sudo systemctl restart datalayers
 ## 卸载 Datalayers
 
 ``` bash
-sudo apt remove --purge datalayers
+sudo dpkg -r datalayers 
 ```
