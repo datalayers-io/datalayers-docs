@@ -39,7 +39,7 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 | COMPACT_MAX_ACTIVE_FILES   | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：10，文件级别过大或文件大小过大的不累加到可合并个数 |
 | COMPACT_MAX_FILE_SIZE      | 可合并文件的最大尺寸，缺省值为：300MiB，支持单位：MiB、GiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
 | COMPACT_TIME               | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 02:00\~06:00。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
-| COMPACT_MODE               | Compaction 支持的模式，缺省值为仅支持 TTL，支持选项：COMPACT, TTL, DELTA，选项可以并列，以英文逗号分隔  |
+| COMPACT_MODE               | Compaction 支持的模式，缺省值为：TTL，支持选项：COMPACT, TTL, DELTA，选项可以并列，以英文逗号分隔  |
 
 **示例**
 
