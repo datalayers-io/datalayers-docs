@@ -22,6 +22,7 @@ SHOW CREATE TABLE table_name
 ```SQL
 SHOW LICENCE
 ```
+
 ## SHOW CLUSTER
 获取集群节点信息。注：该指令仅在集群模式下生效。
 ```SQL
@@ -52,4 +53,14 @@ SHOW TASKS
 SHOW TASKS flush
 ```
 
-
+## SHOW VERSION
+获取 Datalayers 的版本号
+```shell
+> show version
++---------+
+| version |
++---------+
+| 1.0.3   |
++---------+
+1 row in set (0.003 sec)
+```
