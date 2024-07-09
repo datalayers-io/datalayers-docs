@@ -4,7 +4,7 @@
 在 Datalayers 中数据库可看为一个集合，该集合中包含了一种或者多种数据模型的table  
 **语法**
 ```SQL
-CREATE DATABASE [IF NOT EXISTS] database_name
+CREATE DATABASE DATABASE_NAME
 ```
 
 **示例**
