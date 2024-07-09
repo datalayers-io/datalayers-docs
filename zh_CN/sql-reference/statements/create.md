@@ -28,10 +28,7 @@ with(k=v,k1=v1)
 ```
 
 ::: tip
-针对非 **TIMESTAMP** 类型，默认值只支持常量设置。针对 **TIMESTAMP** 类型，默认值除了常量外还支持输出`CURRENT_TIMESTAMP`，在写入数据时如果没有给出时间戳值将会使用写入时间。例如：
-```SQL
-create table car(ts timestamp DEFAULT CURRENT_TIMESTAMP, price double DEFAULT 1.0);
-```
+针对非 **TIMESTAMP** 类型，默认值只支持常量设置。针对 **TIMESTAMP** 类型，默认值除了常量外还支持输出`CURRENT_TIMESTAMP`，在写入数据时如果没有给出时间戳值将会使用写入时间。
 :::  
 
 **示例**
