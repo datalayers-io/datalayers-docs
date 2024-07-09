@@ -22,7 +22,7 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     ...
     ...
 )
-PARTITION BY HASH(expr) PARTITIONS 16
+PARTITION BY HASH(expr) PARTITIONS PARTITOIN_NUM
 ENGINE=TimeSeries
 with(k=v,k1=v1)
 ```
@@ -42,7 +42,7 @@ CREATE TABLE sx1(
     value REAL,
     flag INT8,
     )
-PARTITION BY HASH(sid) PARTITIONS 16
+PARTITION BY HASH(sid) PARTITIONS 1
 ENGINE=TimeSeries
 with (ttl='10d')
 ```
