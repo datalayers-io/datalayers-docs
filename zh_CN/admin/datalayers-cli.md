@@ -42,15 +42,16 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
 
 相关参数：
-| 参数             | 简写     | 描述                                                             |
-| ----------      | -------  | ------------------------------------------------------------    |
-| --host          | -h       | 设置连接 Datalayers 服务器地址, 默认:127.0.0.1                      |
-| --username      | -u       | 设置连接 Datalayers 使用的用户名                                   |
-| --password      | -p       | 设置连接 Datalayers 使用的密码                                     |
-| --port          | -P       | 设置连接 Datalayers 的端口                                        |
-| --dbname        | -d       | 设置连接 Datalayers 时使用的数据库                                  |
-| --execute       | -e       | 运行一次 SQL STATEMENT后退出                                      |
-| --version       | -V       | 显示 CLI 工具的版本                                               |
-| --help          |          | show this help, then exit                                       |
+| 参数             | 简写     | 描述                                                                                                |
+| ----------      | -------  | ----------------------------------------------------------------------------------------------    |
+| --host          | -h       | 设置连接 Datalayers 服务器地址, 默认:127.0.0.1                                                         |
+| --username      | -u       | 设置连接 Datalayers 使用的用户名                                                                      |
+| --password      | -p       | 设置连接 Datalayers 使用的密码                                                                        |
+| --port          | -P       | 设置连接 Datalayers 的端口                                                                           |
+| --dbname        | -d       | 设置连接 Datalayers 时使用的数据库                                                                    |
+| --execute       | -e       | 运行一次 SQL STATEMENT后退出                                                                         |
+| --version       | -V       | 显示 CLI 工具的版本                                                                                  |
+| --tls           |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
+| --help          |          | show this help, then exit                                                                          |
 
 
