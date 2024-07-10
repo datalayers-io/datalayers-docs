@@ -2,63 +2,44 @@
 
 ## 配置和使用 TLS
 
-### 开启 Https 服务
-#### 生成证书
-生成 https 服务所需的服务端私钥和服务端证书，生成方法在下面。注意生成证书时授权的域名或 IP 要和访问目标的一致。
+### 生成证书
+生成所需的根证书、服务端私钥、服务端证书，生成方法在下面。注意生成证书时授权的域名或 IP 要和访问目标的一致。
 
-#### 修改配置
+### 修改配置
 ``` toml
 [server.tls]
-http_key = "path_to_server_private_key"
-http_cert = "path_to_server_cert"
+key = "path_to_server_private_key"
+cert = "path_to_server_cert"
 ```
-配置文件中的 http_key 替换为服务端私钥的完整路径，http_cert 替换为服务端证书的完整路径。
+配置文件中的 key 替换为服务端私钥的完整路径，cert 替换为服务端证书的完整路径。
 
-#### 访问方式
+### 访问方式
+#### 访问 Https
 通过浏览器访问，如果使用了自签证书，浏览器会提示不安全，忽略提示继续访问即可。
 
 通过 wget 访问，如果使用了自签证书，需要增加命令行选项如下：
 ``` shell
 $ wget --no-check-certificate https://127.0.0.1:8361/metrics
 ```
-
-### 开启 flightsql over TLS
-#### 生成证书
-生成 flightsql over TLS 所需的根证书、服务端私钥、服务端证书，生成方法在下面。注意生成证书时授权的域名或 IP 要和访问目标的一致。
-
-#### 修改配置
-``` toml
-[server.tls]
-flight_key = "path_to_server_private_key"
-flight_cert = "path_to_server_cert"
+如果使用了机构签发证书，直接 wget 即可，注意替换域名为签发许可的域名：
+``` shell
+$ wget https://demo.datalayers.cn:8361/metrics
 ```
-配置文件中的 flight_key 替换为服务端私钥的完整路径，flight_cert 替换为服务端证书的完整路径。
 
-#### 访问方式
-通过 dlsql 命令行工具访问，需要把根证书发布到客户端，dlsql 能访问的路径下，通过增加命令行选项 --tls 链接服务端，如下：
+#### 访问 flightsql over TLS
+通过 dlsql 命令行工具访问，如果使用自签证书，需要把根证书发布到客户端，dlsql 能访问的路径下，通过增加命令行选项 --tls 连接服务端，如下：
 ``` shell
 $ dlsql -h 127.0.0.1 -P 8360 -u admin -p public --tls /path/to/ca.crt
+```
+如果使用了机构签发证书，使用 --tls 选项不带具体证书路径如下，注意替换域名为签发许可的域名：
+``` shell
+$ dlsql -h demo.datalayers.cn -P 8360 -u admin -p public --tls
 ```
 
 ## 生成证书
 使用 TLS 需要配置证书路径，获取证书的方式包括从证书颁发机构获取和自签名两种。
 
-### Https 自签证书
-采用 Flightsql 自签证书的方法，生成的服务端私钥和证书，可以同时用于 https 和 flightsql 服务。
-
-如果只用于 https 服务并希望简化 https 自签证书的生成，可以依照下面的方法，不通过根证书而直接根据服务端私钥生成证书。这种方法生成的证书不适用于 flightsql 服务。
-
-1. 生成服务端的私钥
-``` shell
-$ openssl genrsa -out server.key 2048
-```
-
-2. 用服务端私钥生成证书
-``` shell
-$ openssl req -x509 -new -nodes -key server.key -sha256 -days 3650 -out server.crt
-```
-
-### Flightsql 自签证书
+### 自签证书
 
 #### 生成根证书
 1. 生成根证书的私钥
@@ -126,3 +107,6 @@ $ openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out
 ``` shell
 $ openssl verify -CAfile ca.crt server.crt
 ```
+
+### 获取机构颁发证书
+请参考证书颁发机构的证书申请流程，获得有效的服务端证书！注意，配置 datalayers 时仍需同时提供生成服务端证书所对应的私钥！
