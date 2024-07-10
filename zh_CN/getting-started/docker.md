@@ -14,25 +14,21 @@ docker pull datalayers/datalayers:nightly
 或者拉取指定版本的镜像：
 
 ``` bash
-docker pull datalayers/datalayers:1.0.1
+docker pull datalayers/datalayers:v1.0.1
 ```
 
 执行以下命令，启动一个 Datalayers 容器：
 
 ``` bash
-docker run --name my-datalayers -d \
-  -v ~/data:/var/lib/datalayers/storage \
-  --network host \
-  datalayers/datalayers:nightly \
-  datalayers standalone
+docker run --name datalayers -d \
+  -v ~/data:/var/lib/datalayers \
+  datalayers/datalayers:nightly 
 ```
 
 ::: tip
 其中`~/data`是指定容器运行数据能持久化的目录。
 
-host 参数表示 Datalayers 容器将以主机模式启动，Datalayers 将占用 `8360` 和 `8361` 端口。
-
-你可以根据需要通过 `-p` 参数调整端口映射。
+Datalayers 默认将启动 `8360` 与 `8361` 端口，分别提供 gRPC 与 HTTP 服务。
 :::
 
 通过 `docker ps` 命令确认容器已经正常启动后，执行以下命令进入容器：
