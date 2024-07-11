@@ -27,19 +27,19 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 |  Name                 | Description                                                                                                                |  
 |  -------------------  |-------------------------------------------------------------------------------------------------------------------------   |  
 |  TTL                  | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期 。支持时间单位：m（分钟）、h（小时）、d（天）           |  
-|  MAX_MEMTABLE_SIZE    | 每个 `partition` 内存中缓存的数据大小，缺省值为32MiB。支持单位：MiB、GiB                                                       |  
-|  FLUSH_INTERVAL       | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为1d。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天）                                    |  
-|  MAX_ROW_GROUP        | 数据文件中单个 Row Group 存放的最大行数，缺省值为：1000000                                                                     |  
-|  WAL_FSYNC_INTERVAL   | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：3000， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
-|  COMPRESSION          | 用于设置持久化文件的压缩方式。缺省值为：ZSTD, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD、LZ4_RAW                  |  
-|  UPDATE_MODE          | 写入重复数据时的处理方式，目前仅支持：Overwrite                                                                                   |  
-|  STORAGE_TYPE         | 持久化文件存储类型，standalone 模式下默认为：local。集群模式下支持：S3、FDB 两种类型 |  
-|  META_CACHE_SIZE      | 数据元数据的缓存配置，缺省值为：10000, 表示缓存 10000 个元数据，如关闭则设置为 `0`                                                      |  
-| COMPACT_WINDOW             | Compaction 的窗口大小，缺省值为：1天，支持单位：d（天），h（小时） |
-| COMPACT_MAX_ACTIVE_FILES   | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：10，文件级别过大或文件大小过大的不累加到可合并个数 |
-| COMPACT_MAX_FILE_SIZE      | 可合并文件的最大尺寸，缺省值为：300MiB，支持单位：MiB、GiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
-| COMPACT_TIME               | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 02:00\~06:00。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
-| COMPACT_MODE               | Compaction 支持的模式，缺省值为：TTL，支持选项：COMPACT, TTL, DELTA，选项可以并列，以英文逗号分隔。如需关闭 Compaction，则指定为 Disable  |
+|  MEMTABLE_SIZE        | 每个 `partition` 内存中缓存的数据大小，缺省值为 `128MiB`。支持单位：MiB、GiB                                                       |  
+|  FLUSH_INTERVAL       | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为`1d`。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天）                                    |  
+|  MAX_ROW_GROUP        | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000`                                                                     |  
+|  WAL_FSYNC_INTERVAL   | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：`3000`， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
+|  COMPRESSION          | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD、LZ4_RAW                  |  
+|  UPDATE_MODE          | 写入重复数据时的处理方式，目前仅支持：`Overwrite`                                                                                   |  
+|  STORAGE_TYPE         | 持久化文件存储类型，standalone 模式下默认为：`local`。集群模式下支持：S3、FDB 两种类型 |  
+|  META_CACHE_SIZE      | 数据元数据的缓存配置，缺省值为：`10000`, 表示缓存 10000 个元数据，如关闭则设置为 `0`                                                      |  
+| COMPACT_WINDOW             | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
+| COMPACT_MAX_ACTIVE_FILES   | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：`10`，文件级别过大或文件大小过大的不累加到可合并个数 |
+| COMPACT_MAX_FILE_SIZE      | 可合并文件的最大尺寸，缺省值为：`300MiB`，支持单位：MiB、GiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
+| COMPACT_TIME               | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 `02:00\~06:00`。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
+| COMPACT_MODE               | Compaction 支持的模式，缺省值为：`TTL`，支持选项：COMPACT, TTL, DELTA，选项可以并列，以英文逗号分隔。如需关闭 Compaction，则指定为 Disable  |
 
 **示例**
 
