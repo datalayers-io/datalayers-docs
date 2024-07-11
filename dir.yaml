@@ -142,9 +142,6 @@
             - title_en: HAVING
               title_cn: HAVING
               path: sql-reference/statements/having
-            - title_en: EXPLAIN
-              title_cn: EXPLAIN
-              path: sql-reference/statements/explain
         - title_en: ALTER
           title_cn: ALTER
           path: sql-reference/statements/alter
@@ -160,6 +157,9 @@
         - title_en: DROP
           title_cn: DROP
           path: sql-reference/statements/drop
+        - title_en: EXPLAIN
+          title_cn: EXPLAIN
+          path: sql-reference/statements/explain
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
