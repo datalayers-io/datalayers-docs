@@ -142,6 +142,9 @@
             - title_en: HAVING
               title_cn: HAVING
               path: sql-reference/statements/having
+            - title_en: EXPLAIN
+              title_cn: EXPLAIN
+              path: sql-reference/statements/explain
         - title_en: ALTER
           title_cn: ALTER
           path: sql-reference/statements/alter
