@@ -3,11 +3,15 @@
 
 **语法**
 ```sql
-EXPLAIN SQL STATEMENT
+EXPLAIN [ANALYZE] SELECT
 ```
+```tips
+ANALYZE: 执行语句并测量每个计划节点花费的时间与获取数据的记录数等。
+```
+
 
 **示例**
 
 ```sql
-EXPLAIN SELECT * FROM products LIMIT 5 OFFSET 5;
+EXPLAIN ANALYZE SELECT * FROM products LIMIT 5 OFFSET 5;
 ```
