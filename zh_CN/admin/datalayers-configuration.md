@@ -241,7 +241,7 @@ enable_err_file = false
 
 # Makes the logging more verbose by inserting line number and file name.
 # Default: true.
-more_verbose = true
+verbose = true
 
 # The configurations of license.
 [license]
