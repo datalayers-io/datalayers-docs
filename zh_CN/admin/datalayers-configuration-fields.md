@@ -231,6 +231,6 @@ Datalayers 日志等级设置。
 
 是否启用专用的错误日志文件，默认为`false`
 
-### more_verbose
+### verbose
 
 日志信息中是否包含文件名和行号，默认为`true`
