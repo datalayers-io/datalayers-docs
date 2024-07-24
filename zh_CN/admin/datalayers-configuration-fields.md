@@ -24,9 +24,6 @@ Datalayers 的 HTTP 服务端口配置。
 
 Datalayers 服务端所在时区设置。
 
-### enable_influxdb_schemaless
-
-是否开启 InfluxDB 的`influxdb schemaless`功能。默认为`true`
 
 ## server.auth
 
@@ -47,6 +44,11 @@ Datalayers 服务端所在时区设置。
 JSON Web Token。
 
 
+## schemaless
+### auto_alter_table
+
+schemaless 写入时，是否允许自动改表。默认为`true`，生产环境建议为 `false`。
+
 ## ts_engine
 
 ### worker_channel_size
@@ -65,11 +67,7 @@ JSON Web Token。
 
 ### type
 
-wal 日志类型，默认为本地支持。
-
-### disable
-
-是否禁用写入 wal 和从 wal 回放。如果需要强一致性，生产环境中必须将其设置为 false，缺省值为: false。
+wal 日志类型，缺省值为：`local`，目前仅支持 `local`。
 
 ### path
 
@@ -78,8 +76,6 @@ wal 日志类型，默认为本地支持。
 ### max_file_size
 
 wal 文件最大尺寸。
-
-注：仅当`type=local`时该配置有效。
 
 ## storage
 
@@ -101,37 +97,36 @@ wal 文件最大尺寸。
 
 用于隔离 Datalayers 键值的命名空间设置。
 
+### max_flush_speed
+限制 FDB 的写入速度，该配置仅作用于当前节点。
+
 ## storage.object_store.s3
 
-### buket
+### bucket
 
-s3 对象存储相关设置。
-
-### root
-
-s3 对象存储相关设置。
+指定 S3 的 bucket。
 
 ### access_key
 
-s3 对象存储相关设置。
+指定 s3 的 access_key。
 
 ### secret_key
 
-s3 对象存储相关设置。
+指定 s3 的 secret_key。
 
 ### endpoint
 
-s3 对象存储相关设置。
+指定 s3 的 endpoint。
 
 ### region
 
-s3 对象存储相关设置。
+指定 s3 的 region。
 
 ## node
 
 ### name
 
-节点的名称，群集中节点的唯一标识符。
+集群内节点的通讯地址（集群地该名称必须是唯一的）。
 
 ### connect_timeout
 
@@ -163,11 +158,11 @@ RPC 端口间最小并发连接数设置。
 
 ### concurrence_limit
 
-同时进行刷盘的最大作业数量设置。
+设置同时进行 flush 的最大并行数量。
 
 ### queue_limit
 
-刷盘的最大队列数量设置。
+设置 flush 的最大队列数。
 
 ## scheduler.gc
 
@@ -183,23 +178,34 @@ gc 作业的最大队列数量设置。
 
 ### concurrence_limit
 
-同时运行“cluster compact inactive”作业的最大数量设置。
+配置集群中 `compact` 作业的最大并行数量。
 
-## license
+## runtime
+Datalayers 支持前台线程（用户读、写）与后台线程（compaction、gc等）分离，即：从 CPU 物理核上进行隔离，从而保证后台任务不影响用户请求（读写）。默认情况下，前后台线程均在一个 runtime 中，共享当前系统所有 CPU 资源，如需要分离，则需通过以下配置。
+### default
+#### cpu_cores
+浮点值。设置后台任务的工作线程数量  
+* 0 表未对于该 runtime 不进行限制
+* 大于 1 表示 CPU 的约数数量  
+* 0-1 之间表示该运行时占 CPU 核心的百分比，如：0.2 表示20%
 
-### key
+### background
+如设置了 background 的值，在 default 不配置的情况下，default runtime 会默认使用剩下的 CPU CORE。
+#### cpu_cores
+与 default 相同。
 
-配置 License。
+
+
 
 ## log
 
-### dir
+### path
 
-Datalayers 日志目录设置。
+指定 Datalayers 日志的存储路径，缺省值为：`/var/log/datalayers/`。
 
 ### level
 
-Datalayers 日志等级设置。
+设置 Datalayers 日志等级。
 
 可选值为：
 - default（默认）
@@ -234,3 +240,9 @@ Datalayers 日志等级设置。
 ### verbose
 
 日志信息中是否包含文件名和行号，默认为`true`
+
+## license
+
+### key
+
+配置 License，将 License 的内容复制到此处。
