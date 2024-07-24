@@ -42,9 +42,12 @@ session_timeout = "10s"
 # Default is Asia/Shanghai, if timezone not exist in configuration, we will use the machine local time.
 timezone = "Asia/Shanghai"
 
-# Whether or not to enable InfluxDB's schemaless feature.
-# Default: true.
-enable_influxdb_schemaless = true
+# The configurations of tls certificates.
+[server.tls]
+# The key file for services with tls, both for https and flightsql
+#key = "/etc/datalayers/certs/server.key"
+# The cert file for services with tls, both for https and flightsql
+#cert = "/etc/datalayers/certs/server.crt"
 
 # The configurations of authorization.
 [server.auth]
@@ -64,6 +67,11 @@ token = "c720790361da729344983bfc44238f24"
 # Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
+[schemaless]
+# When using schemaless to write data, is automatic table modification allowed.
+# Default: true.
+auto_alter_table = true
+
 # The configurations of the Time-Series engine.
 [ts_engine]
 # The size of the request channel for each worker.
@@ -81,17 +89,7 @@ flush_on_exit = true
 # Default: "local".
 type = "local"
 
-# Whether or not to disable writing to WAL and replaying from WAL.
-# It's required to set to false in production environment if strong consistency is necessary.
-# Default: false.
-disable = false
-
-# Whether or not to skip WAL replay upon restart.
-# It's meant to be used for development only.
-# Default: false.
-skip_replay = false
-
-# The directory to store WAL files.
+# The path to store WAL files.
 # Default: "/var/lib/datalayers/wal".
 path = "/var/lib/datalayers/wal"
 
@@ -108,10 +106,13 @@ max_file_size = "64MB"
 
 # The configurations of storage.
 [storage]
+# 0 means disable mem cache
+# Default: "100MB"
+#mem_cache_capacity = "100MB"
 
 # The configurations of the local storage.
 [storage.local]
-# The directory to store files in the local storage.
+# The path to store files in the local storage.
 # Default: "/var/lib/datalayers/storage".
 path = "/var/lib/datalayers/storage"
 
@@ -126,29 +127,25 @@ cluster_file = "/etc/foundationdb/fdb.cluster"
 namespace = "DL"
 
 # The speed limitation per second of the FoundationDB-backed storage.
-# Default: "15MB".
+# Default: "5MB".
 max_flush_speed = "5MB"
 
 # The configurations of the S3 object store.
-# TODO(niebayes): add comments for object store configs.
-[storage.object_store.s3]
-bucket = "datalayers"
-root = "datalayers"
-access_key = "ZHKs9zvS101fHP5cOSJq"
-secret_key = "e9BlzvVHItNu8kHZZ16WRyFNEPF78y6Ne5wnshaT"
-endpoint = "http://127.0.0.1:9000"
-region = "datalayers"
+# [storage.object_store.s3]
+# bucket = "datalayers"
+# access_key = "CPjH8R6WYrb9KB6riEZo"
+# secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
+# endpoint = "http://127.0.0.1:9000"
+# region = "datalayers"
 
 # [storage.azure]
 # container = "datalayers" # your can change it as you want
-# root = "PLEASE CHANGE ME"
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
 
 # [storage.gcs]
 # bucket = "datalayers" # your can change it as you want
-# root= = "PLEASE CHANGE ME"
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
@@ -158,13 +155,17 @@ region = "datalayers"
 # Default: "localhost:8366".
 name = "localhost:8366"
 
+# Role of the node.
+# Default: "stateless"
+role = "stateless"
+
 # The timeout of connecting to the cluster.
 # Default: "1s".
 connect_timeout = "1s"
 
-# The timeout applied each request sent to the FoundationDB cluster.
-# Default: "10s".
-timeout = "10s"
+# The timeout applied each request sent to the cluster.
+# Default: "120s".
+timeout = "120s"
 
 # The maximum number of retries for internal connection.
 # Default: 1.
@@ -206,7 +207,7 @@ concurrence_limit = 1
 [log]
 # The directory to store log files.
 # Default: "/var/log/datalayers".
-dir = "/var/log/datalayers/"
+path = "/var/log/datalayers/"
 
 # The verbose level of logging. 
 # Supported levels (the case is not sensitive): 
@@ -225,7 +226,7 @@ level = "info"
 # - "DAILY" or "D".
 # - "NEVER" or "N".
 # Default: "HOURLY".
-rotation = "HOURLY"
+rotation = "DAILY"
 
 # Enables logging to stdout if set to true.
 # Default: true.
@@ -243,11 +244,26 @@ enable_err_file = false
 # Default: true.
 verbose = true
 
+# The configurations of runtime.
+#[runtime]
+
+# The configurations of default runtime
+#[runtime.default]
+# Isolate number of CPU, float value
+# >=1 means absolute number of CPU
+# 0 means do not use isolate cpu for this runtime
+# >0 and <1 means percentage of all CPU cores, 0.2  means 20% e.g.
+# Default: 0.0
+#cpu_cores = 0.0
+
+# The configurations of background runtime
+#[runtime.background]
+#cpu_cores = 0.0
+
 # The configurations of license.
 [license]
 # A trial license key which may be deprecated.
 key = "eyJ2IjoxLCJ0IjoxLCJjbiI6InRlc3QiLCJjZSI6bnVsbCwic2QiOiIyMDI0MDUxNyIsInZkIjozNjUsIm5sIjoxMDAsImNsIjoyNTYsImVsIjoxMDAwLCJmcyI6W119.dLBEUr9WDhuTBllPiZ3lNXOL2YtjuvFVUYQvmc85Ak0jgqHhtoCVz09GHAqdPs8yrzMxnQRiGeK49/Puzvqi6X5X0rYEOx5eiKuifWEkYnXDjtUfdvY79Z4p1SWi5h56hyyyvgrc6lPCWnccqM+JWNWA1a3QHo6V288KBQPFZvOcUY1Kl6F9lHHs5NVx/Wq+92cqg+VJ+ONivxwt3Y35VRelFczARLrpYdngpUQtvXud4nRGuDTj4YkhEZAgpjZXg7WMS8w54zboDOPKcLL5bhUTYa4WSinhSeWLEniISPu0/TihSlXsp/UqamUnb+NHa2sjMTKzAp0CeOZwZA++fQ=="
-
 ```
 
 其中配置文件字段详细解释，请查看[配置文件字段](./datalayers-configuration-fields.md)

@@ -32,7 +32,7 @@ datalayers standalone
 
 
 ## Datalayers CLI
-在 Datalayers 的镜像中已经包含 CLI 交互式工具。如在其他环境中运行，则需单独安装该工具，具体请参考：todo  
+在 Datalayers的 镜像/安装包 中已经包含 CLI 交互式工具 `dlsql`。
 
 
 ### 启动
