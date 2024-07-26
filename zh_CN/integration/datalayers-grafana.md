@@ -20,7 +20,7 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 :::: tabs
 
 ::: tab 手动安装插件
-[下载](https://github.com/datalayers-io/grafana-flightsql-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
 编辑你的 `grafana.ini`，找到并修改如下配置：
 
 ```
@@ -28,7 +28,7 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 plugins = YOUR_UNZIP_DIRECTORY/myplugins
 
 [plugins]
-allow_loading_unsigned_plugins = datalayers
+allow_loading_unsigned_plugins = grafana-datalayers-datasource
 ```
 
 关于如何配置你的 `grafana.ini` ，可以参考 <a href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/" target="_blank">Grafana 官网配置文档</a>，当然你也可以通过脚本安装的方式，为你自动安装插件并生成相关配置文件。
@@ -54,7 +54,7 @@ allow_loading_unsigned_plugins = datalayers
 
 ``` bash
 bash -c "$(curl -fsSL \
-  https://raw.githubusercontent.com/datalayers-io/grafana-flightsql-datasource/main/install.sh)" -- \
+  https://raw.githubusercontent.com/datalayers-io/grafana-datalayers-datasource/main/install.sh)" -- \
   -h localhost:8360 \
   -u admin \
   -p public
@@ -67,14 +67,14 @@ bash -c "$(curl -fsSL \
 
 ::: tab 通过 docker 安装
 
-首先需要[下载](https://github.com/datalayers-io/grafana-flightsql-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+首先需要[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
 
 如果你希望单独通过 docker 来运行，请运行以下命令
 
 ``` bash
 docker run \
-  -v $PWD/plugins/datalayers:/var/lib/grafana/plugins/datalayers \
-  -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=datalayers \
+  -v $PWD/plugins/grafana-datalayers-datasource:/var/lib/grafana/plugins/grafana-datalayers-datasource \
+  -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-datalayers-datasource \
   --network host \
   --name grafana-datalayers \
   grafana/grafana:latest
@@ -92,7 +92,7 @@ docker run \
 
 ![config datasource](../assets/config_datasource.jpg)
 
-请注意：图中的网络地址 `http://datalayers:8360` 请替换为实际网络地址。这里 Docker 启动 Grafana 使用了 host 模式，若你希望通过端口映射来启动，请注意使用 Docker 容器内部能够访问的网络地址。
+请注意：图中的网络地址 `datalayers:8360` 请替换为实际网络地址(域名+端口)。这里 Docker 启动 Grafana 使用了 host 模式，若你希望通过端口映射来启动，请注意使用 Docker 容器内部能够访问的网络地址。
 
 :::
 
