@@ -35,3 +35,4 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_compact_running_total           | gauge            | compact running 中的数量            |
 | latency_flush_per_10m_milliseconds         | histogram        | flush 平均生成 10M 数据的延迟         |
 | latency_compact_per_10m_milliseconds       | histogram        | compact 平均生成 10M 数据的延迟       |
+| datalayers_panic_total                     | counter          | Datalayers panic 的次数            |
