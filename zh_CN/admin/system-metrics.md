@@ -21,10 +21,10 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_select_total                    | counter          | Datalayers select 请求次数         |
 | parquet_statistics_cache_hit_total         | counter          | parquet 统计信息缓存hit次数         |
 | parquet_statistics_cache_miss_total        | counter          | parquet 统计信息缓存miss次数         |
-| object_store_meta_cache_hit_total          | counter          | object_store cache 命中次数         |
-| object_store_meta_cache_miss_total         | counter          | object_store cache miss次数        |
 | parquet_meta_cache_hit_total               | counter          | parquet meta cache 命中次数         |
 | parquet_meta_cache_miss_total              | counter          | parquet meta cache miss次数        |
+| object_store_meta_cache_hit_total          | counter          | object_store cache 命中次数         |
+| object_store_meta_cache_miss_total         | counter          | object_store cache miss次数        |
 | datalayers_flush_queue_limit               | gauge            | Flush 任务队列长度限制               |
 | datalayers_flush_concurrence_limit         | gauge            | Flush 并行任务限制                  |
 | datalayers_flush_pending_total             | gauge            | Flush pending 中的数量              |
@@ -33,3 +33,5 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_compact_concurrence_limit       | gauge            | compact 并行任务限制                 |
 | datalayers_compact_pending_total           | gauge            | compact pending 中的数量            |
 | datalayers_compact_running_total           | gauge            | compact running 中的数量            |
+| latency_flush_per_10m_milliseconds         | histogram        | flush 平均生成 10M 数据的延迟         |
+| latency_compact_per_10m_milliseconds       | histogram        | compact 平均生成 10M 数据的延迟       |
