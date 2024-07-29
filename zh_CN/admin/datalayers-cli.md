@@ -52,7 +52,7 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --execute       | -e       | 运行一次 SQL STATEMENT后退出                                                                         |
 | --version       | -V       | 显示 CLI 工具的版本                                                                                  |
 | --tls           |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
-| --max-rows      |          | 在使用 `dlsql` 进行查询数据时，默认最多输出 `1000` 条记录，如需显示更多记录，则需通过该参数进行指定              |
+| --max-rows      |          | 在使用 `dlsql` 进行查询数据时，默认最多输出 `40` 条记录，如需显示更多记录，则需通过该参数进行指定              |
 | --help          |          | show this help, then exit                                                                          |
 
 
