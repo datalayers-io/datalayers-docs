@@ -7,7 +7,7 @@ Datalayers 支持的 Ubuntu 版本为：
 
 ## 通过 deb 包安装
 
-<a href="https://docs.datalayers.cn/public/ubuntu/datalayers-1.0.2-1_amd64.deb" download="datalayers-1.0.2-1_amd64.deb">点击下载</a>deb安装包。
+<a href="https://docs.datalayers.cn/public/ubuntu/datalayers-2.1.6-1_amd64.deb" download="datalayers-2.1.6-1_amd64.deb">点击下载</a>deb安装包。
 
 :::: tabs
 ::: tab amd64
@@ -15,7 +15,7 @@ Datalayers 支持的 Ubuntu 版本为：
 通过如下命令安装：
 
 ``` bash
-sudo dpkg -i ./datalayers-1.0.2-1_amd64.deb
+sudo dpkg -i ./datalayers-2.1.6-1_amd64.deb
 ```
 
 :::
