@@ -53,7 +53,7 @@ CREATE TABLE sensor_info (
 ) 
 PARTITION BY HASH(sn) PARTITIONS 6
 ENGINE=TimeSeries
-WITH (ttl='7d', max_memtable_size='512MiB')
+WITH (ttl='7d', memtable_size='512MiB')
 ```
 
 ## 修改表
@@ -68,7 +68,7 @@ ALTER TABLE sensor_info ADD COLUMN l INTEGER DEFAULT 10;
 ALTER TABLE integers DROP COLUMN k;
 
 -- set value for table options 
-ALTER TABLE integers MODIFY  OPTIONS ttl='10d', max_memtable_size='64M';
+ALTER TABLE integers MODIFY  OPTIONS ttl='10d', memtable_size='64M';
 ```
 
 
