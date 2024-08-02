@@ -28,7 +28,7 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 plugins = YOUR_UNZIP_DIRECTORY/myplugins
 
 [plugins]
-allow_loading_unsigned_plugins = grafana-datalayers-datasource
+allow_loading_unsigned_plugins = datalayersio-datasource
 ```
 
 关于如何配置你的 `grafana.ini` ，可以参考 <a href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/" target="_blank">Grafana 官网配置文档</a>，当然你也可以通过脚本安装的方式，为你自动安装插件并生成相关配置文件。
@@ -73,8 +73,8 @@ bash -c "$(curl -fsSL \
 
 ``` bash
 docker run \
-  -v $PWD/plugins/grafana-datalayers-datasource:/var/lib/grafana/plugins/grafana-datalayers-datasource \
-  -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-datalayers-datasource \
+  -v $PWD/plugins/datalayersio-datasource:/var/lib/grafana/plugins/datalayersio-datasource \
+  -e GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=datalayersio-datasource \
   --network host \
   --name grafana-datalayers \
   grafana/grafana:latest
