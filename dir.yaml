@@ -209,6 +209,13 @@
   title_cn: 运维指南
   collapsed: true
   children:
+    - title_en: Performance and Tuning
+      title_cn: 性能与调优
+      collapsed: false
+      children:
+        - title_en: Performance Tuning (Linux)
+          title_cn: 系统优化
+          path: admin/system-tune
     - title_en: Datalayers configuration
       title_cn: 配置手册
       collapsed: false
