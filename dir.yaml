@@ -56,7 +56,7 @@
       title_cn: 概念
       path: development-guide/concepts
     - title_en: Data Writing
-      title_cn: 数据写入
+      title_cn: 数据写入与查询
       path: development-guide/data-writing
       children:
         - title_en: REST API
@@ -211,14 +211,14 @@
   children:
     - title_en: Performance and Tuning
       title_cn: 性能与调优
-      collapsed: false
+      collapsed: true
       children:
         - title_en: Performance Tuning (Linux)
           title_cn: 系统优化
           path: admin/system-tune
     - title_en: Datalayers configuration
       title_cn: 配置手册
-      collapsed: false
+      collapsed: true
       children:
         - title_en: Config File Summary
           title_cn: 配置文件介绍
