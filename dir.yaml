@@ -209,6 +209,9 @@
   title_cn: 运维指南
   collapsed: true
   children:
+    #- title_en: Support Platform
+    #  title_cn: 支持平台 
+    #  path: admin/support-platform
     - title_en: Performance and Tuning
       title_cn: 性能与调优
       collapsed: true
@@ -271,9 +274,6 @@
   title_cn: 用户与安全
   collapsed: true
   children:
-    - title_en: Authentication
-      title_cn: 身份认证
-      path: user-security/authentication
     - title_en: TLS
       title_cn: TLS
       path: user-security/tls
