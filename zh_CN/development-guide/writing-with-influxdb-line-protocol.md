@@ -1,7 +1,6 @@
 # InfluxDB Line Protocol
 Datalayers 兼容 InfluxDB Line Protocol。  
 [InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/)  
-**注**： InfluxDB Line Protocol 兼容，认证统一使用 Datalayers REST API 的[认证](./auth-with-restapi.md)。
 
 ## API 参考
 
