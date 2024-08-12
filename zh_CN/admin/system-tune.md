@@ -5,12 +5,8 @@
 
 ```shell
 echo "vm.swappiness = 0">> /etc/sysctl.conf
-
 swapoff -a && swapon -a
-
 sysctl -p
-
-free -m
 ```
 
 
