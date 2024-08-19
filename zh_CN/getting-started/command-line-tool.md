@@ -59,9 +59,7 @@ CREATE TABLE sensor_info (
 执行以下命令，写入一些示例数据：
 
 ``` bash
-INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8);
-INSERT INTO sensor_info(sn, speed, temperature) VALUES('101', 34.12, 40.6);
-INSERT INTO sensor_info(sn, speed, temperature) VALUES('102', 56.12, 52.3);
+INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('101', 34.12, 40.6), ('102', 56.12, 52.3);
 ```
 
 ## 查询表
