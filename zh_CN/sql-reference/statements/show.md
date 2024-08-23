@@ -17,10 +17,10 @@ SHOW TABLES
 SHOW CREATE TABLE table_name
 ```
 
-## SHOW LICENCE
-获取系统的 Licence 信息
+## SHOW LICENSE
+获取系统的 License 信息
 ```SQL
-SHOW LICENCE
+SHOW LICENSE
 ```
 
 ## SHOW CLUSTER
