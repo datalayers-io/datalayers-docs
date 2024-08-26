@@ -15,11 +15,11 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 
 ## 配置文件示例
 ```toml
-# DataLayers' configurations.
+# Datalayers' configurations.
 
-# The configurations of DataLayers server.
+# The configurations of Datalayers server.
 [server]
-# In which mode to start the DataLayers server.
+# In which mode to start the Datalayers server.
 # - true: standalone mode.
 # - false: cluster mode.
 # Default: false.
@@ -122,7 +122,7 @@ path = "/var/lib/datalayers/storage"
 # Default: "/etc/foundationdb/fdb.cluster" on Linux system.
 cluster_file = "/etc/foundationdb/fdb.cluster"
 
-# The namespace with which to isolate key-values of DataLayers'.
+# The namespace with which to isolate key-values of Datalayers'.
 # Default: "DL".
 namespace = "DL"
 
