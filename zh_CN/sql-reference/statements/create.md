@@ -21,11 +21,13 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     column_name data_type [column_constraint] [ DEFAULT default_expr ]，
     ...
     ...
+    timestamp key (ts_column_name)
 )
 PARTITION BY HASH(expr) PARTITIONS PARTITOIN_NUM
 ENGINE=TimeSeries
 with(k=v,k1=v1)
 ```
+对于时序（TimeSeries）引擎，至少有一个列需要为 **TIMESTAMP** 类型，且必须使用 `timestamp key` 语句来指定唯一的 timestamp key 列，这个列的类型必须为 **TIMESTAMP**。
 
 ::: tip
 针对非 **TIMESTAMP** 类型，默认值只支持常量设置。针对 **TIMESTAMP** 类型，默认值除了常量外还支持输出`CURRENT_TIMESTAMP`，在写入数据时如果没有给出时间戳值将会使用写入时间。
@@ -38,6 +40,7 @@ CREATE TABLE sx1(
     sid INT32,
     value REAL,
     flag INT8,
+    timestamp key (ts),
     )
 PARTITION BY HASH(sid) PARTITIONS 1
 ENGINE=TimeSeries
