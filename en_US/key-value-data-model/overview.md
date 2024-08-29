@@ -1,9 +1,12 @@
 # Overview
 
-The Key-Value Data Model is an essential component of DataLayers, providing a distributed, transactional key-value data store with strong consistency guarantees. Leveraging the robust infrastructure of FoundationDB, this model ensures that updates to a key are instantly visible to all subsequent accesses, maintaining data consistency across users. Multiple optimizations have been implemented to enhance performance, making this model both powerful and reliable.
+The Key-Value data model is one of the core capabilities of Datalayers, providing a distributed, transactional, and strongly consistent Key-Value storage system. Datalayers is fully compatible with the Redis protocol and supports commonly used data structures. For more details, refer to the [Redis Compatibility](./redis-compatibility.md).
 
-The Redis Service acts as a seamless interface between users and our key-value data model, facilitating interaction via a Redis client. While traditional Redis implementations are designed for in-memory key-value stores, our solution is engineered for a persistent, distributed key-value data model, ensuring data durability and scalability in distributed environments.
+## Features
 
-Looking ahead, future updates will introduce support for mapping SQL operations to key-value actions, further broadening the capabilities of our platform.
+* Fully compatible with the Redis protocol, allowing integration with Redis-related clients.
+* Supports commonly used Redis data structures, see Redis Compatibility.
+* Supports PB-level key-value storage, significantly reducing server resource and operational costs.
+* Simple migration, allowing transition from Redis to Datalayers without code modifications.
 
-This document provides a comprehensive guide to using the Redis Service, along with best practices and compatibility information.
+Future updates will include features that map SQL operations to key-value operations, enabling interoperability between SQL and key-value models, further enhancing the versatility of our platform.

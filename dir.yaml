@@ -206,7 +206,7 @@
 #      path: edge2cloud/introduction
 
 - title_en: Key Value Data Model
-  title_cn: 键值数据模型
+  title_cn: Key-value 存储
   collapsed: true
   children:
     - title_en: Overview

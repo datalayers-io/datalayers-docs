@@ -1,6 +1,6 @@
 # Redis Compatibility
 
-The current implementation of the DataLayers Redis Service supports a subset of Redis commands, as outlined below:
+The current implementation of the Datalayers Key-value supports a subset of Redis commands, as outlined below:
 
 | Command Category | Command | Support Level | Comments |
 | --- | --- | --- | --- |
