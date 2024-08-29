@@ -10,7 +10,7 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     name1 type1 [ DEFAULT default_expr ],
     name2 type2 [ DEFAULT default_expr ] ,
     ...
-    TIMESTAMP KEY expr,
+    TIMESTAMP KEY (expr),
     ...
 )
 PARTITION BY HASH(column_name) PARTITIONS 2
@@ -19,7 +19,7 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 ```
 
 **说明**  
-* TIMESTAMP KEY: 用户必须指定 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
+* TIMESTAMP KEY: 用户必须指定唯一的 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
 * ENGINE: 用于指定表引擎，时序引擎为: TimeSeries。
 * PARTITION: 在时序引擎中，一般将数据源唯一标识作为 partition key，并通过  PARTITIONS 设置分区数量(合理的设计分区数量有利于提升性能)。
 * 创建表时可以通过`WITH`参数对表进行配置。  
