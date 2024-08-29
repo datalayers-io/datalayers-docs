@@ -208,6 +208,23 @@
 #      title_cn: 介绍
 #      path: edge2cloud/introduction
 
+- title_en: Key Value Data Model
+  title_cn: Key-value 存储
+  collapsed: true
+  children:
+    - title_en: Overview
+      title_cn: 概述
+      path: key-value-data-model/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: key-value-data-model/quick-start
+    - title_en: Redis Compatibility
+      title_cn: Redis兼容性
+      path: key-value-data-model/redis-compatibility
+    - title_en: Best Practice
+      title_cn: 最佳实践
+      path: key-value-data-model/best-practice
+
 - title_en: Operation Guide
   title_cn: 运维指南
   collapsed: true
