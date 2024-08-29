@@ -1,3 +1,3 @@
 # Key-Value Engine
-Key-Value Engine 是专为 key-value 设计的存储引擎，即将支持。
 
+现已支持 Key-value 存储模型，暂时通过 Redis 协议来进行交付，未来我们将支持通过 SQL 的方式来进行交互操作。参考：[Key-value模型](../key-value-data-model/overview.md)

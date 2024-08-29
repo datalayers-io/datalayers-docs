@@ -221,9 +221,6 @@
     - title_en: Redis Compatibility
       title_cn: Redis兼容性
       path: key-value-data-model/redis-compatibility
-    - title_en: Best Practice
-      title_cn: 最佳实践
-      path: key-value-data-model/best-practice
 
 - title_en: Operation Guide
   title_cn: 运维指南
