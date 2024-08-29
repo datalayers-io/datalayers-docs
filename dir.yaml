@@ -160,6 +160,9 @@
         - title_en: EXPLAIN
           title_cn: EXPLAIN
           path: sql-reference/statements/explain
+        - title_en: TRIM
+          title_cn: TRIM
+          path: sql-reference/statements/trim
     - title_en: Functions
       title_cn: 函数
       path: sql-reference/sql-functions
