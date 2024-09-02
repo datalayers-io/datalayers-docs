@@ -1,8 +1,7 @@
 # 错误码说明
 
-
-
 ## HTTP 响应状态码
+
 Datalayers 遵循 [HTTP响应状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 标准，可能的状态码如下：
 
 |  HTTP CODE   | 描述                                                                              |
@@ -18,5 +17,12 @@ Datalayers 遵循 [HTTP响应状态码](https://developer.mozilla.org/en-US/docs
 | 409          |  请求的资源已存在或数量超过限制                                                   |
 | 500          |  服务端处理请求时发生内部错误，可通过 Body 返回内容与日志判断具体原因             |
 
+## 返回报文
 
+当你发送一条错误的SQL语句后，Datalayers 会返回一个 JSON 格式的错误信息，如下所示：
 
+```json
+{
+  "error": "Only support execute one statement"
+}
+```
