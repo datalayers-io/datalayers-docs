@@ -2,7 +2,7 @@
 
 当前Datalayers Key-value数据模型的实现支持一部分Redis命令，详细如下：
 
-| 命令类别        | 命令      | 支持级别     | 备注 |
+| <div style="width:150px">命令类别</div>        | 命令      | <div style="width:100px">支持级别</div>     | 备注 |
 | ---           | ---       | ---         | --- |
 | **连接管理**    | PING     | 完全支持      |     |
 | **通用命令**    | KEYS     | 完全支持      |     |
