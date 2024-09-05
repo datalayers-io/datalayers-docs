@@ -10,11 +10,16 @@
 
 ### addr
 
-配置 Arrow FlightSql 协议的服务端通信的地址与端口。
+配置 Arrow FlightSql 协议的服务端通信的地址与端口，推荐使用该协议进行交互。
+注： 如禁用该配置项 `dlsql` 也将不能使用（dlsql 使用该协议与 Datalayers 进行交互）。
 
 ### http
 
-Datalayers 的 HTTP 服务端口配置。
+Datalayers 的 HTTP 服务端口配置，如不需 HTTP 服务，将该项注释掉即可。
+
+### redis
+配置 key-value 服务，该服务使用 Redis 进行交互，该配置项默认关闭。
+注：只有在集群模式下才支持 key-value 存储模型。
 
 ### session_timeout
 
@@ -22,7 +27,7 @@ Datalayers 的 HTTP 服务端口配置。
 
 ### timezone
 
-Datalayers 服务端所在时区设置。
+设置 Datalayers 时区。
 
 
 ## server.auth
@@ -50,10 +55,7 @@ JSON Web Token。
 schemaless 写入时，是否允许自动改表。默认为`true`，生产环境建议为 `false`。
 
 ## ts_engine
-
-### worker_channel_size
-
-单线程最大请求通道数量设置。
+时序引擎相关的配置项。
 
 ### flush_on_exit
 
@@ -61,10 +63,11 @@ schemaless 写入时，是否允许自动改表。默认为`true`，生产环境
 ```tips
 设置为true，退出时会增加相应的时间开销，但在系统重启时，则可更快的启动（重启时不需要将 wal 中的数据进行重放到内存）。
 设置为false时，退出则更为快速，但是系统重新启动时将花费更长的时间（需将`wal`中的数据重放到内存）。
+生产环境中请设置为 `true`。
 ```
 
 ## ts_engine.wal
-
+时序引擎中， wal 相关的配置项。
 ### type
 
 wal 日志类型，缺省值为：`local`，目前仅支持 `local`。
@@ -78,7 +81,7 @@ wal 日志类型，缺省值为：`local`，目前仅支持 `local`。
 wal 文件最大尺寸。
 
 ## storage
-
+存储相关的配置项。
 ## storage.local
 
 ### path
@@ -101,7 +104,7 @@ wal 文件最大尺寸。
 限制 FDB 的写入速度，该配置仅作用于当前节点。
 
 ## storage.object_store.s3
-
+对象存储的配置项，配置该项后，在建表时可通过指定`STORAGE_TYPE=S3`，将数据存储到 `S3` 中。
 ### bucket
 
 指定 S3 的 bucket。
@@ -123,37 +126,37 @@ wal 文件最大尺寸。
 指定 s3 的 region。
 
 ## node
-
+集群的配置项，当`server.standalone = false` 时，以下配置会生效。
 ### name
 
-集群内节点的通讯地址（集群地该名称必须是唯一的）。
+集群内节点的通讯地址（集群地该名称必须是唯一的），推荐使用 FQDN。
 
 ### connect_timeout
 
-连接到集群超时时间设置。
+连接到集群超时时间。
 
 ### timeout
 
-请求超时时间。
+集群间通信请求超时时间。
 
 ### retry_count
 
-最大重连次数设置。
+集群间通讯时连接最大重试次数设置。
 
 ### data_path
 
-集群节点数据存储目录设置。
+节点数据存储目录设置。
 
 ### rpc_max_conn
 
-RPC 端口间最大并发连接数设置。
+RPC 端口间最大活动连接数设置。
 
 ### rpc_min_conn
 
-RPC 端口间最小并发连接数设置。
+RPC 端口间最小活动连接数设置。
 
 ## scheduler
-
+后台任务相关配置项。
 ## scheduler.flush
 
 ### concurrence_limit
