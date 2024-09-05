@@ -238,11 +238,9 @@
           path: admin/system-tune
     - title_en: Datalayers configuration
       title_cn: 配置手册
+      path: admin/datalayers-configuration
       collapsed: true
       children:
-        - title_en: Config File Summary
-          title_cn: 配置文件介绍
-          path: admin/datalayers-configuration
         - title_en: Datalayers configuration fields
           title_cn: 配置文件字段
           path: admin/datalayers-configuration-fields
