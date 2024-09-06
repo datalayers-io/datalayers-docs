@@ -25,7 +25,7 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 # Default: false.
 standalone = false
 
-# The Arrow FlightSql endpoint of the server. 
+# The Arrow FlightSql endpoint of the server.
 # Users are expected to connect to this endpoint for communicating with the server through the Arrow FlightSql protocol.
 # Default: "0.0.0.0:8360".
 addr = "0.0.0.0:8360"
@@ -33,6 +33,11 @@ addr = "0.0.0.0:8360"
 # The HTTP endpoint of the server.
 # Default: "0.0.0.0:8361".
 http = "0.0.0.0:8361"
+
+# The Redis Service endpoint of the server.
+# Users can start this service only when Datalayers server starts in cluster mode.
+# Default: "0.0.0.0:8362".
+# redis = "0.0.0.0:8362" 
 
 # A session is regarded timeout if it's not active in the past `session_timeout` duration.
 # Default: "10s".
@@ -89,6 +94,16 @@ flush_on_exit = true
 # Default: "local".
 type = "local"
 
+# Whether or not to disable writing to WAL and replaying from WAL.
+# It's required to set to false in production environment if strong consistency is necessary.
+# Default: false.
+disable = false
+
+# Whether or not to skip WAL replay upon restart.
+# It's meant to be used for development only.
+# Default: false.
+skip_replay = false
+
 # The path to store WAL files.
 # Default: "/var/lib/datalayers/wal".
 path = "/var/lib/datalayers/wal"
@@ -106,9 +121,117 @@ max_file_size = "64MB"
 
 # The configurations of storage.
 [storage]
+
+# The configurations of the file meta memory cache.
+#[storage.file_meta_cache.memory]
+# 0 means disable mem file meta cache
+# Default: "512MB"
+# capacity = "512MB"
+
+# The shard number of mem cache
+# More shards will help distribute the load and improve performance by reducing contention.
+# But too many shards might lead to increased overhead due to managing more individual cache segments.
+# Default: 16
+# shards = 16
+
+# !!! Disk cache configuration not working on standalone mode
+# The configurations of the file meta disk cache.
+#[storage.file_meta_cache.disk]
+# Disk cache capicity
+# 0 means disable disk cache
+# Default: "0GB"
+# capacity = "1GB"
+
+# The directory where the disk cache will be stored
+# Default: "/var/lib/datalayers/meta_cache"
+# path = "/var/lib/datalayers/meta_cache"
+
+# Disk cache block size
+# Default: "64MB"
+# block_size = "64MB"
+
+# The shard number of disk cache
+# More shards will help distribute the load and improve performance by reducing contention.
+# But too many shards might lead to increased overhead due to managing more individual cache segments.
+# Default: 16
+# shards = 16
+
+# Cache reclaimer count
+# Helps manage the cache's efficiency by reclaiming space
+# from unused or less frequently accessed files.
+# But high number of threads might increase CPU usage and
+# potentially degrade overall system performance
+# if not balanced with other system resources and requirements.
+# Default: 8
+# reclaimers = 8
+
+# recover concurrency
+# Default: 2
+# recover_concurrency = 2
+
+# Buffer threshold
+# Default: "128MB"
+# buffer_threshold = "128MB"
+
+# The configurations of the file data memory cache.
+#[storage.file_cache.memory]
 # 0 means disable mem cache
-# Default: "100MB"
-#mem_cache_capacity = "100MB"
+# Default: "0MB"
+# capacity = "512MB"
+
+# The shard number of mem cache
+# More shards will help distribute the load and improve performance by reducing contention.
+# But too many shards might lead to increased overhead due to managing more individual cache segments.
+# Default: 16
+# shards = 16
+
+# The configurations of the file data disk cache.
+# !!! Disk cache configuration not working on standalone mode
+#[storage.file_cache.disk]
+# Disk cache capicity
+# 0 means disable disk cache
+# Default: "10GB"
+# capacity = "10GB"
+
+# The directory where the disk cache will be stored
+# Default: "/var/lib/datalayers/file_cache"
+# path = "/var/lib/datalayers/file_cache"
+
+# Disk cache block size
+# Default: "64MB"
+# block_size = "64MB"
+
+# Buffer threshold
+# Default: "128MB"
+# buffer_threshold = "128MB"
+
+# The compression algorithm of disk cache, optional configuration
+# The compression will reduce the size of the data stored on disk, potentially improving performance and
+# reducing storage requirements. But it will also introduce additional computational
+# overhead during both compression and decompression processes.
+# only "zstd", "lz4", "none"
+# Default: "none"
+# compression = "none"
+
+# The shard number of disk cache
+# More shards will help distribute the load and improve performance by reducing contention.
+# But too many shards might lead to increased overhead due to managing more individual cache segments.
+# Default: 16
+# shards = 16
+
+# Cache reclaimer count
+# Helps manage the cache's efficiency by reclaiming space
+# from unused or less frequently accessed files.
+# But high number of threads might increase CPU usage and
+# potentially degrade overall system performance
+# if not balanced with other system resources and requirements.
+# Default: 8
+# reclaimers = 8
+
+# recover concurrency
+# if too long the recovery cost, please increase this value to speed up the recovery process
+# Default: 4
+# recover_concurrency = 4
 
 # The configurations of the local storage.
 [storage.local]
@@ -209,18 +332,18 @@ concurrence_limit = 1
 # Default: "/var/log/datalayers".
 path = "/var/log/datalayers/"
 
-# The verbose level of logging. 
-# Supported levels (the case is not sensitive): 
-# - trace. 
-# - debug. 
-# - info. 
-# - warn. 
-# - error. 
+# The verbose level of logging.
+# Supported levels (the case is not sensitive):
+# - trace.
+# - debug.
+# - info.
+# - warn.
+# - error.
 # Default: "info".
 level = "info"
 
 # The fixed time period for switching to a new log file.
-# Supported rotation kinds: 
+# Supported rotation kinds:
 # - "MINUTELY" or "M".
 # - "HOURLY" or "H".
 # - "DAILY" or "D".
