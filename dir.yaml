@@ -241,9 +241,33 @@
       path: admin/datalayers-configuration
       collapsed: true
       children:
-        - title_en: Datalayers configuration fields
-          title_cn: 配置文件字段
-          path: admin/datalayers-configuration-fields
+        - title_en: Server Configuration
+          title_cn: Server配置
+          path: admin/configuration-fields/server
+        - title_en: Schemaless Configuration
+          title_cn: Schemaless配置
+          path: admin/configuration-fields/schemaless
+        - title_en: Time Series Engine Configuration
+          title_cn: 时序引擎配置
+          path: admin/configuration-fields/ts-engine
+        - title_en: Storage Configuration
+          title_cn: 存储配置
+          path: admin/configuration-fields/storage
+        - title_en: Node Configuration
+          title_cn: 节点配置
+          path: admin/configuration-fields/node
+        - title_en: Scheduler Configuration
+          title_cn: 调度器配置
+          path: admin/configuration-fields/scheduler
+        - title_en: Runtime Configuration
+          title_cn: Runtime配置
+          path: admin/configuration-fields/runtime
+        - title_en: Log Configuration
+          title_cn: 日志配置
+          path: admin/configuration-fields/log
+        - title_en: License Configuration
+          title_cn: 许可证配置
+          path: admin/configuration-fields/license
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
