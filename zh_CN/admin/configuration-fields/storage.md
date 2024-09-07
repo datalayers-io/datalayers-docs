@@ -1,6 +1,6 @@
 # 存储
 
-`storage` 部分配置了 Datalayers 系统中的各种存储组件和缓存机制。这些配置控制数据如何在内存、磁盘上缓存，以及如何存储在不同的后端存储中，如本地存储、FoundationDB 和对象存储（S3、Azure、GCS）。
+`storage` 部分配置了 Datalayers 系统中的各种存储组件和缓存机制。这些配置控制数据如何在内存、磁盘上缓存，以及如何存储在不同的后端存储中，如本地存储、FDB 和对象存储（S3、Azure、GCS）。
 
 ## 文件元数据内存缓存
 
@@ -95,20 +95,20 @@
   设置用于本地存储的文件存储目录。  
   - **默认值**：`"/var/lib/datalayers/storage"`。
 
-## FoundationDB 支持的存储
+## FDB 配置
 
-Datalayers 与 FoundationDB 集成以进行键值存储，以下设置配置了此连接。
+Datalayers 与 FDB 集成以进行键值存储，以下设置配置了此连接。
 
 - **`fdb.cluster_file`**:  
   FoundationDB 集群文件的路径，客户端和服务器用于连接集群。  
   - **默认值**：`"/etc/foundationdb/fdb.cluster"`。
 
 - **`fdb.namespace`**:  
-  指定用于隔离 Datalayers 中的键值的 FoundationDB 命名空间。  
+  指定用于隔离 Datalayers 中的键值的 FDB 命名空间。  
   - **默认值**：`"DL"`。
 
 - **`fdb.max_flush_speed`**:  
-  刷新数据到 FoundationDB 的最大速度限制，以每秒为单位。  
+  刷新数据到 FDB 的最大速度限制，以每秒为单位。  
   - **默认值**：`"5MB"`。
 
 ## S3 对象存储

@@ -27,7 +27,7 @@
   - **示例**：`rotation = "DAILY"`。
 
 - **`enable_stdout`**:  
-  如果设置为 `true`，日志输出还会发送到标准输出（stdout）。这对于调试和实时监控非常有用。  
+  如果设置为 `true`，日志发送到标准输出（stdout）。这对于调试和实时监控非常有用。  
   - **默认值**：`true`。
   - **示例**：`enable_stdout = true`。
 
