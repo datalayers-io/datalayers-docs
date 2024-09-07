@@ -1,4 +1,5 @@
 # 配置文件介绍
+
 本章节将介绍 Datalayers 配置文件信息。
 
 ## 配置文件介绍
@@ -14,6 +15,7 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 主配置文件包含了大部分常用的配置项，如果您没有在配置文件中明确指定某个配置项，Datalayers 将使用默认配置。
 
 ## 配置文件示例
+
 ```toml
 # Datalayers' configurations.
 
@@ -389,7 +391,7 @@ verbose = true
 key = "eyJ2IjoxLCJ0IjoxLCJjbiI6InRlc3QiLCJjZSI6bnVsbCwic2QiOiIyMDI0MDUxNyIsInZkIjozNjUsIm5sIjoxMDAsImNsIjoyNTYsImVsIjoxMDAwLCJmcyI6W119.dLBEUr9WDhuTBllPiZ3lNXOL2YtjuvFVUYQvmc85Ak0jgqHhtoCVz09GHAqdPs8yrzMxnQRiGeK49/Puzvqi6X5X0rYEOx5eiKuifWEkYnXDjtUfdvY79Z4p1SWi5h56hyyyvgrc6lPCWnccqM+JWNWA1a3QHo6V288KBQPFZvOcUY1Kl6F9lHHs5NVx/Wq+92cqg+VJ+ONivxwt3Y35VRelFczARLrpYdngpUQtvXud4nRGuDTj4YkhEZAgpjZXg7WMS8w54zboDOPKcLL5bhUTYa4WSinhSeWLEniISPu0/TihSlXsp/UqamUnb+NHa2sjMTKzAp0CeOZwZA++fQ=="
 ```
 
-其中配置文件字段详细解释，请查看[配置文件字段](./datalayers-configuration-fields.md)
+其中配置文件字段详细解释，请查看配置手册。
 
 ## 环境变量
 
@@ -404,13 +406,11 @@ username = "admin"
 ```
 
 配置项与环境变量之前可以通过以下规则转换：
+
 * 由于配置文件中的 `.` 分隔符不能使用于环境变量，因此 Datalayers 选用双下划线 `__` 作为配置分割；
 * 为了与其他的环境变量有所区分，Datalayers 还增加了一个前缀 `DATALAYERS_` 来用作环境变量命名空间;
 
 ## 配置项优先级与覆盖规则
+
 * DATALAYERS 配置按以下顺序进行优先级排序：命令行参数 > 环境变量 > datalayers.toml > 操作系统设置(timezone)。
 * 以“DATALAYERS_”开头的环境变量设置具有最高优先级，并将覆盖 etc/datalayers.toml 文件中的任何设置。
-
-
-
-
