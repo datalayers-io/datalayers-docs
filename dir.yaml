@@ -81,6 +81,9 @@
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL
           path: development-guide/arrow-flight-sql
+    - title_en: High-performance writing
+      title_cn: 高性能写入
+      path: development-guide/high-performance-writing
 
 - title_en: SQL Reference
   title_cn: SQL 参考
@@ -234,8 +237,12 @@
       collapsed: true
       children:
         - title_en: Performance Tuning (Linux)
-          title_cn: 系统优化
+          title_cn: 操作系统优化
           path: admin/system-tune
+      children:
+        - title_en: Optimize configuration
+          title_cn: 优化配置
+          path: admin/optimize-configuration
     - title_en: Datalayers configuration
       title_cn: 配置手册
       path: admin/datalayers-configuration

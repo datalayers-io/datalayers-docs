@@ -4,7 +4,7 @@
 
 ### Features
 - 实现 `Key-Value` 存储模型，协议层完全兼容 Redis 协议，详见[Key-Value](../key-value-data-model/overview.md)。
-- 实现 `information_schema` 数据库，以方便对元数据进行管理（暂不支持对 information_schema 中的表进行聚合、投影等操作，预计下个版本支持）。
+- 实现 `information_schema` 数据库，以方便对元数据进行管理。
 
 ### 增强
 - 对配置文件的层级关系进行了优化。
