@@ -1,6 +1,6 @@
 # Server
 
-`server` 部分包含用于启动和管理 Datalayers 服务器的配置设置。
+`server` 部分包含用于启动和管理 Datalayers 服务监听器的配置。
 
 ## 配置服务器模式
 
