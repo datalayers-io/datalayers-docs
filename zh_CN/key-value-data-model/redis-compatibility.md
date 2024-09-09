@@ -1,6 +1,6 @@
 # Redis兼容性
 
-当前Datalayers Key-value数据模型的实现支持一部分Redis命令，详细如下：
+当前Datalayers Key-Value数据模型的实现支持一部分Redis命令，详细如下：
 
 | <div style="width:150px">命令类别</div>        | 命令      | <div style="width:100px">支持级别</div>     | 备注 |
 | ---           | ---       | ---         | --- |
