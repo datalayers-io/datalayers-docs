@@ -100,8 +100,8 @@
         - title_en: Time-Series Engine
           title_cn: 时序引擎
           path: sql-reference/table-engine-timeseries
-        - title_en: key-value Engine
-          title_cn: Key-value引擎
+        - title_en: key-Value Engine
+          title_cn: Key-Value引擎
           path: sql-reference/table-engine-kv
         - title_en: Streaming Engine
           title_cn: 流引擎
