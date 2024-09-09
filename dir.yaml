@@ -239,7 +239,6 @@
         - title_en: Performance Tuning (Linux)
           title_cn: 操作系统优化
           path: admin/system-tune
-      children:
         - title_en: Optimize configuration
           title_cn: 优化配置
           path: admin/optimize-configuration
