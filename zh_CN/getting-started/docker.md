@@ -22,6 +22,7 @@ docker pull datalayers/datalayers:v2.1.8
 ``` bash
 docker run --name datalayers -d \
   -v ~/data:/var/lib/datalayers \
+  -p 8360:8360 -p 8361:8361 \
   datalayers/datalayers:nightly 
 ```
 
