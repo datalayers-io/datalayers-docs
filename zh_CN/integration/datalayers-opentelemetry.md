@@ -4,7 +4,7 @@ Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Colle
 ![architecture diagram](../assets/architecture-diagram.png)
 
 ## OpenTelemetry Collector
-OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/opentelemetry-collector/tags)、 [Contrib](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)   两个不同的版本。 其中前都只包基础的插件， 后都包含了所有的插件。Core 版本中没有 influxdb exporter 插件，而 Contrib 版本中有。也可以按需自己构建镜像， 只包含自己需要的插件， 建议生产环境采用这种方式， 参考：[Building a custom collector](https://opentelemetry.io/docs/collector/custom-collector)
+OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/opentelemetry-collector/tags)、 [Contrib](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)   两个不同的版本。 其中前者只包基础的插件， 后者包含了所有的插件。Core 版本中没有 influxdb exporter 插件，而 Contrib 版本中有。也可以按需自己构建镜像， 只包含自己需要的插件， 建议生产环境采用这种方式， 参考：[Building a custom collector](https://opentelemetry.io/docs/collector/custom-collector)
 
 InfluxDB Exporter 详细文档参考：[influxdb-exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/influxdbexporter)
 
