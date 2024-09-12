@@ -285,21 +285,6 @@
         - title_en: Dump Tool
           title_cn: 数据转储工具
           path: admin/datalayers-clt-dump
-        - title_en: Parquet Inspect Tool
-          title_cn: Parquet 文件检视工具
-          path: admin/datalayers-clt-inspect
-    #- title_en: Data Backup
-    #  title_cn: 数据备份
-    #  path: admin/data-backup
-    #- title_en: Data Restore
-    #  title_cn: 数据恢复
-    #  path: admin/data-restore
-    #- title_en: Data Import
-    #  title_cn: 数据导入
-    #  path: admin/data-export
-    #- title_en: Data Export
-    #  title_cn: 数据导出
-    #  path: admin/data-import
     #- title_en: Compute Node Scaling
     #  title_cn: 计算节点扩缩容
     #  path: admin/compute-node-scaling
