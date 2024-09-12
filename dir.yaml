@@ -309,12 +309,15 @@
   title_cn: 应用集成
   collapsed: true
   children:
+    - title_en: EMQX
+      title_cn: EMQX
+      path: integration/datalayers-with-emqx
     - title_en: Grafana
       title_cn: Grafana
-      path: integration/datalayers-grafana
+      path: integration/datalayers-with-grafana
     - title_en: OpenTelemetry
       title_cn: OpenTelemetry
-      path: integration/datalayers-opentelemetry
+      path: integration/datalayers-with-opentelemetry
 - title_en: User & Security
   title_cn: 用户与安全
   collapsed: true
