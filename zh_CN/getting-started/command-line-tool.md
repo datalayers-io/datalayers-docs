@@ -54,7 +54,7 @@ CREATE TABLE sensor_info (
   with (ttl='10d');
 ```
 
-> Datalayers 支持更多[数据类型](../sql-reference/data-type.md)、[表配置](../sql-reference/table-engine-timeseries.md)。
+> Datalayers 支持更多[数据类型](../sql-reference/data-type.md)、[表配置](../sql-reference/table-engine/timeseries.md)。
 
 执行以下命令，写入一些示例数据：
 

@@ -13,7 +13,7 @@ password = "public"
 ```
 详细配置请参考 [Datalayers 配置手册](../admin/datalayers-configuration.md) 章节。  
 
-**注：** *以下示例均使用 [时序表引擎](../sql-reference/table-engine-timeseries.md) 进行演示，如使用其他类型的表引擎，请参考[表引擎](../sql-reference/table-engine.md)。
+**注：** *以下示例均使用 [时序表引擎](../sql-reference/table-engine/timeseries.md) 进行演示，如使用其他类型的表引擎，请参考[表引擎](../sql-reference/table-engine.md)。
 Datalayers REST API 支持以下两种认证方式，可根据使用场景自由选择。配置参见 [Datalayers 配置](../admin/datalayers-configuration.md)章节。*
 
 

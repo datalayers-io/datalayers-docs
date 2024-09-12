@@ -27,13 +27,15 @@ Query OK, 0 rows affected. (0.034 sec)
 
 
 ### 配置 EMQX
-#### 创建 Datalayers 资源
+#### 创建连接器
 - 登录 EMQX 管理控制台
 - 左侧菜单导航致至 `集成` > `连接器`
 - 点击 "创建"，在搜索框中输入 `Datalayers`，在搜索结果中选择 **Datalayers**, 点击下一步
 - 填写 **Datalayers** 连接信息，填写完成后可点击**测试连接**，确保连接成功，如下图：
 ![demo](../assets/datalayers-with-emqx.jpg)
+```
 注：服务器通讯地址填写 `Datalayers HTTP 地址` 
+```
 - 点击`创建`，保存资源配置
 
 #### 创建规则
@@ -54,7 +56,9 @@ Query OK, 0 rows affected. (0.034 sec)
 - 在订阅栏中，主题框中输入 `t/#` 进行通配订阅，方便后续观察
 - 在发布窗口中，主题框输入`t/1`，Payload 框中输入 `{ "sid": "1", "temp":25.6 }`，点击发布，此时我们将看到 pub 与 sub 的消息，如下：
   ![emqx pub sub](../assets/emqx_pub_sub.jpg)
+```
 此时，说明已经成功将数据 pub 到了 MQTT Broker 中。
+```
 - 使用 Datalayers dlsql 命令行工具查看写入的数据
 ```sql
 demo> select * from sensor_info;
