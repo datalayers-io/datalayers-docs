@@ -9,7 +9,7 @@ Datalayers 提供数据转储工具 `dlctl`（Datalayers Control）以实现数�
 - `target`：指定备份的对象，可选值包括 `schema` 和 `data`。前者只会备份建库、建表语句，用于恢复时创建数据库和表；后者只会备份表数据。如果该选项没有被显式指定，那么 `dlctl` 会默认导出建库、建表语句、以及表数据。
 - `databases`：指定备份或恢复的数据库。用户可以传入单个数据库名，或传入由 `,` 分隔的多个数据库名，以要求 `dlctl` 仅转储指定的数据库。如果不显式设定该选项，`dlctl` 默认转储所有数据库。
 - `tables`：指定备份或恢复的表。用户可以传入单个表名，或传入由 `,` 分隔的多个表名，以要求 `dlctl` 仅转储指定的表。如果不显式设定该选项，`dlctl` 默认转储所有表。请注意，如果指定了 `tables`，那么您必须同时指定 `databases`，并且 `databases` 仅包含单个数据库名。
-- `file-size-limit`：指定一个数据文件大小的最大值。该参数的合法形式为 `<number><unit>`，其中 `number` 为一个整型，`unit` 则为 `G`、`M`、`K`、`B` 之一，分别表示 GiB、MiB、KiB、Bytes。例如 `1G` 表示数据文件最大为 1GiB。
+- `file-size-limit`：指定一个数据文件大小的最大值。该参数的合法形式为 `<number><unit>`，其中 `number` 为一个整型，`unit` 则为 `G`、`M`、`K`、`B` 之一，分别表示 GiB、MiB、KiB、Bytes。例如 `1G` 表示数据文件最大为 1GiB。如果用户没有指定 `unit`，则我们默认单位为 Bytes。
 - `start`：指定一个时间戳，时间戳大于或等于 `start` 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳。
 - `end`：指定一个时间戳，时间戳小于或等于 `end` 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳。
 - `object-store-provider`：除了本地文件系统，`dlctl` 还支持将数据导出到对象存储、以及从对象存储导入数据。目前支持的对象存储包括 `Amazon S3`、`Microsoft Azure` 等。强，针对 Datalayers 单机版与集群版均可用。
