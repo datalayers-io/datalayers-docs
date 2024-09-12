@@ -9,7 +9,44 @@ OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/ope
 InfluxDB Exporter 详细文档参考：[influxdb-exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/influxdbexporter)
 
 ### 配置项说明
-![influxdb-exporter configuration](../assets/influxdb-exporter.jpg)
+
+
+The following configuration options are supported:
+
+* `endpoint` (required) HTTP/S destination for line protocol
+  - if path is set to root (/) or is unspecified, it will be changed to /api/v2/write.
+* `timeout` (default = 5s) Timeout for requests
+* `headers`: (optional) additional headers attached to each HTTP request
+  - header `User-Agent` is `OpenTelemetry -> Influx` by default
+  - if `token` (below) is set, then header `Authorization` will overridden with the given token
+* `org` (required) Name of InfluxDB organization that owns the destination bucket
+* `bucket` (required) name of InfluxDB bucket to which signals will be written
+* `token` (optional) The authentication token for InfluxDB
+* `v1_compatibility` (optional) Options for exporting to InfluxDB v1.x
+  * `enabled` (optional) Use InfluxDB v1.x API if enabled
+  * `db` (required if enabled) Name of the InfluxDB database to which signals will be written
+  * `username` (optional) Basic auth username for authenticating with InfluxDB v1.x
+  * `password` (optional) Basic auth password for authenticating with InfluxDB v1.x
+* `span_dimensions` (default = service.name, span.name) Span attributes to use as dimensions (InfluxDB tags)
+* `log_record_dimensions` (default = service.name) Log Record attributes to use as dimensions (InfluxDB tags)
+* `payload_max_lines` (default = 10_000) Maximum number of lines allowed per HTTP POST request
+* `payload_max_bytes` (default = 10_000_000) Maximum number of bytes allowed per HTTP POST request
+* `metrics_schema` (default = telegraf-prometheus-v1) The chosen metrics schema to write; must be one of:
+  * `telegraf-prometheus-v1`
+  * `telegraf-prometheus-v2`
+* `sending_queue` [details here](https://github.com/open-telemetry/opentelemetry-collector/blob/v0.25.0/exporter/exporterhelper/README.md#configuration)
+  * `enabled` (default = true)
+  * `num_consumers` (default = 10) The number of consumers from the queue
+  * `queue_size` (default = 1000) Maximum number of batches allowed in queue at a given time
+* `retry_on_failure` [details here](https://github.com/open-telemetry/opentelemetry-collector/blob/v0.25.0/exporter/exporterhelper/README.md#configuration)
+  * `enabled` (default = true)
+  * `initial_interval` (default = 5s) Time to wait after the first failure before retrying
+  * `max_interval` (default = 30s) Upper bound on backoff interval
+  * `max_elapsed_time` (default = 120s) Maximum amount of time (including retries) spent trying to send a request/batch
+
+
+详见: [influxdb-exporter configuration](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/influxdbexporter/README.md)
+
 
 ## 最简 OpenTelemetry Collector 配置示例
 
