@@ -312,6 +312,9 @@
     - title_en: Grafana
       title_cn: Grafana
       path: integration/datalayers-grafana
+    - title_en: OpenTelemetry
+      title_cn: OpenTelemetry
+      path: integration/datalayers-opentelemetry
 - title_en: User & Security
   title_cn: 用户与安全
   collapsed: true

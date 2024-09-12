@@ -1,5 +1,5 @@
 # OpenTelemetry
-Datalayer 可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件将数据发送到 Datalayer。
+Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。
 
 ![architecture diagram](../assets/architecture-diagram.png)
 
@@ -8,7 +8,7 @@ OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/ope
 
 InfluxDB Exporter 详细文档参考：[influxdb-exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/influxdbexporter)
 
-#### 配置项说明
+### 配置项说明
 ![influxdb-exporter configuration](../assets/influxdb-exporter.jpg)
 
 ## 最简 OpenTelemetry Collector 配置示例
@@ -38,7 +38,7 @@ service:
       exporters: [influxdb]
 ```
 
-配置中 Exporter 的 endpoint 需要替换成自己的 Datalayer 地址。由于当前 Datalayer 默认只支持 v1 版本的 InfluxDB Line Protocol，所以需要将 v1_compatibility 设置为 true。要使用的数据库名称需要提前在 Datalayer 中创建。 在 receivers 中选择一个协议，比如 otlp，和协议对应的 endpoint 配置。 从 receivers 中收到的数据会被 processor 处理，这里没有配置，所以直接发送到 exporters， 即为 Datalayer。当 Datalayer 收到数据后，会根据配置的数据库名称，将数据写入到对应的数据库中， 如果没有对应的表， 则会自动创建(如果关闭了 Datalayer 的自动创建表功能， 则需要提前在 Datalayer 中创建表)。
+配置中 Exporter 的 endpoint 需要替换成自己的 Datalayers 地址。由于当前 Datalayers 默认只支持 v1 版本的 InfluxDB Line Protocol，所以需要将 v1_compatibility 设置为 true。要使用的数据库名称需要提前在 Datalayers 中创建。 在 receivers 中选择一个协议，比如 otlp，和协议对应的 endpoint 配置。 从 receivers 中收到的数据会被 processor 处理，这里没有配置，所以直接发送到 exporters， 即为 Datalayers。当 Datalayers 收到数据后，会根据配置的数据库名称，将数据写入到对应的数据库中， 如果没有对应的表， 则会自动创建(如果关闭了 Datalayers 的自动创建表功能， 则需要提前在 Datalayers 中创建表)。
 
 
 
