@@ -277,6 +277,17 @@
     - title_en: Capacity Model
       title_cn: 容量模型
       path: admin/capacity-model
+    - title_en: Operation Tools
+      title_cn: 运维工具
+      path: admin/datalayers-ctl
+      collapsed: true
+      children:
+        - title_en: Dump Tool
+          title_cn: 数据转储工具
+          path: admin/datalayers-clt-dump
+        - title_en: Parquet Inspect Tool
+          title_cn: Parquet 文件检视工具
+          path: admin/datalayers-clt-inspect
     #- title_en: Data Backup
     #  title_cn: 数据备份
     #  path: admin/data-backup
