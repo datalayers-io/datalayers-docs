@@ -85,6 +85,16 @@ auto_alter_table = true
 # Default: 128.
 worker_channel_size = 128
 
+# The max size of memory that memtable will used.
+# Server will reject to write after the memory used overflow this limitation
+# Default: 80% of system memory.
+#max_memory_used_size = "10GB"
+
+[ts_engine.schemaless]
+# When using schemaless to write data, is automatic table modification allowed.
+# Default: false.
+auto_alter_table = true
+
 # Whether or not to flush memtable before the system or worker exits
 # Default: true.
 flush_on_exit = true
