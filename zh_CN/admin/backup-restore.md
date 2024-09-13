@@ -5,13 +5,15 @@ Datalayers 提供数据转储工具 `dldump`（Datalayers Dump），用于对运
 `dldump` 工具提供了丰富的选项以供配置，您可以通过执行 `dldump --help` 以查看 `dldump` 的所有子命令和选项。此处对一些重要的选项进行说明：
 - `host`：指定 Datalayers 实例的地址，默认为 `127.0.0.1`。
 - `port`：指定 Datalayers 实例的 SQL 服务端口，默认为 `8360`。
+- `username`：指定用于鉴权的用户名，默认为 `admin`。
+- `password`：指定用于鉴权的密码，默认为 `public`。
 - `output`：指定备份时数据的存储路径。为了避免用户无意间覆盖之前的备份，我们要求导出时指定的 `path` 为空。如果该路径不存在，`dldump` 会尝试创建该路径。
 - `input`：指定恢复时数据的加载路径。如果指定的 `path` 为空，`dldump` 会中止恢复操作。
 - `meta`：指定备份时是否要包含元信息，即建库和建表语句、表的 schema 等，默认包含元信息。如果要求不备份元信息，您可以传入 `--meta false`。
 - `data`：指定备份时是否要包含表数据，默认包含表数据。如果要求不备份表数据，您可以传入 `--data false`。
 - `database`：指定备份或恢复的数据库。如果不显式设定该选项，`dldump` 默认转储所有数据库。
 - `table`：指定备份或恢复的表。如果指定了 `table`，则必须指定 `database`。如果不显式设定该选项，`dldump` 默认转储 `database` 指定的数据库内的所有表。
-- `max-file-size`：指定一个数据文件大小的最大值，默认为 8GiB。该参数的合法形式为 `<number><unit>`，其中 `number` 为一个整型，`unit` 则为 `G`、`M`、`K`、`B` 之一（不区分大小写），分别表示 GiB、MiB、KiB、Bytes。如果用户没有指定 `unit`，则我们默认单位为 Bytes。例如 `1G` 表示设定数据文件最大为 1GiB，`1024` 表示设定数据文件最大为 1024 bytes。
+- `max-file-size`：指定一个数据文件大小的最大值，默认为 8GiB。我们只支持整型作为合法的输入，且默认单位为 GiB。
 - `start`：指定一个时间戳，时间戳大于或等于 `start` 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳。
 - `end`：指定一个时间戳，时间戳小于或等于 `end` 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳。
 
@@ -25,12 +27,12 @@ Datalayers 提供数据转储工具 `dldump`（Datalayers Dump），用于对运
 datalayers standalone -c datalayers.toml
 ```
 
-使用 `dlsql` 工具创建数据库、表、以及写入一些数据，对应的 SQL 及输出如下：
+使用 `dlsql` 工具创建数据库 `test`、表 `device`、以及往 `device` 表写入一些数据，对应的 SQL 及输出如下：
 ``` sql
 > CREATE DATABASE test; 
 Query OK, 0 rows affected. (0.009 sec)
 
-> CREATE TABLE test.sx(
+> CREATE TABLE test.device (
     ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     sid INT32,
     value REAL,
@@ -41,7 +43,7 @@ PARTITION BY HASH(sid) PARTITIONS 2
 ENGINE=TimeSeries;
 Query OK, 0 rows affected. (0.009 sec)
 
-> INSERT INTO test.sx (ts, sid, value, flag) VALUES
+> INSERT INTO test.device (ts, sid, value, flag) VALUES
 ('2024-09-01 10:00:00', 1, 12.5, 0),
 ('2024-09-01 10:05:00', 2, 15.3, 1),
 ('2024-09-01 10:10:00', 3, 9.8, 0),
@@ -67,9 +69,9 @@ dldump export --path /tmp/datalayers/backup
 backup
   - test
     - create.sql
-    - sx_0.parquet
+    - device_0.parquet
 ```
-根据 `dldump` 工具的设计，每个数据库会有一个独立的备份目录，这个目录会以数据库的名称命名。例如，`test` 数据库对应一个同名的 `test` 目录。数据库目录下存在一个 `create.sql` 文件，它里面包含了这个数据库的建库语句和每个表的建表语句。数据库目录下的其他文件则为表数据文件。表数据文件的命名规则是 `<table_name>_<sequence>.parquet`，`table_name` 为表名，如示例中的 `sx` 表；`sequence` 表示该数据文件为这张表的第几个数据文件，我们会根据数据导出时的顺序对数据文件进行排序。
+根据 `dldump` 工具的设计，每个数据库会有一个独立的备份目录，这个目录会以数据库的名称命名。例如，`test` 数据库对应一个同名的 `test` 目录。数据库目录下存在一个 `create.sql` 文件，它里面包含了这个数据库的建库语句和每个表的建表语句。数据库目录下的其他文件则为表数据文件。表数据文件的命名规则是 `<table_name>_<sequence>.parquet`，`table_name` 为表名，如示例中的 `device` 表；`sequence` 表示该数据文件为这张表的第几个数据文件，我们会根据数据导出时的顺序对数据文件进行排序。
 
 > **注**：如果您开启了文件系统的“显示隐藏文件和目录”的选项，那么您还会在 `test` 目录下发现 `.schema` 文件。为了保证数据恢复时的 schema 与备份时的一致，我们在备份时会将所有表的 schema 统一编码到 `.schema` 文件中，在恢复时再从中解码出 schema。
 
@@ -87,7 +89,7 @@ dldump import --path /tmp/datalayers/backup
 该命令会使用 `dldump` 的 `import` 命令，从 `/tmp/datalayers/backup` 路径加载备份文件，并将数据写入到 2 号节点中。待该命令执行完成后，我们便完成了数据恢复。
 
 ### Step 4：验证数据完整性
-我们使用 `dlsql` 工具对 `datalayers-restore` 执行查询，以验证恢复数据的完整性。
+我们使用 `dlsql` 工具对 2 号节点执行查询，以验证恢复数据的完整性。
 
 验证 `test` 数据库被成功恢复：
 ``` sql
@@ -102,23 +104,23 @@ dldump import --path /tmp/datalayers/backup
 ```
 > **注**：`information_schema` 是每个 Datalayers 实例自动生成的系统表组成的数据库，我们默认不会备份和恢复它。
 
-验证 `test` 数据库的 `sx` 表被成功恢复：
+验证 `test` 数据库的 `device` 表被成功恢复：
 ``` sql
 > USE test;
 Database changed to `test`
 
 test> SHOW TABLES;
-+----------+-------+------------+---------------------------+---------------------------+
-| database | table | engine     | created_time              | updated_time              |
-+----------+-------+------------+---------------------------+---------------------------+
-| test     | sx    | TimeSeries | 2024-09-12T23:48:21+08:00 | 2024-09-12T23:48:21+08:00 |
-+----------+-------+------------+---------------------------+---------------------------+
++----------+-----------+------------+---------------------------+---------------------------+
+| database | table     | engine     | created_time              | updated_time              |
++----------+-----------+------------+---------------------------+---------------------------+
+| test     | device    | TimeSeries | 2024-09-12T23:48:21+08:00 | 2024-09-12T23:48:21+08:00 |
++----------+-----------+------------+---------------------------+---------------------------+
 1 row in set (0.008 sec)
 ```
 
-验证 `sx` 表的所有数据被成功恢复：
+验证 `device` 表的所有数据被成功恢复：
 ``` sql
-test> SELECT * FROM sx; 
+test> SELECT * FROM device; 
 +---------------------------+-----+-------+------+
 | ts                        | sid | value | flag |
 +---------------------------+-----+-------+------+
