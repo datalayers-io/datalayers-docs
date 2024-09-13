@@ -10,21 +10,21 @@
 | --port             | -P       | 指定 Datalayers 实例的 SQL 服务端口，默认为：8360                                                                                |
 | --username         | -u       | 指定用于鉴权的用户名，默认为：admin                                                                                               |
 | --password         | -p       | 指定用于鉴权的密码，默认为：public                                                                                               |
-| --output           | -o       | 指定备份时数据的存储路径。为了避免用户无意间覆盖之前的备份，我们要求导出时指定的目录为空                                                   |
+| --output           | -o       | 指定备份时数据的存储路径。为了避免用户无意间覆盖之前的备份，要求导出时指定的目录为空                                                   |
 | --input            | -i       | 指定恢复时数据的加载路径。如果指定的目录为空，则会中止恢复操作                                                                         |
 | --meta             |          | 指定备份时是否要包含元信息（如：建库和建表语句），默认包含元信息。如果不备份元信息，您可以传入 --meta false                                   |
 | --data             |          | 指定备份时是否要包含表数据，默认包含表数据。如果要求不备份表数据，您可以传入 --data false                                                 |
 | --database         | -d       | 指定备份或恢复的数据库。如果不显式设定该选项，则默认转储所有数据库                                                                       |
 | --table            | -t       | 指定备份或恢复的表。如果指定了 table，则必须指定 database。如果不显式设定该选项，则默认备份 database 下所有表                               |
-| --max-file-size    | -s       | 指定一个数据文件大小的最大值，默认为 8GiB。我们只支持整型作为合法的输入。单位为：GiB                                                      |
+| --max-file-size    | -s       | 指定一个数据文件大小的最大值，默认为 8GiB。只支持整型作为合法的输入。单位为：GiB                                                      |
 | --start            |          | 指定一个时间戳，时间戳大于或等于 start 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳                                         |
 | --end              |          | 指定一个时间戳，时间戳小于或等于 end 的表数据才会被备份。合法的日期格式和整型均认为是合法的时间戳                                           |
 | --help             |          | show this help, then exit                                                                                                    |
 
 ## 备份与恢复
-以下通过一个示例来介绍 **dldump** 工具的使用。这个示例首先为单机版 Datalayers 写入一些数据，然后使用 **dldump** 将数据导出到备份目录；再创建一个新的 Datalayers 实例，从备份目录加载数据并写入到新的 Datalayers 实例；最后使用我们的 **dlsql** 工具查询新的 Datalayers 实例，以验证我们成功执行了备份与恢复。
+以下通过一个示例来介绍 **dldump** 工具的使用。这个示例首先为单机版 Datalayers 写入一些数据，然后使用 **dldump** 将数据导出到备份目录；再创建一个新的 Datalayers 实例，从备份目录加载数据并写入到新的 Datalayers 实例；最后使用 **dlsql** 工具查询新的 Datalayers 实例，以验证成功执行了备份与恢复。
 
-为方便叙述，我们将被备份的 Datalayers 实例称为 1 号节点，将被恢复的 Datalayers 实例称为 2 号节点。
+为方便叙述，本文将被备份的 Datalayers 实例称为 1 号节点，将被恢复的 Datalayers 实例称为 2 号节点。
 
 ### 准备工作
 启动 1 号节点：
@@ -65,9 +65,9 @@ Query OK, 10 rows affected. (0.002 sec)
 ### 数据备份
 执行数据备份：
 ``` shell
-dldump export --output /tmp/datalayers/backup
+dldump -h localhost -P 8360 -d test -o /tmp/datalayers/backup
 ```
-该命令会使用 `dldump` 的 `export` 命令，将 1 号节点的数据导出到指定的 `/tmp/datalayers/backup` 目录。
+该命令将 1 号节点的数据导出到指定的 `/tmp/datalayers/backup` 目录。
 
 备份完成后，`/tmp/datalayers/backup` 目录将会有如下的层次结构：
 ```
@@ -76,9 +76,9 @@ backup
     - create.sql
     - device_0.parquet
 ```
-根据 `dldump` 工具的设计，每个数据库会有一个独立的备份目录，这个目录会以数据库的名称命名。例如，`test` 数据库对应一个同名的 `test` 目录。数据库目录下存在一个 `create.sql` 文件，它里面包含了这个数据库的建库语句和每个表的建表语句。数据库目录下的其他文件则为表数据文件。表数据文件的命名规则是 `<table_name>_<sequence>.parquet`，`table_name` 为表名，如示例中的 `device` 表；`sequence` 表示该数据文件为这张表的第几个数据文件，我们会根据数据导出时的顺序对数据文件进行排序。
+根据 `dldump` 工具的设计，每个数据库会有一个独立的备份目录，这个目录会以数据库的名称命名。例如，`test` 数据库对应一个同名的 `test` 目录。数据库目录下存在一个 `create.sql` 文件，它里面包含了这个数据库的建库语句和每个表的建表语句。数据库目录下的其他文件则为表数据文件。表数据文件的命名规则是 `<table_name>_<sequence>.parquet`，`table_name` 为表名，如示例中的 `device` 表；`sequence` 表示该数据文件为这张表的第几个数据文件，`dldump` 会根据数据导出时的顺序对数据文件进行排序。
 
-> **注**：如果您开启了文件系统的“显示隐藏文件和目录”的选项，那么您还会在 `test` 目录下发现 `.schema` 文件。为了保证数据恢复时的 schema 与备份时的一致，我们在备份时会将所有表的 schema 统一编码到 `.schema` 文件中，在恢复时再从中解码出 schema。
+> **注**：如果您开启了文件系统的“显示隐藏文件和目录”的选项，那么您还会在 `test` 目录下发现 `.schema` 文件。为了保证数据恢复时的 schema 与备份时的一致，`dldump` 在备份时会将所有表的 schema 统一编码到 `.schema` 文件中，在恢复时再从中解码出 schema。
 
 ### 数据恢复
 启动 2 号节点：
@@ -89,12 +89,12 @@ datalayers standalone -c datalayers.toml
 
 执行数据恢复：
 ``` shell
-dldump import -i /tmp/datalayers/backup
+dldump -h localhost -P 8360 -i /tmp/datalayers/backup
 ```
-该命令会使用 `dldump` 的 `import` 命令，从 `/tmp/datalayers/backup` 路径加载备份文件，并将数据写入到 2 号节点中。待该命令执行完成后，我们便完成了数据恢复。
+该命令将从 `/tmp/datalayers/backup` 路径加载备份文件，并将数据写入到 2 号节点中。待该命令执行完成后，便完成了数据恢复。
 
 ### 验证数据
-我们使用 `dlsql` 工具对 2 号节点执行查询，以验证恢复数据的完整性。
+使用 `dlsql` 工具对 2 号节点执行查询，以验证恢复数据的完整性。
 
 验证 `test` 数据库被成功恢复：
 ``` sql
@@ -107,7 +107,7 @@ dldump import -i /tmp/datalayers/backup
 +--------------------+---------------------------+
 2 rows in set (0.003 sec)
 ```
-> **注**：`information_schema` 是每个 Datalayers 实例自动生成的系统表组成的数据库，我们默认不会备份和恢复它。
+> **注**：`information_schema` 是每个 Datalayers 实例自动生成的系统表组成的数据库，默认不会备份和恢复它。
 
 验证 `test` 数据库的 `device` 表被成功恢复：
 ``` sql
