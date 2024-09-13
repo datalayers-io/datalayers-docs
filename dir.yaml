@@ -278,7 +278,7 @@
       title_cn: 容量模型
       path: admin/capacity-model
     - title_en: Backup and Restore 
-      title_cn: 数据备份与恢复
+      title_cn: 备份与恢复
       path: admin/backup-restore
     #- title_en: Compute Node Scaling
     #  title_cn: 计算节点扩缩容
