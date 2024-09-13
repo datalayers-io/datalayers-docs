@@ -2,7 +2,7 @@
 Datalayers 提供数据转储工具 `dldump`（Datalayers Dump），用于对运行中的 Datalayers 实例执行在线备份与恢复。该工具对单机版和集群版均可用。
 
 ## 使用手册
-`dldump` 工具提供了丰富的选项以供配置，您可以通过执行 `dldump --help` 以查看 `dldump` 的所有子命令和选项。此处对一些重要的选项进行说明：
+`dldump` 工具提供了丰富的选项以供配置，您可以通过执行 `dldump help` 以查看 `dldump` 的所有子命令和选项。此处对一些重要的选项进行说明：
 - `host`：指定 Datalayers 实例的地址，默认为 `127.0.0.1`。
 - `port`：指定 Datalayers 实例的 SQL 服务端口，默认为 `8360`。
 - `username`：指定用于鉴权的用户名，默认为 `admin`。
