@@ -24,7 +24,7 @@ datalayers -h
 datalayers -c /etc/datalayers/cluster.toml
 
 -- 指定配置文件启动单机模式，注意 -c 选项必须在后面。
-datalayers standalone -c /etc/datalayers/cluster.toml
+datalayers standalone -c /etc/datalayers/standalone.toml
 
 -- 默认配置文件启动单机模式。
 datalayers standalone
