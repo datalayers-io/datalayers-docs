@@ -20,7 +20,7 @@ sudo dpkg -i ./datalayers-2.1.8-1_amd64.deb
 :::
 
 ::: tab arm64
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-2.1.8-1_arm64.deb" download="datalayers-2.1.8-1_amd64.deb">点击下载</a>deb安装包。
+1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-2.1.8-1_arm64.deb" download="datalayers-2.1.8-1_arm64.deb">点击下载</a>deb安装包。
 
 2. 通过如下命令安装：
 
