@@ -109,7 +109,6 @@ jobs:
           fi
 
           oss_bucket=datalayers-docs-${LANGUAGES}
-          ./ossutil64 rm -r -f --exclude "*.deb" --exclude "*.rpm" oss://${oss_bucket}/ || true
           ./ossutil64 cp -r -f dist/ oss://${oss_bucket}/
 
       - name: refresh zh cdn
