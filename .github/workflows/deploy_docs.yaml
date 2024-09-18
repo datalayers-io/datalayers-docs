@@ -21,8 +21,7 @@ jobs:
     needs: check-docs
     strategy:
       matrix:
-        docs_language: [zh]
-
+        docs_language: [zh, en]
     steps:
       - name: clone docs
         uses: actions/checkout@main
@@ -85,6 +84,7 @@ jobs:
           cp docs-files/directory.json frontend/docs/.vitepress/config/directory.json
           rm -r frontend/docs/en || true
           rm -r frontend/docs/zh || true
+
       - name: generate version config
         run: |
           cd docs-files
@@ -127,11 +127,11 @@ jobs:
           access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
           file_paths: https://docs.datalayers.io/
 
-    # - name: update search index
-    #   uses: Swilder-M/docsearch-scraper-simple@next
-    #   env:
-    #     APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID_NEXT }}
-    #     API_KEY: ${{ secrets.ALGOLIA_API_KEY_NEXT }}
-    #   with:
-    #     docs_type: ${{ env.DOCS_TYPE }}
-    #     docs_version: ${{ env.VERSION }}
+      - name: update search index
+        uses: Swilder-M/docsearch-scraper-simple@next
+        env:
+          APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+          API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        with:
+          docs_type: datalayers-docs-${{ matrix.docs_language }}
+          docs_version: ${{ env.VERSION }}
