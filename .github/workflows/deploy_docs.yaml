@@ -8,8 +8,7 @@ on:
   push:
     tags:
       - v*
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   check-docs:
@@ -58,6 +57,8 @@ jobs:
           VERSION="latest"
           else
           VERSION=$BRANCH
+          # make short version as directory name
+          VERSION=$(echo $BRANCH | awk -F. '{print $1"."$2}')
           fi
           echo "DOCS_BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -88,7 +89,29 @@ jobs:
       - name: generate version config
         run: |
           cd docs-files
-          python3 .github/scripts/generate_version.py $(git tag | egrep "v(.*)$" | xargs echo -n) > ../frontend/docs/public/api/${DOCS_TYPE}_versions.json
+
+          # make short tag list
+          tags=$(git tag)
+          unique_tags=()
+
+          for tag in $tags; do
+              major_minor=$(echo $tag | awk -F. '{print $1"."$2}')
+              found=0
+              for utag in "${unique_tags[@]}"; do
+                  if [ "$utag" == "$major_minor" ]; then
+                      found=1
+                      break
+                  fi
+              done
+              if [ $found -eq 0 ]; then
+                  unique_tags+=("$major_minor")
+              fi
+          done
+
+          # Remove duplicates by converting the array to a set and then back to an array
+          unique_tags=( $(printf "%s\n" "${unique_tags[@]}" | sort -u) )
+          echo "${unique_tags[@]}"
+          python3 .github/scripts/generate_version.py "${unique_tags[@]}" > ../frontend/docs/public/api/${DOCS_TYPE}_versions.json
           cat ../frontend/docs/public/api/${DOCS_TYPE}_versions.json
 
       - name: build docs
