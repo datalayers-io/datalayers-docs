@@ -1,4 +1,4 @@
-# 示例
+# 多语言接入示例
 
 我们提供以下语言的示例，展示如何使用基于 HTTP/HTTPS 的 REST API 与 Datalayers 进行交互：
 
