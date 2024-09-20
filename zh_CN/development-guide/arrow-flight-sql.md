@@ -577,7 +577,7 @@ public class SqlRunner {
             throw new RuntimeException(e);
         }
 
-        // prepared statment insert in java
+        // prepared statement insert in java
         // `insert into table sx1 (sid, value, flag) values(?, ?, ?);`
         // The ? is a placeholder for the actual value that will be inserted.
         // The actual value is set using the setParameters method.
@@ -609,7 +609,7 @@ public class SqlRunner {
             try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
-                    System.out.println("prepared statment get result:");
+                    System.out.println("prepared statement get result:");
                     List<FieldVector> vectors = stream.getRoot().getFieldVectors();
                     for (int i = 0; i < vectors.size(); i++) {
                         System.out.printf("%d %d %s\n", n, i , vectors.get(i));
