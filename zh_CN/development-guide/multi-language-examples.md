@@ -35,10 +35,12 @@ def print_query_result(conn: HTTPConnection):
 
 def main():
     # Establishes an HTTP connection with the Datalayers server.
-    # The authorization token is the encoded username and password which are 'admin' and 'public', respectively.
+    #
+    # The authorization token `YWRtaW46cHVibGlj` is the encoded username and password 
+    # which are 'admin' and 'public', respectively.
     host = "127.0.0.1"
-    port = 18361
-    url = "http://0.0.0.0:18361/api/v1/sql"
+    port = 8361
+    url = "http://{}:{}/api/v1/sql".format(host, port)
     headers = {
         "Content-Type": "application/binary",
         "Authorization": "Basic YWRtaW46cHVibGlj"
