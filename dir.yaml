@@ -75,6 +75,9 @@
             - title_en: ERROR CODE
               title_cn: 错误码说明
               path: development-guide/errno-with-restapi
+            - title_en: Examples
+              title_cn: 示例
+              path: development-guide/multi-language-examples
         - title_en: InfluxDB Line Protocol
           title_cn: InfluxDB Line Protocol
           path: development-guide/writing-with-influxdb-line-protocol
