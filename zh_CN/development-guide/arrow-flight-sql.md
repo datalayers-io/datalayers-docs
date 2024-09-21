@@ -623,6 +623,43 @@ public class SqlRunner {
             // need callOptions argument here~
             preparedStatement.close(callOptions);
         }
+        // batch prepared statement insertion
+        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("insert into table sx1 (sid, value, flag) values(?, ?, ?);", callOptions)) {
+            IntVector sids = new IntVector("sid",allocator);
+            sids.allocateNew();
+            Float4Vector values = new Float4Vector("value",allocator);
+            values.allocateNew();
+            TinyIntVector flags = new TinyIntVector("flag",allocator);
+
+            for (int i = 0;i < 100;i ++){
+                sids.setSafe(i, i);
+                values.setSafe(i, (float) i);
+                flags.setSafe(i, (byte)i);
+            }
+
+            List<Field> fields = Arrays.asList(sids.getField(), values.getField(), flags.getField());
+            List<FieldVector> fieldVectors = Arrays.asList(sids, values, flags);
+            VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(fields, fieldVectors);
+            // remember set right row count
+            vectorSchemaRoot.setRowCount(100);
+            preparedStatement.setParameters(vectorSchemaRoot);
+            final FlightInfo info = preparedStatement.execute(callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("prepared batch insert statement get result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            preparedStatement.close(callOptions);
+        }
 
         // need callOptions argument here~
         try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("select count(*) from test.sx1 where sid = ?;", callOptions)) {
