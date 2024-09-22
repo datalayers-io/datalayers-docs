@@ -15,12 +15,12 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 
 ## 安装并配置 Grafana 插件
 
-安装好 Grafana 之后就可以进行插件的安装了，建议安装前先停止你的 Grafana 服务。
+安装好 Grafana 之后就可以进行插件的安装了，建议安装前先停止你的 Grafana 服务。下面将介绍三种安装方式：
 
 :::: tabs
 
 ::: tab 手动安装插件
-[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+下载[Grafana 插件](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) 并解压到本地，例如 `./myplugins`。
 编辑你的 `grafana.ini`，找到并修改如下配置：
 
 ```
@@ -67,7 +67,7 @@ bash -c "$(curl -fsSL \
 
 ::: tab 通过 docker 安装
 
-首先需要[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+首先需要下载 [Grafana 插件](https://github.com/datalayers-io/grafana-datalayers-datasource/releases)并解压到本地，例如 `./myplugins`。
 
 如果你希望单独通过 docker 来运行，请运行以下命令
 
