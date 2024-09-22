@@ -74,20 +74,29 @@ token = "c720790361da729344983bfc44238f24"
 # Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
-[schemaless]
-# When using schemaless to write data, is automatic table modification allowed.
-# Default: true.
-auto_alter_table = true
-
 # The configurations of the Time-Series engine.
 [ts_engine]
 # The size of the request channel for each worker.
 # Default: 128.
 worker_channel_size = 128
 
+# The max size of memory that memtable will used.
+# Server will reject to write after the memory used overflow this limitation
+# Default: 80% of system memory.
+#max_memory_used_size = "10GB"
+
+# Cache size for SST file metadata. Setting it to 0 to disable the cache.
+# Default: 128M
+meta_cache_size = "128M"
+
 # Whether or not to flush memtable before the system or worker exits
 # Default: true.
 flush_on_exit = true
+
+[ts_engine.schemaless]
+# When using schemaless to write data, is automatic table modification allowed.
+# Default: false.
+auto_alter_table = true
 
 # The configurations of the Write-Ahead Logging (WAL) component.
 [ts_engine.wal]
@@ -125,10 +134,10 @@ max_file_size = "64MB"
 [storage]
 
 # The configurations of the file meta memory cache.
-#[storage.file_meta_cache.memory]
+[storage.file_meta_cache.memory]
 # 0 means disable mem file meta cache
 # Default: "512MB"
-# capacity = "512MB"
+capacity = "512MB"
 
 # The shard number of mem cache
 # More shards will help distribute the load and improve performance by reducing contention.
@@ -168,15 +177,15 @@ max_file_size = "64MB"
 # reclaimers = 8
 
 # recover concurrency
-# Default: 2
-# recover_concurrency = 2
+# Default: 4
+# recover_concurrency = 4
 
 # Buffer threshold
 # Default: "128MB"
 # buffer_threshold = "128MB"
 
 # The configurations of the file data memory cache.
-#[storage.file_cache.memory]
+[storage.file_cache.memory]
 # 0 means disable mem cache
 # Default: "0MB"
 # capacity = "512MB"
@@ -189,11 +198,11 @@ max_file_size = "64MB"
 
 # The configurations of the file data disk cache.
 # !!! Disk cache configuration not working on standalone mode
-#[storage.file_cache.disk]
+[storage.file_cache.disk]
 # Disk cache capicity
 # 0 means disable disk cache
 # Default: "10GB"
-# capacity = "10GB"
+capacity = "10GB"
 
 # The directory where the disk cache will be stored
 # Default: "/var/lib/datalayers/file_cache"
@@ -211,9 +220,9 @@ max_file_size = "64MB"
 # The compression will reduce the size of the data stored on disk, potentially improving performance and
 # reducing storage requirements. But it will also introduce additional computational
 # overhead during both compression and decompression processes.
-# only "zstd", "lz4", "none"
-# Default: "none"
-# compression = "none"
+# only "Zstd", "Lz4", "None"
+# Default: "None"
+# compression = "None"
 
 # The shard number of disk cache
 # More shards will help distribute the load and improve performance by reducing contention.

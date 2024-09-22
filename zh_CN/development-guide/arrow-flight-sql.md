@@ -459,15 +459,17 @@ import org.apache.arrow.flight.grpc.CredentialCallOption;
 import org.apache.arrow.flight.sql.FlightSqlClient;
 import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.memory.RootAllocator;
-import org.apache.arrow.vector.FieldVector;
-import org.apache.arrow.vector.IntVector;
-import org.apache.arrow.vector.VectorSchemaRoot;
+import org.apache.arrow.vector.*;
 import org.apache.arrow.vector.types.pojo.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 
 public class SqlRunner {
+    private static final Logger log = LoggerFactory.getLogger(SqlRunner.class);
+
     public static void main(String[] args) {
         BufferAllocator allocator = new RootAllocator(Integer.MAX_VALUE);
         final Location clientLocation = Location.forGrpcInsecure("127.0.0.1", 8360);
@@ -478,6 +480,7 @@ public class SqlRunner {
         Optional<CredentialCallOption> credentialCallOption = client.authenticateBasicToken("admin", "public");
         final CallHeaders headers = new FlightCallHeaders();
         Set<CallOption> options = new HashSet<>();
+        headers.insert("database", "test");
 
         credentialCallOption.ifPresent(options::add);
         options.add(new HeaderCallOption(headers));
@@ -574,9 +577,91 @@ public class SqlRunner {
             throw new RuntimeException(e);
         }
 
+        // prepared statement insert in java
+        // `insert into table sx1 (sid, value, flag) values(?, ?, ?);`
+        // The ? is a placeholder for the actual value that will be inserted.
+        // The actual value is set using the setParameters method.
+        // please make sure each col has same length
 
+        // need callOptions argument here~
+        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("insert into table sx1 (sid, value, flag) values(?, ?, ?);", callOptions)) {
+            IntVector sids = new IntVector("sid",allocator);
+            sids.allocateNew();
+            Float4Vector values = new Float4Vector("value",allocator);
+            values.allocateNew();
+            TinyIntVector flags = new TinyIntVector("flag",allocator);
 
+            sids.setSafe(0,1);
+            values.setSafe(0, 1.0F);
+            flags.setSafe(0, (byte)1);
 
+            List<Field> fields = Arrays.asList(sids.getField(), values.getField(), flags.getField());
+            List<FieldVector> fieldVectors = Arrays.asList(sids, values, flags);
+            VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(fields, fieldVectors);
+            vectorSchemaRoot.setRowCount(1);
+            preparedStatement.setParameters(vectorSchemaRoot);
+            
+            // need callOptions argument here~
+            final FlightInfo info = preparedStatement.execute(callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            
+            // need callOptions argument here~
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("prepared statement get result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            // need callOptions argument here~
+            preparedStatement.close(callOptions);
+        }
+        // batch prepared statement insertion
+        try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("insert into table sx1 (sid, value, flag) values(?, ?, ?);", callOptions)) {
+            IntVector sids = new IntVector("sid",allocator);
+            sids.allocateNew();
+            Float4Vector values = new Float4Vector("value",allocator);
+            values.allocateNew();
+            TinyIntVector flags = new TinyIntVector("flag",allocator);
+
+            for (int i = 0;i < 100;i ++){
+                sids.setSafe(i, i);
+                values.setSafe(i, (float) i);
+                flags.setSafe(i, (byte)i);
+            }
+
+            List<Field> fields = Arrays.asList(sids.getField(), values.getField(), flags.getField());
+            List<FieldVector> fieldVectors = Arrays.asList(sids, values, flags);
+            VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(fields, fieldVectors);
+            // remember set right row count
+            vectorSchemaRoot.setRowCount(100);
+            preparedStatement.setParameters(vectorSchemaRoot);
+            final FlightInfo info = preparedStatement.execute(callOptions);
+            final Ticket ticket = info.getEndpoints().get(0).getTicket();
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
+                int n = 0;
+                while (stream.next()) {
+                    System.out.println("prepared batch insert statement get result:");
+                    List<FieldVector> vectors = stream.getRoot().getFieldVectors();
+                    for (int i = 0; i < vectors.size(); i++) {
+                        System.out.printf("%d %d %s\n", n, i , vectors.get(i));
+                    }
+                    n++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            preparedStatement.close(callOptions);
+        }
+
+        // need callOptions argument here~
         try (final FlightSqlClient.PreparedStatement preparedStatement = sqlClient.prepare("select count(*) from test.sx1 where sid = ?;", callOptions)) {
             IntVector sids = new IntVector("sid",allocator);
             sids.allocateNew();
@@ -587,9 +672,13 @@ public class SqlRunner {
             VectorSchemaRoot vectorSchemaRoot = new VectorSchemaRoot(fields, fieldVectors);
             vectorSchemaRoot.setRowCount(1);
             preparedStatement.setParameters(vectorSchemaRoot);
+
+            // need callOptions argument here~
             final FlightInfo info = preparedStatement.execute(callOptions);
             final Ticket ticket = info.getEndpoints().get(0).getTicket();
-            try (FlightStream stream = sqlClient.getStream(ticket)) {
+
+            // need callOptions argument here~
+            try (FlightStream stream = sqlClient.getStream(ticket, callOptions)) {
                 int n = 0;
                 while (stream.next()) {
                     System.out.println("prepared statement get result:");
@@ -607,6 +696,94 @@ public class SqlRunner {
     }
 }
 
+```
+
+```xml [Java deps]
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>libs/</classpathPrefix>
+              <mainClass>org.example.SqlRunner</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <groupId>org.example</groupId>
+  <artifactId>ArrowFilghtSqlTest</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>ArrowFilghtSqlTest</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <arrow.version>16.0.0</arrow.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.arrow/arrow-flight -->
+    <dependency>
+      <groupId>org.apache.arrow</groupId>
+      <artifactId>arrow-flight</artifactId>
+      <version>${arrow.version}</version>
+      <type>pom</type>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-sql -->
+    <dependency>
+      <groupId>org.apache.arrow</groupId>
+      <artifactId>flight-sql</artifactId>
+      <version>${arrow.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.5</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-core -->
+    <dependency>
+      <groupId>org.apache.arrow</groupId>
+      <artifactId>arrow-memory-netty</artifactId>
+      <version>${arrow.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-core -->
+    <dependency>
+      <groupId>org.apache.arrow</groupId>
+      <artifactId>flight-core</artifactId>
+      <version>${arrow.version}</version>
+    </dependency>
+  </dependencies>
+</project>
 ```
 
 ``` Python [Python]

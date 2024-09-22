@@ -15,12 +15,12 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 
 ## 安装并配置 Grafana 插件
 
-安装好 Grafana 之后就可以进行插件的安装了，建议安装前先停止你的 grafana 服务。
+安装好 Grafana 之后就可以进行插件的安装了，建议安装前先停止你的 Grafana 服务。下面将介绍三种安装方式：
 
 :::: tabs
 
 ::: tab 手动安装插件
-[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+下载[Grafana 插件](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) 并解压到本地，例如 `./myplugins`。
 编辑你的 `grafana.ini`，找到并修改如下配置：
 
 ```
@@ -33,9 +33,9 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 关于如何配置你的 `grafana.ini` ，可以参考 <a href="https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/" target="_blank">Grafana 官网配置文档</a>，当然你也可以通过脚本安装的方式，为你自动安装插件并生成相关配置文件。
 
-修改配置后，需要重启 grafana 服务。
+修改配置后，需要重启 Grafana 服务。
 
-打开浏览器，登录到 grafana
+打开浏览器，登录到 Grafana
 
 - 添加数据源
 
@@ -62,12 +62,12 @@ bash -c "$(curl -fsSL \
 # 参数为 datalayers 连接相关配置：-h 为地址和端口， -u 为用户名，-p 为密码，请根据实际情况修改
 ```
 
-该脚本将为你自动安装插件，并在当前目录生成相关配置文件，脚本运行结束后，请根据脚本提示，进入到你的 grafana 实例目录，启动 grafana 服务。
+该脚本将为你自动安装插件，并在当前目录生成相关配置文件，脚本运行结束后，请根据脚本提示，进入到你的 Grafana 实例目录，启动 Grafana 服务。
 :::
 
 ::: tab 通过 docker 安装
 
-首先需要[下载](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) Grafana 插件并解压到本地，例如 `./myplugins`。
+首先需要下载 [Grafana 插件](https://github.com/datalayers-io/grafana-datalayers-datasource/releases)并解压到本地，例如 `./myplugins`。
 
 如果你希望单独通过 docker 来运行，请运行以下命令
 

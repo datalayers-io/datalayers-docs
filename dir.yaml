@@ -75,6 +75,9 @@
             - title_en: ERROR CODE
               title_cn: 错误码说明
               path: development-guide/errno-with-restapi
+            - title_en: Multi-language Access Examples
+              title_cn: 多语言接入示例
+              path: development-guide/multi-language-examples
         - title_en: InfluxDB Line Protocol
           title_cn: InfluxDB Line Protocol
           path: development-guide/writing-with-influxdb-line-protocol
@@ -102,16 +105,16 @@
       children:
         - title_en: Time-Series Engine
           title_cn: 时序引擎
-          path: sql-reference/table-engine-timeseries
+          path: sql-reference/table-engine/timeseries
         - title_en: key-Value Engine
           title_cn: Key-Value引擎
-          path: sql-reference/table-engine-kv
+          path: sql-reference/table-engine/kv
         - title_en: Streaming Engine
           title_cn: 流引擎
-          path: sql-reference/table-engine-streaming
+          path: sql-reference/table-engine/streaming
         - title_en: Log Engine
           title_cn: 日志引擎
-          path: sql-reference/table-engine-log
+          path: sql-reference/table-engine/log
     - title_en: SQL STATEMENTS
       title_cn: SQL 语句
       collapsed: true
@@ -277,18 +280,9 @@
     - title_en: Capacity Model
       title_cn: 容量模型
       path: admin/capacity-model
-    #- title_en: Data Backup
-    #  title_cn: 数据备份
-    #  path: admin/data-backup
-    #- title_en: Data Restore
-    #  title_cn: 数据恢复
-    #  path: admin/data-restore
-    #- title_en: Data Import
-    #  title_cn: 数据导入
-    #  path: admin/data-export
-    #- title_en: Data Export
-    #  title_cn: 数据导出
-    #  path: admin/data-import
+    - title_en: Backup and Restore 
+      title_cn: 备份与恢复
+      path: admin/backup-restore
     #- title_en: Compute Node Scaling
     #  title_cn: 计算节点扩缩容
     #  path: admin/compute-node-scaling
@@ -309,9 +303,15 @@
   title_cn: 应用集成
   collapsed: true
   children:
+    - title_en: EMQX
+      title_cn: EMQX
+      path: integration/datalayers-with-emqx
     - title_en: Grafana
       title_cn: Grafana
-      path: integration/datalayers-grafana
+      path: integration/datalayers-with-grafana
+    - title_en: OpenTelemetry
+      title_cn: OpenTelemetry
+      path: integration/datalayers-with-opentelemetry
 - title_en: User & Security
   title_cn: 用户与安全
   collapsed: true
