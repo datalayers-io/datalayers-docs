@@ -1,8 +1,10 @@
 # 多语言接入示例
 
 我们提供以下语言的示例，展示如何使用基于 HTTP/HTTPS 的 REST API 与 Datalayers 进行交互：
-
+目前提供以下示例：
 * Python
+* Go
+* Shell
 
 ::: code-group
 
@@ -255,6 +257,38 @@ func main() {
         fmt.Println("Error executing sql: ", err)
     }
 }
+```
+
+```Shell [Shell]
+// 创建数据库
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql \
+-H 'Content-Type: application/binary' \
+-d 'create database demo'
+
+// 创建表
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
+-H 'Content-Type: application/binary' \
+-d 'CREATE TABLE sensor_info (
+  ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  sn INT32 NOT NULL,
+  speed int,
+  longitude float,
+  latitude float,
+  timestamp KEY (ts)) PARTITION BY HASH(sn) PARTITIONS 2 ENGINE=TimeSeries;'
+
+// 写入数据
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
+-H 'Content-Type: application/binary' \
+-d 'INSERT INTO sensor_info(sn, speed, longitude, latitude) VALUES(1, 120, 104.07, 30.59),(2, 120, 104.07, 30.59)'
+
+// 查询数据
+curl -u"admin:public" -X POST \
+http://127.0.0.1:8361/api/v1/sql?db=demo \
+-H 'Content-Type: application/binary' \
+-d 'SELECT * FROM sensor_info'
 ```
 
 :::
