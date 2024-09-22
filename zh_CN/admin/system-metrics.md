@@ -19,8 +19,6 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_cpu_usage                       | gauge            | Datalayers 节点CPU 使用率          |
 | datalayers_ingest_rows                     | counter          | Datalayers 写入的行数              |
 | datalayers_select_total                    | counter          | Datalayers select 请求次数         |
-| parquet_statistics_cache_hit_total         | counter          | parquet 统计信息缓存hit次数         |
-| parquet_statistics_cache_miss_total        | counter          | parquet 统计信息缓存miss次数         |
 | parquet_meta_cache_hit_total               | counter          | parquet meta cache 命中次数         |
 | parquet_meta_cache_miss_total              | counter          | parquet meta cache miss次数        |
 | object_store_meta_cache_hit_total          | counter          | object_store cache 命中次数         |
