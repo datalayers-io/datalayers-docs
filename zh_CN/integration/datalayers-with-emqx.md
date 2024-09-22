@@ -6,7 +6,7 @@
 
 ## 前置条件
 1. 已安装 Datalayers, 版本要求：>= 2.1.8。
-2. 已安装 EMQX 企业版，版本要求：>= 5.8
+2. 已安装 EMQX 企业版，版本要求：>= 5.8。
 
 ## 配置步骤
 
@@ -20,7 +20,13 @@ Query OK, 0 rows affected. (0.001 sec)
 > use demo
 Database changed to `demo`
 
-> CREATE TABLE `sensor_info1` (time TIMESTAMP(9) NOT NULL,sid STRING NOT NULL,temp DOUBLE,timestamp key(time))PARTITION BY HASH (sid) PARTITIONS 1 ENGINE=TimeSeries
+> CREATE TABLE `sensor_info` (
+  time TIMESTAMP(9) NOT NULL,
+  sid STRING NOT NULL,
+  temp DOUBLE,
+  timestamp key(time))
+  PARTITION BY HASH (sid) PARTITIONS 1 
+  ENGINE=TimeSeries
 Query OK, 0 rows affected. (0.034 sec)
 
 ```
