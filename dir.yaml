@@ -326,13 +326,3 @@
     - title_en: Releases
       title_cn: 版本发布
       path: releases/changes
-- title_en: Releases
-  title_cn: 应用场景
-  collapsed: true
-  children:
-    - title_en: IIot
-      title_cn: 工业物联网
-      path: use-cases/iiot
-    - title_en: IoV
-      title_cn: 车联网
-      path: use-cases/iov
