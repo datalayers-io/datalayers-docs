@@ -788,16 +788,25 @@ public class SqlRunner {
 
 ``` Python [Python]
 # Install dependencies:
-# pip install pyarrow flightsql-dbapi pandas
+# pip install pyarrow flightsql-dbapi pandas protobuf
 
 from flightsql import FlightSQLClient, FlightSQLCallOptions
-from typing import Dict, Optional
+from flightsql.client import PreparedStatement
+from typing import Dict, Optional, Any
+from google.protobuf import any_pb2
+import flightsql.flightsql_pb2 as flightsql_pb
+import pyarrow as pa
+import pyarrow.flight as flight
+import datetime
 import pandas
 
 
 class Client:
     def __init__(self, host: str, port: int, username: str, password: str, metadata: Optional[Dict[str, str]] = None):
-        # Instantiates a FlightSQLClient configured for Datalayers.
+        '''
+        Instantiates a FlightSQLClient configured for Datalayers.
+        '''
+
         self.inner = FlightSQLClient(
             host=host,
             port=port,
@@ -809,13 +818,59 @@ class Client:
         )
 
     def execute(self, sql: str, options: Optional[FlightSQLCallOptions] = None) -> pandas.DataFrame:
+        '''
+        Executes the sql on Datalayers and returns the result as a pandas Dataframe.
+        '''
+
         # Requests the server to execute the given sql.
         # The server replies with a flight into containing tickets for retrieving the response.
         flight_info = self.inner.execute(sql, options)
+        # By Datalayers' design, there's always a single returned no matter of the Datalayers is in standalone mode or cluster mode.
         ticket = flight_info.endpoints[0].ticket
         # Retrieves the response from the server.
         reader = self.inner.do_get(ticket)
         # Reads the response as a pandas Dataframe.
+        df = reader.read_pandas()
+        return df
+
+    def prepare(self, sql: str, options: Optional[FlightSQLCallOptions] = None) -> PreparedStatement:
+        '''
+        Creates a prepared statement.
+        You must provide an options with headers containing the `database` key.
+        '''
+
+        return self.inner.prepare(sql)
+
+    def execute_prepared(self, prepared_stmt: PreparedStatement, binding: pa.RecordBatch) -> pandas.DataFrame:
+        '''
+        Binds the `binding` record batch with the prepared statement and requests the server to execute the statement.
+        '''
+
+        #! Since the flightsql-dbapi library misses setting options for do_put, we have to manually pass in the options.
+        #! We have filed a pull request to fix this issue. When the PR is merged, the codes could be simplified to:
+        #! ``` Python
+        #! flight_info = prepared_stmt.execute(binding)
+        #! ticket = flight_info.endpoints[0].ticket
+        #! reader = self.inner.do_get(ticket)
+        #! df = reader.read_pandas()
+        #! return df
+        #! ```
+
+        cmd = flightsql_pb.CommandPreparedStatementQuery(
+            prepared_statement_handle=prepared_stmt.handle)
+        desc = make_flight_descriptor(cmd)
+
+        if binding is not None and binding.num_rows > 0:
+            writer, reader = self.inner.client.do_put(
+                desc, binding.schema, prepared_stmt.options)
+            writer.write(binding)
+            writer.done_writing()
+            reader.read()
+
+        flight_info = self.inner.client.get_flight_info(
+            desc, prepared_stmt.options)
+        ticket = flight_info.endpoints[0].ticket
+        reader = self.inner.do_get(ticket)
         df = reader.read_pandas()
         return df
 
@@ -825,6 +880,37 @@ class Client:
 
 def print_affected_rows(df: pandas.DataFrame) -> int:
     print("Affected rows: {}".format(df["Count"][0]))
+
+
+def make_flight_descriptor(command: Any) -> flight.FlightDescriptor:
+    any = any_pb2.Any()
+    any.Pack(command)
+    return flight.FlightDescriptor.for_command(any.SerializeToString())
+
+
+def make_test_batch() -> pa.RecordBatch:
+    tzinfo = datetime.timezone(datetime.timedelta(hours=8))
+    ts_data = [
+        datetime.datetime(2024, 9, 2, 10, 0, tzinfo=tzinfo),
+        datetime.datetime(2024, 9, 2, 10, 5, tzinfo=tzinfo),
+        datetime.datetime(2024, 9, 2, 10, 10, tzinfo=tzinfo),
+        datetime.datetime(2024, 9, 2, 10, 15, tzinfo=tzinfo),
+        datetime.datetime(2024, 9, 2, 10, 20, tzinfo=tzinfo)
+    ]
+    sid_data = [1, 2, 3, 4, 5]
+    value_data = [12.5, 15.3, 9.8, 22.1, 30.0]
+    flag_data = [0, 1, 0, 1, 0]
+
+    ts_column = pa.array(ts_data, type=pa.timestamp('ms'))
+    sid_column = pa.array(sid_data, type=pa.int32())
+    value_column = pa.array(value_data, type=pa.float32())
+    flag_column = pa.array(flag_data, type=pa.int8())
+
+    batch = pa.RecordBatch.from_arrays(
+        [ts_column, sid_column, value_column, flag_column],
+        ['ts', 'sid', 'value', 'flag']
+    )
+    return batch
 
 
 def main():
@@ -871,11 +957,11 @@ def main():
     # Inserts some data into the `demo` table.
     sql = '''
         INSERT INTO test.demo (ts, sid, value, flag) VALUES
-            ('2024-09-01 10:00:00', 1, 12.5, 0),
-            ('2024-09-01 10:05:00', 2, 15.3, 1),
-            ('2024-09-01 10:10:00', 3, 9.8, 0),
-            ('2024-09-01 10:15:00', 4, 22.1, 1),
-            ('2024-09-01 10:20:00', 5, 30.0, 0);
+            ('2024-09-01T10:00:00+08:00', 1, 12.5, 0),
+            ('2024-09-01T10:05:00+08:00', 2, 15.3, 1),
+            ('2024-09-01T10:10:00+08:00', 3, 9.8, 0),
+            ('2024-09-01T10:15:00+08:00', 4, 22.1, 1),
+            ('2024-09-01T10:20:00+08:00', 5, 30.0, 0);
         '''
     result = client.execute(sql)
     # The result should be:
@@ -886,13 +972,48 @@ def main():
     sql = "SELECT * FROM test.demo"
     result = client.execute(sql)
     # The result should be:
-    #                              ts  sid  value  flag
-    # 0 2024-09-01 18:05:00+08:00    2   15.3     1
-    # 1 2024-09-01 18:15:00+08:00    4   22.1     1
-    # 2 2024-09-01 18:20:00+08:00    5   30.0     0
-    # 3 2024-09-01 18:10:00+08:00    3    9.8     0
-    # 4 2024-09-01 18:00:00+08:00    1   12.5     0
+    #                             ts  sid  value  flag
+    # 0 2024-09-01 10:00:00+08:00    1   12.5     0
+    # 1 2024-09-01 10:05:00+08:00    2   15.3     1
+    # 2 2024-09-01 10:15:00+08:00    4   22.1     1
+    # 3 2024-09-01 10:20:00+08:00    5   30.0     0
+    # 4 2024-09-01 10:10:00+08:00    3    9.8     0
     print(result)
+
+    # Inserts some data into the `demo` table with prepared statement.
+    #
+    # The with block is used to manage the life cycle of the prepared statement automatically.
+    # Otherwise, you have call the `close` method of the prepared statement manually.
+    sql = "INSERT INTO test.demo (ts, sid, value, flag) VALUES (?, ?, ?, ?);"
+    with client.prepare(sql) as prepared_stmt:
+        binding = make_test_batch()
+        result = client.execute_prepared(prepared_stmt, binding)
+        # The result should be:
+        # Affected rows: 5
+        print_affected_rows(result)
+
+    # Queries the inserted data with prepared statement.
+    sql = "SELECT * FROM test.demo WHERE sid = ?"
+    with client.prepare(sql) as prepared_stmt:
+        # Retrieves all rows with `sid` == 1.
+        sid_values = pa.array([1], type=pa.int32())
+        binding = pa.RecordBatch.from_arrays([sid_values], ['sid'])
+        result = client.execute_prepared(prepared_stmt, binding)
+        # The result should be:
+        #                                  ts  sid  value  flag
+        # 0 2024-09-01 10:00:00+08:00    1   12.5     0
+        # 1 2024-09-02 10:00:00+08:00    1   12.5     0
+        print(result)
+
+        # Retrieves all rows with `sid` == 2.
+        sid_values = pa.array([2], type=pa.int32())
+        binding = pa.RecordBatch.from_arrays([sid_values], ['sid'])
+        result = client.execute_prepared(prepared_stmt, binding)
+        # The result should be:
+        #                                  ts  sid  value  flag
+        # 0 2024-09-01 10:05:00+08:00    2   15.3     1
+        # 1 2024-09-02 10:05:00+08:00    2   15.3     1
+        print(result)
 
 
 if __name__ == "__main__":
