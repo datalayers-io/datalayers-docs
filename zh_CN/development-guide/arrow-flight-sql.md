@@ -785,4 +785,118 @@ public class SqlRunner {
   </dependencies>
 </project>
 ```
+
+``` Python [Python]
+# Install dependencies:
+# pip install pyarrow flightsql-dbapi pandas
+
+from flightsql import FlightSQLClient, FlightSQLCallOptions
+from typing import Dict, Optional
+import pandas
+
+
+class Client:
+    def __init__(self, host: str, port: int, username: str, password: str, metadata: Optional[Dict[str, str]] = None):
+        # Instantiates a FlightSQLClient configured for Datalayers.
+        self.inner = FlightSQLClient(
+            host=host,
+            port=port,
+            user=username,
+            password=password,
+            metadata=metadata,
+            # Http is used if `insecure` is True. Https is used if otherwise.
+            insecure=True,
+        )
+
+    def execute(self, sql: str, options: Optional[FlightSQLCallOptions] = None) -> pandas.DataFrame:
+        # Requests the server to execute the given sql.
+        # The server replies with a flight into containing tickets for retrieving the response.
+        flight_info = self.inner.execute(sql, options)
+        ticket = flight_info.endpoints[0].ticket
+        # Retrieves the response from the server.
+        reader = self.inner.do_get(ticket)
+        # Reads the response as a pandas Dataframe.
+        df = reader.read_pandas()
+        return df
+
+    def close(self):
+        self.inner.close()
+
+
+def print_affected_rows(df: pandas.DataFrame) -> int:
+    print("Affected rows: {}".format(df["Count"][0]))
+
+
+def main():
+    # The `database` key is set to 'test' throughout the demo.
+    #
+    # You can alternatively set the `database` key for a specific request
+    # using the FlightSQLCallOptions from `flightsql`. For example:
+    # ``` Python
+    # options = FlightSQLCallOptions(headers=[(b"database", b"test")])
+    # result = client.execute(sql, options)
+    # print(result)
+    # ```
+    client = Client(host='127.0.0.1',
+                    port=8360,
+                    username="admin",
+                    password="public",
+                    metadata={"database": "test"}
+                    )
+
+    # Creates a database `test`.
+    sql = "create database test;"
+    result = client.execute(sql)
+    # The result should be:
+    # Affected rows: 0
+    print_affected_rows(result)
+
+    # Creates a table `demo` within the database `test`.
+    sql = '''
+        CREATE TABLE test.demo (
+                ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                sid INT32,
+                value REAL,
+                flag INT8,
+                timestamp key(ts)
+        )
+        PARTITION BY HASH(sid) PARTITIONS 8
+        ENGINE=TimeSeries;
+        '''
+    result = client.execute(sql)
+    # The result should be:
+    # Affected rows: 0
+    print_affected_rows(result)
+
+    # Inserts some data into the `demo` table.
+    sql = '''
+        INSERT INTO test.demo (ts, sid, value, flag) VALUES
+            ('2024-09-01 10:00:00', 1, 12.5, 0),
+            ('2024-09-01 10:05:00', 2, 15.3, 1),
+            ('2024-09-01 10:10:00', 3, 9.8, 0),
+            ('2024-09-01 10:15:00', 4, 22.1, 1),
+            ('2024-09-01 10:20:00', 5, 30.0, 0);
+        '''
+    result = client.execute(sql)
+    # The result should be:
+    # Affected rows: 5
+    print_affected_rows(result)
+
+    # Queries the inserted data.
+    sql = "SELECT * FROM test.demo"
+    result = client.execute(sql)
+    # The result should be:
+    #                              ts  sid  value  flag
+    # 0 2024-09-01 18:05:00+08:00    2   15.3     1
+    # 1 2024-09-01 18:15:00+08:00    4   22.1     1
+    # 2 2024-09-01 18:20:00+08:00    5   30.0     0
+    # 3 2024-09-01 18:10:00+08:00    3    9.8     0
+    # 4 2024-09-01 18:00:00+08:00    1   12.5     0
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
+```
+
 :::
