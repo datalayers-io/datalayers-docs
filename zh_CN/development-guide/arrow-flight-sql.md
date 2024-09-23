@@ -992,7 +992,7 @@ def main():
         # Affected rows: 5
         print_affected_rows(result)
 
-    # Queries the inserted data with prepared statment.
+    # Queries the inserted data with prepared statement.
     sql = "SELECT * FROM test.demo WHERE sid = ?"
     with client.prepare(sql) as prepared_stmt:
         # Retrieves all rows with `sid` == 1.
