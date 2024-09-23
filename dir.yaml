@@ -251,7 +251,7 @@
       collapsed: true
       children:
         - title_en: Server Configuration
-          title_cn: Server配置
+          title_cn: Server 配置
           path: admin/configuration-fields/server
         - title_en: Time Series Engine Configuration
           title_cn: 时序引擎配置
@@ -266,7 +266,7 @@
           title_cn: 调度器配置
           path: admin/configuration-fields/scheduler
         - title_en: Runtime Configuration
-          title_cn: Runtime配置
+          title_cn: Runtime 配置
           path: admin/configuration-fields/runtime
         - title_en: Log Configuration
           title_cn: 日志配置
@@ -277,9 +277,9 @@
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
-    - title_en: Capacity Model
-      title_cn: 容量模型
-      path: admin/capacity-model
+    #- title_en: Capacity Model
+    #  title_cn: 容量模型
+    #  path: admin/capacity-model
     - title_en: Backup and Restore 
       title_cn: 备份与恢复
       path: admin/backup-restore

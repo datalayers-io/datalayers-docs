@@ -14,9 +14,8 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 * Rust
 * Java
 * Python
-* 基于Arrow Flight SQL 的 JDBC
-* 基于Arrow Flight SQL 的 ODBC
 
+更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
 
 ::: code-group
 ```Go [Go]
@@ -696,9 +695,8 @@ public class SqlRunner {
     }
 }
 
-```
-
-```xml [Java deps]
+// deps
+/* 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -784,6 +782,8 @@ public class SqlRunner {
     </dependency>
   </dependencies>
 </project>
+*/
+
 ```
 
 ``` Python [Python]
