@@ -3,14 +3,16 @@
 Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。Datalayers 支持 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可使用支持 Arrow Flight SQL 的相关 SDK 进行接入。
 
 ## Arrow Flight SQL 优势
-**高性能数据交互**：Arrow Flight SQL 基于 Arrow 数据格式和 Flight RPC 框架，可实现高性能的数据交互。 
+
+**高性能数据交互**：Arrow Flight SQL 基于 Arrow 数据格式和 Flight RPC 框架，可实现高性能的数据交互。
 **协议化**：Arrow Flight SQL 使用 Protobuf 定义了一组 RPC 方法和消息格式，这提供了协议化的数据传输和交互。这有助于实现与不同系统和编程语言的互操作性。  
 **数据格式一致性**：通过使用 Arrow 数据格式，Arrow Flight SQL 可以确保数据在不同系统之间的一致性。这有助于避免数据转换和格式问题，简化了数据交换过程。  
 
 ## 接入
+
 目前我们支持Arrow Flight SQL 客户端的环境有：
+
 * Go
-* C++
 * Rust
 * Java
 * Python
@@ -18,171 +20,366 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
 
 ::: code-group
+
 ```Go [Go]
 package main
 
 import (
-	"context"
-	"fmt"
+    "context"
+    "fmt"
+    "os"
+    "text/tabwriter"
+    "time"
 
-	"github.com/apache/arrow/go/v16/arrow"
-	"github.com/apache/arrow/go/v16/arrow/array"
-	"github.com/apache/arrow/go/v16/arrow/flight/flightsql"
-	"github.com/apache/arrow/go/v16/arrow/memory"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+    "github.com/apache/arrow/go/v17/arrow"
+    "github.com/apache/arrow/go/v17/arrow/array"
+    "github.com/apache/arrow/go/v17/arrow/flight"
+    "github.com/apache/arrow/go/v17/arrow/flight/flightsql"
+    "github.com/apache/arrow/go/v17/arrow/memory"
+    "google.golang.org/grpc"
+    "google.golang.org/grpc/credentials/insecure"
+    "google.golang.org/grpc/metadata"
 )
 
-func main() {
-	addr := "127.0.0.1:8360"
-	var dialOpts = []grpc.DialOption{
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	}
-	cl, err := flightsql.NewClient(addr, nil, nil, dialOpts...)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	ctx, err := cl.Client.AuthenticateBasicToken(context.Background(), "admin", "public")
-	if err != nil {
-		fmt.Print(err)
-		return
-	}
-
-	// create database
-	db_create_info, err := cl.Execute(ctx, "create database test;")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	_, err = cl.DoGet(ctx, db_create_info.GetEndpoint()[0].Ticket)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// create table	test
-	table_create_info, err := cl.Execute(ctx, "CREATE TABLE test.sx1 (" +
-	              "ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-	              "sid INT32," +
-	              "value REAL," +
-	              "flag INT8,"  +
-	              "timestamp key(ts)" +
-	              ")" +
-	              "PARTITION BY HASH(sid) PARTITIONS 32" +
-	              "ENGINE=TimeSeries")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	_, err = cl.DoGet(ctx, table_create_info.GetEndpoint()[0].Ticket)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// insert some value
-	insert_info, err := cl.Execute(ctx, "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	_, err = cl.DoGet(ctx, insert_info.GetEndpoint()[0].Ticket)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	insert_info, err = cl.Execute(ctx, "INSERT INTO test.sx1 (sid, value, flag) VALUES (2, 1.1, 1);")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	_, err = cl.DoGet(ctx, insert_info.GetEndpoint()[0].Ticket)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	{
-		info, err := cl.Execute(ctx, "SELECT count(*) from test.sx1;")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		defer rdr.Release()
-
-		n := 0
-		for rdr.Next() {
-			record := rdr.Record()
-			for i, col := range record.Columns() {
-				fmt.Printf("Normal request: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
-			}
-			n++
-			if n == 10 {
-				break
-			}
-		}
-	}
-
-	{
-		prp, err := cl.Prepare(ctx, "SELECT count(*) from test.sx1 where sid = ?;")
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		defer prp.Close(ctx)
-		alloc := memory.NewGoAllocator()
-
-		// only sid in the statement
-		prepared_schema := arrow.NewSchema([]arrow.Field{
-			{Name: "sid", Type: arrow.PrimitiveTypes.Uint32},
-		}, nil)
-
-		bldr := array.NewRecordBuilder(alloc, prepared_schema)
-		defer bldr.Release()
-
-		sid_builder := bldr.Field(0).(*array.Uint32Builder)
-		sid_builder.Append(1)
-
-		binding := bldr.NewRecord()
-		defer binding.Release()
-
-		prp.SetParameters(binding)
-		info, err := prp.Execute(ctx)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		rdr, err := cl.DoGet(ctx, info.GetEndpoint()[0].Ticket)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		defer rdr.Release()
-		n := 0
-		for rdr.Next() {
-			record := rdr.Record()
-			for i, col := range record.Columns() {
-				fmt.Printf("prepared_statement: rec[%d][%q]: %v\n", n, record.ColumnName(i), col)
-			}
-			n++
-			if n == 10 {
-				break
-			}
-		}
-	}
+type Executor struct {
+    client *flightsql.Client
+    ctx    context.Context
 }
-```
 
-```c++ [C++]
-//todo
+// Creates an executor for executing SQLs on the Datalayers server.
+func makeExecutor(host string, port uint32, username, password string) (*Executor, error) {
+    addr := fmt.Sprintf("%s:%v", host, port)
 
+    // Creates a FlightSQL client to connect to Datalayers.
+    // The TLS is disabled by default.
+    var dialOpts = []grpc.DialOption{
+        grpc.WithTransportCredentials(insecure.NewCredentials()),
+    }
+    client, err := flightsql.NewClient(addr, nil, nil, dialOpts...)
+    if err != nil {
+        return nil, err
+    }
+
+    // Authenticates with the server using the basic authorization.
+    ctx, err := client.Client.AuthenticateBasicToken(context.Background(), username, password)
+    if err != nil {
+        return nil, err
+    }
+
+    executor := &Executor{
+        client,
+        ctx,
+    }
+    return executor, nil
+}
+
+// Executes the sql on Datalayers and returns the result as a slice of arrow records.
+func (exec *Executor) execute(sql string) ([]arrow.Record, error) {
+    flightInfo, err := exec.client.Execute(exec.ctx, sql)
+    if err != nil {
+        return nil, err
+    }
+    return exec.doGet(flightInfo.GetEndpoint()[0].GetTicket())
+}
+
+// Creates a prepared statement.
+func (exec *Executor) prepare(sql string) (*flightsql.PreparedStatement, error) {
+    return exec.client.Prepare(exec.ctx, sql)
+}
+
+// Binds the record to the prepared statement and executes it on the server.
+func (exec *Executor) executePrepared(preparedStmt *flightsql.PreparedStatement, binding arrow.Record) ([]arrow.Record, error) {
+    defer binding.Release()
+
+    preparedStmt.SetParameters(binding)
+    flightInfo, err := preparedStmt.Execute(exec.ctx)
+    if err != nil {
+        return nil, err
+    }
+    return exec.doGet(flightInfo.GetEndpoint()[0].GetTicket())
+}
+
+// Calls the `DoGet` method of the FlightSQL client.
+func (exec *Executor) doGet(ticket *flight.Ticket) ([]arrow.Record, error) {
+    reader, err := exec.client.DoGet(exec.ctx, ticket)
+    if err != nil {
+        return nil, err
+    }
+    defer reader.Release()
+
+    var records []arrow.Record
+    for reader.Next() {
+        record := reader.Record()
+        // Increments ref count for each record to not let it release immediately.
+        record.Retain()
+        records = append(records, record)
+    }
+    return records, nil
+}
+
+// Sets the database header for each request to the given database.
+func (exec *Executor) useDatabase(database string) {
+    exec.ctx = metadata.AppendToOutgoingContext(exec.ctx, "database", database)
+}
+
+// Assumes the records contain the affected rows and prints the affected rows.
+func printAffectedRows(records []arrow.Record) {
+    if len(records) == 0 {
+        panic("Unexpected empty records")
+    }
+    defer releaseRecords(records)
+
+    // By Datalayers' design, the affected rows is the value at the first row and the first column.
+    affectedRows := records[0].Column(0).(*array.String).Value(0)
+    fmt.Println("Affected rows: ", affectedRows)
+}
+
+// Helper function to print records as a table
+func printRecordsAsTable(records []arrow.Record) {
+    if len(records) == 0 {
+        return
+    }
+    defer releaseRecords(records)
+
+    // Creates a tabwriter to format output into a table
+    writer := tabwriter.NewWriter(os.Stdout, 0, 0, 3, ' ', tabwriter.AlignRight)
+
+    // Gets schema and prints column headers
+    schema := records[0].Schema()
+    for _, field := range schema.Fields() {
+        fmt.Fprintf(writer, "%s\t", field.Name)
+    }
+    fmt.Fprintln(writer)
+
+    // Prints rows
+    for _, record := range records {
+        numRows := int(record.NumRows())
+        numCols := int(record.NumCols())
+        for rowIndex := 0; rowIndex < numRows; rowIndex++ {
+            for colIndex := 0; colIndex < numCols; colIndex++ {
+                switch arr := record.Column(colIndex).(type) {
+                //! Adds more array types if necessary.
+                case *array.Timestamp:
+                    fmt.Fprintf(writer, "%v\t", arr.Value(rowIndex).ToTime(arrow.Millisecond).Local())
+                case *array.Int8:
+                    fmt.Fprintf(writer, "%d\t", arr.Value(rowIndex))
+                case *array.Int32:
+                    fmt.Fprintf(writer, "%d\t", arr.Value(rowIndex))
+                case *array.Float32:
+                    fmt.Fprintf(writer, "%.2f\t", arr.Value(rowIndex))
+                default:
+                    panic(fmt.Sprintf("Unknown typed array: %v", arr.DataType()))
+                }
+            }
+            fmt.Fprintln(writer)
+        }
+    }
+    writer.Flush()
+}
+
+func releaseRecords(records []arrow.Record) {
+    for _, record := range records {
+        record.Release()
+    }
+}
+
+func makeTestRecord() arrow.Record {
+    // Sets the timezone to UTC+8.
+    loc, err := time.LoadLocation("Asia/Shanghai")
+    if err != nil {
+        panic(fmt.Sprintf("Failed to load location: %v", err))
+    }
+
+    schema := arrow.NewSchema([]arrow.Field{
+        {Name: "ts", Type: &arrow.TimestampType{Unit: arrow.Millisecond, TimeZone: "Asia/Shanghai"}, Nullable: false},
+        {Name: "sid", Type: arrow.PrimitiveTypes.Int32, Nullable: true},
+        {Name: "value", Type: arrow.PrimitiveTypes.Float32, Nullable: true},
+        {Name: "flag", Type: arrow.PrimitiveTypes.Int8, Nullable: true},
+    }, nil)
+
+    memAllocator := memory.NewGoAllocator()
+    tsBuilder := array.NewTimestampBuilder(memAllocator, &arrow.TimestampType{Unit: arrow.Millisecond, TimeZone: "Asia/Shanghai"})
+    sidBuilder := array.NewInt32Builder(memAllocator)
+    valueBuilder := array.NewFloat32Builder(memAllocator)
+    flagBuilder := array.NewInt8Builder(memAllocator)
+
+    tsData := []time.Time{
+        time.Date(2024, 9, 2, 10, 0, 0, 0, loc),
+        time.Date(2024, 9, 2, 10, 5, 0, 0, loc),
+        time.Date(2024, 9, 2, 10, 10, 0, 0, loc),
+        time.Date(2024, 9, 2, 10, 15, 0, 0, loc),
+        time.Date(2024, 9, 2, 10, 20, 0, 0, loc),
+    }
+    sidData := []int32{1, 2, 3, 4, 5}
+    valueData := []float32{12.5, 15.3, 9.8, 22.1, 30.0}
+    flagData := []int8{0, 1, 0, 1, 0}
+
+    for _, ts := range tsData {
+        tsBuilder.AppendTime(ts)
+    }
+    valid := []bool{true, true, true, true, true}
+    sidBuilder.AppendValues(sidData, valid)
+    valueBuilder.AppendValues(valueData, valid)
+    flagBuilder.AppendValues(flagData, valid)
+
+    tsArray := tsBuilder.NewArray()
+    sidArray := sidBuilder.NewArray()
+    valueArray := valueBuilder.NewArray()
+    flagArray := flagBuilder.NewArray()
+    record := array.NewRecord(schema, []arrow.Array{tsArray, sidArray, valueArray, flagArray}, int64(len(tsData)))
+
+    tsBuilder.Release()
+    sidBuilder.Release()
+    valueBuilder.Release()
+    flagBuilder.Release()
+
+    return record
+}
+
+func makeQueryBinding(sid int32) arrow.Record {
+    sidBuilder := array.NewInt32Builder(memory.NewGoAllocator())
+    defer sidBuilder.Release()
+
+    sidBuilder.Append(sid)
+    sidArray := sidBuilder.NewArray()
+
+    schema := arrow.NewSchema([]arrow.Field{
+        {Name: "sid", Type: arrow.PrimitiveTypes.Int32, Nullable: true},
+    }, nil)
+    record := array.NewRecord(schema, []arrow.Array{sidArray}, 1)
+    return record
+}
+
+func main() {
+    // Creates an executor for executing SQLs on the Datalayers server.
+    host := "127.0.0.1"
+    port := uint32(8360)
+    username := "admin"
+    password := "public"
+    executor, err := makeExecutor(host, port, username, password)
+    if err != nil {
+        fmt.Println("Failed to create an executor: ", err)
+        return
+    }
+
+    // Creates a database `test`.
+    sql := "CREATE DATABASE test;"
+    result, err := executor.execute(sql)
+    if err != nil {
+        fmt.Println("Failed to create database: ", err)
+        return
+    }
+    // The result should be:
+    // Affected rows: 0
+    printAffectedRows(result)
+
+    // Optional: sets the database header for each outgoing request to `test`.
+    // The Datalayers server uses this header to identify the associated table of a request.
+    // This setting is optional since the following SQLs contain the database context
+    // and the server could parse the database context from SQLs.
+    executor.useDatabase("test")
+
+    // Creates a table `demo` within the database `test`.
+    sql = `
+    CREATE TABLE test.demo (
+        ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        sid INT32,
+        value REAL,
+        flag INT8,
+        timestamp key(ts)
+    )
+    PARTITION BY HASH(sid) PARTITIONS 8
+    ENGINE=TimeSeries;`
+    result, err = executor.execute(sql)
+    if err != nil {
+        fmt.Println("Failed to create table: ", err)
+        return
+    }
+    // The result should be:
+    // Affected rows: 0
+    printAffectedRows(result)
+
+    // Inserts some data into the `demo` table.
+    sql = `
+        INSERT INTO test.demo (ts, sid, value, flag) VALUES
+            ('2024-09-01T10:00:00+08:00', 1, 12.5, 0),
+            ('2024-09-01T10:05:00+08:00', 2, 15.3, 1),
+            ('2024-09-01T10:10:00+08:00', 3, 9.8, 0),
+            ('2024-09-01T10:15:00+08:00', 4, 22.1, 1),
+            ('2024-09-01T10:20:00+08:00', 5, 30.0, 0);`
+    result, err = executor.execute(sql)
+    if err != nil {
+        fmt.Println("Failed to insert data: ", err)
+        return
+    }
+    // The result should be:
+    // Affected rows: 5
+    printAffectedRows(result)
+
+    // Queries the inserted data.
+    sql = "SELECT * FROM test.demo"
+    result, err = executor.execute(sql)
+    if err != nil {
+        fmt.Println("Failed to scan data: ", err)
+        return
+    }
+    // The result should be:
+    //                               ts   sid   value   flag
+    //    2024-09-01 10:15:00 +0800 CST     4   22.10      1
+    //    2024-09-01 10:00:00 +0800 CST     1   12.50      0
+    //    2024-09-01 10:05:00 +0800 CST     2   15.30      1
+    //    2024-09-01 10:10:00 +0800 CST     3    9.80      0
+    //    2024-09-01 10:20:00 +0800 CST     5   30.00      0
+    printRecordsAsTable(result)
+
+    // Inserts some data into the `demo` table with prepared statement.
+    sql = "INSERT INTO test.demo (ts, sid, value, flag) VALUES (?, ?, ?, ?);"
+    preparedStmt, err := executor.prepare(sql)
+    if err != nil {
+        fmt.Println("Failed to create a insert prepared statement: ", err)
+        return
+    }
+    binding := makeTestRecord()
+    result, err = executor.executePrepared(preparedStmt, binding)
+    if err != nil {
+        fmt.Println("Failed to execute a insert prepared statement: ", err)
+        return
+    }
+    // The result should be:
+    // Affected rows: 5
+    printAffectedRows(result)
+
+    // Queries the inserted data with prepared statement.
+    sql = "SELECT * FROM test.demo WHERE sid = ?"
+    preparedStmt, err = executor.prepare(sql)
+    if err != nil {
+        fmt.Println("Failed to create a select prepared statement: ", err)
+        return
+    }
+    binding = makeQueryBinding(1)
+    result, err = executor.executePrepared(preparedStmt, binding)
+    if err != nil {
+        fmt.Println("Failed to execute a select prepared statement: ", err)
+        return
+    }
+    // The result should be:
+    //                               ts   sid   value   flag
+    //    2024-09-01 10:00:00 +0800 CST     1   12.50      0
+    //    2024-09-02 10:00:00 +0800 CST     1   12.50      0
+    printRecordsAsTable(result)
+
+    binding = makeQueryBinding(2)
+    result, err = executor.executePrepared(preparedStmt, binding)
+    if err != nil {
+        fmt.Println("Failed to execute a select prepared statement: ", err)
+        return
+    }
+    // The result should be:
+    //                               ts   sid   value   flag
+    //    2024-09-01 10:05:00 +0800 CST     2   15.30      1
+    //    2024-09-02 10:05:00 +0800 CST     2   15.30      1
+    printRecordsAsTable(result)
+}
 ```
 
 ```rust [Rust]
