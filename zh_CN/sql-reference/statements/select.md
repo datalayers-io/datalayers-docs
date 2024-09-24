@@ -10,4 +10,7 @@ SELECT j FROM table_name WHERE i=3;
 SELECT i, sum(j) FROM table_name GROUP BY i;
 ```
 
-相关函数参数：[函数](../sql-functions.md)
+更多函数说明：
+* [聚合函数](../aggregation.md)
+* [时间与日期函数](../date.md)
+* [数据函数](../math.md)

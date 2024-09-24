@@ -84,6 +84,9 @@
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL
           path: development-guide/arrow-flight-sql
+    - title_en: Downsampling
+      title_cn: 时间窗口查询
+      path: development-guide/high-performance-writing
     - title_en: High-performance writing
       title_cn: 高性能写入
       path: development-guide/high-performance-writing
@@ -171,7 +174,6 @@
           path: sql-reference/statements/trim
     - title_en: Functions
       title_cn: 函数
-      path: sql-reference/sql-functions
       collapsed: true
       children:
         - title_en: Aggregation
@@ -225,7 +227,7 @@
       title_cn: 快速开始
       path: key-value-data-model/quick-start
     - title_en: Redis Compatibility
-      title_cn: Redis兼容性
+      title_cn: Redis 兼容性
       path: key-value-data-model/redis-compatibility
 
 - title_en: Operation Guide

@@ -58,8 +58,6 @@ Prometheus 启动完成后，将会定时从 Datalayers 服务定时拉取指标
 
 如果你还未安装 Grafana，请至 <a href="https://grafana.com/grafana/download?pg=get&plcmt=selfmanaged-box1-cta1" target="_blank">Grafana 官网下载页</a>下载并安装。
 
-下载时请注意：**目前 Datalayers 支持 Grafana >=9.2.5 版本。**
-
 你也可以通过 Docker 快速启动 Grafana 实例：
 
 ``` bash
