@@ -762,7 +762,7 @@ public class SqlRunner {
                 try (VectorSchemaRoot schemaRoot = stream.getRoot()) {
 //                    // How to get single element
 //                    // You can cast the FieldVector class to some class Like TinyIntVector and so on.
-//                    // You can get the type mapping from arrow offcial website
+//                    // You can get the type mapping from arrow official website
 //                    List<FieldVector> vectors = schemaRoot.getFieldVectors();
 //                    for (int i = 0; i < vectors.size(); i++) {
 //                        System.out.printf("Col :%d %s\n", i, vectors.get(i));
