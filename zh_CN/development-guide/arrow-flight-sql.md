@@ -743,13 +743,22 @@ public class SqlRunner {
                     throw e;
                 }
 
-               try {
-                   String query = "SELECT count(*) from test.sx1;";
-                   executeQuery(sqlClient, query, options);
-               } catch (Exception e){
-                   e.printStackTrace();
-                   throw e;
-               }
+                // insert with multiple values
+                try {
+                    String query = "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1), (1, 1.1, 1), (1, 1.1, 1), (1, 1.1, 1);";
+                    executeQuery(sqlClient, query, options);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                try {
+                    String query = "SELECT count(*) from test.sx1;";
+                    executeQuery(sqlClient, query, options);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw e;
+                }
             }
         }
     }
