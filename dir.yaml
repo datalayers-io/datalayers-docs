@@ -86,7 +86,7 @@
           path: development-guide/arrow-flight-sql
     - title_en: Downsampling
       title_cn: 时间窗口查询
-      path: development-guide/high-performance-writing
+      path: development-guide/downsampling
     - title_en: High-performance writing
       title_cn: 高性能写入
       path: development-guide/high-performance-writing
