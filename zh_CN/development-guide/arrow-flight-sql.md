@@ -456,7 +456,7 @@ async fn main() -> Result<()> {
     // Creates a client configured for Datalayers.
     let config = ClientConfig {
         host: "127.0.0.1".to_string(),
-        port: 18360,
+        port: 8360,
         username: "admin".to_string(),
         password: "public".to_string(),
         // Sets the `tls_cert` to the path to the certificate file
