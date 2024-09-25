@@ -414,267 +414,399 @@ func main() {
 ```
 
 ```rust [Rust]
-
+// Required dependencies:
+//
 // [dependencies]
-// tonic = { version = "*", features = ["transport", "codegen", "prost"] }
-// arrow-array = "51.0.0"
-// arrow-cast = { version = "*", features = ["prettyprint"] }
-// arrow-flight = { version = "*", features = ["flight-sql-experimental", "tls"] }
-// arrow-schema = "51.0.0"
-// tokio = "*"
-// futures = "*"
-// anyhow = "1.0.82"
-// prost = "0.12"
-// prost-types = "0.12"
+// anyhow = "1.0"
+// arrow-array = { version = "52.2", features = ["chrono-tz"] }
+// arrow-cast = { version = "52.2", features = ["prettyprint"] }
+// arrow-flight = { version = "52.2", features = [
+//     "flight-sql-experimental",
+//     "tls",
+// ] }
+// arrow-schema = "52.2"
+// chrono = "0.4"
+// futures = "0.3"
+// regex = "1.10"
+// tokio = { version = "1.40", features = ["full"] }
+// tonic = "0.11"
 
-use arrow_array::{Array, Int32Array, RecordBatch};
-use arrow_cast::pretty::pretty_format_batches;
-use arrow_flight::sql::client::FlightSqlServiceClient;
-use arrow_schema::{DataType, Field, Schema};
-use futures::{StreamExt, TryStreamExt};
-use std::{sync::Arc, time::Duration};
+use std::process::exit;
+use std::str::FromStr;
+use std::sync::Arc;
+use std::time::Duration;
 
 use anyhow::{bail, Context, Result};
-use tokio::sync::Mutex;
-use tonic::{
-    transport::{Channel, Endpoint},
-    IntoRequest,
+use arrow_array::{
+    Float32Array, Int32Array, Int8Array, RecordBatch, StringArray, TimestampMillisecondArray,
 };
-
-#[derive(Clone)]
-pub struct Ctx {
-    pub host: String,
-    pub port: u16,
-    pub username: Option<String>,
-    pub password: Option<String>,
-    pub database: Option<String>,
-    pub _timezone: Option<String>,
-}
-pub struct Executor {
-    ctx: Ctx,
-    client: FlightSqlServiceClient<Channel>,
-}
-
-impl Executor {
-    pub async fn new(ctx: Ctx) -> anyhow::Result<Executor> {
-        let protocol = "http";
-
-        let endpoint = Endpoint::new(format!("{}://{}:{}", protocol, ctx.host, ctx.port))
-            .context("create endpoint")?
-            .connect_timeout(Duration::from_secs(20))
-            .timeout(Duration::from_secs(20))
-            .tcp_nodelay(true) // Disable Nagle's Algorithm since we don't want packets to wait
-            .tcp_keepalive(Option::Some(Duration::from_secs(3600)))
-            .http2_keep_alive_interval(Duration::from_secs(300))
-            .keep_alive_timeout(Duration::from_secs(20))
-            .keep_alive_while_idle(true);
-
-        let channel = endpoint.connect().await.context("connect to endpoint")?;
-
-        let mut client = FlightSqlServiceClient::new(channel);
-
-        if let Some(database) = &ctx.database {
-            client.set_header("database", database);
-        }
-
-        match (ctx.username.clone(), ctx.password.clone()) {
-            (None, None) => {}
-            (Some(username), Some(password)) => {
-                client
-                    .handshake(&username, &password)
-                    .await
-                    .context("handshake")?;
-            }
-            (Some(_), None) => {
-                bail!("when username is set, you also need to set a password")
-            }
-            (None, Some(_)) => {
-                bail!("when password is set, you also need to set a username")
-            }
-        }
-
-        Ok(Executor { ctx: ctx, client })
-    }
-
-    pub async fn execute_flight(&mut self, sql: String) -> Result<Vec<RecordBatch>> {
-        let ctx = self.ctx.clone();
-        if ctx.database.is_some() {
-            self.client
-                .set_header("database", ctx.database.clone().unwrap());
-        }
-
-        let flight_info = self.client.execute(sql, None).await?;
-
-        let schema = Arc::new(Schema::try_from(flight_info.clone()).context("valid schema")?);
-        let mut batches = Vec::with_capacity(flight_info.endpoint.len() + 1);
-        batches.push(RecordBatch::new_empty(schema));
-
-        for endpoint in flight_info.endpoint {
-            let Some(ticket) = &endpoint.ticket else {
-                bail!("did not get ticket");
-            };
-
-            let mut flight_data = self.client.do_get(ticket.clone()).await?;
-
-            let endpoint_batches: std::prelude::v1::Result<
-                Vec<_>,
-                arrow_flight::error::FlightError,
-            > = (&mut flight_data).try_collect().await;
-
-            if endpoint_batches.is_err() {
-                let err = endpoint_batches.err().unwrap();
-                println!("Datalayers connection error: {:?}", err);
-                bail!(err);
-            }
-
-            batches.append(&mut endpoint_batches.unwrap());
-        }
-
-        Ok(batches)
-    }
-
-    pub async fn execute_prepared_statement(
-        &mut self,
-        sql: String,
-        batch: RecordBatch,
-    ) -> Result<Vec<RecordBatch>> {
-        let ctx = self.ctx.clone();
-        if ctx.database.is_some() {
-            self.client
-                .set_header("database", ctx.database.clone().unwrap());
-        }
-
-        let mut channel = self.client.prepare(sql, None).await.unwrap();
-        channel.set_parameters(batch)?;
-
-        let mut info = channel.execute().await?;
-        let ticket = info.endpoint.remove(0).ticket.unwrap();
-        let batches = self
-            .client
-            .do_get(ticket)
-            .await?
-            .try_collect()
-            .await
-            .unwrap();
-        Ok(batches)
-    }
-}
+use arrow_cast::pretty::pretty_format_batches;
+use arrow_flight::{
+    sql::client::{FlightSqlServiceClient, PreparedStatement},
+    Ticket,
+};
+use arrow_schema::{DataType, Field, Schema, TimeUnit};
+use chrono::TimeZone;
+use futures::TryStreamExt;
+use regex::Regex;
+use tonic::transport::{Certificate, Channel, ClientTlsConfig, Endpoint};
 
 #[tokio::main]
-async fn main() {
-    let ctx = Ctx {
-        host: "localhost".to_string(),
+async fn main() -> Result<()> {
+    // Creates a client configured for Datalayers.
+    let config = ClientConfig {
+        host: "127.0.0.1".to_string(),
         port: 8360,
-        username: Some("admin".to_string()),
-        password: Some("public".to_string()),
-        database: Some("test".to_string()),
-        _timezone: Some("UTC+8".to_string()),
+        username: "admin".to_string(),
+        password: "public".to_string(),
+        // Sets the `tls_cert` to the path to the certificate file
+        // if you want to use TLS.
+        tls_cert: None,
     };
+    let mut client = Client::try_new(&config).await?;
 
-    println!("host: {}", ctx.host);
-    println!("port: {}", ctx.port);
-    match ctx.username {
-        Some(ref username) => println!("username: {}", username),
-        None => println!("username: None"),
-    }
-    match ctx.password {
-        Some(ref password) => println!("password: {}", password),
-        None => println!("password: None"),
-    }
-    match ctx.database {
-        Some(ref database) => println!("database: {}", database),
-        None => println!("database: None"),
-    }
-    match ctx._timezone {
-        Some(ref timezone) => println!("timezone: {}", timezone),
-        None => println!("timezone: None"),
-    }
+    // Creates a database `test`.
+    let mut sql = "CREATE DATABASE test";
+    let mut result = client.execute(sql).await?;
+    // The result should be:
+    // Affected rows: 0
+    print_affected_rows(&result);
 
-    // construct the executor
-    let mut executor = Executor::new(ctx).await.unwrap();
+    // Optional: sets the database header for each outgoing request to `test`.
+    // The Datalayers server uses this header to identify the associated table of a request.
+    //
+    // This setting is optional since the following SQLs contain the database context
+    // and the server could parse the database context from SQLs.
+    client.use_database("test");
 
-    // create database
-    {
-        let some: Vec<RecordBatch> = executor
-            .execute_flight(format!("create database test;"))
+    // Creates a table `demo` within the database `test`.
+    sql = r#"
+        CREATE TABLE test.demo (
+            ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            sid INT32,
+            value REAL,
+            flag INT8,
+            timestamp key(ts)
+        )
+        PARTITION BY HASH(sid) PARTITIONS 8
+        ENGINE=TimeSeries;
+    "#;
+    result = client.execute(sql).await?;
+    // The result should be:
+    // Affected rows: 0
+    print_affected_rows(&result);
+
+    // Inserts some data.
+    sql = r#"
+        INSERT INTO test.demo (ts, sid, value, flag) VALUES
+            ('2024-09-01T10:00:00+08:00', 1, 12.5, 0),
+            ('2024-09-01T10:05:00+08:00', 2, 15.3, 1),
+            ('2024-09-01T10:10:00+08:00', 3, 9.8, 0),
+            ('2024-09-01T10:15:00+08:00', 4, 22.1, 1),
+            ('2024-09-01T10:20:00+08:00', 5, 30.0, 0);
+    "#;
+    result = client.execute(sql).await?;
+    // The result should be:
+    // Affected rows: 5
+    print_affected_rows(&result);
+
+    // Queries the inserted data
+    sql = "SELECT * FROM test.demo";
+    result = client.execute(sql).await?;
+    // The result should be:
+    // +---------------------------+-----+-------+------+
+    // | ts                        | sid | value | flag |
+    // +---------------------------+-----+-------+------+
+    // | 2024-09-01T10:15:00+08:00 | 4   | 22.1  | 1    |
+    // | 2024-09-01T10:10:00+08:00 | 3   | 9.8   | 0    |
+    // | 2024-09-01T10:05:00+08:00 | 2   | 15.3  | 1    |
+    // | 2024-09-01T10:20:00+08:00 | 5   | 30.0  | 0    |
+    // | 2024-09-01T10:00:00+08:00 | 1   | 12.5  | 0    |
+    // +---------------------------+-----+-------+------+
+    print_batches(&result);
+
+    // Inserts some data with prepared statement.
+    sql = "INSERT INTO test.demo (ts, sid, value, flag) VALUES (?, ?, ?, ?);";
+    let mut prepared_stmt = client.prepare(sql).await?;
+    let mut binding = make_insert_binding();
+    result = client.execute_prepared(&mut prepared_stmt, binding).await?;
+    // The result should be:
+    // Affected rows: 5
+    print_affected_rows(&result);
+
+    // Queries the inserted data with prepared statement.
+    sql = "SELECT * FROM test.demo WHERE sid = ?";
+    prepared_stmt = client.prepare(sql).await?;
+    binding = make_query_binding(1);
+    result = client.execute_prepared(&mut prepared_stmt, binding).await?;
+    // The result should be:
+    // +---------------------------+-----+-------+------+
+    // | ts                        | sid | value | flag |
+    // +---------------------------+-----+-------+------+
+    // | 2024-09-01T10:00:00+08:00 | 1   | 12.5  | 0    |
+    // | 2024-09-02T10:00:00+08:00 | 1   | 12.5  | 0    |
+    // +---------------------------+-----+-------+------+
+    print_batches(&result);
+
+    binding = make_query_binding(2);
+    result = client.execute_prepared(&mut prepared_stmt, binding).await?;
+    // The result should be:
+    // +---------------------------+-----+-------+------+
+    // | ts                        | sid | value | flag |
+    // +---------------------------+-----+-------+------+
+    // | 2024-09-01T10:05:00+08:00 | 2   | 15.3  | 1    |
+    // | 2024-09-02T10:05:00+08:00 | 2   | 15.3  | 1    |
+    // +---------------------------+-----+-------+------+
+    print_batches(&result);
+
+    Ok(())
+}
+
+/// The configuration for the client connecting to the Datalayers server via Arrow Flight SQL protocol.
+pub struct ClientConfig {
+    /// The hostname of the Datalayers database server.
+    pub host: String,
+    /// The port number on which the Datalayers database server is listening.
+    pub port: u32,
+    /// The username for authentication when connecting to the database.
+    pub username: String,
+    /// The password for authentication when connecting to the database.
+    pub password: String,
+    /// The optional TLS certificate for secure connections.
+    /// The certificate is self-signed by Datalayers and is used as the pem file by the client to certify itself.
+    pub tls_cert: Option<String>,
+}
+
+pub struct Client {
+    /// The Arrow Flight SQL client.
+    inner: FlightSqlServiceClient<Channel>,
+}
+
+impl Client {
+    pub async fn try_new(config: &ClientConfig) -> Result<Self> {
+        let protocol = config.tls_cert.as_ref().map(|_| "https").unwrap_or("http");
+        let uri = format!("{}://{}:{}", protocol, config.host, config.port);
+        let mut endpoint = Endpoint::from_str(&uri)
+            .context(format!("Failed to create an endpoint with uri {}", uri))?
+            .connect_timeout(Duration::from_secs(5))
+            .keep_alive_while_idle(true);
+
+        // Configures TLS if a certificate is provided.
+        if let Some(tls_cert) = &config.tls_cert {
+            let cert = std::fs::read_to_string(tls_cert)
+                .context(format!("Failed to read the TLS cert file {}", tls_cert))?;
+            let cert = Certificate::from_pem(cert);
+            let tls_config = ClientTlsConfig::new()
+                .domain_name(&config.host)
+                .ca_certificate(cert);
+            endpoint = endpoint
+                .tls_config(tls_config)
+                .context("failed to configure TLS")?;
+        }
+
+        let channel = endpoint
+            .connect()
             .await
-            .unwrap();
-        let res = pretty_format_batches(some.as_slice())
-            .context("format results")
-            .unwrap();
-        println!("{}", res.to_string());
-    }
+            .context(format!("Failed to connect to server with uri {}", uri))?;
+        let mut flight_sql_client = FlightSqlServiceClient::new(channel);
 
-    // create table
-    {
-        let some: Vec<RecordBatch> = executor
-            .execute_flight(format!(
-                "CREATE TABLE test.sx1 (
-                 ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                 sid INT32,
-                 value REAL,
-                 flag INT8,
-                 timestamp key(ts)
-                 )
-                 PARTITION BY HASH(sid) PARTITIONS 32
-                 ENGINE=TimeSeries"
-            ))
+        // Performs authorization with the Datalayers server.
+        let _ = flight_sql_client
+            .handshake(&config.username, &config.password)
             .await
-            .unwrap();
-        let res = pretty_format_batches(some.as_slice())
-            .context("format results")
-            .unwrap();
-        println!("{}", res.to_string());
+            .inspect_err(|e| {
+                println!("Failed to do handshake: {}", filter_message(&e.to_string()));
+                exit(1)
+            });
+
+        Ok(Self {
+            inner: flight_sql_client,
+        })
     }
 
-    // insert some data
-    {
-        let some: Vec<RecordBatch> = executor
-            .execute_flight(format!(
-                "INSERT INTO test.sx1 (sid, value, flag) VALUES (1, 1.1, 1);"
-            ))
+    fn use_database(&mut self, database: &str) {
+        self.inner.set_header("database", database);
+    }
+
+    pub async fn execute(&mut self, sql: &str) -> Result<Vec<RecordBatch>> {
+        let flight_info = self
+            .inner
+            .execute(sql.to_string(), None)
             .await
-            .unwrap();
-        let res = pretty_format_batches(some.as_slice())
-            .context("format results")
-            .unwrap();
-        println!("{}", res.to_string());
+            .inspect_err(|e| {
+                println!(
+                    "Failed to execute a sql: {}",
+                    filter_message(&e.to_string())
+                );
+                exit(1)
+            })?;
+        let ticket = flight_info
+            .endpoint
+            .first()
+            .context("No endpoint in flight info")?
+            .ticket
+            .clone()
+            .context("No ticket in endpoint")?;
+        let batches = self.do_get(ticket).await?;
+        Ok(batches)
     }
 
-    // run normal query
-    {
-        let some: Vec<RecordBatch> = executor
-            .execute_flight(format!("SELECT count(*) from test.sx1;"))
+    pub async fn prepare(&mut self, sql: &str) -> Result<PreparedStatement<Channel>> {
+        let prepared_stmt = self
+            .inner
+            .prepare(sql.to_string(), None)
             .await
-            .unwrap();
-        let res = pretty_format_batches(some.as_slice())
-            .context("format results")
-            .unwrap();
-        println!("{}", res.to_string());
+            .inspect_err(|e| {
+                println!(
+                    "Failed to execute a sql: {}",
+                    filter_message(&e.to_string())
+                );
+                exit(1)
+            })?;
+        Ok(prepared_stmt)
     }
 
-    // run prepared statement
-    {
-        // declare a RecordBatch
-        let schema = Arc::new(Schema::new(vec![Field::new("t", DataType::Int32, false)]));
-        // int32 array
-        let array = Int32Array::from(vec![1]);
-        let columns = vec![Arc::new(array) as Arc<dyn Array>];
-        let batch = RecordBatch::try_new(schema, columns).unwrap();
-
-        let some: Vec<RecordBatch> = executor
-            .execute_prepared_statement(
-                format!("SELECT count(*) from test.sx1 where sid = ?;"),
-                batch,
-            )
-            .await
-            .unwrap();
-
-        let res = pretty_format_batches(some.as_slice())
-            .context("format results")
-            .unwrap();
-        println!("{}", res.to_string());
+    pub async fn execute_prepared(
+        &mut self,
+        prepared_stmt: &mut PreparedStatement<Channel>,
+        binding: RecordBatch,
+    ) -> Result<Vec<RecordBatch>> {
+        prepared_stmt
+            .set_parameters(binding)
+            .context("Failed to bind a record batch to the prepared statement")?;
+        let flight_info = prepared_stmt.execute().await.inspect_err(|e| {
+            println!(
+                "Failed to execute the prepared statement: {}",
+                filter_message(&e.to_string())
+            );
+            exit(1)
+        })?;
+        let ticket = flight_info
+            .endpoint
+            .first()
+            .context("No endpoint in flight info")?
+            .ticket
+            .clone()
+            .context("No ticket in endpoint")?;
+        let batches = self.do_get(ticket).await?;
+        Ok(batches)
     }
+
+    async fn do_get(&mut self, ticket: Ticket) -> Result<Vec<RecordBatch>> {
+        let stream = self.inner.do_get(ticket).await.inspect_err(|e| {
+            println!(
+                "Failed to perform do_get: {}",
+                filter_message(&e.to_string())
+            );
+            exit(1)
+        })?;
+        let batches = stream.try_collect::<Vec<_>>().await.inspect_err(|e| {
+            println!(
+                "Failed to consume flight record batch stream: {}",
+                filter_message(&e.to_string())
+            );
+            exit(1)
+        })?;
+        if batches.is_empty() {
+            bail!("Unexpected empty batches");
+        }
+        Ok(batches)
+    }
+}
+
+/// Applies a message filter on the input error to only retain the `message` field.
+/// This function is meant to be used to filter error messages from the Datalayers server.
+fn filter_message(err: &str) -> String {
+    let mut err = err
+        .replace(['\n', '\r'], " ")
+        .replace("\\\"", "[ESCAPED_QUOTE]");
+    let regex = Regex::new(r#"message: "(.*?)(?: at src/dbserver/src.*?)?""#).unwrap();
+    if let Some(capture) = regex.captures(&err) {
+        err = capture[1]
+            .replace("[ESCAPED_QUOTE]", "\\\"")
+            .replace('\\', "");
+    }
+    err
+}
+
+fn print_affected_rows(batches: &[RecordBatch]) {
+    let affected_rows = batches
+        .first()
+        .unwrap()
+        .column(0)
+        .as_any()
+        .downcast_ref::<StringArray>()
+        .unwrap()
+        .value(0)
+        .to_string()
+        .parse::<u32>()
+        .unwrap();
+    println!("Affected rows: {}", affected_rows);
+}
+
+fn print_batches(batches: &[RecordBatch]) {
+    let formatted = pretty_format_batches(batches)
+        .inspect_err(|e| {
+            println!("Failed to print batches: {}", e);
+            exit(1)
+        })
+        .unwrap();
+    println!("{}", formatted);
+}
+
+fn make_insert_binding() -> RecordBatch {
+    let schema = Arc::new(Schema::new(vec![
+        Field::new(
+            "ts",
+            DataType::Timestamp(TimeUnit::Millisecond, Some("Asia/Shanghai".into())),
+            false,
+        ),
+        Field::new("sid", DataType::Int32, true),
+        Field::new("value", DataType::Float32, true),
+        Field::new("flag", DataType::Int8, true),
+    ]));
+
+    // Sets the timezone to UTC+8.
+    let loc = chrono::FixedOffset::east_opt(8 * 60 * 60).unwrap();
+    let ts_data = [
+        loc.with_ymd_and_hms(2024, 9, 2, 10, 0, 0),
+        loc.with_ymd_and_hms(2024, 9, 2, 10, 5, 0),
+        loc.with_ymd_and_hms(2024, 9, 2, 10, 10, 0),
+        loc.with_ymd_and_hms(2024, 9, 2, 10, 15, 0),
+        loc.with_ymd_and_hms(2024, 9, 2, 10, 20, 0),
+    ]
+    .map(|x| x.unwrap().timestamp_millis())
+    .to_vec();
+    let sid_data = [1, 2, 3, 4, 5].map(Some);
+    let value_data = [12.5, 15.3, 9.8, 22.1, 30.0].map(Some);
+    let flag_data = [0, 1, 0, 1, 0].map(Some);
+
+    let ts_array =
+        Arc::new(TimestampMillisecondArray::from(ts_data).with_timezone("Asia/Shanghai")) as _;
+    let sid_array = Arc::new(Int32Array::from(sid_data.to_vec())) as _;
+    let value_array = Arc::new(Float32Array::from(value_data.to_vec())) as _;
+    let flag_array = Arc::new(Int8Array::from(flag_data.to_vec())) as _;
+
+    RecordBatch::try_new(
+        schema,
+        [ts_array, sid_array, value_array, flag_array].into(),
+    )
+    .inspect_err(|e| {
+        println!("Failed to build a record batch: {}", e);
+        exit(1)
+    })
+    .unwrap()
+}
+
+fn make_query_binding(sid: i32) -> RecordBatch {
+    let schema = Arc::new(Schema::new(vec![Field::new("sid", DataType::Int32, true)]));
+    let sid_array = Arc::new(Int32Array::from(vec![Some(sid)])) as _;
+    RecordBatch::try_new(schema, [sid_array].into())
+        .inspect_err(|e| {
+            println!("Failed to build a record batch: {}", e);
+            exit(1)
+        })
+        .unwrap()
 }
 ```
 
