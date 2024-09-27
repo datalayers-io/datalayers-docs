@@ -12,10 +12,10 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 
 目前我们支持Arrow Flight SQL 客户端的环境有：
 
-* Go
-* Rust
-* Java
-* Python
+* [Go](https://github.com/datalayers-io/examples/tree/main/go)
+* [Rust](https://github.com/datalayers-io/examples/tree/main/rust)
+* [Java](https://github.com/datalayers-io/examples/tree/main/java)
+* [Python](https://github.com/datalayers-io/examples/tree/main/python)
 
 更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
 
