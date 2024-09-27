@@ -11,7 +11,6 @@
 ### 环境准备
 
 - Grafana 版本必须 >= 9.2.5。
-- Datalayers 版本必须 >= 2.1.8。
 
 ### 安装 Datalayers
 
@@ -177,5 +176,5 @@ git clone https://github.com/datalayers-io/datalayers-with-grafana.git
 当你完成上述步骤后，就已经自动完成了上述所有的安装、配置、写入示例数据步骤，你可以直接进行数据查询、添加 Dashboard 相关操作。
 
 
-## 结论
+## 结语
 将 Datalayers 与 Grafana 集成，不仅能够大幅提升时序数据的管理与分析效率，还能通过灵活的可视化工具为用户提供更加直观的业务洞察。无论是在工业 IoT 还是智能能源等领域，Datalayers 与 Grafana 的结合都能帮助企业实现数据驱动的决策和优化，推动业务智能化转型。
