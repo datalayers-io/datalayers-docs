@@ -22,6 +22,7 @@ Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 
 ::: code-group
 
 ```Go [Go]
+// 完整示例：https://github.com/datalayers-io/examples/tree/main/go
 package main
 
 import (
@@ -381,55 +382,10 @@ func main() {
     printRecordsAsTable(result)
 }
 
-// go.mod
-//
-// module example.com/demo
-
-// go 1.22.3
-
-// require (
-//     github.com/apache/arrow/go/v17 v17.0.0
-//     google.golang.org/grpc v1.67.0
-// )
-
-// require (
-//     github.com/goccy/go-json v0.10.3 // indirect
-//     github.com/google/flatbuffers v24.3.25+incompatible // indirect
-//     github.com/klauspost/compress v1.17.9 // indirect
-//     github.com/klauspost/cpuid/v2 v2.2.8 // indirect
-//     github.com/pierrec/lz4/v4 v4.1.21 // indirect
-//     github.com/zeebo/xxh3 v1.0.2 // indirect
-//     golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 // indirect
-//     golang.org/x/mod v0.18.0 // indirect
-//     golang.org/x/net v0.28.0 // indirect
-//     golang.org/x/sync v0.8.0 // indirect
-//     golang.org/x/sys v0.24.0 // indirect
-//     golang.org/x/text v0.17.0 // indirect
-//     golang.org/x/tools v0.22.0 // indirect
-//     golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
-//     google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
-//     google.golang.org/protobuf v1.34.2 // indirect
-// )
-
 ```
 
 ```rust [Rust]
-// Required dependencies:
-//
-// [dependencies]
-// anyhow = "1.0"
-// arrow-array = { version = "52.2", features = ["chrono-tz"] }
-// arrow-cast = { version = "52.2", features = ["prettyprint"] }
-// arrow-flight = { version = "52.2", features = [
-//     "flight-sql-experimental",
-//     "tls",
-// ] }
-// arrow-schema = "52.2"
-// chrono = "0.4"
-// futures = "0.3"
-// regex = "1.10"
-// tokio = { version = "1.40", features = ["full"] }
-// tonic = "0.11"
+// 完整示例：https://github.com/datalayers-io/examples/tree/main/rust
 
 use std::process::exit;
 use std::str::FromStr;
@@ -811,6 +767,7 @@ fn make_query_binding(sid: i32) -> RecordBatch {
 ```
 
 ```java [Java]
+// 完整示例：https://github.com/datalayers-io/examples/tree/main/java
 package org.example;
 
 import org.apache.arrow.flight.*;
@@ -919,101 +876,10 @@ public class SqlRunner {
     }
 }
 
-// deps
-/* 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>libs/</classpathPrefix>
-              <mainClass>org.example.SqlRunner</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <groupId>org.example</groupId>
-  <artifactId>ArrowFilghtSqlTest</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>ArrowFilghtSqlTest</name>
-  <url>http://maven.apache.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <arrow.version>16.0.0</arrow.version>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.arrow/arrow-flight -->
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>arrow-flight</artifactId>
-      <version>${arrow.version}</version>
-      <type>pom</type>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-sql -->
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>flight-sql</artifactId>
-      <version>${arrow.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>2.0.5</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-core -->
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>arrow-memory-netty</artifactId>
-      <version>${arrow.version}</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-core -->
-    <dependency>
-      <groupId>org.apache.arrow</groupId>
-      <artifactId>flight-core</artifactId>
-      <version>${arrow.version}</version>
-    </dependency>
-    
-    <!-- Add it for example logging, you can remove it when you wanna use your own logger -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>2.0.9</version>
-      <scope>runtime</scope>
-    </dependency>
-
-  </dependencies>
-</project>
-*/
-
 ```
 
 ``` Python [Python]
+# 完整示例：https://github.com/datalayers-io/examples/tree/main/python
 # Install dependencies:
 # pip install pyarrow flightsql-dbapi pandas
 
