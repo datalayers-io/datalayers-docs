@@ -47,9 +47,9 @@ jobs:
 
       - name: set env
         run: |
-          REAL_VERSION="v1.9.1"
+          REAL_VERSION="latest"
           # make short version as directory name
-          VERSION="v1.9"
+          VERSION="latest"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "DOCS_TYPE=datalayers" >> $GITHUB_ENV
           echo "LANGUAGES=${{ matrix.docs_language }}" >> $GITHUB_ENV
