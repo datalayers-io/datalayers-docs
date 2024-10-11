@@ -108,6 +108,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.DATALAYERS_GIT_CI_TOKEN }}
         run: |
+          cd frontend
           touch .env
           REPO_OWNER="datalayers-io"
           REPO_NAME="datalayers"
