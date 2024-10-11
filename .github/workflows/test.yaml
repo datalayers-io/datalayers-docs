@@ -133,4 +133,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: doc_static
-          path: ./docs-files/zh_CN/*
+          path: ./frontend/docs/.vitepress/dist/*
