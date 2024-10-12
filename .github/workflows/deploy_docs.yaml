@@ -57,11 +57,11 @@ jobs:
           VERSION="latest"
           else
           VERSION=$BRANCH
-          # save the full version string, do not change this name
-          REAL_VERSION=$VERSION
           # make short version as directory name
           VERSION=$(echo $BRANCH | awk -F. '{print $1"."$2}')
           fi
+          # save the full version string, do not change this name
+          REAL_VERSION=$VERSION
           # do not remove DOCS_BRANCH
           echo "DOCS_BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
