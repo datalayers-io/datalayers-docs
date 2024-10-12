@@ -14,7 +14,7 @@ docker pull datalayers/datalayers:nightly
 或者拉取指定版本的镜像：
 
 ``` bash
-docker pull datalayers/datalayers:v{@version_number@}
+docker pull datalayers/datalayers:v2.2.1
 ```
 
 执行以下命令，启动一个 Datalayers 容器：
