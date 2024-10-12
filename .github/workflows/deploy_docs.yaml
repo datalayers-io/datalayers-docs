@@ -57,13 +57,17 @@ jobs:
           VERSION="latest"
           else
           VERSION=$BRANCH
+          # save the full version string, do not change this name
+          REAL_VERSION=$VERSION
           # make short version as directory name
           VERSION=$(echo $BRANCH | awk -F. '{print $1"."$2}')
           fi
+          # do not remove DOCS_BRANCH
           echo "DOCS_BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "DOCS_TYPE=datalayers" >> $GITHUB_ENV
           echo "LANGUAGES=${{ matrix.docs_language }}" >> $GITHUB_ENV
+          echo "REAL_VERSION=$REAL_VERSION" >> $GITHUB_ENV
 
       - name: remove unused files
         run: |
@@ -113,6 +117,26 @@ jobs:
           echo "${unique_tags[@]}"
           python3 .github/scripts/generate_version.py "${unique_tags[@]}" > ../frontend/docs/public/api/${DOCS_TYPE}_versions.json
           cat ../frontend/docs/public/api/${DOCS_TYPE}_versions.json
+
+      - name: Fetch Datalayers tags then write to the .env file
+        env:
+          TOKEN: ${{ secrets.DATALAYERS_GIT_CI_TOKEN }}
+        run: |
+          cd frontend
+          touch .env
+          REPO_OWNER="datalayers-io"
+          REPO_NAME="datalayers"
+          RESPONSE=$(curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/tags)
+          echo "API Response: $RESPONSE"
+          TAGS=$(echo "$RESPONSE" | jq -r '.[].name')
+          echo "Fetched tags: $TAGS"
+          FILTERED_TAGS=$(echo "$TAGS" | grep -Ev 'v2\.1\.(9|8|7|6)')
+          echo "Filtered tags: $FILTERED_TAGS"
+          echo "VITE_DATALAYERS_FILTERED_TAGS=$(echo $FILTERED_TAGS | tr '\n' ' ')" >> .env
 
       - name: build docs
         run: |

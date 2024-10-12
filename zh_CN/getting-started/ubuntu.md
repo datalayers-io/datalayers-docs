@@ -10,22 +10,22 @@ Datalayers 支持的 Ubuntu 版本为：
 
 :::: tabs
 ::: tab amd64
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-2.2.1-ubuntu22.04-amd64.deb" download="datalayers-2.2.1-ubuntu22.04-amd64.deb">点击下载</a>deb安装包。
+1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-amd64.deb" download="datalayers-{@version_number@}-ubuntu22.04-amd64.deb">点击下载</a>deb安装包。
 
 2. 通过如下命令安装：
 
 ``` bash
-sudo dpkg -i ./datalayers-2.2.1-ubuntu22.04-amd64.deb
+sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
 ```
 :::
 
 ::: tab arm64
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-2.2.1-ubuntu22.04-arm64.deb" download="datalayers-2.2.1-ubuntu22.04-arm64.deb">点击下载</a>deb安装包。
+1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-arm64.deb" download="datalayers-{@version_number@}-ubuntu22.04-arm64.deb">点击下载</a>deb安装包。
 
 2. 通过如下命令安装：
 
 ``` bash
-sudo dpkg -i ./datalayers-2.2.1-ubuntu22.04-arm64.deb
+sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-arm64.deb
 ```
 :::
 
@@ -59,6 +59,14 @@ sudo systemctl restart datalayers
 
 ## 卸载 Datalayers
 
+普通模式卸载(保留二进制文件、配置文件)：
+
 ``` bash
 sudo dpkg -r datalayers 
+```
+
+纯净模式卸载(不保留二进制文件、配置文件)：
+
+``` bash
+sudo dpkg -P datalayers 
 ```
