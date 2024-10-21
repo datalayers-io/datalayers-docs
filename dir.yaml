@@ -188,6 +188,9 @@
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
+    - title_en: INFORMATION_SCHEMA
+      title_cn: INFORMATION_SCHEMA
+      path: sql-reference/information-schema
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction
