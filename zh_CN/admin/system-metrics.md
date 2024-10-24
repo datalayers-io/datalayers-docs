@@ -25,10 +25,12 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_flush_concurrence_limit         | gauge            | Flush 并行任务限制                  |
 | datalayers_flush_pending_length            | gauge            | Flush pending 中的数量              |
 | datalayers_flush_running_length            | gauge            | Flush running 中的数量              |
-| datalayers_compact_queue_limit             | gauge            | compact 任务队列长度限制              |
-| datalayers_compact_concurrence_limit       | gauge            | compact 并行任务限制                 |
-| datalayers_compact_pending_length          | gauge            | compact pending 中的数量            |
-| datalayers_compact_running_length          | gauge            | compact running 中的数量            |
-| latency_flush_per_10m_milliseconds         | histogram        | flush 平均生成 10M 数据的延迟         |
-| latency_compact_per_10m_milliseconds       | histogram        | compact 平均生成 10M 数据的延迟       |
+| datalayers_compact_queue_limit             | gauge            | Compact 任务队列长度限制              |
+| datalayers_compact_concurrence_limit       | gauge            | Compact 并行任务限制                 |
+| datalayers_compact_pending_length          | gauge            | Compact pending 中的数量            |
+| datalayers_compact_running_length          | gauge            | Compact running 中的数量            |
+| datalayers_node_rejected_write           | counter          | Datalayers 节点 memtable 的数据量达到阈值后拒绝写入的次数 |
+| datalayers_rejected_write                  | counter          | Table 分区 memtable 的数据量达到阈值后拒绝写入的次数 |
+| latency_flush_per_10m_milliseconds         | histogram        | Flush 平均生成 10M 数据的延迟         |
+| latency_compact_per_10m_milliseconds       | histogram        | Compact 平均生成 10M 数据的延迟       |
 | datalayers_panic_total                     | counter          | Datalayers panic 的次数            |
