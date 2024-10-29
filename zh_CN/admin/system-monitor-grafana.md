@@ -74,7 +74,7 @@ docker run --name my-grafana --network host grafana/grafana
 
 ### 添加指标面板
 
-添加 Prometheus 数据源后，可在 `Grafana - Dashboards` 手动添加指标面板，或<a href="https://github.com/datalayers-io/datalayers-with-grafana/blob/main/grafana/dashboard-imported.json" download="datalayers_dashboard-imported.json">点击下载</a> json 文件快速导入我们提供的模版。
+添加 Prometheus 数据源后，可在 `Grafana - Dashboards` 手动添加指标面板，或通过 `Grafana - Dashboards - Import` 功能快速导入我们提供的<a href="https://github.com/datalayers-io/datalayers-with-grafana/blob/main/grafana/datalayers-dashboard.json" target="_blank">模版</a>。
 
 以下为监控面板示意图：
 
