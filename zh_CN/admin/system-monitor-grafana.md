@@ -16,20 +16,20 @@ global:
   scrape_timeout: 5s
   evaluation_interval: 1m
 
-- job_name: datalayers
-  honor_timestamps: true
-  scrape_interval: 5s
-  scrape_timeout: 5s
-  metrics_path: /metrics
-  scheme: http
-  follow_redirects: true
-  enable_http2: true
-  static_configs:
-  - targets:
-    - <your_host_ip_address>:8361
+scrape_configs:
+  - job_name: datalayers
+    honor_timestamps: true
+    scrape_interval: 5s
+    scrape_timeout: 5s
+    metrics_path: /metrics
+    scheme: http
+    follow_redirects: true
+    enable_http2: true
+    static_configs:
+      - targets: ["your_host_ip_address:8361"]
 ```
 
-请注意替换`<your_host_ip_address>`为你的主机 ip 地址。
+请注意替换`your_host_ip_address`为你的主机 ip 地址，并确认端口号正确。
 
 你也可以通过 Docker 快速启动 Prometheus，具体步骤如下：
 
@@ -39,7 +39,7 @@ global:
 
 ```bash
 docker run --name my-prometheus -d \
-  -v ./prometheus.yml::/etc/prometheus/prometheus.yml \
+  -v ./prometheus.yml:/etc/prometheus/prometheus.yml \
   --network host \
   prom/prometheus
 ```
