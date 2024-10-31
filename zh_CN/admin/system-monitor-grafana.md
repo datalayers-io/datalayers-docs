@@ -26,11 +26,11 @@ scrape_configs:
     follow_redirects: true
     enable_http2: true
     static_configs:
-      # Your host IP address
+      # Your Datalayers HTTP Server address
       - targets: ["127.0.0.1:8361"]
 ```
 
-请确保 IP 地址、端口号正确。
+请确保 Datalayers HTTP Server 的 IP 地址、端口号正确。
 
 你也可以通过 Docker 快速启动 Prometheus，具体步骤如下：
 
