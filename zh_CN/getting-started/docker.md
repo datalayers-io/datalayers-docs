@@ -34,9 +34,7 @@ Datalayers 默认将启动 `8360` 与 `8361` 端口：
 - `8361`端口用于提供 HTTP 服务；
 :::
 
-可以通过`docker ps -a`命令来查看容器运行状态，如下图所示：
-
-![docker container status](../assets/docker-container-status.png)
+可以通过`docker ps -a`命令来查看容器运行状态。
 
 
 此外，也可以执行以下命令进入容器：
