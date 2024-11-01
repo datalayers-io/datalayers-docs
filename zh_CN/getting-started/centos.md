@@ -28,23 +28,23 @@ sudo yum localinstall ./datalayers-{@version_number@}-el7-amd64.rpm
 sudo systemctl start datalayers
 ```
 
-启动后，可通过以下命令确认其启动状态：
+可通过以下命令查看其启动状态：
 ``` bash
-sudo systemctl status datalayers
+systemctl status datalayers
 ```
 
-若要停止服务，可执行以下命令：
+可通过以下命令停止服务：
 ``` bash
 sudo systemctl stop datalayers
 ```
 
-而若需重启服务，则可以使用以下命令：
+可通过以下命令重启服务：
 ``` bash
 sudo systemctl restart datalayers
 ```
 
 ## 卸载 Datalayers
-如需卸载 Datalayers，可以执行以下命令：
+如需卸载 Datalayers，可执行以下命令：
 ``` bash
 sudo yum remove datalayers
 ```
@@ -52,4 +52,4 @@ sudo yum remove datalayers
 
 ## 体验功能
 
-安装完成后，即可使用[命令行工具](./command-line-tool.md)，从而快速体验 Datalayers 的各项丰富功能。
+安装完成后，即可使用[命令行工具](./command-line-tool.md)快速体验 Datalayers 的各项功能。

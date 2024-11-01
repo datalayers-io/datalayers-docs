@@ -44,4 +44,4 @@ docker exec -it datalayers bash
 ```
 
 ## 体验功能
-当进入容器后，即可使用[命令行工具](./command-line-tool.md)，从而快速体验 Datalayers 的各项丰富功能。
+当进入容器后，即可使用[命令行工具](./command-line-tool.md)快速体验 Datalayers 的各项功能。

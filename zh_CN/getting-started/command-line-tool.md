@@ -1,9 +1,9 @@
 # 通过命令行工具体验 Datalayers
 
-dlsql 命令是 Datalayers 提供的一个交互式工具，借助该工具就能便捷地进行数据库的管理操作。
+dlsql 是 Datalayers 提供的一个交互式工具，借助该工具就能便捷地进行数据库的管理操作。
 
 ## 验证 Datalayers 安装
-在成功安装 Datalayers 后，可以通过以下命令来验证其是否正常工作。
+在成功安装 Datalayers 后，可通过以下命令来验证其是否正常工作。
 ``` bash
 dlsql --version
 ```
@@ -13,7 +13,7 @@ Datalayers command line tools 2.2.3
 built: 2024-10-29T07:00:06+0000
 source version: 7b954d42cede7309ec8263fce902d73f80a50f63
 ```
-倘若在执行上述命令后为输出任何信息，那么则说明你的 Datalayers 并未安装成功。
+倘若在执行上述命令后未输出任何信息，那么则说明你的 Datalayers 并未安装成功。
 
 
 
@@ -38,19 +38,19 @@ dlsql -u admin -p public
 dlsql -h <host> -P <port> -u admin -p public
 ```
 
-欲了解更多用法，可通过 `dlsql --help` 命令进行查看。
+可以通过 `dlsql --help` 命令查看更多用法。
 
 ## 创建数据库
 
 连接数据库服务后，可以执行以下命令创建一个数据库：
 
-``` bash
+``` sql
 create database demo;
 ```
 
-执行完上述命令后，可通过以下命令查看数据库的情况：
+可通过以下命令查看数据库的情况：
 
-``` bash
+``` sql
 show databases;
 ```
 
@@ -58,13 +58,13 @@ show databases;
 
 首先选中要执行操作的数据库：
 
-``` bash
+``` sql
 use demo;
 ```
 
 接着，可以通过以下命令尝试创建数据表：
 
-``` bash
+``` sql
 CREATE TABLE sensor_info (
   ts TIMESTAMP(9) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   sn STRING,
@@ -80,7 +80,7 @@ CREATE TABLE sensor_info (
 
 可以执行以下命令写入一些示例数据：
 
-``` bash
+``` sql
 INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('101', 34.12, 40.6), ('102', 56.12, 52.3);
 ```
 
@@ -88,25 +88,25 @@ INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('10
 
 首先，选中要执行操作的数据库：
 
-``` bash
+``` sql
 use demo;
 ```
 以下是一些查询操作示例：
 - 查询表中记录总条数：
 
-``` bash
+``` sql
 SELECT COUNT(*) FROM sensor_info;
 ```
 
 - 查询表中 `speed` 平均值：
 
-```bash
+``` sql
 SELECT AVG(speed) FROM sensor_info;
 ```
 
 - 将数据以 `1 day` 分割点进行聚合：
 
-``` bash
+``` sql
 SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sensor_info group by timepoint;
 ```
 
@@ -115,31 +115,31 @@ SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sensor_info g
 
 查看所有表：
 
-``` bash
+``` sql
 SHOW TABLES;
 ```
 
 查看表定义：
 
-``` bash
+``` sql
 DESC TABLE sensor_info;
 ```
 
 查看创建表信息：
 
-``` bash
+``` sql
 SHOW CREATE TABLE sensor_info;
 ```
 
 删除表：
 
-``` bash
+``` sql
 DROP TABLE sensor_info;
 ```
 
 删除数据库：
 
-``` bash
+``` sql
 DROP DATABASE demo;
 ```
 **注：删除数据库，需要先删除所有表。**
@@ -148,7 +148,7 @@ DROP DATABASE demo;
 
 使用以下命令可退出交互：
 
-``` bash
+``` sql
 exit
 ```
 
