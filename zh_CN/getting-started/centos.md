@@ -11,6 +11,10 @@ Datalayers 支持的 CentOS 版本为：
 :::: tabs
 ::: tab amd64
 1. 下载安装包，<a href="https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm" download="datalayers-{@version_number@}-el7-amd64.rpm">点击下载</a>rpm安装包。
+> 或者直接使用`wget`命令下载安装包：
+> ``` bash
+> wget https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm
+> ```
 
 2. 通过如下命令安装：
 ``` bash
