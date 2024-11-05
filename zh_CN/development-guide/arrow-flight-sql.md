@@ -2,11 +2,7 @@
 
 Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。Datalayers 支持 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可使用支持 Arrow Flight SQL 的相关 SDK 进行接入。
 
-## Arrow Flight SQL 优势
-
-**高性能数据交互**：Arrow Flight SQL 基于 Arrow 数据格式和 Flight RPC 框架，可实现高性能的数据交互。
-**协议化**：Arrow Flight SQL 使用 Protobuf 定义了一组 RPC 方法和消息格式，这提供了协议化的数据传输和交互。这有助于实现与不同系统和编程语言的互操作性。  
-**数据格式一致性**：通过使用 Arrow 数据格式，Arrow Flight SQL 可以确保数据在不同系统之间的一致性。这有助于避免数据转换和格式问题，简化了数据交换过程。  
+Datalayers 基于 Arrow Flight SQL 构建了高速数据传输链路，目前主流编译语言已支持使用 Arrow Flight SQL 客户端 从 Datalayers 高速读取海量数据，极大提升了其他系统与 Datalayers 间数据传输效率。同时在传输过程中使用 Arrow 的列存格式，在数据传输过程将完全避免序列化/反序列化操作，可彻底消除序列化/反序列化带来时间及性能损耗、提升系统的吞吐能力。
 
 ## 接入
 
