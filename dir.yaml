@@ -317,6 +317,13 @@
     - title_en: OpenTelemetry
       title_cn: OpenTelemetry
       path: integration/datalayers-with-opentelemetry
+- title_en: Tools
+  title_cn: 管理工具
+  collapsed: true
+  children:
+    - title_en: DBeaver
+      title_cn: DBeaver
+      path: integration/datalayers-with-dbeaver
 - title_en: User & Security
   title_cn: 用户与安全
   collapsed: true
