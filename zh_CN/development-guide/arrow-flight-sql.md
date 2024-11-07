@@ -12,6 +12,7 @@ Datalayers 基于 Arrow Flight SQL 构建了高速数据传输链路，目前主
 * [Rust](https://github.com/datalayers-io/examples/tree/main/rust)
 * [Java](https://github.com/datalayers-io/examples/tree/main/java)
 * [Python](https://github.com/datalayers-io/examples/tree/main/python)
+* 基于 [Arrow Flight SQL JDBC](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver)
 
 更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
 
