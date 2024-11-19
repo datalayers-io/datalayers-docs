@@ -6,7 +6,7 @@
 
 * 已安装 Datalayers，版本 >= v2.2.4
 * 已安装 DBeaver（本文以 v24.2.3.202410201725 进行讲解），安装方法参考：[DBeaver安装](https://github.com/dbeaver/dbeaver/wiki/Installation)
-* 已下载 [ARROW Flight SQL JDBC DRIVER](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver) 驱动程序（选择最新版即可）。
+* 已下载 [ARROW Flight SQL JDBC DRIVER](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver/18.0.0) 驱动程序（选择最新版即可）。
 
 ## 配置 DBeaver
 
