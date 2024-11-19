@@ -1,9 +1,12 @@
 # Time-series Table Engine
+
 时序表引擎是为时序场景设计的存储与计算引擎，具有高效写入、高效查询、高效压缩等特性，同时提供基于时序场景的计算函数, 适用于车联网、工业、能源、监控、APM等场景。
 本页面以及子页面所介绍功能均为 `时序引擎` 相关的的内容，不包括其他引擎。
 
 ## 创建表
+
 **语法如下：**  
+
 ```SQL
 CREATE TABLE [IF NOT EXISTS] [database.]table_name 
 (
@@ -19,6 +22,7 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 ```
 
 **说明**  
+
 * TIMESTAMP KEY: 用户必须指定唯一的 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
 * ENGINE: 用于指定表引擎，时序引擎为: TimeSeries。
 * PARTITION: 在时序引擎中，一般将数据源唯一标识作为 partition key，并通过  PARTITIONS 设置分区数量(合理的设计分区数量有利于提升性能)。
@@ -70,13 +74,15 @@ ALTER TABLE integers DROP COLUMN k;
 ALTER TABLE integers MODIFY  OPTIONS ttl='10d', memtable_size='64M';
 ```
 
-
 ## 数据写入
+
 ```SQL
 -- 指定列名写入数据
 INSERT INTO table_name (column1,column2,column3,...) VALUES (value1,value2,value3,...);
 ```
+
 **示例**
+
 ```SQL
 INSERT INTO sensor_info (sn, speed, temperature) VALUES 
 (1, 23, 360), 
@@ -84,23 +90,27 @@ INSERT INTO sensor_info (sn, speed, temperature) VALUES
 ```
 
 ## 数据查询  
-查询sn = 202301 最近七天的 speed 数据。interval 支持 day, hour, minuter。
+
+查询sn = 202301 最近七天的 speed 数据。
+
 ```SQL
 SELECT speed,temperature FROM sensor_info 
 WHERE 
-sn = 1 and ts > NOW() - interval '7 day';
+sn = 1 and ts > NOW() - interval 7 day;
 ```
-interval 函数允许在日期与时间之间进行数学计算。可用于添加或减去分钟（minute）、小时(hour)、天(day)、月(monty)、年(year)的时间间隔。
 
 ## 删除表
+
 ```SQL
 DROP TABLE [IF EXISTS] [db_name.]tb_name
 ```
+
 注意：删除表同时会删除表中所有数据，请谨慎操作。
 
 ## 限制
+
 * TABLE ENGINE 设置后不可修改  
 * PARTITION 设置后不可修改  
 * PARTITION KEY 不能为 REAL、DOUBLE 类型
-* TIMESTAMP KEY 设置后不可修改   
+* TIMESTAMP KEY 设置后不可修改
 * 字段类型设置后不可修改

@@ -2,7 +2,6 @@
 
 数学函数用于对数值进行计算和处理。
 
-
 ## 函数列表
 
 |  Function            | Input Type                        |  Return Type                                                                            |      Description                                           |
@@ -47,10 +46,9 @@
 | tanh(expression)     | 数值类型 | DOUBLE | 双曲正切函数 |
 | trunc(v expression, s INT) | 数值类型 | DOUBLE | 截断数字到小数点后 s 位，s 可选默认为 0 截断为整数 |
 
-
 ## 示例
+
 ```SQL
 -- 计算 sn = 20230629 最近7天 speed 的向上取整
-SELECT ceil(speed) FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval '7 day';
+SELECT ceil(speed) FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval 7 day
 ```
-

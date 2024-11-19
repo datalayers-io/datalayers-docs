@@ -22,18 +22,18 @@
 | first\_value(expression [ORDER BY expression])  | 任意类型 | 输入类型 | 表达式结果集排序后的第一个结果，如果没有指定顺序则可能返回其中任意一个 |
 | last\_value(expression [ORDER BY expression])   | 任意类型 | 输入类型 | 表达式结果集排序后的最后一个结果，如果没有指定顺序则可能返回其中任意一个 |
 
-
 ::: tip
 当某种数据类型可以隐式转换到聚合函数支持的类型时，会转换并执行。
 :::
 
 ## 示例
+
 ```SQL
 -- 查询 sensor_info 记录的总行数
 SELECT count(*) FROM sensor_info;
 
 -- 计算 sn = 20230629 最近7天的平均速度
-SELECT avg(speed) FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval '7 day';
+SELECT avg(speed) FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval 7 day;
 
 -- 获取最大温度值
 SELECT max(temperature) FROM weather_data;
@@ -47,4 +47,3 @@ SELECT median(age) FROM user_profiles GROUP BY user_group;
 -- 计算 sn = 20230629 最新 speed 的值
 SELECT last_value(speed order by ts) FROM sensor_info WHERE sn = '20230629' ;
 ```
-

@@ -4,9 +4,10 @@ aside: false
 
 # TIMESTAMP Functions
 
-
 ## 函数列表
+
 下表显示了`TIMESTAMP`类型的可用函数。
+
 | Function          | Input Type     | Return Type    |      Description                                           |
 |  -----------------|-------------- |-------------- |------------------------------------------------------------|
 | now()             |     | TIMESTAMP\_NS   | 返回精度为纳秒的配置时区的时间 |
@@ -30,9 +31,9 @@ aside: false
 | from\_unixtime(expression)   | INTEGER | TIMESTAMP\_S | 从 unix 时间戳转换成时间戳 |
 | to\_unixtime(expression[, ..., format\_n])           |(exp[, ... FORMAT]) | INTEGER | 根据指定的格式化转化成 unix 时间戳，指定多个格式化时依次解析直到符合格式 |
 
-
 ::: tip
-1. INTERVAL 为形如'2 hours' 的字符串，可用精度单位：'nanoseconds', 'microseconds', 'milliseconds', 'seconds', 'minutes', 'hours', 'days', 'weeks', 'months', 'years'
+
+1. INTERVAL 为形如'2 hour' 的字符串，可用精度单位：'nanosecond', 'microsecond', 'millisecond', 'second', 'minute, 'hour', 'day', 'week', 'month', 'year'
 2. PRECISION 为形如 'hour' 的字符串，可用精度单位：'year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second'
 3. PART 为形如 'minute' 字符串，可用部分：'year', 'quarter', 'month', 'week', 'day', 'hour', 'minute', 'second', 'millisecond', 'microsecond', 'nanosecond', 'dow', 'doy', 'epoch'
 4. FIELD 为形如 minute 的标识符，不同于 PART 是不需要引号的
@@ -40,9 +41,10 @@ aside: false
 :::
 
 ## 示例
+
 ```SQL
 -- 返回当前连接节点的版本信息
-SELECT speed,temperature FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval '7 days';
+SELECT speed,temperature FROM sensor_info WHERE sn = '20230629' and ts > NOW() - interval 7 day;
 
 -- 以 `1 day` 分割点进行聚合
 SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sx1  group by timepoint;
