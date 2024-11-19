@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## 2.2.5
+
+发布日期: 2024-11-21
+
+### Features
+
+- `show task` 语句支持集群。
+- information_schema 中增加 task 等信息。
+
+### 增强
+
+- 完善 JDBC 协议，提升兼容性。
+- 提升数据查询性能。
+
+### 修复
+
+- 认证鉴权可能失败的问题。
+
+### Breaking changes
+
+- 通过 INTERVAL 对时间进行计算时，INTERVAL 后面的语句不再使用 "`" 进行包裹。
+
 ## 2.2.4
 
 发布日期: 2024-11-11
@@ -17,8 +39,6 @@
 - 默认启用 compaction。
 - 使用 InfluxDB 行协议写入时，忽略 tag 顺序。
 - `explain analyze` 语句支持更多的指标。
-
-### 修复
 
 ## 2.2.3
 
