@@ -1,6 +1,6 @@
 # Quick Start
 
-This section will guide you through the basic steps to quickly get started with the Datalayers Key-vale Service.
+This section will guide you through the basic steps to quickly get started with the Datalayers Key-value Service.
 
 ## Starting the Datalayers Service
 
