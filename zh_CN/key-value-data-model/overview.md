@@ -14,6 +14,6 @@ Key-Value 数据模型在 Datalayers 2.1.8 版本中发布，使用 Key-Value �
 * 支持 TB 级别的 key-value 存储，能够极大降低服务器资源成本与运维成本。
 * 迁移简单，不用修改代码即可从 Redis 迁移至 Datalayers。
 
-未来的更新还将包括支持将SQL操作映射到键值操作的功能，实现 SQL 与 Key-vale互通，进一步扩展我们平台的多功能性。
+未来的更新还将包括支持将SQL操作映射到键值操作的功能，实现 SQL 与 Key-value互通，进一步扩展我们平台的多功能性。
 
 
