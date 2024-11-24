@@ -2,11 +2,11 @@
 
 ## 2.2.5
 
-发布日期: 2024-11-21
+发布日期: 2024-11-25
 
 ### Features
 
-- `show task` 语句支持集群。
+- `show task` 语句支持显示集群信息。
 - information_schema 中增加 task 等信息。
 
 ### 增强

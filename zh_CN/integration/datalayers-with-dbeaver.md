@@ -19,14 +19,13 @@ Datalayers 支持 Arrow Flight SQL 协议，因此通过配置 DBeaver 插件即
     * 驱动器名称，填写一个容易记住的名字，如：Datalayers
     * 驱动器类型，选择：Generic
     * 类名填写：org.apache.arrow.driver.jdbc.ArrowFlightJdbcDriver
-    * URL 模板：jdbc:arrow-flight-sql://{host}:{port}
+    * URL 模板：jdbc:arrow-flight-sql://{host}:{port}?useEncryption=false
     * 默认端口填写：8360。这是 Datalayers 默认的端口
 
 ![DBeaver](../assets/dbeaver/config.png)
 4. 切换至 **库** 的标签页面，添加此前下载的 [Arrow Flight SQL 的 JDBC 驱动程序](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver)，添加完成后点击查找类
 ![DBeaver](../assets/dbeaver/lib.png)
-5. 切换至 **连接属性** 的标签页面，添加属性：`useEncryption`， 值为：`false`
-6. 点击 **OK** 保存配置，此时便完成了配置
+5. 点击 **OK** 保存配置，此时便完成了配置
 
 ## 连接 Datalayers
 
