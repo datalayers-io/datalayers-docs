@@ -90,6 +90,9 @@
     - title_en: High-performance writing
       title_cn: 高性能写入
       path: development-guide/high-performance-writing
+    - title_en: High-performance reading
+      title_cn: 高性能查询
+      path: development-guide/high-performance-reading
 
 - title_en: SQL Reference
   title_cn: SQL 参考
