@@ -2,17 +2,20 @@
 
 ## 2.2.5
 
-发布日期: 2024-11-25
+发布日期: 2024-11-28
 
 ### Features
 
 - `show task` 语句支持显示集群信息。
-- information_schema 中增加 task 等信息。
+- information_schema 中增加 task、columns 等信息。
+- 支持 `select version()` 语句
+- 在查询中支持使用 UNIX 时间戳进行比较.
+- 在建表时，支持对字段添加 comment。
 
 ### 增强
 
-- 完善 JDBC 协议，提升兼容性。
-- 提升数据查询性能。
+- 完善 JDBC 协议，提升生态兼容性兼容性。
+- 重构查询流程，提升数据查询性能。
 
 ### 修复
 
