@@ -121,11 +121,9 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 此时 Grafana 和 Datalayers 数据源插件均已就绪，请通过本地浏览器，登录到 Grafana。
 
-请按照下方图示填入对应的数据库地址+端口、用户名+密码，如果开启了 TLS 还需要填写证书。
+请按照下方图示填入对应的数据库地址+端口、用户名+密码、默认的数据库名称，如果开启了 TLS 还需要填写证书。
 
-![config plugin](../assets/datalayers-with-grafana/config_datasource.jpg)
-
-> 推荐填写 metaData 部分，key 为 `'database'`，value 为 `'数据库名称'`，填写后在使用查询语句时可以免写数据库名。
+![config plugin](../assets/datalayers-with-grafana/config_datasource.png)
 
 配置完成后，你可以点击 `Save & test` 按钮保存并测试连通性。
 
