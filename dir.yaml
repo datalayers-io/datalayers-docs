@@ -175,6 +175,12 @@
         - title_en: TRIM
           title_cn: TRIM
           path: sql-reference/statements/trim
+        - title_en: FLUSH
+          title_cn: FLUSH
+          path: sql-reference/statements/flush
+        - title_en: COMPACT
+          title_cn: COMPACT
+          path: sql-reference/statements/compact
     - title_en: Functions
       title_cn: 函数
       collapsed: true
