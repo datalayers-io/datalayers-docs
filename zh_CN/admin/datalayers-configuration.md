@@ -87,7 +87,7 @@ worker_channel_size = 128
 
 # Cache size for SST file metadata. Setting it to 0 to disable the cache.
 # Default: 128M
-meta_cache_size = "128M"
+meta_cache_size = "512M"
 
 # Whether or not to flush memtable before the system or worker exits
 # Default: true.
@@ -151,11 +151,11 @@ capacity = "512MB"
 # Disk cache capicity
 # 0 means disable disk cache
 # Default: "0GB"
-# capacity = "1GB"
+capacity = "1GB"
 
 # The directory where the disk cache will be stored
 # Default: "/var/lib/datalayers/meta_cache"
-# path = "/var/lib/datalayers/meta_cache"
+path = "/var/lib/datalayers/meta_cache"
 
 # Disk cache block size
 # Default: "64MB"
@@ -165,7 +165,7 @@ capacity = "512MB"
 [storage.file_cache.memory]
 # 0 means disable mem cache
 # Default: "0MB"
-# capacity = "512MB"
+capacity = "512MB"
 
 # The shard number of mem cache
 # More shards will help distribute the load and improve performance by reducing contention.
@@ -183,7 +183,7 @@ capacity = "10GB"
 
 # The directory where the disk cache will be stored
 # Default: "/var/lib/datalayers/file_cache"
-# path = "/var/lib/datalayers/file_cache"
+path = "/var/lib/datalayers/file_cache"
 
 # Disk cache block size
 # Default: "64MB"
