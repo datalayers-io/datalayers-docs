@@ -147,7 +147,7 @@ capacity = "512MB"
 
 # !!! Disk cache configuration not working on standalone mode
 # The configurations of the file meta disk cache.
-#[storage.file_meta_cache.disk]
+[storage.file_meta_cache.disk]
 # Disk cache capicity
 # 0 means disable disk cache
 # Default: "0GB"
@@ -160,29 +160,6 @@ capacity = "512MB"
 # Disk cache block size
 # Default: "64MB"
 # block_size = "64MB"
-
-# The shard number of disk cache
-# More shards will help distribute the load and improve performance by reducing contention.
-# But too many shards might lead to increased overhead due to managing more individual cache segments.
-# Default: 16
-# shards = 16
-
-# Cache reclaimer count
-# Helps manage the cache's efficiency by reclaiming space
-# from unused or less frequently accessed files.
-# But high number of threads might increase CPU usage and
-# potentially degrade overall system performance
-# if not balanced with other system resources and requirements.
-# Default: 8
-# reclaimers = 8
-
-# recover concurrency
-# Default: 4
-# recover_concurrency = 4
-
-# Buffer threshold
-# Default: "128MB"
-# buffer_threshold = "128MB"
 
 # The configurations of the file data memory cache.
 [storage.file_cache.memory]
@@ -211,38 +188,6 @@ capacity = "10GB"
 # Disk cache block size
 # Default: "64MB"
 # block_size = "64MB"
-
-# Buffer threshold
-# Default: "128MB"
-# buffer_threshold = "128MB"
-
-# The compression algorithm of disk cache, optional configuration
-# The compression will reduce the size of the data stored on disk, potentially improving performance and
-# reducing storage requirements. But it will also introduce additional computational
-# overhead during both compression and decompression processes.
-# only "Zstd", "Lz4", "None"
-# Default: "None"
-# compression = "None"
-
-# The shard number of disk cache
-# More shards will help distribute the load and improve performance by reducing contention.
-# But too many shards might lead to increased overhead due to managing more individual cache segments.
-# Default: 16
-# shards = 16
-
-# Cache reclaimer count
-# Helps manage the cache's efficiency by reclaiming space
-# from unused or less frequently accessed files.
-# But high number of threads might increase CPU usage and
-# potentially degrade overall system performance
-# if not balanced with other system resources and requirements.
-# Default: 8
-# reclaimers = 8
-
-# recover concurrency
-# if too long the recovery cost, please increase this value to speed up the recovery process
-# Default: 4
-# recover_concurrency = 4
 
 # The configurations of the local storage.
 [storage.local]
