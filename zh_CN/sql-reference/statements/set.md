@@ -1,14 +1,17 @@
-# SET
+# SET STATEMENT
+
 SET 语句用于更改连接中或全局的某些配置项。
 
-## SET STATEMENT
+## 语法
+
 ```SQL
 -- 将连接会话中的时区设置为 Asia/Shanghai
 SET session timezone = 'Asia/Shanghai' ;
 ```
 
 ## AVAILABLE SET CONFIG
-|Name|	Description|	Input type|	Default value| Example|
+
+|Name| Description| Input type| Default value| Example|
 | ---- | ---- | ---- | ---- | ---- |
 | timezone | 当前时区 | VARCHAR | 系统 (服务端当地) 时区 / 服务端配置时区 | ```SET session timezone = 'Asia/Shanghai';``` |
 
