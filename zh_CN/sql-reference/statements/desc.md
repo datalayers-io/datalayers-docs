@@ -1,8 +1,19 @@
 
+# DESC Statement
+
+DESC 是一种用于查询数据库对象（如表或视图）结构的 SQL 语句。通过 DESC，用户可以查看表中列的名称、数据类型、约束以及其他元数据。
+
 ## DESC TABLE
 
+### 语法
+
+```sql
+DESC table table_name;
+```
+
 查看 table 的定义。如：
-```shell
+
+```sql
 demo> desc table t1
 +-------+--------------+------+-------------------+---------------+
 | Field | Type         | Null | Default           | Timestamp Key |

@@ -4,7 +4,7 @@
 
 `WHERE` 子句可以与比较运算符（如 `=`, `<>`, `>`, `<`, `>=`, `<=`）、逻辑运算符（如 `AND`, `OR`, `NOT`）以及其他函数（如 `BETWEEN`, `IN`, `LIKE`, `IS NULL`）一起使用，以构建复杂的条件表达式。
 
-**语法**
+## 语法
 ```sql
 SELECT column1, column2, ...
 FROM table_name
