@@ -175,6 +175,9 @@
         - title_en: TRIM
           title_cn: TRIM
           path: sql-reference/statements/trim
+        - title_en: TRUNCATE
+          title_cn: TRUNCATE
+          path: sql-reference/statements/truncate
         - title_en: FLUSH
           title_cn: FLUSH
           path: sql-reference/statements/flush
