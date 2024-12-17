@@ -1,6 +1,6 @@
 # INSERT Statement
 
-INSERT INTO 语句主要用于向 table 中添加数据。
+INSERT 语句用于向数据库表中插入新记录。
 
 ## 语法
 

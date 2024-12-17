@@ -1,6 +1,6 @@
-# SELECT STATEMENT
+# SELECT Statements
 
-使用 SELECT STATEMENT 从数据库中检索行数据。
+SELECT 语句是数据库查询操作中最常用的一种，用于从数据库中检索数据。通过 SELECT 语句，你可以指定要查询的列、表以及相关的条件，甚至进行复杂的数据聚合、排序和分组。
 
 ## 语法
 
