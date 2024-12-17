@@ -5,20 +5,22 @@
 ## 启动与管理命令
 
 Datalayers 支持一些基本的启动和管理命令，您可以通过 `datalayers -h` 进行查看。如：
+
 ```shell
 datalayers -h
 ```
 
 以下是常用的管理命令：
 
-| 参数            | 描述                                                           |
-| ----------     | ------------------------------------------------------------  |
-| -h             | 命令行使用帮助信息                                               |
-| -v             | 显示版本号并退出                                                 |
-| -c filename    | 配置文件参数 (默认: /etc/datalayers/datalayers.toml)             |
-| standalone     | 单机模式（默认：集群模式）                                        |
+| 参数             | 简写     | 描述                                                       |
+| ----------      | -------  | ------------------------------------------------------    |
+| --config        | -c       | 指定配置文件 (默认: /etc/datalayers/datalayers.toml)         |
+| --verbose       | -v       | 打印解析、修正后的配置文件信息                                 |
+| --verbose       | -V       | 显示版本号并退出                                             |
+| --help          | -h       | 命令行使用帮助信息                                           |
 
 ### 示例
+
 ```shell
 -- 指定配置文件启动集群模式。
 datalayers -c /etc/datalayers/cluster.toml
@@ -30,18 +32,20 @@ datalayers standalone -c /etc/datalayers/standalone.toml
 datalayers standalone
 ```
 
-
 ## Datalayers CLI
+
 在 Datalayers的 镜像/安装包 中已经包含 CLI 交互式工具 `dlsql`。
 
-
 ### 启动
+
 在终端下执行 `dlsql` 即可进行 Datalayers CLI 交互式界面。
+
 ```shell
 dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
 
 相关参数：
+
 | 参数                | 简写     | 描述                                                                                                |
 | ----------         | -------  | ----------------------------------------------------------------------------------------------    |
 | --host             | -h       | 设置连接 Datalayers 服务器地址, 默认:127.0.0.1                                                         |
@@ -55,5 +59,3 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --max-rows         |          | 在使用 `dlsql` 进行查询数据时最多显示记录的行数，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定         |
 | --max-fetch-rows   |          | 在使用 `dlsql` 进行查询数据最多获取条记录，缺省值为：`20000`，如需获取更多记录，则需通过该参数进行指定            |
 | --help             |          | show this help, then exit                                                                          |
-
-
