@@ -3,9 +3,8 @@
 随着物联网 (IoT)、工业自动化、智能能源等领域的迅猛发展，数据量呈现爆炸式增长。如何高效管理这些时序数据并实现实时监控，已成为各行业面临的关键挑战。Datalayers 作为一款专为工业 IoT 和连接车辆等场景优化的时序数据库，提供了强大的分布式存储和计算能力。而通过与Grafana 的集成，用户可以将这些复杂的时序数据以可视化的形式呈现出来，帮助实现实时数据洞察。
 
 本文将介绍如何将 Datalayers 与 Grafana 集成，以实现数据存储、可视化，以下是具体的集成步骤：
-```
+
 我们提供 **手动部署** 与 **Docker Compose 一键部署**，下面将分别介绍这两种部署方式。
-```
 
 ## 手动部署
 
@@ -57,9 +56,6 @@ INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('10
 
 - 关于命令行工具，更详细的用法请参考[命令行工具](../getting-started/command-line-tool.md)。
 
-
-
-
 ### 安装 Grafana
 
 请前往 [Grafana 官网下载页](https://grafana.com/grafana/download)。
@@ -67,7 +63,6 @@ INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('10
 此处我们下载并安装 Linux 的 开源版本 11.2.0：
 
 ![download grafana](../assets/datalayers-with-grafana/download_grafana.png)
-
 
 > 安装好 Grafana 之后就可以进行插件的安装了，建议安装前先停止你的 Grafana 服务。
 
@@ -110,12 +105,11 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 点击左侧菜单 `Connections - Data sources`, 然后点击 `Add new data source` 按钮, 找到 `Datalayers` 数据源:
 
-![find datasource](../assets/find_datasource.png) 
+![find datasource](../assets/find_datasource.png)
 
 :::
 
 ::::
-
 
 ### 配置插件
 
@@ -126,7 +120,6 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 ![config plugin](../assets/datalayers-with-grafana/config_datasource.png)
 
 配置完成后，你可以点击 `Save & test` 按钮保存并测试连通性。
-
 
 ### 数据查询
 
@@ -142,16 +135,13 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 你也可以使用`函数` 对数据进行聚合等操作，详见[SQL函数](../sql-reference/aggregation.html)。
 
-
 在插件的编辑器模式中，你可以使用一些 Grafana 变量，请点击帮助按钮查看：
 
 ![help button](../assets/datalayers-with-grafana/plugin_help.png)
 
-
 ::: tip
 请注意，在 Grafana 插件中查询语句建议通过 <db_name>.<table_name> 的方式来指定数据库。
 :::
-
 
 ### 添加 Dashboard
 
@@ -170,10 +160,11 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 ``` bash
 git clone https://github.com/datalayers-io/datalayers-with-grafana.git
 ```
+
 然后请跟随 README 文档完成启动、快速写入示例数据的过程。
 
 当你完成上述步骤后，就已经自动完成了上述所有的安装、配置、写入示例数据步骤，你可以直接进行数据查询、添加 Dashboard 相关操作。
 
-
 ## 结语
+
 将 Datalayers 与 Grafana 集成，不仅能够大幅提升时序数据的管理与分析效率，还能通过灵活的可视化工具为用户提供更加直观的业务洞察。无论是在工业 IoT 还是智能能源等领域，Datalayers 与 Grafana 的结合都能帮助企业实现数据驱动的决策和优化，推动业务智能化转型。

@@ -34,3 +34,12 @@ ALTER TABLE table_name DROP column k;
 -- Modify options of a table
 ALTER TABLE table_name MODIFY OPTIONS ttl='10d', memtable_size='64M';
 ```
+
+## RENAME
+
+修改 Table 的名字。
+
+```SQL
+-- Modify name of a table
+ALTER TABLE table_name rename new_name;
+```
