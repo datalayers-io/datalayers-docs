@@ -209,6 +209,20 @@ namespace = "DL"
 # Default: "5MB".
 max_flush_speed = "5MB"
 
+# The global default storage type which one we use to store sst files when creating table.
+# Datalayers will use local disk (standalone) and fdb (cluster) as the default storage type
+# if the default_storage_type is none. User can specify the `storage_type` to override this
+# through `table options` when creating table.
+[storage.object_store]
+# Supported (the case is not sensitive):
+# - s3.
+# - azure.
+# - gcs.
+# - local (only for standalone)
+# - fdb (only for cluster)
+# Default: None 
+# default_storage_type = "s3"
+
 # The configurations of the S3 object store.
 # [storage.object_store.s3]
 # bucket = "datalayers"
@@ -217,13 +231,13 @@ max_flush_speed = "5MB"
 # endpoint = "http://127.0.0.1:9000"
 # region = "datalayers"
 
-# [storage.azure]
+# [storage.object_store.azure]
 # container = "datalayers" # your can change it as you want
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
 
-# [storage.gcs]
+# [storage.object_store.gcs]
 # bucket = "datalayers" # your can change it as you want
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
