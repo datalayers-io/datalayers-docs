@@ -5,10 +5,16 @@ SELECT 语句是数据库查询操作中最常用的一种，用于从数据库�
 ## 语法
 
 ```SQL
--- select the rows from tbl
-SELECT j FROM table_name WHERE i=3;
--- perform an aggregate grouped by the column "i"
-SELECT i, sum(j) FROM table_name GROUP BY i;
+[ WITH with_query [, …] ]
+SELECT [ ALL | DISTINCT ] select_expr [, …]
+[ FROM from_item [, …] ]
+[ JOIN join_item [, …] ]
+[ WHERE condition ]
+[ GROUP BY grouping_element [, …] ]
+[ HAVING condition]
+[ UNION [ ALL | select ] ]
+[ ORDER BY expression [ ASC | DESC ][, …] ]
+[ LIMIT count ]
 ```
 
 更多函数说明：

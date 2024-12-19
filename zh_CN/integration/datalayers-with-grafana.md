@@ -89,7 +89,7 @@ bash -c "$(curl -fsSL \
 下载[Grafana 插件](https://github.com/datalayers-io/grafana-datalayers-datasource/releases) 并解压到本地，例如 `./myplugins`。
 编辑你的 `grafana.ini`，找到并修改如下配置：
 
-```
+```ini
 [paths]
 plugins = YOUR_UNZIP_DIRECTORY/myplugins
 
