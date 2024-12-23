@@ -79,6 +79,11 @@ Datalayers 与 FDB 集成以进行键值存储，以下设置配置了此连接�
   刷新数据到 FDB 的最大速度限制，以每秒为单位。  
   - **默认值**：`"5MB"`。
 
+## 配置默认存储服务
+
+- **`object_store.default_storage_type`**:  
+当配置对象存储后，可通过该配置项指定数据默认的存储位置。在 create table 时，如未指定  table options 中的 storage_type，则会使用该配置项的值进行填充。
+
 ## S3 对象存储
 
 Amazon S3 的配置，配置该项后可在建表时指定使用 S3 作为数据的持久化存储。
