@@ -203,6 +203,9 @@
     - title_en: INFORMATION_SCHEMA
       title_cn: INFORMATION_SCHEMA
       path: sql-reference/information-schema
+    - title_en: Configure column codec
+      title_cn: 配置列编码和算法
+      path: sql-reference/column-codec
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction
