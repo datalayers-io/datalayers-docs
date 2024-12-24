@@ -6,7 +6,7 @@ Datalayers 支持为每个列指定适用的编码和压缩算法。
 
 ### 建表时指定编码和压缩
 
-在建表时可以通过为一个列设置 `ENCODING` 来配置编码算法，以及设置 `COMPRESSION` 来配置压缩算法。示例如下：
+在建表时可以通过为每个列设置 `ENCODING` 来配置编码算法，以及设置 `COMPRESSION` 来配置压缩算法。示例如下：
 
 ``` sql
 CREATE TABLE `sx1`
@@ -58,7 +58,7 @@ Datalayers 支持的编码算法如下：
 - `RLE_DICTIONARY`
 - `BYTE_STREAM_SPLIT`
 
-关于每个编码算法的定义，参考 [Apache Parquet](https://parquet.apache.org/docs/file-format/data-pages/encodings/)。
+关于每个编码算法的定义，参考 [Apache Parquet Encoding](https://parquet.apache.org/docs/file-format/data-pages/encodings/)。
 
 #### 默认的编码
 
@@ -92,7 +92,7 @@ Datalayers 支持的压缩算法包括：
 - `ZSTD(zstd_level)`：其中 `zstd_level` 为 `ZSTD` 的压缩级别，可选值的范围为 [1, 22]。
 - `LZ4_RAW`
 
-关于每个压缩算法的定义，参考 [Apache Parquet](https://parquet.apache.org/docs/file-format/data-pages/compression/)。
+关于每个压缩算法的定义，参考 [Apache Parquet Compression](https://parquet.apache.org/docs/file-format/data-pages/compression/)。
 
 #### 注意事项
 
