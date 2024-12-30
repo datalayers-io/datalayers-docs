@@ -2,59 +2,39 @@
 
 `node` 部分配置 Datalayers 集群中节点的行为和属性。节点的配置确保正确的标识、角色分配、超时设置、连接管理和数据存储。以下是具体的配置项：
 
-## 节点名称
+## 配置示例
 
-- **`name`**:  
-  定义集群中节点的唯一标识符。建议使用 `FQDN地址 + 端口号` 作为节点名称。  
-  - **默认值**：`"localhost:8366"`。
-  - **示例**：`name = "localhost:8366"`。
+```toml
+[node]
+# The name of the node. It's the unique identifier of the node in the cluster and cannot be repeated.
+# Default: "localhost:8366".
+name = "localhost:8366"
 
-## 角色
+# Role of the node.
+# Default: "stateless"
+role = "stateless"
 
-- **`role`**:  
-  指定节点在集群中的角色。通过对该角色的指定可实现读、写分离。  
-  - **默认值**：`"stateless"`。
-  - **示例**：`role = "stateless"`。
+# The timeout of connecting to the cluster.
+# Default: "1s".
+connect_timeout = "1s"
 
-## 连接超时
+# The timeout applied each request sent to the cluster.
+# Default: "120s".
+timeout = "120s"
 
-- **`connect_timeout`**:  
-  设置与集群间建立连接的超时持续时间。  
-  - **默认值**：`"1s"`。
-  - **示例**：`connect_timeout = "1s"`。
+# The maximum number of retries for internal connection.
+# Default: 1.
+retry_count = 1
 
-## 请求超时
+# The directory to store data of the node.
+# Default: "/var/run/datalayers".
+data_path = "/var/run/datalayers"
 
-- **`timeout`**:  
-  设置集群间通信的超时时间，防止请求无限期挂起。  
-  - **默认值**：`"120s"`。
-  - **示例**：`timeout = "120s"`。
+# The maximum number of active connections at a time between each RPC endpoints.
+# Default: 20.
+rpc_max_conn = 20
 
-## 重试次数
-
-- **`retry_count`**:  
-  设置内部通信建立内部连接的最大重试次数。  
-  - **默认值**：`1`。
-  - **示例**：`retry_count = 1`。
-
-## 临时数据存储路径
-在集群模式下，会在当前节点下临时存储一些数据，该项配置用于设置数据的存储路径。
-
-- **`data_path`**:  
-  指定节点存储数据的目录。  
-  - **默认值**：`"/var/run/datalayers"`。
-  - **示例**：`data_path = "/var/run/datalayers"`。
-
-## 集群间通信管理
-
-- **`rpc_max_conn`**:  
-  设置每个 RPC 端点允许的最大活动连接数。限制连接数有助于管理资源使用。  
-  - **默认值**：`20`。
-  - **示例**：`rpc_max_conn = 20`。
-
-- **`rpc_min_conn`**:  
-  指定每个 RPC 端点的最小活动连接数。保持最低连接数可以确保节点能够高效处理请求。  
-  - **默认值**：`3`。
-  - **示例**：`rpc_min_conn = 3`。
-
-
+# The minimum number of active connections at a time between each RPC endpoints.
+# Default: 3.
+rpc_min_conn = 3
+```

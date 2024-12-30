@@ -2,77 +2,67 @@
 
 `ts_engine` 部分定义了 Datalayers 中时间序列引擎的配置设置。根据用户资源与数据模型，合理的配合将获得更好的性能。
 
-## 配置工作线程通道
+## 配置示例
 
-- **`worker_channel_size`**:  
-  该设置指定了时间序列引擎中每个工作线程的请求通道大小。较大的通道大小允许更多的请求在处理之前被排队，这有助于在高负载下优化性能。  
-  - **默认值**：`128`。
+```toml
+# The configurations of the Time-Series engine.
+[ts_engine]
+# The size of the request channel for each worker.
+# Default: 128.
+# worker_channel_size = 128
 
-## 配置最大允许使用的内存
+# The max size of memory that memtable will used.
+# Server will reject to write after the memory used overflow this limitation
+# Default: 80% of system memory.
+#max_memory_used_size = "10GB"
 
-- **`max_memory_used_size`**:  
-  Datalayers 允许使用的最大内存，默认情况下为系统内存的 `80%`，当达到该阈值时会触发系统背压，同时强制内存数据落盘。  
-  - **默认值**： 系统内存的 `80%`。
+# Cache size for SST file metadata. Setting it to 0 to disable the cache.
+# Default: 512M
+meta_cache_size = "512M"
 
-## 配置元数据Cache大小
+# 服务退出时，是否将 `memtable` 中的数据进行
+# Default: true.
+flush_on_exit = true
 
-- **`meta_cache_size`**:  
-  用于配置时序引擎中缓存 **parquet meta** 与 **统计信息**的内存大小，合理的配置利于优化数据查询性能。
-  - **默认值**： 128MB。  
+# Whether or not to preload parquet metadata on startup.
+# This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
+# Default: true.
+preload_parquet_metadata = true
 
-## Schemaless写入配置
+[ts_engine.schemaless]
+# When using schemaless to write data, is automatic table modification allowed.
+# Default: false.
+auto_alter_table = true
 
-Schemaless 写入模式的配置。
+# The configurations of the Write-Ahead Logging (WAL) component.
+[ts_engine.wal]
+# The type of the WAL.
+# Currently, only the local WAL is supported.
+# Default: "local".
+type = "local"
 
-### 自动表修改
+# Whether or not to disable writing to WAL and replaying from WAL.
+# It's required to set to false in production environment if strong consistency is necessary.
+# Default: false.
+disable = false
 
-- **`auto_alter_table`**:  
-  使用 Schemaless 模式写入时，是否允许自动改表。
-  - `true`：允许自动修改表模式，这意味着系统会在摄取具有不同 SCHEMA 的数据时自动调整 SCHEMA(只能增加字段、不能修改与删除)。  
-  - `false`：禁用自动表修改，如果新数据与现有模式不匹配，则需要手动修改模式。  
-  - **默认值**：`false`。  
+# Whether or not to skip WAL replay upon restart.
+# It's meant to be used for development only.
+# Default: false.
+skip_replay = false
 
-`注：在生产环境中建议关闭该选项。`
+# The path to store WAL files.
+# Default: "/var/lib/datalayers/wal".
+path = "/var/lib/datalayers/wal"
 
-## 系统退出时是否将 Memtable 中的数据落盘
+# The fixed time period to flush cached WAL files to persistent storage.
+# Triggers flush immediately if the `flush_interval` is 0.
+# Default: "0s".
+# ** It's only used when the type is `local` **.
+flush_interval = "0s"
 
-- **`flush_on_exit`**:  
-  该设置控制时间序列引擎在系统退出时是否将内存中的数据（memtables）持久化的存储中。  
-  - `true`：在退出时将 memtable 中的数据持久化存储中，待数据全部落盘后服务才会退出。优点：Datalayers 重启时，不用将 WAL 中数据进行重放，实现快速启动； 缺点：退出时间较长（需将数据全部落盘）。  
-  - `false`：退出时内存中的数据不强制落盘。优点：Datalayers 可快速退出；缺点：重启时会将 WAL 中的数据重放到内存，重启时间较长。
-  - **默认值**：`true`。
-
-## WAL 配置
-
-`ts_engine.wal` 部分处理 WAL 组件的配置。
-
-### 启用 WAL
-
-- **`disable`**:  
-  是否启用 WAL。  
-  - `true`：禁用 WAL。  
-  - `false`：启用 WAL。  
-  - **默认值**：`false`，生产环境中建议设置为 `false`。
-
-- **`skip_replay`**:  
-  系统启动时是否跳过 wal 重放过程。  
-  - `true`：跳过 WAL 重放，仅适用用于开发环境加速系统重启使用。副作用：未重放的 WAL 数据将不能被查询与持久化。  
-  - `false`：执行 WAL 重放，将系统恢复到最后一致的状态，生产环境中必须为 `true`。  
-  - **默认值**：`false`，生产环境中建议为 `false`，如设置为 `true`，系统重启后，不会将未持久化的数据进行重放。
-
-### WAL 存储路径
-
-- **`path`**:  
-  指定 WAL 文件存储的目录。  
-  - **默认值**：`"/var/lib/datalayers/wal"`。
-
-### WAL 文件落盘
-
-- **`flush_interval`**:  
-控制 WAL 数据落盘的间隔。  
-  - `0`：每次写操作后立即落盘。  
-  - **默认值**：`"3s"`。
-
-- **`max_file_size`**:  
-  限制单个 WAL 文件的大小。当文件超过此大小时，将创建新的 WAL 文件。  
-  - **默认值**：`64MB`。此设置仅在 WAL 类型为 "local" 时使用。
+# The maximum size of a WAL file.
+# Default: "32MB".
+# ** It's only used when the type is `local` **.
+max_file_size = "64MB"
+```
