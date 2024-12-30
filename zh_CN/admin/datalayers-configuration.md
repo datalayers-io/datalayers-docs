@@ -2,7 +2,7 @@
 
 本章节将介绍 Datalayers 配置文件信息。
 
-## 配置文件介绍
+## 配置文件目录
 
 Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置有所不同：
 
@@ -39,7 +39,7 @@ http = "0.0.0.0:8361"
 # The Redis Service endpoint of the server.
 # Users can start this service only when Datalayers server starts in cluster mode.
 # Default: "0.0.0.0:8362".
-# redis = "0.0.0.0:8362" 
+# redis = "0.0.0.0:8362"
 
 # A session is regarded timeout if it's not active in the past `session_timeout` duration.
 # Default: "10s".
@@ -78,7 +78,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 [ts_engine]
 # The size of the request channel for each worker.
 # Default: 128.
-worker_channel_size = 128
+# worker_channel_size = 128
 
 # The max size of memory that memtable will used.
 # Server will reject to write after the memory used overflow this limitation
@@ -86,12 +86,17 @@ worker_channel_size = 128
 #max_memory_used_size = "10GB"
 
 # Cache size for SST file metadata. Setting it to 0 to disable the cache.
-# Default: 128M
+# Default: 512M
 meta_cache_size = "512M"
 
 # Whether or not to flush memtable before the system or worker exits
 # Default: true.
 flush_on_exit = true
+
+# Whether or not to preload parquet metadata on startup.
+# This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
+# Default: true.
+preload_parquet_metadata = true
 
 [ts_engine.schemaless]
 # When using schemaless to write data, is automatic table modification allowed.
@@ -130,98 +135,51 @@ flush_interval = "0s"
 # ** It's only used when the type is `local` **.
 max_file_size = "64MB"
 
+
 # The configurations of storage.
 [storage]
-
-# The configurations of the file meta memory cache.
-[storage.file_meta_cache.memory]
-# 0 means disable mem file meta cache
-# Default: "512MB"
-capacity = "512MB"
-
-# The shard number of mem cache
-# More shards will help distribute the load and improve performance by reducing contention.
-# But too many shards might lead to increased overhead due to managing more individual cache segments.
-# Default: 16
-# shards = 16
-
-# !!! Disk cache configuration not working on standalone mode
-# The configurations of the file meta disk cache.
-[storage.file_meta_cache.disk]
-# Disk cache capicity
-# 0 means disable disk cache
-# Default: "0GB"
-capacity = "1GB"
-
-# The directory where the disk cache will be stored
-# Default: "/var/lib/datalayers/meta_cache"
-path = "/var/lib/datalayers/meta_cache"
-
-# Disk cache block size
-# Default: "64MB"
-# block_size = "64MB"
-
-# The configurations of the file data memory cache.
-[storage.file_cache.memory]
-# 0 means disable mem cache
-# Default: "0MB"
-capacity = "512MB"
-
-# The shard number of mem cache
-# More shards will help distribute the load and improve performance by reducing contention.
-# But too many shards might lead to increased overhead due to managing more individual cache segments.
-# Default: 16
-# shards = 16
-
-# The configurations of the file data disk cache.
-# !!! Disk cache configuration not working on standalone mode
-[storage.file_cache.disk]
-# Disk cache capicity
-# 0 means disable disk cache
-# Default: "10GB"
-capacity = "10GB"
-
-# The directory where the disk cache will be stored
-# Default: "/var/lib/datalayers/file_cache"
-path = "/var/lib/datalayers/file_cache"
-
-# Disk cache block size
-# Default: "64MB"
-# block_size = "64MB"
-
-# The configurations of the local storage.
-[storage.local]
-# The path to store files in the local storage.
-# Default: "/var/lib/datalayers/storage".
-path = "/var/lib/datalayers/storage"
-
-# The configurations of the FoundationDB-backed storage.
-[storage.fdb]
-# The cluster file of FoundationDB. Foundation clients and servers use the cluster file to connect to a cluster.
-# Default: "/etc/foundationdb/fdb.cluster" on Linux system.
-cluster_file = "/etc/foundationdb/fdb.cluster"
-
-# The namespace with which to isolate key-values of Datalayers'.
+# The namespace is the path prefix that used to store all data
 # Default: "DL".
-namespace = "DL"
+# namespace = "DL"
 
-# The speed limitation per second of the FoundationDB-backed storage.
-# Default: "5MB".
-max_flush_speed = "5MB"
+# The storage configurations for system meta data in standalone mode.
+[storage.meta.local]
+# The path to store system meta data in standalone mode.
+# Default: "/var/lib/datalayers/meta".
+# path = "/var/lib/datalayers/meta"
+
+# The storage configurations for system meta data in cluster mode.
+[storage.meta.cluster]
+# The cluster file of FoundationDB.
+# Default: "/etc/foundationdb/fdb.cluster" on linux system.
+# cluster_file = "/etc/foundationdb/fdb.cluster"
 
 # The global default storage type which one we use to store sst files when creating table.
 # Datalayers will use local disk (standalone) and fdb (cluster) as the default storage type
-# if the default_storage_type is none. User can specify the `storage_type` to override this
+# if not specified. User also can specify the `storage_type` to override this
 # through `table options` when creating table.
 [storage.object_store]
 # Supported (the case is not sensitive):
 # - s3.
 # - azure.
 # - gcs.
-# - local (only for standalone)
-# - fdb (only for cluster)
-# Default: None 
-# default_storage_type = "s3"
+# - local (only working in standalone mode)
+# - fdb (only working in cluster)
+# Default: local|fdb
+# default_storage_type = ""
+
+# The configurations of object store based on local disk (only working in standalone mode, and enabled by default).
+[storage.object_store.local]
+# Default: "/var/lib/datalayers/data"
+# path = "/var/lib/datalayers/data"
+
+# The configurations of object store base on fdb (only working in cluster mode, and enabled by default).
+[storage.object_store.fdb]
+# cluster_file = "/etc/foundationdb/fdb.cluster"
+
+# The rate limitation per second.
+# Default: "5MB".
+# write_rate_limit = "5MB"
 
 # The configurations of the S3 object store.
 # [storage.object_store.s3]
@@ -242,6 +200,24 @@ max_flush_speed = "5MB"
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
+
+[storage.object_store.metadata_cache]
+# Setting to 0 to disable metadata cache in memory.
+# Default: "0MB"
+memory = "256MB"
+
+[storage.object_store.file_cache]
+# Setting to 0 to disable file cache in memory.
+# Default: "0MB"
+memory = "1024MB"
+
+# Setting to 0 to disable file cache in disk.
+# Default: "0GB"
+disk = "20GB"
+
+# The disk cache path
+# Default: "/var/lib/datalayers/cache/file"
+path = "/var/lib/datalayers/cache/file"
 
 [node]
 # The name of the node. It's the unique identifier of the node in the cluster and cannot be repeated.

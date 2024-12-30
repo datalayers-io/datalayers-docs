@@ -12,6 +12,11 @@
 # Cache size for SST file metadata. Setting it to 0 to disable the cache.
 # Default: 128M
 meta_cache_size = "256M"
+
+# Whether or not to preload parquet metadata on startup.
+# This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
+# Default: true.
+preload_parquet_metadata = true
 ```
 
 注：当内存过小，缓存被高频换入、换出，可能会导致查询变慢。
@@ -21,53 +26,23 @@ meta_cache_size = "256M"
 在使用对象外存储（OBS、Azure、S3、MinIO等）时，为降低远程 IO 带来的性能损失，可以配置混合缓存（内存 + 磁盘），将热数据缓存在 内存/磁盘 中，以加速查询。具体配置如下：
 
 ```toml
-
-# The configurations of storage.
-[storage]
-
-# The configurations of the file meta memory cache.
-[storage.file_meta_cache.memory]
-# 0 means disable mem file meta cache
-# Default: "512MB"
-capacity = "512MB"
-
-# The shard number of mem cache
-# More shards will help distribute the load and improve performance by reducing contention.
-# But too many shards might lead to increased overhead due to managing more individual cache segments.
-# Default: 16
-# shards = 16
-
-# !!! Disk cache configuration not working on standalone mode
-# The configurations of the file meta disk cache.
-[storage.file_meta_cache.disk]
-# Disk cache capicity
-# 0 means disable disk cache
-# Default: "0GB"
-capacity = "1GB"
-
-# The directory where the disk cache will be stored
-# Default: "/var/lib/datalayers/meta_cache"
-path = "/var/lib/datalayers/meta_cache"
-
-
-# The configurations of the file data memory cache.
-[storage.file_cache.memory]
-# 0 means disable mem cache
+[storage.object_store.metadata_cache]
+# Setting to 0 to disable metadata cache in memory.
 # Default: "0MB"
-capacity = "1GB"
+memory = "256MB"
 
+[storage.object_store.file_cache]
+# Setting to 0 to disable file cache in memory.
+# Default: "0MB"
+memory = "1024MB"
 
-# The configurations of the file data disk cache.
-# !!! Disk cache configuration not working on standalone mode
-[storage.file_cache.disk]
-# Disk cache capicity
-# 0 means disable disk cache
-# Default: "10GB"
-capacity = "30GB"
+# Setting to 0 to disable file cache in disk.
+# Default: "0GB"
+disk = "20GB"
 
-# The directory where the disk cache will be stored
-# Default: "/var/lib/datalayers/file_cache"
-path = "/var/lib/datalayers/file_cache"
+# The disk cache path
+# Default: "/var/lib/datalayers/cache/file"
+path = "/var/lib/datalayers/cache/file"
 ```
 
 注：当内存、磁盘设置较小、且查询场景无热点数据，导致缓存数据被高频换入、换出影响查询性能。

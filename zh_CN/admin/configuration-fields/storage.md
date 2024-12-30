@@ -2,125 +2,88 @@
 
 `storage` 部分配置了 Datalayers 系统中的各种存储组件和缓存机制。这些配置控制数据如何在内存、磁盘上缓存，以及如何存储在不同的后端存储中，如本地存储、FDB 和对象存储（S3、Azure、GCS）。
 
-## 文件元数据内存缓存
+```toml
+# The configurations of storage.
+[storage]
+# The namespace is the path prefix that used to store all data
+# Default: "DL".
+# namespace = "DL"
 
-- **`file_meta_cache.memory.capacity`**:  
-  设置文件元数据的内存缓存大小。  
-  - `0`：禁用内存缓存。  
-  - **默认值**：`"512MB"`。
+# 指定 standalone(单机) 模式下，元数据的存储路径 
+[storage.meta.local]
+# The path to store system meta data in standalone mode.
+# Default: "/var/lib/datalayers/meta".
+# path = "/var/lib/datalayers/meta"
 
-- **`file_meta_cache.memory.shards`**:  
-  指定内存缓存的分片数量。更多的分片可以通过减少争用来提高性能，但过多的分片可能会引入额外的开销。  
-  - **默认值**：`16`。
+# 指定集群模式下，元数据存储位置
+[storage.meta.cluster]
+# The cluster file of FoundationDB.
+# Default: "/etc/foundationdb/fdb.cluster" on linux system.
+# cluster_file = "/etc/foundationdb/fdb.cluster"
 
-## 文件元数据磁盘缓存
+# The global default storage type which one we use to store sst files when creating table.
+# Datalayers will use local disk (standalone) and fdb (cluster) as the default storage type
+# if not specified. User also can specify the `storage_type` to override this
+# through `table options` when creating table.
+[storage.object_store]
 
-配置磁盘上的元数据缓存， 在单机模式下无效。
+# 指定数据默认的存储位置，配置该项后，在 create table 时，会将该值写入到 table options 中的 storage_type 中。现支持以下选项：
+# - s3.
+# - azure.
+# - gcs.
+# - local (only working in standalone mode)
+# - fdb (only working in cluster)
+# Default: local|fdb
+# default_storage_type = ""
 
-- **`file_meta_cache.disk.capacity`**:  
-  设置文件元数据的磁盘缓存容量。  
-  - `0`：禁用磁盘缓存。  
-  - **默认值**：`"1GB"`。
+# 指定单机模式下，数据的存储路径 (only working in standalone mode, and enabled by default).
+[storage.object_store.local]
+# Default: "/var/lib/datalayers/data"
+# path = "/var/lib/datalayers/data"
 
-- **`file_meta_cache.disk.path`**:  
-  磁盘缓存将存储的目录。  
-  - **默认值**：`"/var/lib/datalayers/meta_cache"`。
+# The configurations of object store base on fdb (only working in cluster mode, and enabled by default).
+[storage.object_store.fdb]
+# cluster_file = "/etc/foundationdb/fdb.cluster"
 
-- **`file_meta_cache.disk.block_size`**:  
-  定义磁盘缓存的块大小。  
-  - **默认值**：`"64MB"`。
+# The rate limitation per second.
+# Default: "5MB".
+# write_rate_limit = "5MB"
 
-## 文件数据内存缓存
+# The configurations of the S3 object store.
+# [storage.object_store.s3]
+# bucket = "datalayers"
+# access_key = "CPjH8R6WYrb9KB6riEZo"
+# secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
+# endpoint = "http://127.0.0.1:9000"
+# region = "datalayers"
 
-- **`file_cache.memory.capacity`**:  
-  设置文件元数据的内存缓存大小。  
-  - `0`：禁用内存缓存。  
-  - **默认值**：`"512MB"`。
+# [storage.object_store.azure]
+# container = "datalayers" # your can change it as you want
+# account_name = "PLEASE CHANGE ME"
+# account_key = "PLEASE CHANGE ME"
+# endpoint = "PLEASE CHANGE ME"
 
-- **`file_cache.memory.shards`**:  
-  指定内存缓存的分片数量。更多的分片可以通过减少争用来提高性能，但过多的分片可能会引入额外的开销。  
-  - **默认值**：`16`。
+# [storage.object_store.gcs]
+# bucket = "datalayers" # your can change it as you want
+# scope = "PLEASE CHANGE ME"
+# credential_path = "PLEASE CHANGE ME"
+# endpoint = "PLEASE CHANGE ME"
 
-## 文件数据磁盘缓存
+[storage.object_store.metadata_cache]
+# Setting to 0 to disable metadata cache in memory.
+# Default: "0MB"
+memory = "256MB"
 
-配置磁盘上的文件数据缓存， 在单机模式下将会被禁用。
+[storage.object_store.file_cache]
+# Setting to 0 to disable file cache in memory.
+# Default: "0MB"
+memory = "1024MB"
 
-- **`file_cache.disk.capacity`**:  
-  指定文件数据的磁盘缓存容量。  
-  - **默认值**：`"10GB"`。
+# Setting to 0 to disable file cache in disk.
+# Default: "0GB"
+disk = "20GB"
 
-- **`file_cache.disk.path`**:  
-  文件数据磁盘缓存将存储的目录。  
-  - **默认值**：`"/var/lib/datalayers/file_cache"`。
-
-- **`file_cache.disk.block_size`**:  
-  设置磁盘缓存操作的块大小。  
-  - **默认值**：`"64MB"`。
-
-## 本地存储
-
-- **`local.path`**:  
-  设置用于本地存储的文件存储目录。  
-  - **默认值**：`"/var/lib/datalayers/storage"`。
-
-## FDB 配置
-
-Datalayers 与 FDB 集成以进行键值存储，以下设置配置了此连接。
-
-- **`fdb.cluster_file`**:  
-  FoundationDB 集群文件的路径，客户端和服务器用于连接集群。  
-  - **默认值**：`"/etc/foundationdb/fdb.cluster"`。
-
-- **`fdb.namespace`**:  
-  指定用于隔离 Datalayers 中的键值的 FDB 命名空间。  
-  - **默认值**：`"DL"`。
-
-- **`fdb.max_flush_speed`**:  
-  刷新数据到 FDB 的最大速度限制，以每秒为单位。  
-  - **默认值**：`"5MB"`。
-
-## 配置默认存储服务
-
-- **`object_store.default_storage_type`**:  
-当配置对象存储后，可通过该配置项指定数据默认的存储位置。在 create table 时，如未指定  table options 中的 storage_type，则会使用该配置项的值进行填充。
-
-## S3 对象存储
-
-Amazon S3 的配置，配置该项后可在建表时指定使用 S3 作为数据的持久化存储。
-
-- **`object_store.s3.bucket`**:  
-  存储数据的 S3 桶名称。  
-- **`object_store.s3.access_key`**:  
-  用于身份验证的 S3 访问密钥。  
-- **`object_store.s3.secret_key`**:  
-  用于 S3 身份验证的密钥。  
-- **`object_store.s3.endpoint`**:  
-  S3 兼容服务的端点 URL。  
-- **`object_store.s3.region`**:  
-  指定 S3 桶的区域。
-
-## Azure 对象存储
-
-Microsoft Azure 的对象存储的配置，配置该项后可在建表时指定使用 Azure 作为数据的持久化存储。
-
-- **`azure.container`**:  
-  用于数据存储的 Azure 容器名称。  
-- **`azure.account_name`**:  
-  Azure 身份验证的帐户名称。  
-- **`azure.account_key`**:  
-  Azure 身份验证的帐户密钥。  
-- **`azure.endpoint`**:  
-  Azure 服务的端点。
-
-## Google Cloud Storage (GCS)
-
-Google Cloud Storage (GCS) 的存储配置，配置该项后可在建表时指定使用 GCS 作为数据的持久化存储。
-
-- **`gcs.bucket`**:  
-  GCS 桶名称，用于数据存储。  
-- **`gcs.scope`**:  
-  使用的 GCS 服务范围。  
-- **`gcs.credential_path`**:  
-  访问 GCS 的凭据文件路径。  
-- **`gcs.endpoint`**:  
-  GCS 访问的端点 URL。
+# The disk cache path
+# Default: "/var/lib/datalayers/cache/file"
+path = "/var/lib/datalayers/cache/file"
+```
