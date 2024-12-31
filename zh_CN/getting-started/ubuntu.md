@@ -143,7 +143,7 @@ sudo systemctl restart datalayers
 sudo dpkg -r datalayers 
 ```
 
-> 注意，普通模式会将 `/usr/local/bin` 目录下的二进制文件的软链接删除，而不会删除 `/usr/lib/datalayers/bin` 目录下的二进制文件。
+> 注意，普通模式会将 `/usr/local/bin/` 目录下的二进制文件的软链接删除，而不会删除 `/usr/lib/datalayers/bin/` 目录下的二进制文件。
 
 - 纯净模式卸载（不保留二进制文件、配置文件）：
 
