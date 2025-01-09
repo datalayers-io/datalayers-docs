@@ -9,9 +9,14 @@
 # Default: "DL".
 # namespace = "DL"
 
+# Global rate limit per second for object store uploading.
+# Setting to 0 to disable rate limit
+# Default: "0MB".
+# write_rate_limit = "5MB"
+
 # 指定 standalone(单机) 模式下，元数据的存储路径 
-[storage.meta.local]
-# The path to store system meta data in standalone mode.
+[storage.meta.standalone]
+# The location where system meta data is stored on local disk in standalone mode.
 # Default: "/var/lib/datalayers/meta".
 # path = "/var/lib/datalayers/meta"
 
@@ -26,7 +31,7 @@
 # if not specified. User also can specify the `storage_type` to override this
 # through `table options` when creating table.
 [storage.object_store]
-
+# Supported (the case is not sensitive):
 # 指定数据默认的存储位置，配置该项后，在 create table 时，会将该值写入到 table options 中的 storage_type 中。现支持以下选项：
 # - s3.
 # - azure.
@@ -45,7 +50,7 @@
 [storage.object_store.fdb]
 # cluster_file = "/etc/foundationdb/fdb.cluster"
 
-# The rate limitation per second.
+# Uploading rate limit per second.
 # Default: "5MB".
 # write_rate_limit = "5MB"
 
@@ -56,18 +61,21 @@
 # secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
 # endpoint = "http://127.0.0.1:9000"
 # region = "datalayers"
+# write_rate_limit = "0MB"
 
 # [storage.object_store.azure]
 # container = "datalayers" # your can change it as you want
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
+# write_rate_limit = "0MB"
 
 # [storage.object_store.gcs]
 # bucket = "datalayers" # your can change it as you want
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
+# write_rate_limit = "0MB"
 
 [storage.object_store.metadata_cache]
 # Setting to 0 to disable metadata cache in memory.
