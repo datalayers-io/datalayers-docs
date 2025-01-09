@@ -5,12 +5,12 @@
 ## 前置条件
 
 * 已安装 Datalayers，版本 >= v2.2.4
-* 已安装 DBeaver（本文以 v24.2.3.202410201725 进行讲解），安装方法参考：[DBeaver安装](https://github.com/dbeaver/dbeaver/wiki/Installation)
-* 已下载 [ARROW Flight SQL JDBC DRIVER](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver/18.0.0) 驱动程序。
+* 已安装 DBeaver，安装方法参考：[DBeaver安装](https://github.com/dbeaver/dbeaver/wiki/Installation)
+* 已下载 [ARROW Flight SQL JDBC DRIVER](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver/18.1.0) 驱动程序。
 
 ## 配置 DBeaver
 
-Datalayers 支持 Arrow Flight SQL 协议，因此通过配置 DBeaver 插件即可实现通过 DBeaver 访问 Datalayers。通过以下几个步骤即可实现：
+Datalayers 支持 Arrow Flight SQL 协议，因此通过配置 DBeaver 即可实现通过 DBeaver 管理 Datalayers。通过以下几个步骤即可实现：
 
 1. 启动 DBeaver，在菜单中点击数据库，选择驱动管理器进行添加驱动，如下图
 ![DBeaver](../assets/dbeaver/new.png)
