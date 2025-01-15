@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 2.2.11
+
+发布日期: 2025-01-15
+
+### Features
+
+- 在 Datalayers 中实现 metrics-exporter， 减少部署组件。
+- 优化 compact 指令。
+
 ## 2.2.10
 
 发布日期: 2025-01-09
