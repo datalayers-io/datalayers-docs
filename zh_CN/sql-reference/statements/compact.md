@@ -1,10 +1,13 @@
 # COMPACT Statement
 
-COMPACT 是一种用于优化数据库存储的操作。它通过重组表或数据存储结构来减少磁盘空间占用并提高性能。通常应用于在数据更新频繁或存储碎片较多的情况下，COMPACT 有助于恢复空间并提升读取和写入效率。
+COMPACT 是一种用于优化数据库存储的操作。它通过重组表或数据存储结构来减少磁盘空间占用并提高性能。通常应用于在数据更新频繁或存储碎片较多的情况下，COMPACT 有助于恢复空间并提升读取效率。
 
 ## 语法
+
 ```SQL
-COMPACT TABLE [db.]table_name [PARTITION partition_id] [FROM from_time] [TO to_time]
+COMPACT TABLE <table_name> [PARTITION partition_id] 
+[FROM <from_time>] 
+[TO <to_time>]
 ```
 
 * 必须指定 table_name 参数；
