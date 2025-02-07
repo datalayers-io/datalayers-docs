@@ -19,6 +19,6 @@ SELECT [ ALL | DISTINCT ] select_expr [, …]
 
 更多函数说明：
 
-* [聚合函数](../aggregation.md)
-* [时间与日期函数](../date.md)
-* [数据函数](../math.md)
+* [聚合函数](../functions/aggregation.md)
+* [时间与日期函数](../functions/date.md)
+* [数据函数](../functions/math.md)
