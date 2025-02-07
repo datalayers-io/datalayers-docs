@@ -99,8 +99,8 @@ GROUP BY window
 
 ## 其他注意事项
 
-- `date_bin_gapfill` 和插值函数只能作为投影列，即只能出现在 `SELECT` 从句中，不能出现在其他从句中。
-但是 `date_bin_gapfill` 的 alias 可以出现在 `GROUP BY` 从句，以支持根据采样窗口执行降采样。
+- `date_bin_gapfill` 只能作为投影列，且必须作为分组列。
+- 插值函数只能作为投影列，不能出现在其他从句中。
 - `date_bin_gapfill` 和插值函数只能作为最外层的表达式。例如 `count(date_bin_gapfill(..))`、`max(fill_prev(avg(usage_user)))` 都是不允许的。
 - `date_bin_gapfill` 在一个 SQL 中最多只能出现一次。
 - `date_bin_gapfill` 的 `interval` 和 `origin` 参数可以为子面量，也可以为表达式，只要表达式的类型符合要求。
