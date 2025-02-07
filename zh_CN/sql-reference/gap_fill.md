@@ -107,6 +107,8 @@ GROUP BY window
 - 插值函数必须和 `date_bin_gapfill` 函数联合使用，但是 `date_bin_gapfill` 函数可以单独使用。
 - 每个聚合列最多只能应用一个插值函数。例如 `SELECT date_bin_gapfill(...), fill_linear(avg(usage_user)), fill_prev(avg(usage_user)) FROM CPU ...` 是不允许的。
 - 插值后的结果总会使用分组列进行排序。
+- 插值后的数据的时间范围为 `WHERE` 从句中指定的时间范围与每个分组内数据的时间范围的较大者。
+- `fill_linear`、`fill_prev`、`fill_value` 实际上是函数的别名。它们的标准名称分别为 `interpolate`、`locf`、`value`。在 SQL 语句中，可以随意使用标准名称或者别名。但是在打印的结果集中，我们总是使用标准名称作为列名。
 
 ## 示例
 
