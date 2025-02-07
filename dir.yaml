@@ -190,13 +190,13 @@
       children:
         - title_en: Aggregation
           title_cn: 聚合函数
-          path: sql-reference/aggregation
+          path: sql-reference/functions/aggregation
         - title_en: Date
           title_cn: 时间与日期函数
-          path: sql-reference/date
+          path: sql-reference/functions/date
         - title_en: Math
           title_cn: 数学函数
-          path: sql-reference/math
+          path: sql-reference/functions/math
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
