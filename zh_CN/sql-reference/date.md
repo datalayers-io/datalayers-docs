@@ -13,7 +13,8 @@ aside: false
 | now()             |     | TIMESTAMP\_NS   | 返回精度为纳秒的配置时区的时间 |
 | current\_date()   |     | Date | 返回当前日期 |
 | current\_time()   |     | String | 返回精度为纳秒的UTC当前时间，不包含日期 |
-| date\_bin(interval, expression[, origin-timestamp])  |  (INTERVAL<sup>1</sup>, exp[, TIMESTAMP]) | TIMESTAMP | 根据输入的 interval 时间单位对 expression 进行截断，可以指定 origin-timestamp 作为起始时间，不指定则默认为 UNIX epoch in UTC，例如: date\_bin('1 hour', ts) 表示按照每一小时进行截断 |
+| date\_bin(interval, expression[, origin-timestamp])  |  (INTERVAL<sup>1</sup>, exp[, TIMESTAMP]) | TIMESTAMP | 根据输入的 interval 时间单位对 expression 进行截断，可以指定 origin-timestamp 作为起始时间，不指定则默认为 UNIX epoch in UTC，例如: date\_bin('interval 1 hour', ts) 表示按照每一小时进行截断 |
+| date\_bin\_gapfill(interval, expression[, origin-timestamp])  |  (INTERVAL<sup>1</sup>, exp[, TIMESTAMP]) | TIMESTAMP | 根据输入的 interval 时间单位对 expression 进行截断，并补全所有缺失的时间窗口。可以指定 origin-timestamp 作为起始时间，不指定则默认为 UNIX epoch in UTC |
 | date\_trunc(precision, expression)  | (PRECISION<sup>2</sup>, exp)  | TIMESTAMP | 根据输入的 precision 精度单位对 expression 进行截断 |
 | datetrunc(precision, expression)    | | | date\_trunc 的别名 |
 | date\_part(part, expression)        | (PART<sup>3</sup>, exp)  | NUMERIC | 根据指定的 part 获取 expression 的指定部分，例如: date\_part('hour', now()) |
