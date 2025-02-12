@@ -5,6 +5,7 @@ The current implementation of the Datalayers Key-Value supports a subset of Redi
 | Command Category | Command | Support Level | Comments |
 | --- | --- | --- | --- |
 | **Connection Management** | PING | Fully Supported |     |
+|     | SELECT | Fully Supported | Supported index: [0, 65535]  |
 | **Generic** | KEYS | Fully Supported |     |
 |     | DEL | Fully Supported |     |
 | **Transaction** | MULTI | Fully Supported |     |
