@@ -197,6 +197,9 @@
         - title_en: Math
           title_cn: 数学函数
           path: sql-reference/math
+        - title_en: Gap Fill
+          title_cn: 插值
+          path: sql-reference/gap_fill
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
