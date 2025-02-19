@@ -6,10 +6,10 @@
 
 ### 增强
 
-- 新增多种[插值算法](../sql-reference/gap_fill.md)（如：线性插值、前一个非空值或者指定值等），实现对时序数据缺失值的智能动态补齐。
-- key-value 存储兼容 Redis AUTH 与 Select 指令，实现 Redis 生态工具的无缝迁移。
-- 对混合缓存（Memory + Disk）逻辑进行优化，提升查询流程性能。
-- 在集群模式下，增加 `exclude`、`include` 指令，支持在线手动排除、加入集群节点。
+- 新增线性插值、前序有效值填充（Last Valid Value）及自定义值补全等多种插值策略，支持对时序数据缺失值的动态智能修复。通过灵活配置，用户可精准控制缺失值的填补逻辑，保障数据连续性与业务分析的准确性。（详见 [gap_fill 插值算法文档](../sql-reference/gap_fill.md)）。
+- key-value 存储兼容 Redis AUTH 认证机制与 SELECT 命令语法，实现与 Redis 生态工具的无缝对接。
+- 优化混合缓存逻辑，显著降低查询延迟。
+- 新增 EXCLUDE NODE 和 INCLUDE NODE 命令，支持管理员实时排除故障节点或动态纳入新节点，提升运维效率。
 
 ## 2.2.11
 
@@ -17,8 +17,8 @@
 
 ### 增强
 
-- 实现 metrics-exporter，以减少在部署时的组件依赖。
-- 优化 [compact](../sql-reference/statements/compact.md) 指令，可自由的指定 compact 时间范围。
+- 实现 metrics-exporter，通过标准化接口输出关键指标（如缓存命中率、集群状态），彻底消除对第三方监控组件的依赖，简化部署流程并降低运维学习成本。
+- 优化 [COMPACT](../sql-reference/statements/compact.md) 命令逻辑，新增 FROM 和 TO 选项，支持按需指定压缩时间窗口。
 
 ## 2.2.10
 
@@ -26,43 +26,35 @@
 
 ### Features
 
-- 当使用对象存储时，数据落盘时可限制对带宽的占用。
-- 在 INSERT 语句中，支持使用 Scalar Function。
+- 数据落盘时支持速度控制，通过配置参数动态限制数据落盘的带宽占用，实现消峰填谷，让系统运行更加平顺。
+- INSERT 支持标量函数，允许在插入值时直接调用内置标量函数，如：NOW()。
 
 ## 2.2.9
 
 发布日期: 2024-12-31
 
-### Features
-
-- 存储引擎的元数据支持在服务启动时异步加载到内存，以加首次速查询。
-
 ### 增强
 
+- 冷启动优化，在系统启动时支持异步加载系统元数据以及索引信息，加载后首次查询性能可提升数十倍。
 - 优化了存储的配置项，简化配置逻辑。
 - 在日志中，对于一些关键行为（如：删除、compact等），将日志级别调整为 `info`。
-- 优化错误消息，更加易于阅读。
 
 ## 2.2.8
 
 发布日期: 2024-12-23
 
-### Features
-
-- 支持按列配置数据的编码方式以及压缩算法。
-- 支持通过 `ALTER TABLE` 语句修改表名。
-- 支持 `datalayers -v` 语句，打印 Datalayers 加载的配置信息。
-- 在配置文件中设置 S3、Azure 等对存储后，可通过全局配置文件中的 `default_storage_type` 指定默认的存储服务。
-- 单机模式下支持配置缓存，以加速查询（如：当在单机模式下，存储使用S3 等对象存储，可通过开启混合缓存实现查询加速）。
-
 ### 增强
 
+- 支持按列配置数据的编码方式以及压缩算法，用户可根据数据特性灵活优化存储成本与查询效率。
+- 动态表重命名支持，支持通过 `ALTER TABLE` 语句修改表名。
+- 支持 `datalayers -v` 命令，实时打印加载的配置项树形结构，便于快速定位配置冲突。
+- 在配置文件中设置 S3、Azure 等对存储后，可通过全局配置文件中的 `default_storage_type` 指定默认的存储服务。
+- 单机模式下支持配置缓存，以加速查询（如：当在单机模式下，存储使用S3 等对象存储，可通过开启混合缓存实现查询加速）。
 - 优化 SQL 错误信息，在异常情况下错误信息将更加精准。
-- 优化 dldump 工具，提升了导出、导入效率。
+- 优化 dldump 工具，提升导出、导入效率。
 - 优化 Flight SQL 协议，提升 DBeaver 兼容性。
 - 优化 `show create table` 语句。
 - 在建表时，增加对 `timestamp key` `与 partition key` 的检查，不允许设置为 NULL。
-- 提升数据库的处理性能。
 
 ### 修复
 
@@ -74,45 +66,36 @@
 
 ### 增强
 
-- 行协议写入时，增加对 tag 的检查。
+- 行协议写入时，增加对 tag 的检查，不符合规则的会被拒绝。
 - 在 Flight SQL 协议中增加返回服务端的 Version。
-- 在 `show create table` 语句中增加 comment 内容。
+- 在 `show create table` 语句中显示 comment 内容。
 
 ## 2.2.6
 
 发布日期: 2024-12-10
 
-### Features
-
-- table options 中的配置支持热更新。
-- 支持 `alter table [db.]table` 语法。
-- 支持 `truncate table` 语法。
-- 优化 cache 更新逻辑，提升性能。
-
 ### 增强
 
-- 减少了存储中混合缓存的配置项。
+- table options 中的配置支持热更新（如：TTL、MEMTABLE_SIZE 等），无需重启服务即可生效。。
+- 支持 `truncate table` ，提供快速清空表数据的轻量级操作。
+- 优化 cache 更新逻辑，提升性能。
 
 ### 修复
 
-- 字段名称区分大小写。
+- 修复原有不敏感匹配问题，现字段名称区分大小写。
 
 ## 2.2.5
 
 发布日期: 2024-12-01
 
-### Features
-
-- `show task` 语句支持显示集群信息。
-- information_schema 中增加 task、columns 等信息。
-- 支持 `select version()` 语句
-- 在查询中支持使用 UNIX 时间戳进行比较.
-- 在建表时，支持对字段添加 comment。
-
 ### 增强
 
+- 新增 SHOW TASK 命令，集中展示集群节点状态、任务进度及资源占用信息，便于运维人员快速定位瓶颈。
+- 在 information_schema 中新增 TASKS 和 COLUMNS.comments 视图，支持通过 SQL 查询任务详情和字段注释，满足审计与文档自动化需求。
+- 新增 SELECT VERSION() 语句，一键获取数据库节点及集群版本信息，简化环境排查流程。
+- 在查询中支持使用 UNIX 时间戳进行比较，如 `time >= 1672531200`。
+- 在建表时，支持对字段添加 comment。
 - 完善 JDBC 协议，提升生态兼容性兼容性。
-- 重构查询流程，提升数据查询性能。
 
 ### 修复
 
@@ -128,17 +111,15 @@
 
 ### Features
 
-- 支持使用 DBeaver 工具，参见[dbeaver](../integration/datalayers-with-dbeaver.md)。
-- 补录的数据支持 compaction。
+- 新增对 DBeaver 的原生集成支持，提供 SQL 编辑、数据可视化、元数据查询等功能。详见[DBeaver 配置](../integration/datalayers-with-dbeaver.md)。
 - 支持通过 compact 指令对数据进行整理。
 
 ### 增强
 
-- 提升内存中数据的查询效率。
-- 提升 sst 文件的查询效率。
-- 默认启用 compaction。
-- 使用 InfluxDB 行协议写入时，忽略 tag 顺序。
+- 现已默认启用 compaction，无须再通过手动开启。
+- 使用 InfluxDB 行协议写入时忽略 Tag 字段的顺序，消除因字段书写顺序不一致导致的写入失败问题。
 - `explain analyze` 语句支持更多的指标。
+- 查询性能优化。
 
 ## 2.2.3
 
