@@ -1,13 +1,24 @@
 # CHANGELOG
 
+## 2.2.12
+
+发布日期: 2025-02-22
+
+### 增强
+
+- 新增多种[插值算法](../sql-reference/gap_fill.md)（如：线性插值、前一个非空值或者指定值等），实现对时序数据缺失值的智能动态补齐。
+- key-value 存储兼容 Redis AUTH 与 Select 指令，实现 Redis 生态工具的无缝迁移。
+- 对混合缓存（Memory + Disk）逻辑进行优化，提升查询流程性能。
+- 在集群模式下，增加 `exclude`、`include` 指令，支持在线手动排除、加入集群节点。
+
 ## 2.2.11
 
 发布日期: 2025-01-15
 
-### Features
+### 增强
 
 - 实现 metrics-exporter，以减少在部署时的组件依赖。
-- 优化 compact 指令。
+- 优化 [compact](../sql-reference/statements/compact.md) 指令，可自由的指定 compact 时间范围。
 
 ## 2.2.10
 
