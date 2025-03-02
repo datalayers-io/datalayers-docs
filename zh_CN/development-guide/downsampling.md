@@ -25,13 +25,13 @@ CREATE TABLE sensor_info (
   with (ttl='10d');
 ```
 
-假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1分钟 的区间对数据进行聚合（获取一分钟以内 temperature 的平均值 ），则可使用时间函数对数据进行切割、云计算。SQL 语句如下：
+假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1分钟 的区间对数据进行聚合（获取一分钟以内 temperature 的平均值 ），则可使用时间函数对数据进行切割与计算。SQL 语句如下：
 
 ```sql
 SELECT date_bin('1 minutes', ts) as timepoint, avg(temperature) as temp from sensor_info where sn = 1 group by timepoint;
 ```
 
-假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1天 的区间对数据进行聚合（获取一天以内 temperature 的最大值 ），则可使用时间函数对数据进行切割、云计算。SQL 语句如下：
+假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1天 的区间对数据进行聚合（获取一天以内 temperature 的最大值 ），则可使用时间函数对数据进行切割与计算。SQL 语句如下：
 
 ```sql
 SELECT date_bin('1 day', ts) as timepoint, max(temperature) as temp from sensor_info where sn = 1 group by timepoint;
