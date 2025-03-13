@@ -184,6 +184,15 @@
         - title_en: COMPACT
           title_cn: COMPACT
           path: sql-reference/statements/compact
+        - title_en: EXCLUDE
+          title_cn: EXCLUDE
+          path: sql-reference/statements/exclude
+        - title_en: INCLUDE
+          title_cn: INCLUDE
+          path: sql-reference/statements/include
+        - title_en: REBALANCE
+          title_cn: REBALANCE
+          path: sql-reference/statements/rebalance      
     - title_en: Functions
       title_cn: 函数
       collapsed: true
