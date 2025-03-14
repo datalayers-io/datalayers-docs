@@ -27,8 +27,8 @@ timeout = "120s"
 retry_count = 1
 
 # The directory to store data of the node.
-# Default: "/var/run/datalayers".
-data_path = "/var/run/datalayers"
+# Default: "/var/lib/datalayers/run".
+data_path = "/var/lib/datalayers/run"
 
 # The maximum number of active connections at a time between each RPC endpoints.
 # Default: 20.
