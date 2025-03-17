@@ -26,4 +26,8 @@ queue_limit = 10000
 [scheduler.cluster_compact_inactive]
 # The maximum number of running `cluster compact inactive` jobs at the same time.
 concurrence_limit = 1
+
+[scheduler.cluster_compact_active]
+# The maximum number of running `cluster compact active` jobs at the same time.
+concurrence_limit = 1
 ```
