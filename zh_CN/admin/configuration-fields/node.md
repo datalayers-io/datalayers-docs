@@ -37,4 +37,17 @@ rpc_max_conn = 20
 # The minimum number of active connections at a time between each RPC endpoints.
 # Default: 3.
 rpc_min_conn = 3
+
+# The timeout of keep-alive in the cluster, in seconds, minimum 5
+# Default: 30
+keepalive_timeout = 30
+
+# The interval of keep-alive in the cluster, in seconds,
+#   minimum 1, maximum `keepalive_timeout / 2`
+# Default: keepalive_timeout / 3
+keepalive_interval = 10
+
+# Whether or not to auto failover when node failure
+# Default: false.
+auto_failover = false
 ```

@@ -52,7 +52,7 @@
 
 # Uploading rate limit per second.
 # Default: "5MB".
-# write_rate_limit = "5MB"
+write_rate_limit = "2MB"
 
 # The configurations of the S3 object store.
 # [storage.object_store.s3]
