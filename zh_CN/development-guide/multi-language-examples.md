@@ -15,9 +15,21 @@ import json
 from http.client import HTTPConnection
 
 
-def print_response_status(conn: HTTPConnection):
+def print_response(conn: HTTPConnection):
     with conn.getresponse() as response:
-        print(response.status)
+        response_body = response.read().decode('utf-8')
+        print(f"Status: {response.status} {response.reason}")
+        print("Headers:")
+        for header, value in response.getheaders():
+            print(f"  {header}: {value}")
+        print("Body:")
+        try:
+            # Try to parse and pretty print JSON response
+            response_json = json.loads(response_body)
+            print(json.dumps(response_json, indent=2))
+        except json.JSONDecodeError:
+            # If not JSON, print raw response
+            print(response_body)
 
 
 def print_query_result(conn: HTTPConnection):
@@ -54,7 +66,7 @@ def main():
     sql = "create database test;"
     conn.request(method="POST", url=url, headers=headers, body=sql)
     # The returned status code should be 200.
-    print_response_status(conn)
+    print_response(conn)
 
     # Creates a table `demo` within the database `test`.
     sql = '''
@@ -70,7 +82,7 @@ def main():
         '''
     conn.request(method="POST", url=url, headers=headers, body=sql)
     # The returned status code should be 200.
-    print_response_status(conn)
+    print_response(conn)
 
     # Inserts some data into the `demo` table.
     sql = '''
@@ -83,7 +95,7 @@ def main():
         '''
     conn.request(method="POST", url=url, headers=headers, body=sql)
     # The returned status code should be 200.
-    print_response_status(conn)
+    print_response(conn)
 
     # Queries the inserted data.
     sql = "SELECT * FROM test.demo"
