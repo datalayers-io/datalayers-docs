@@ -10,10 +10,6 @@
 # Default: "localhost:8366".
 name = "localhost:8366"
 
-# Role of the node.
-# Default: "stateless"
-role = "stateless"
-
 # The timeout of connecting to the cluster.
 # Default: "1s".
 connect_timeout = "1s"
