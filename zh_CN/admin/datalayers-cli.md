@@ -57,5 +57,4 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --version          | -V       | 显示 CLI 工具的版本                                                                                  |
 | --tls              |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
 | --max-display-rows |          | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
-| --max-fetch-rows   |          | 在使用 `dlsql` 查询数据时最多获取多少条记录，缺省值为：`20000`，如需获取更多记录，则需通过该参数进行指定（`0` 表示无限制）           |
 | --help             |          | show this help, then exit                                                                          |
