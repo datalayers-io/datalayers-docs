@@ -448,7 +448,6 @@
       path: user-security/tls
     - title_en: Access Control
       title_cn: 访问控制
-      path: user-security/access-control
       collapsed: true
       children:
       - title_en: Overview
