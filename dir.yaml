@@ -446,6 +446,23 @@
     - title_en: TLS
       title_cn: 连接加密(TLS)
       path: user-security/tls
+    - title_en: Access Control
+      title_cn: 访问控制
+      path: user-security/access-control
+      collapsed: true
+      children:
+      - title_en: Overview
+        title_cn: 概述
+        path: user-security/access-control/overview
+      - title_en: User Management 
+        title_cn: 用户管理
+        path: user-security/access-control/user
+      - title_en: Privileges
+        title_cn: 权限管理
+        path: user-security/access-control/privilege
+      - title_en: Role Management
+        title_cn: 角色管理
+        path: user-security/access-control/role
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true
