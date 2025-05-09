@@ -8,13 +8,19 @@
 CREATE USER [IF NOT EXISTS] user [IDENTIFIED BY 'password'];
 ```
 
-- `user`：格式为`'user_name'@'host_name'`，例如 `'alice'@'localhost'`
+- `user`：格式为`'user_name'@'host_name'`，例如 `'alice'@'127.0.0.1'`
 - `password`：账户密码，最长为32位字符
 
 用户账户创建以后，可以在客户端启动时传递如下参数登录账户：
 
 ```shell
-dlsql --host xxx --port xxx --username xxx --password xxx
+dlsql --username xxx --password xxx
+```
+
+或者简写为：
+
+```shell
+dlsql -u xxx -p xxx
 ```
 
 ## 修改密码
