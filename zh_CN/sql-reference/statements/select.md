@@ -21,4 +21,6 @@ SELECT [ ALL | DISTINCT ] select_expr [, …]
 
 * [聚合函数](../aggregation.md)
 * [时间与日期函数](../date.md)
-* [数据函数](../math.md)
+* [数学函数](../math.md)
+* [插值函数](../gap_fill.md)
+* [Json 函数](../json.md)

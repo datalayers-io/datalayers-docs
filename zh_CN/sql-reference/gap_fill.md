@@ -118,7 +118,7 @@ date_bin('1 day', time, '2024-01-01T00:00:00+08:00')
 - 插值函数只能作为投影列，不能出现在其他从句中。
 - `date_bin_gapfill` 和插值函数只能作为最外层的表达式。例如 `count(date_bin_gapfill(..))`、`max(fill_prev(avg(usage_user)))` 都是不允许的。
 - `date_bin_gapfill` 在一个 SQL 中最多只能出现一次。
-- `date_bin_gapfill` 的 `interval` 和 `origin` 参数可以为子面量，也可以为表达式，只要表达式的类型符合要求。
+- `date_bin_gapfill` 的 `interval` 和 `origin` 参数可以为字面量，也可以为表达式，只要表达式的类型符合要求。
 - 插值函数必须和 `date_bin_gapfill` 函数联合使用，但是 `date_bin_gapfill` 函数可以单独使用。
 - 每个聚合列最多只能应用一个插值函数。例如 `SELECT date_bin_gapfill(...), fill_linear(avg(usage_user)), fill_prev(avg(usage_user)) FROM CPU ...` 是不允许的。
 - 插值后的结果总会使用分组列进行排序。
