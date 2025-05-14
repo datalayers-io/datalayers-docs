@@ -4,6 +4,14 @@ Json 函数用于访问一个 Json 格式的字符串或字符串类型的列。
 
 ## 函数列表
 
+我们目前提供以下 Json 函数：
+
+- [`json_contains`](#json_contains)
+- [`json_get_bool`](#json_get_bool)
+- [`json_get_int`](#json_get_int)
+- [`json_get_float`](#json_get_float)
+- [`json_get_str`](#json_get_str)
+
 ### json_contains
 
 功能：检查 Json 字符串中是否包含指定的 key。
