@@ -12,6 +12,8 @@ Json 函数用于访问一个 Json 格式的字符串或字符串类型的列。
 - [`json_get_float`](#json_get_float)
 - [`json_get_str`](#json_get_str)
 
+注意，这些函数目前并不会判断所给定的字符串是否为**完全合法**的 Json 字符串。
+
 ### json_contains
 
 功能：检查 Json 字符串中是否包含指定的 key。
@@ -24,12 +26,15 @@ json_contains(expression, key)
 
 其中 `expression` 可以为一个字符串字面量，或字符串类型的列。
 
-返回值：一个 bool 值，表示给定的 key 是否存在。如果存在，返回 `true`；否则返回 `false`。
+返回值：
+
+- 如果给定的 key 存在，返回 `true`。
+- 如果给定的 key 不存在，返回 `false`。
 
 示例：
 
 ``` sql
--- 检视字符串 "{"city": "Chengdu"}" 中是否包含一个 'city' 键
+-- 检视字符串 '{"city": "Chengdu"}' 中是否包含一个 'city' 键
 select json_contains('{"city": "Chengdu"}', 'city');
 
 -- 查询表 t 中 json_col 字段包含 'city' 键的所有记录
