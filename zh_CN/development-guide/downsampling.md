@@ -40,4 +40,6 @@ SELECT date_bin('1 day', ts) as timepoint, max(temperature) as temp from sensor_
 更多函数说明：
 * [聚合函数](../sql-reference/aggregation.md)
 * [时间与日期函数](../sql-reference/date.md)
-* [数据函数](../sql-reference/math.md)
+* [数学函数](../sql-reference/math.md)
+* [插值函数](../sql-reference/gap_fill.md)
+* [Json 函数](../sql-reference/json.md)
