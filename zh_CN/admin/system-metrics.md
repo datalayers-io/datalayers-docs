@@ -1,6 +1,6 @@
 # 系统监控指标
-Datalayers 提供了丰富的指标来帮助用户了解当前服务状态，监测和定位系统的异常。
 
+Datalayers 提供了丰富的指标来帮助用户了解当前服务状态，监测和定位系统的异常。
 
 ## 与监控系统集成 ​
 
@@ -11,13 +11,14 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 * 使用更加丰富的告警方式，更及时地发现问题，如使用 Prometheus 的 Alertmanager。
 
 ## Datalayers Metrics
+
 | Key                                        | Type             |  说明                             |
 | -------------------------------------------| ---------------- | -------------------------------- |
 | datalayers_memory_total                    | gauge            | Datalayers 节点总内存              |
 | datalayers_memory_usage                    | gauge            | Datalayers 进程内存占用            |
 | datalayers_cpu_total                       | gauge            | Datalayers 节点CPU core 数量       |
 | datalayers_cpu_usage                       | gauge            | Datalayers 节点CPU 使用率          |
-| datalayers_ingest_rows                     | counter          | Datalayers 写入的行数              |
+| datalayers_ingest_rows_total               | counter          | Datalayers 写入的行数              |
 | datalayers_select_total                    | counter          | Datalayers select 请求次数         |
 | parquet_meta_cache_hit_total               | counter          | parquet meta cache 命中次数         |
 | parquet_meta_cache_miss_total              | counter          | parquet meta cache miss次数        |
