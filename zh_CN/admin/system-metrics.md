@@ -20,8 +20,7 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 | datalayers_cpu_usage                       | gauge            | Datalayers 节点CPU 使用率          |
 | datalayers_ingest_rows_total               | counter          | Datalayers 写入的行数              |
 | datalayers_select_total                    | counter          | Datalayers select 请求次数         |
-| parquet_meta_cache_hit_total               | counter          | parquet meta cache 命中次数         |
-| parquet_meta_cache_miss_total              | counter          | parquet meta cache miss次数        |
+| parquet_meta_op_total                      | counter          | parquet meta 缓存相关指标          |
 | datalayers_flush_queue_limit               | gauge            | Flush 任务队列长度限制               |
 | datalayers_flush_concurrence_limit         | gauge            | Flush 并行任务限制                  |
 | datalayers_flush_pending_length            | gauge            | Flush pending 中的数量              |
