@@ -5,6 +5,10 @@
 ## 配置示例
 
 ```toml
+# Datalayers' configurations.
+# The root directory of all local data storage paths
+base_dir = "/var/lib/datalayers"
+
 # The configurations of Datalayers server.
 [server]
 # 指定服务是以 单机/集群 模式启动.
@@ -51,11 +55,7 @@ username = "admin"
 # Default: "public".
 password = "public"
 
-# The provided token.
-# Default: "c720791363da727344983bfc44238f24".
-token = "c720791363da727344983bfc44238f24"
-
 # The provided JSON Web Token.
 # Default: "87113c3d906df75e9c6389fbd457d957".
-jwt_secret = "87113c3d906df75e9c6389fbd457d957"
+jwt_secret = "87212c3d906df71e9c6289fbd456d917"
 ```
