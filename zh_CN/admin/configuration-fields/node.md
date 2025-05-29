@@ -22,6 +22,10 @@ timeout = "120s"
 # Default: 1.
 retry_count = 1
 
+ # The provided token for internal communication in cluster mode.
+ # Default: "c720790361da729344983bfc44238f24".
+ token = "c720790361da719344973bfc44138f24"
+
 # The directory to store data of the node.
 # Default: "/var/lib/datalayers/run".
 data_path = "/var/lib/datalayers/run"
@@ -35,13 +39,13 @@ rpc_max_conn = 20
 rpc_min_conn = 3
 
 # The timeout of keep-alive in the cluster, in seconds, minimum 5
-# Default: 30
-keepalive_timeout = 30
+# Default: "30s"
+keepalive_timeout = "30s"
 
-# The interval of keep-alive in the cluster, in seconds,
-#   minimum 1, maximum `keepalive_timeout / 2`
-# Default: keepalive_timeout / 3
-keepalive_interval = 10
+
+ # The interval of keep-alive in the cluster, in seconds,
+ # Default: "10s"
+keepalive_interval = "10s"
 
 # Whether or not to auto failover when node failure
 # Default: false.
