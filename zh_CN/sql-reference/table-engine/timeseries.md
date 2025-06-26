@@ -33,7 +33,7 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 |  TTL                       | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期 。支持时间单位：m（分钟）、h（小时）、d（天）           |  
 |  MEMTABLE_SIZE             | 每个 `partition` 内存中缓存的数据大小，缺省值为 `256MiB`。支持单位：MiB、GiB                                                       |  
 |  FLUSH_INTERVAL            | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为`1d`。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天）                                    |  
-|  FLUSH_ON_EXIT             | 程序退出前是否将未落盘的 memtable 持久化到存储中 |
+|  FLUSH_ON_EXIT             | 程序退出前是否将未落盘的 memtable 持久化到存储中，缺省值为`true` |
 |  MAX_ROW_GROUP_LENGTH      | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000`                                                                     |  
 |  WAL_FSYNC_INTERVAL        | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：`3000`， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
 |  COMPRESSION               | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW                  |  
