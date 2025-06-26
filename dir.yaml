@@ -192,7 +192,10 @@
           path: sql-reference/statements/include
         - title_en: REBALANCE
           title_cn: REBALANCE
-          path: sql-reference/statements/rebalance      
+          path: sql-reference/statements/rebalance
+        - title_en: PIVOT
+          title_cn: PIVOT
+          path: sql-reference/statements/pivot
     - title_en: Functions
       title_cn: 函数
       collapsed: true
