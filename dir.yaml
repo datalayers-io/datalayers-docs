@@ -138,22 +138,22 @@
           children:
             - title_en: WHERE
               title_cn: WHERE
-              path: sql-reference/statements/where
+              path: sql-reference/statements/select_stmt/where
             - title_en: LIMIT
               title_cn: LIMIT
-              path: sql-reference/statements/limit
+              path: sql-reference/statements/select_stmt/limit
             - title_en: GROUP BY
               title_cn: GROUP BY
-              path: sql-reference/statements/group-by
+              path: sql-reference/statements/select_stmt/group-by
             - title_en: ORDER BY
               title_cn: ORDER BY
-              path: sql-reference/statements/order-by
+              path: sql-reference/statements/select_stmt/order-by
             - title_en: DISTINCT
               title_cn: DISTINCT
-              path: sql-reference/statements/distinct
+              path: sql-reference/statements/select_stmt/distinct
             - title_en: HAVING
               title_cn: HAVING
-              path: sql-reference/statements/having
+              path: sql-reference/statements/select_stmt/having
         - title_en: ALTER
           title_cn: ALTER
           path: sql-reference/statements/alter
