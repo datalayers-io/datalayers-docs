@@ -179,9 +179,9 @@
             - title_en: HAVING
               title_cn: HAVING
               path: sql-reference/statements/dql/having
-            - title_en: WITHIN_GROUP
-              title_cn: WITHIN_GROUP
-              path: sql-reference/statements/dql/within_group
+            - title_en: WITHIN GROUP
+              title_cn: WITHIN GROUP
+              path: sql-reference/statements/dql/within-group
             - title_en: JOIN
               title_cn: JOIN
               path: sql-reference/statements/dql/join
@@ -205,7 +205,7 @@
               path: sql-reference/statements/dql/pivot
             - title_en: WINDOW FUNCTION
               title_cn: 窗口函数
-              path: sql-reference/statements/dql/window_function
+              path: sql-reference/statements/dql/window-function
         - title_en: Admin
           title_cn: 管理语句
           path: sql-reference/statements/admin
@@ -277,7 +277,7 @@
           path: sql-reference/functions/gap_fill
         - title_en: Streaming Window
           title_cn: 流式窗口函数
-          path: sql-reference/functions/streaming_window
+          path: sql-reference/functions/streaming-window
     - title_en: INFORMATION_SCHEMA
       title_cn: INFORMATION_SCHEMA
       path: sql-reference/information-schema
