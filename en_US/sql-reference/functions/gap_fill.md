@@ -111,7 +111,6 @@ GROUP BY window
 date_bin('1 day', time, '2024-01-01T00:00:00+08:00')
 ```
 
-
 ## 其他注意事项
 
 - `date_bin_gapfill` 只能作为投影列，且必须作为分组列。
