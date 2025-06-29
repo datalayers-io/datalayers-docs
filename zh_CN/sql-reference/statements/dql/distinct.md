@@ -18,5 +18,3 @@ FROM table_name;
 ```sql
 SELECT DISTINCT department FROM employees;
 ```
-
-TODO(niebayes): more distinct.
