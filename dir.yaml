@@ -188,9 +188,6 @@
             - title_en: UNION
               title_cn: UNION
               path: sql-reference/statements/dql/union
-            - title_en: CAST
-              title_cn: CAST
-              path: sql-reference/statements/dql/cast
             - title_en: CASE
               title_cn: CASE
               path: sql-reference/statements/dql/case
@@ -266,6 +263,9 @@
             - title_en: String
               title_cn: 字符串函数
               path: sql-reference/functions/scalar/string
+            - title_en: CAST
+              title_cn: 转换函数
+              path: sql-reference/functions/scalar/cast
         - title_en: Aggregate Functions
           title_cn: 聚合函数
           path: sql-reference/functions/aggregate
