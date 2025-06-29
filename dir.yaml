@@ -214,9 +214,9 @@
           path: sql-reference/statements/admin
           collapsed: true
           children:
-            - title_en: SET
-              title_cn: SET
-              path: sql-reference/statements/admin/set
+            # - title_en: SET
+            #   title_cn: SET
+            #   path: sql-reference/statements/admin/set
             - title_en: SHOW
               title_cn: SHOW
               path: sql-reference/statements/admin/show
