@@ -242,6 +242,9 @@
         - title_en: Json
           title_cn: Json 函数
           path: sql-reference/json
+        - title_en: Cast
+          title_cn: 类型转换函数
+          path: sql-reference/cast
         - title_en: Streaming Window Functions
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window
