@@ -199,9 +199,9 @@
         - title_en: EXPLAIN
           title_cn: EXPLAIN
           path: sql-reference/statements/explain
-        - title_en: DELETE
-          title_cn: DELETE
-          path: sql-reference/statements/delete
+        # - title_en: DELETE
+        #   title_cn: DELETE
+        #   path: sql-reference/statements/delete
         - title_en: TRIM
           title_cn: TRIM
           path: sql-reference/statements/trim
