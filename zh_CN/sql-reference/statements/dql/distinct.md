@@ -18,7 +18,7 @@ FROM table_name;
 对聚合的数据进行去重：
 
 ```sql
-SELECT aggrgate_function(DISTINCT column) FROM table_name;
+SELECT aggregate_function(DISTINCT column) FROM table_name;
 ```
 
 ## 示例
