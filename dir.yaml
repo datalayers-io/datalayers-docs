@@ -125,159 +125,99 @@
       title_cn: SQL 语句
       collapsed: true
       children:
-        - title_en: DDL
-          title_cn: DDL
-          path: sql-reference/statements/ddl
-          collapsed: true
-          children:
-            - title_en: CREATE
-              title_cn: CREATE
-              path: sql-reference/statements/ddl/create
-            - title_en: ALTER
-              title_cn: ALTER
-              path: sql-reference/statements/ddl/alter
-            - title_en: DROP
-              title_cn: DROP
-              path: sql-reference/statements/ddl/drop
-            - title_en: TRUNCATE
-              title_cn: TRUNCATE
-              path: sql-reference/statements/ddl/truncate
-            - title_en: TRIM
-              title_cn: TRIM
-              path: sql-reference/statements/ddl/trim
-        - title_en: DML
-          title_cn: DML
-          path: sql-reference/statements/dml
-          collapsed: true
-          children:
-            - title_en: INSERT
-              title_cn: INSERT
-              path: sql-reference/statements/dml/insert
-            - title_en: DELETE
-              title_cn: DELETE
-              path: sql-reference/statements/dml/delete
-        - title_en: DQL
-          title_cn: DQL
-          path: sql-reference/statements/dql
+        - title_en: CREATE
+          title_cn: CREATE
+          path: sql-reference/statements/create
+        - title_en: INSERT
+          title_cn: INSERT
+          path: sql-reference/statements/insert
+        - title_en: SELECT
+          title_cn: SELECT
+          path: sql-reference/statements/select
           collapsed: true
           children:
             - title_en: WHERE
               title_cn: WHERE
-              path: sql-reference/statements/dql/where
+              path: sql-reference/statements/where
             - title_en: LIMIT
               title_cn: LIMIT
-              path: sql-reference/statements/dql/limit
-            - title_en: ORDER BY
-              title_cn: ORDER BY
-              path: sql-reference/statements/dql/order-by
-            - title_en: DISTINCT
-              title_cn: DISTINCT
-              path: sql-reference/statements/dql/distinct
+              path: sql-reference/statements/limit
             - title_en: GROUP BY
               title_cn: GROUP BY
-              path: sql-reference/statements/dql/group-by
+              path: sql-reference/statements/group-by
+            - title_en: ORDER BY
+              title_cn: ORDER BY
+              path: sql-reference/statements/order-by
+            - title_en: DISTINCT
+              title_cn: DISTINCT
+              path: sql-reference/statements/distinct
             - title_en: HAVING
               title_cn: HAVING
-              path: sql-reference/statements/dql/having
-            - title_en: WITHIN GROUP
-              title_cn: WITHIN GROUP
-              path: sql-reference/statements/dql/within-group
-            - title_en: JOIN
-              title_cn: JOIN
-              path: sql-reference/statements/dql/join
-            - title_en: UNION
-              title_cn: UNION
-              path: sql-reference/statements/dql/union
-            - title_en: CASE
-              title_cn: CASE
-              path: sql-reference/statements/dql/case
-            - title_en: EXISTS
-              title_cn: EXISTS
-              path: sql-reference/statements/dql/exists
-            - title_en: SUBQUERY
-              title_cn: 子查询
-              path: sql-reference/statements/dql/subquery
-            - title_en: CTE
-              title_cn: 公共表表达式
-              path: sql-reference/statements/dql/cte
-            - title_en: Pivot
-              title_cn: Pivot
-              path: sql-reference/statements/dql/pivot
-            - title_en: WINDOW FUNCTION
-              title_cn: 窗口函数
-              path: sql-reference/statements/dql/window-function
-        - title_en: Admin
-          title_cn: 管理语句
-          path: sql-reference/statements/admin
-          collapsed: true
-          children:
-            # - title_en: SET
-            #   title_cn: SET
-            #   path: sql-reference/statements/admin/set
-            - title_en: SHOW
-              title_cn: SHOW
-              path: sql-reference/statements/admin/show
-            - title_en: FLUSH
-              title_cn: FLUSH
-              path: sql-reference/statements/admin/flush
-            - title_en: COMPACT
-              title_cn: COMPACT
-              path: sql-reference/statements/admin/compact
-            - title_en: INCLUDE
-              title_cn: INCLUDE
-              path: sql-reference/statements/admin/include
-            - title_en: EXCLUDE
-              title_cn: EXCLUDE
-              path: sql-reference/statements/admin/exclude
-            - title_en: REBALANCE
-              title_cn: REBALANCE
-              path: sql-reference/statements/admin/rebalance
-        - title_en: UTILITY
-          title_cn: 辅助语句
-          path: sql-reference/statements/utility
-          collapsed: true
-          children:
-            - title_en: USE
-              title_cn: USE
-              path: sql-reference/statements/utility/use
-            - title_en: DESC
-              title_cn: DESC
-              path: sql-reference/statements/utility/desc
-            - title_en: EXPLAIN
-              title_cn: EXPLAIN
-              path: sql-reference/statements/utility/explain
+              path: sql-reference/statements/having
+        - title_en: ALTER
+          title_cn: ALTER
+          path: sql-reference/statements/alter
+        - title_en: USE
+          title_cn: USE
+          path: sql-reference/statements/use
+        - title_en: SHOW
+          title_cn: SHOW
+          path: sql-reference/statements/show
+        - title_en: DESC
+          title_cn: DESC
+          path: sql-reference/statements/desc
+        - title_en: DROP
+          title_cn: DROP
+          path: sql-reference/statements/drop
+        - title_en: EXPLAIN
+          title_cn: EXPLAIN
+          path: sql-reference/statements/explain
+        - title_en: TRIM
+          title_cn: TRIM
+          path: sql-reference/statements/trim
+        - title_en: TRUNCATE
+          title_cn: TRUNCATE
+          path: sql-reference/statements/truncate
+        - title_en: FLUSH
+          title_cn: FLUSH
+          path: sql-reference/statements/flush
+        - title_en: COMPACT
+          title_cn: COMPACT
+          path: sql-reference/statements/compact
+        - title_en: EXCLUDE
+          title_cn: EXCLUDE
+          path: sql-reference/statements/exclude
+        - title_en: INCLUDE
+          title_cn: INCLUDE
+          path: sql-reference/statements/include
+        - title_en: REBALANCE
+          title_cn: REBALANCE
+          path: sql-reference/statements/rebalance
+        - title_en: PIVOT
+          title_cn: PIVOT
+          path: sql-reference/statements/pivot
     - title_en: Functions
       title_cn: 函数
       collapsed: true
       children:
-        - title_en: Scalar Functions
-          title_cn: 标量函数
-          collapsed: true
-          children:
-            - title_en: Date
-              title_cn: 时间与日期函数
-              path: sql-reference/functions/scalar/date
-            - title_en: Math
-              title_cn: 数学函数
-              path: sql-reference/functions/scalar/math
-            - title_en: String
-              title_cn: 字符串函数
-              path: sql-reference/functions/scalar/string
-            - title_en: CAST
-              title_cn: 转换函数
-              path: sql-reference/functions/scalar/cast
-        - title_en: Aggregate Functions
+        - title_en: Aggregation
           title_cn: 聚合函数
-          path: sql-reference/functions/aggregate
+          path: sql-reference/aggregation
+        - title_en: Date
+          title_cn: 时间与日期函数
+          path: sql-reference/date
+        - title_en: Math
+          title_cn: 数学函数
+          path: sql-reference/math
+        - title_en: Gap Fill
+          title_cn: 插值
+          path: sql-reference/gap_fill
         - title_en: Json
           title_cn: Json 函数
-          path: sql-reference/functions/json
-        - title_en: Gap Fill
-          title_cn: 插值函数
-          path: sql-reference/functions/gap_fill
-        - title_en: Streaming Window
-          title_cn: 流式窗口函数
-          path: sql-reference/functions/streaming-window
+          path: sql-reference/json
+        #- title_en: String
+        #  title_cn: 字符串函数
+        #  path: sql-reference/string
     - title_en: INFORMATION_SCHEMA
       title_cn: INFORMATION_SCHEMA
       path: sql-reference/information-schema
