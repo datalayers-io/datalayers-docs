@@ -154,6 +154,33 @@
             - title_en: HAVING
               title_cn: HAVING
               path: sql-reference/statements/having
+            - title_en: CASE
+              title_cn: CASE
+              path: sql-reference/statements/case
+            - title_en: CTE
+              title_cn: CTE
+              path: sql-reference/statements/cte
+            - title_en: EXISTS
+              title_cn: EXISTS
+              path: sql-reference/statements/exists
+            - title_en: JOIN
+              title_cn: JOIN
+              path: sql-reference/statements/join
+            - title_en: PIVOT
+              title_cn: PIVOT
+              path: sql-reference/statements/pivot
+            - title_en: SUBQUERY
+              title_cn: SUBQUERY
+              path: sql-reference/statements/subquery
+            - title_en: UNION
+              title_cn: UNION
+              path: sql-reference/statements/union
+            - title_en: WINDOW FUNCTION
+              title_cn: 窗口函数
+              path: sql-reference/statements/window-function
+            - title_en: WITHIN GROUP
+              title_cn: WITHIN GROUP
+              path: sql-reference/statements/within-group
         - title_en: ALTER
           title_cn: ALTER
           path: sql-reference/statements/alter
@@ -172,6 +199,9 @@
         - title_en: EXPLAIN
           title_cn: EXPLAIN
           path: sql-reference/statements/explain
+        # - title_en: DELETE
+        #   title_cn: DELETE
+        #   path: sql-reference/statements/delete
         - title_en: TRIM
           title_cn: TRIM
           path: sql-reference/statements/trim
@@ -193,9 +223,6 @@
         - title_en: REBALANCE
           title_cn: REBALANCE
           path: sql-reference/statements/rebalance
-        - title_en: PIVOT
-          title_cn: PIVOT
-          path: sql-reference/statements/pivot
     - title_en: Functions
       title_cn: 函数
       collapsed: true
@@ -215,6 +242,12 @@
         - title_en: Json
           title_cn: Json 函数
           path: sql-reference/json
+        - title_en: Cast
+          title_cn: 类型转换函数
+          path: sql-reference/cast
+        - title_en: Streaming Window Functions
+          title_cn: 流式窗口函数
+          path: sql-reference/streaming-window
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
