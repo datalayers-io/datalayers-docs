@@ -24,3 +24,4 @@ SELECT [ ALL | DISTINCT ] select_expr [, …]
 * [数学函数](../math.md)
 * [插值函数](../gap_fill.md)
 * [Json 函数](../json.md)
+* [流式窗口函数](../streaming-window.md)
