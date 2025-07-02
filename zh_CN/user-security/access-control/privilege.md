@@ -44,7 +44,7 @@ GRANT priv_type [, priv_type] ...
   - `db_name.*`：数据库级权限，针对某数据库下所有对象
   - `db_name.tbl_name`：表级权限，针对某数据库中的某表
 
-- `user_or_role`：用户账户或角色名，其中的主机名部分支持通配符`%`，例如`'alice'@'%'`可以匹配从任意主机登录的`alice`
+- `user_or_role`：用户账户或角色名，必须已在系统中创建过
 
 - `WITH GRANT OPTION`：可选选项，表示是否顺带授予 GRANT 权限，以使得被授权者可将权限再授予他人
 
@@ -79,7 +79,7 @@ REVOKE [IF EXISTS]
     FROM user_or_role [, user_or_role] ...
 ```
 
-- `user_or_role`：用户账户或角色名，其中的主机名部分不支持通配符，必须使用完整名称
+- `user_or_role`：用户账户或角色名，必须已在系统中创建过
 
 示例：
 
