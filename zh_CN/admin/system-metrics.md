@@ -12,25 +12,31 @@ Datalayers 指标支持与 Prometheus 集成。使用第三方监控系统对 Da
 
 ## Datalayers Metrics
 
-| Key                                        | Type             |  说明                             |
-| -------------------------------------------| ---------------- | -------------------------------- |
-| datalayers_memory_total                    | gauge            | Datalayers 节点总内存              |
-| datalayers_memory_usage                    | gauge            | Datalayers 进程内存占用            |
-| datalayers_cpu_total                       | gauge            | Datalayers 节点CPU core 数量       |
-| datalayers_cpu_usage                       | gauge            | Datalayers 节点CPU 使用率          |
-| datalayers_ingest_rows_total               | counter          | Datalayers 写入的行数              |
-| datalayers_select_total                    | counter          | Datalayers select 请求次数         |
-| parquet_meta_op_total                      | counter          | parquet meta 缓存相关指标          |
-| datalayers_flush_queue_limit               | gauge            | Flush 任务队列长度限制               |
-| datalayers_flush_concurrence_limit         | gauge            | Flush 并行任务限制                  |
-| datalayers_flush_pending_length            | gauge            | Flush pending 中的数量              |
-| datalayers_flush_running_length            | gauge            | Flush running 中的数量              |
-| datalayers_compact_queue_limit             | gauge            | Compact 任务队列长度限制              |
-| datalayers_compact_concurrence_limit       | gauge            | Compact 并行任务限制                 |
-| datalayers_compact_pending_length          | gauge            | Compact pending 中的数量            |
-| datalayers_compact_running_length          | gauge            | Compact running 中的数量            |
-| datalayers_node_rejected_write           | counter          | Datalayers 节点 memtable 的数据量达到阈值后拒绝写入的次数 |
-| datalayers_rejected_write                  | counter          | Table 分区 memtable 的数据量达到阈值后拒绝写入的次数 |
-| latency_flush_per_10m_milliseconds         | histogram        | Flush 平均生成 10M 数据的延迟         |
-| latency_compact_per_10m_milliseconds       | histogram        | Compact 平均生成 10M 数据的延迟       |
-| datalayers_panic_total                     | counter          | Datalayers panic 的次数            |
+| Key                                                   | Type      | 说明                                                      |
+| ----------------------------------------------------- | --------- | --------------------------------------------------------- |
+| datalayers_system_memory_total                        | gauge     | Datalayers 节点总内存                                     |
+| datalayers_system_memory_usage                        | gauge     | Datalayers 节点内存使用量                                 |
+| datalayers_memory_usage                               | gauge     | Datalayers 进程内存占用                                   |
+| datalayers_cpu_total                                  | gauge     | Datalayers 节点CPU core 数量                              |
+| datalayers_cpu_usage                                  | gauge     | Datalayers 节点CPU 使用率                                 |
+| datalayers_ingest_rows_total                          | counter   | Datalayers 写入的行数                                     |
+| datalayers_select_total                               | counter   | Datalayers select 请求次数                                |
+| parquet_meta_op_total                                 | counter   | parquet meta 缓存相关指标                                 |
+| datalayers_parquet_meta_cache_usage                   | gauge     | Parquet meta 和 statistics 的缓存使用量                   |
+| datalayers_parquet_meta_cache_config_size             | gauge     | 缓存 Parquet meta 和 statistics 的最大内存使用量          |
+| datalayers_flush_queue_limit                          | gauge     | Flush 任务队列长度限制                                    |
+| datalayers_flush_concurrence_limit                    | gauge     | Flush 并行任务限制                                        |
+| datalayers_flush_pending_length                       | gauge     | Flush pending 中的数量                                    |
+| datalayers_flush_running_length                       | gauge     | Flush running 中的数量                                    |
+| datalayers_compact_queue_limit                        | gauge     | Compact 任务队列长度限制                                  |
+| datalayers_compact_concurrence_limit                  | gauge     | Compact 并行任务限制                                      |
+| datalayers_compact_pending_length                     | gauge     | Compact pending 中的数量                                  |
+| datalayers_compact_running_length                     | gauge     | Compact running 中的数量                                  |
+| datalayers_global_rejected_write                      | counter   | Datalayers 节点 memtable 的数据量达到阈值后拒绝写入的次数 |
+| datalayers_rejected_write                             | counter   | Table 分区 memtable 的数据量达到阈值后拒绝写入的次数      |
+| latency_flush_per_10m_milliseconds                    | histogram | Flush 平均生成 10M 数据的延迟                             |
+| latency_compact_per_10m_milliseconds                  | histogram | Compact 平均生成 10M 数据的延迟                           |
+| datalayers_panic_total                                | counter   | Datalayers panic 的次数                                   |
+| datalayers_hybrid_cached_file_memory_config_size      | gauge     | 缓存对象存储文件内容的最大内存使用量                      |
+| datalayers_hybrid_cached_file_disk_config_size        | gauge     | 缓存对象存储文件内容的最大磁盘使用量                      |
+| datalayers_hybrid_cached_file_meta_memory_config_size | gauge     | 缓存对象存储文件 meta 信息的最大内存使用量                |
