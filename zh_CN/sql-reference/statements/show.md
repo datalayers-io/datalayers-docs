@@ -71,6 +71,11 @@ SHOW TASKS
 SHOW TASKS flush
 ```
 
+## SHOW CURRENT node
+
+在集群模式gh，通过该命令可查看当前连接对应的节点。  
+注：在单机模式下该命令会返回空。
+
 ## SHOW VERSION
 
 获取 Datalayers 的版本号

@@ -1,7 +1,9 @@
 # REBALANCE Statement
 
-对服务器节点上 table 的 partitions 进行重新分布，提高服务器集群的负载均衡性。
-
+对服务器节点上 table 的 partitions 进行重新分布，提高服务器集群的负载均衡性。  
+```tip
+注：该指令仅支持时序引擎。
+```
 ## 语法
 
 ```SQL

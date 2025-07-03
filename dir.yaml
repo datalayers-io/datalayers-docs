@@ -134,7 +134,7 @@
         - title_en: SELECT
           title_cn: SELECT
           path: sql-reference/statements/select
-          collapsed: true
+          collapsed: false
           children:
             - title_en: WHERE
               title_cn: WHERE
@@ -176,7 +176,7 @@
               title_cn: UNION
               path: sql-reference/statements/union
             - title_en: WINDOW FUNCTION
-              title_cn: 窗口函数
+              title_cn: WINDOW FUNCTION
               path: sql-reference/statements/window-function
             - title_en: WITHIN GROUP
               title_cn: WITHIN GROUP
@@ -237,7 +237,7 @@
           title_cn: 数学函数
           path: sql-reference/math
         - title_en: Gap Fill
-          title_cn: 插值
+          title_cn: 插值函数
           path: sql-reference/gap_fill
         - title_en: Json
           title_cn: Json 函数

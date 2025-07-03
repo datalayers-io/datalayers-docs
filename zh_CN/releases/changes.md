@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 2.3.4
+
+发布日期: 2025-07-03
+
+### 新功能
+- **窗口函数支持**
+  - 新增对标准窗口函数的支持，详情请参考[窗口函数文档](../sql-reference/statements/window-function.md)
+- **流式窗口函数**
+  - 扩展窗口函数能力至流式数据处理场景，详见[流式窗口函数文档](../sql-reference/streaming-window.md)  
+- **PIVOT 操作**
+  - 新增 PIVOT 数据透视功能，使用方法参考[PIVOT文档](../sql-reference/statements/pivot.md)    
+- **WITHIN GROUP 语法**
+  - 支持有序集合聚合操作，详见[WITHIN GROUP文档](../sql-reference/statements/within-group.md)
+
+### 增强
+- **SQL 引擎重构**
+  - 优化底层处理逻辑，为后续关系引擎集成奠定基础。
+- **​​索引缓存优化​​**
+  - 改进缓存管理机制，查询性能显著提升。
+
 ## 2.3.3
 
 发布日期: 2025-06-05
