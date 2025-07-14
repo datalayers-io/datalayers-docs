@@ -12,16 +12,28 @@ CREATE USER [IF NOT EXISTS] user IDENTIFIED BY 'password';
   - 其中，主机名 `host_name` 支持使用 `%` 通配符，表示匹配任意网段。例如 `bob'@'%'` 表示允许用户 bob 从任意 IP 地址连接，`'bob'@'192.168.%'` 表示只允许从 `192.168.*.*` 网段连接
 - `password`：账户密码，最长为32位字符。
 
+示例：
+
+```sql
+CREATE USER 'alice'@'%' IDENTIFIED BY '123456';
+```
+
 用户账户创建以后，可以在客户端启动时传递如下参数登录账户：
 
 ```shell
 dlsql --username xxx --password xxx
 ```
 
+示例：
+
+```shell
+dlsql --username alice --password 123456
+```
+
 或者简写为：
 
 ```shell
-dlsql -u xxx -p xxx
+dlsql -u alice -p 123456
 ```
 
 ## 修改密码
@@ -29,7 +41,12 @@ dlsql -u xxx -p xxx
 用户创建成功后，可以通过如下命令修改账户密码：
 
 ```sql
-ALTER USER [IF EXISTS] user IDENTIFIED BY 'password';
+SET PASSWORD FOR user = 'password';
+```
+
+示例：
+```sql
+SET PASSWORD FOR 'alice'@'%' = '567890';
 ```
 
 ## 删除用户
@@ -38,6 +55,11 @@ ALTER USER [IF EXISTS] user IDENTIFIED BY 'password';
 
 ```sql
 DROP USER [IF EXISTS] user;
+```
+
+示例：
+```sql
+DROP USER 'alice'@'%';
 ```
 
 ## 查看当前用户
