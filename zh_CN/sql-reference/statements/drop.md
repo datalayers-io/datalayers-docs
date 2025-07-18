@@ -20,3 +20,14 @@ DROP DATABASE [IF EXISTS] database_name
 ```
 
 删除指定的 `database`, 如果 `database` 不为空（database下有 table），则不可删除。  
+
+
+### DROP NODE
+
+```SQL
+DROP NODE node_name
+```
+
+将指定的节点从集群中移除。
+
+注：当指定 Node 上还存在 partition 时，drop node 指令会被拒绝。
