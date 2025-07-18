@@ -93,9 +93,6 @@
     - title_en: High-performance reading
       title_cn: 高性能查询
       path: development-guide/high-performance-reading
-    - title_en: Vector Search
-      title_cn: 向量检索
-      path: development-guide/vector-search
 
 - title_en: SQL Reference
   title_cn: SQL 参考
@@ -290,6 +287,17 @@
 #    - title_en: introduction
 #      title_cn: 介绍
 #      path: edge2cloud/introduction
+
+- title_en: Vector Search
+  title_cn: 向量检索
+  collapsed: true
+  children:
+    - title_en: Vector Search Overview
+      title_cn: 向量检索概述
+      path: vector-search/overview
+    - title_en: Quick Start
+      title_cn: 快速上手
+      path: vector-search/quick-start
 
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
