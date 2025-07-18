@@ -93,6 +93,9 @@
     - title_en: High-performance reading
       title_cn: 高性能查询
       path: development-guide/high-performance-reading
+    - title_en: Vector Search
+      title_cn: 向量检索
+      path: development-guide/vector-search
 
 - title_en: SQL Reference
   title_cn: SQL 参考
@@ -248,6 +251,9 @@
         - title_en: Streaming Window Functions
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window
+        - title_en: Vector Functions
+          title_cn: 向量函数
+          path: sql-reference/vector-functions
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
