@@ -248,6 +248,9 @@
         - title_en: Streaming Window Functions
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window
+        - title_en: Vector Functions
+          title_cn: 向量函数
+          path: sql-reference/vector-functions
         #- title_en: String
         #  title_cn: 字符串函数
         #  path: sql-reference/string
@@ -284,6 +287,17 @@
 #    - title_en: introduction
 #      title_cn: 介绍
 #      path: edge2cloud/introduction
+
+- title_en: Vector Search
+  title_cn: 向量检索
+  collapsed: true
+  children:
+    - title_en: Vector Search Overview
+      title_cn: 向量检索概述
+      path: vector-search/overview
+    - title_en: Quick Start
+      title_cn: 快速上手
+      path: vector-search/quick-start
 
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
