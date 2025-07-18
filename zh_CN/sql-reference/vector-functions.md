@@ -78,6 +78,7 @@ l2_distance(x, y)
 
 - `dim`：维度函数，求解一个向量的维度，即向量中元素的数量。
 - `l2_norm`：L2 模函数，求解一个向量的 L2 模（或称 L2 范数）。
+- `l2_normalize`：L2 归一化函数，使用 L2 模对向量执行归一化。
 
 ### 维度函数
 
@@ -105,12 +106,6 @@ $$
 \text{l2\_norm}(\mathbf{x}) = \|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}
 $$
 
-使用 L2 模的向量归一化公式为：
-
-$$
-\text{normalized\_vector} = \frac{\mathbf{x}}{\|\mathbf{x}\|_2} = \left[ \frac{x_1}{\sqrt{\sum x_i^2}}, \frac{x_2}{\sqrt{\sum x_i^2}}, ..., \frac{x_n}{\sqrt{\sum x_i^2}} \right]
-$$
-
 语法：
 
 ```sql
@@ -125,6 +120,30 @@ SELECT l2_norm([1.0, 2.0, 3.0]);
 
 # 计算一个向量列中每个向量的 L2 模
 SELECT l2_norm(embed) FROM t;
+```
+
+### L2 归一化函数
+
+该函数使用 L2 模将向量转换为标准向量，即模长为 1 的单位向量。使用 L2 模的向量归一化公式为：
+
+$$
+\text{normalized\_vector} = \frac{\mathbf{x}}{\|\mathbf{x}\|_2} = \left[ \frac{x_1}{\sqrt{\sum x_i^2}}, \frac{x_2}{\sqrt{\sum x_i^2}}, ..., \frac{x_n}{\sqrt{\sum x_i^2}} \right]
+$$
+
+语法：
+
+```sql
+l2_normalize(x)
+```
+
+示例：
+
+```sql
+# 对一个向量执行归一化
+SELECT l2_normalize([1.0, 2.0, 3.0]);
+
+# 对一个向量列中的每个向量执行归一化
+SELECT l2_normalize(embed) FROM t;
 ```
 
 ## 注意事项
