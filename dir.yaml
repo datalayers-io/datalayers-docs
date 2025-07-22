@@ -293,10 +293,10 @@
   collapsed: true
   children:
     - title_en: Vector Search Overview
-      title_cn: 向量检索概述
+      title_cn: 概述
       path: vector-search/overview
     - title_en: Quick Start
-      title_cn: 快速上手
+      title_cn: 快速开始
       path: vector-search/quick-start
 
 - title_en: Key Value Data Model
