@@ -288,9 +288,6 @@
 #      title_cn: 介绍
 #      path: edge2cloud/introduction
 
-- title_en: Time Series Data Model
-  title_cn: 时序数据模型
-  path: ./sql-reference/table-engine/timeseries
 - title_en: Vector Search
   title_cn: 向量检索
   collapsed: true
