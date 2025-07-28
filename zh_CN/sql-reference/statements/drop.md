@@ -25,7 +25,7 @@ DROP DATABASE [IF EXISTS] database_name
 ### DROP NODE
 
 ```SQL
-DROP NODE node_name
+DROP NODE node_name [force]
 ```
 
 将指定的节点从集群中移除。
