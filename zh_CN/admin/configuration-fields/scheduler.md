@@ -19,15 +19,19 @@ queue_limit = 10000
 
 [scheduler.gc]
 # The maximum number of running gc jobs at the same time.
-concurrence_limit = 1
+concurrence_limit = 100
 # The maximum number of pending gc jobs at the same time
 queue_limit = 10000
 
+[scheduler.compact]
+# The maximum number of pending compact jobs at the same time
+concurrence_limit = 3
+
 [scheduler.cluster_compact_inactive]
 # The maximum number of running `cluster compact inactive` jobs at the same time.
-concurrence_limit = 1
+concurrence_limit = 10
 
 [scheduler.cluster_compact_active]
 # The maximum number of running `cluster compact active` jobs at the same time.
-concurrence_limit = 1
+concurrence_limit = 10
 ```

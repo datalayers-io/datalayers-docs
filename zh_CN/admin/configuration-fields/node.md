@@ -22,13 +22,9 @@ timeout = "120s"
 # Default: 1.
 retry_count = 1
 
- # The provided token for internal communication in cluster mode.
- # Default: "c720790361da729344983bfc44238f24".
- token = "c720790361da719344973bfc44138f24"
-
-# The directory to store data of the node.
-# Default: "/var/lib/datalayers/run".
-data_path = "/var/lib/datalayers/run"
+# The provided token for internal communication in cluster mode.
+# Default: "c720790361da729344983bfc44238f24".
+token = "c720790361da719344973bfc44138f24"
 
 # The maximum number of active connections at a time between each RPC endpoints.
 # Default: 20.
@@ -49,5 +45,5 @@ keepalive_interval = "10s"
 
 # Whether or not to auto failover when node failure
 # Default: false.
-auto_failover = false
+auto_failover = true
 ```

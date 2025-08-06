@@ -11,26 +11,28 @@
 # Default: 128.
 # worker_channel_size = 128
 
-# The max size of memory that memtable will used.
-# Server will reject to write after the memory used overflow this limitation
+# `Memtable` 最多使用多少系统内存，达到该阈值时降触发停写
 # Default: 80% of system memory.
 #max_memory_used_size = "10GB"
 
-# Cache size for SST file metadata. Setting it to 0 to disable the cache.
+# 缓存 SST 文件的结构化元信息，用于条件过滤以加速查询。
+# 缓存配置过小，在文件较多时，可能导致缓存频繁换入换出，影响性能，
+# 可通过监控面板观察缓存的使用情况
 # Default: 512M
 meta_cache_size = "512M"
 
-# 服务退出时，是否将 `memtable` 中的数据进行
+# 服务退出时，是否将 `memtable` 中的数据刷盘
 # Default: true.
 flush_on_exit = true
 
-# Whether or not to preload parquet metadata on startup.
-# This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
+# 服务启动时，预加载最近生成的文件的元信息。
+# 在`meta_cache_size` 配置的缓存容量足够的情况下，系统将加载所有 SST 文件的结构化元信息
 # Default: true.
 preload_parquet_metadata = true
 
 [ts_engine.schemaless]
-# When using schemaless to write data, is automatic table modification allowed.
+# 使用 InfluxDB 行协议写入时，如果列的信息发生变化，是否允许系统自动改表。
+# 尽可能保持写入数据的列的数量是稳定的，频繁新增列触发改表，将极大的影响写入性能
 # Default: false.
 auto_alter_table = true
 
@@ -41,25 +43,17 @@ auto_alter_table = true
 # Default: "local".
 type = "local"
 
-# Whether or not to disable writing to WAL and replaying from WAL.
-# It's required to set to false in production environment if strong consistency is necessary.
+# 是否关闭 WAL 写入，生产环境建议保持默认值
 # Default: false.
 disable = false
 
-# Whether or not to skip WAL replay upon restart.
-# It's meant to be used for development only.
+# 服务重启时，是否跳过 WAL 重放，生产环境建议保持默认值
 # Default: false.
 skip_replay = false
 
 # The path to store WAL files.
 # Default: "/var/lib/datalayers/wal".
 path = "/var/lib/datalayers/wal"
-
-# The fixed time period to flush cached WAL files to persistent storage.
-# Triggers flush immediately if the `flush_interval` is 0.
-# Default: "0s".
-# ** It's only used when the type is `local` **.
-flush_interval = "0s"
 
 # The maximum size of a WAL file.
 # Default: "32MB".

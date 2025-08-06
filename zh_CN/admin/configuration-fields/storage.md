@@ -14,54 +14,58 @@
 # Default: "0MB".
 # write_rate_limit = "5MB"
 
-# 指定 standalone(单机) 模式下，元数据的存储路径 
+# 单机模式下，元数据存储路径
 [storage.meta.standalone]
-# The location where system meta data is stored on local disk in standalone mode.
-# Default: "/var/lib/datalayers/meta".
-# path = "/var/lib/datalayers/meta"
+# 相对`base_dir`的存储路径。如果希望数据存储到其他路径，可以指定为绝对路径
+# Default: "meta".
+# path = "meta"
 
-# 指定集群模式下，元数据存储位置
+# 集群模式下，元数据存储配置
 [storage.meta.cluster]
-# The cluster file of FoundationDB.
+# 连接 fdb 的配置文件`fdb.cluster`所在路径，不支持相对路径
 # Default: "/etc/foundationdb/fdb.cluster" on linux system.
 # cluster_file = "/etc/foundationdb/fdb.cluster"
 
-# The global default storage type which one we use to store sst files when creating table.
-# Datalayers will use local disk (standalone) and fdb (cluster) as the default storage type
-# if not specified. User also can specify the `storage_type` to override this
-# through `table options` when creating table.
+# 对象存储配置
 [storage.object_store]
-# Supported (the case is not sensitive):
-# 指定数据默认的存储位置，配置该项后，在 create table 时，会将该值写入到 table options 中的 storage_type 中。现支持以下选项：
+# 指定全局默认的对象存储服务，新建表时，如未在 table options 中指定`storage_type`，
+# 则默认使用该配置项作为文件的存储服务
+# 支持的配置项如下（大小写不敏感）:
 # - s3.
 # - azure.
 # - gcs.
 # - local (only working in standalone mode)
 # - fdb (only working in cluster)
-# Default: local|fdb
+# Default: 单机模式下为`local`，集群模式下为`fdb`
 # default_storage_type = ""
 
-# 指定单机模式下，数据的存储路径 (only working in standalone mode, and enabled by default).
+# 本地对象存储路径 (仅单机模式支持).
 [storage.object_store.local]
-# Default: "/var/lib/datalayers/data"
-# path = "/var/lib/datalayers/data"
+# 相对`base_dir`的存储路径。如果希望数据存储到其他路径，可以指定为绝对路径
+# Default: "data"
+# path = "data"
 
-# The configurations of object store base on fdb (only working in cluster mode, and enabled by default).
+# Fdb 对象存储服务（仅集群模式支持）
 [storage.object_store.fdb]
+# 连接 fdb 的配置文件`fdb.cluster`所在路径，不支持相对路径
 # cluster_file = "/etc/foundationdb/fdb.cluster"
 
 # Uploading rate limit per second.
 # Default: "5MB".
 write_rate_limit = "2MB"
 
-# The configurations of the S3 object store.
+# S3 对象存储服务
+# 支持`virtual-hosted–style`和`path-style`两种 URL 访问风格
+# 当`virtual-hosted–style`设置为 true 时，bucket name 将作为 URL 域名的一部分，例如: https://bucket-name.s3.region-code.amazonaws.com，
+# 否则 bucket name 将作为 URI 第一个分隔符之后路径，例如: https://s3.region-code.amazonaws.com/bucket-name
 # [storage.object_store.s3]
 # bucket = "datalayers"
 # access_key = "CPjH8R6WYrb9KB6riEZo"
 # secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
-# endpoint = "http://127.0.0.1:9000"
-# region = "datalayers"
+# endpoint = "https://bucket-name.s3.region-code.amazonaws.com"
+# region = "region-code"
 # write_rate_limit = "0MB"
+# virtual_hosted_style = true
 
 # [storage.object_store.azure]
 # container = "datalayers" # your can change it as you want
@@ -78,20 +82,21 @@ write_rate_limit = "2MB"
 # write_rate_limit = "0MB"
 
 [storage.object_store.metadata_cache]
-# Setting to 0 to disable metadata cache in memory.
+# 缓存对象存储文件的元信息，有利于快速检索文件信息
+# 对象存储文件的元信息占比很小，无需配置过大
 # Default: "0MB"
 memory = "256MB"
 
 [storage.object_store.file_cache]
-# Setting to 0 to disable file cache in memory.
+# 在内存中缓存对象存储文件的二进制内容，有利于加速文件的读取
 # Default: "0MB"
 memory = "1024MB"
 
-# Setting to 0 to disable file cache in disk.
+# 在本地磁盘中缓存对象存储文件的二进制内容，有利于加速文件的读取
 # Default: "0GB"
 disk = "20GB"
 
-# The disk cache path
-# Default: "/var/lib/datalayers/cache/file"
-path = "/var/lib/datalayers/cache/file"
+# 相对`base_dir`的存储路径。如果希望数据存储到其他路径，可以指定为绝对路径
+# Default: "cache/file"
+path = "cache/file"
 ```
