@@ -18,6 +18,8 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 
 ```toml
 # Datalayers' configurations.
+# The root directory of all local data storage paths
+base_dir = "/var/lib/datalayers"
 
 # The configurations of Datalayers server.
 [server]
@@ -66,10 +68,6 @@ username = "admin"
 # Default: "public".
 password = "public"
 
-# The provided token.
-# Default: "c720790361da729344983bfc44238f24".
-token = "c720790361da729344983bfc44238f24"
-
 # The provided JSON Web Token.
 # Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
@@ -87,11 +85,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 # Cache size for SST file metadata. Setting it to 0 to disable the cache.
 # Default: 512M
-meta_cache_size = "512M"
-
-# Whether or not to flush memtable before the system or worker exits
-# Default: true.
-flush_on_exit = true
+meta_cache_size = "2GB"
 
 # Whether or not to preload parquet metadata on startup.
 # This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
@@ -101,7 +95,7 @@ preload_parquet_metadata = true
 [ts_engine.schemaless]
 # When using schemaless to write data, is automatic table modification allowed.
 # Default: false.
-auto_alter_table = true
+auto_alter_table = false
 
 # The configurations of the Write-Ahead Logging (WAL) component.
 [ts_engine.wal]
@@ -120,15 +114,10 @@ disable = false
 # Default: false.
 skip_replay = false
 
-# The path to store WAL files.
-# Default: "/var/lib/datalayers/wal".
-path = "/var/lib/datalayers/wal"
-
-# The fixed time period to flush cached WAL files to persistent storage.
-# Triggers flush immediately if the `flush_interval` is 0.
-# Default: "0s".
-# ** It's only used when the type is `local` **.
-flush_interval = "0s"
+# The path relative to `base_dir` where the WAL files are stored.
+# Set to a absolute path if you want to store it at other independent dir.
+# Default: "wal".
+path = "wal"
 
 # The maximum size of a WAL file.
 # Default: "32MB".
@@ -149,9 +138,10 @@ max_file_size = "64MB"
 
 # The storage configurations for system meta data in standalone mode.
 [storage.meta.standalone]
-# The location where system meta data is stored on local disk in standalone mode.
-# Default: "/var/lib/datalayers/meta".
-# path = "/var/lib/datalayers/meta"
+# The path relative to `base_dir` where system meta data is stored on local disk in standalone mode.
+# Set to a absolute path if you want to store it at other independent dir.
+# Default: "meta".
+# path = "meta"
 
 # The storage configurations for system meta data in cluster mode.
 [storage.meta.cluster]
@@ -175,8 +165,10 @@ max_file_size = "64MB"
 
 # The configurations of object store based on local disk (only working in standalone mode, and enabled by default).
 [storage.object_store.local]
-# Default: "/var/lib/datalayers/data"
-# path = "/var/lib/datalayers/data"
+# The path relative to `base_dir` where the data files is stored on local disk in standalone mode.
+# Set to a absolute path if you want to store it at other independent dir.
+# Default: "data"
+# path = "data"
 
 # The configurations of object store base on fdb (only working in cluster mode, and enabled by default).
 [storage.object_store.fdb]
@@ -184,16 +176,26 @@ max_file_size = "64MB"
 
 # Uploading rate limit per second.
 # Default: "5MB".
-# write_rate_limit = "5MB"
+write_rate_limit = "2MB"
 
 # The configurations of the S3 object store.
+# We support both virtual-hosted–style and path-style URL access in S3 service.
+# Set To true to enable virtual-hosted–style request.
+# In a virtual-hosted–style URI, the bucket name is part of the domain name in the URL,
+# the endpoint use the following format: https://bucket-name.s3.region-code.amazonaws.com.
+# In a path-style URI, the bucket is the first slash-delimited component of the Request-URI,
+# the endpoint use the following format: https://s3.region-code.amazonaws.com/bucket-name.
+# We support path-style URL access in minio even though your minio service does not enable this feature,
+# and you are also allowed accessing with path-style like http://<ip>:<port> or http://minio.example.net 
+# if you set `virtual_hosted_style` to false
 # [storage.object_store.s3]
 # bucket = "datalayers"
 # access_key = "CPjH8R6WYrb9KB6riEZo"
 # secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
-# endpoint = "http://127.0.0.1:9000"
-# region = "datalayers"
+# endpoint = "https://bucket-name.s3.region-code.amazonaws.com"
+# region = "region-code"
 # write_rate_limit = "0MB"
+# virtual_hosted_style = true
 
 # [storage.object_store.azure]
 # container = "datalayers" # your can change it as you want
@@ -217,15 +219,16 @@ memory = "256MB"
 [storage.object_store.file_cache]
 # Setting to 0 to disable file cache in memory.
 # Default: "0MB"
-memory = "1024MB"
+# memory = "1024MB"
 
 # Setting to 0 to disable file cache in disk.
 # Default: "0GB"
-disk = "20GB"
+# disk = "20GB"
 
-# The disk cache path
-# Default: "/var/lib/datalayers/cache/file"
-path = "/var/lib/datalayers/cache/file"
+# The path relative to `base_dir` where the data file cache is stored.
+# Set to a absolute path if you want to store it at other independent dir.
+# Default: "cache/file"
+path = "cache/file"
 
 [node]
 # The name of the node. It's the unique identifier of the node in the cluster and cannot be repeated.
@@ -244,9 +247,9 @@ timeout = "120s"
 # Default: 1.
 retry_count = 1
 
-# The directory to store data of the node.
-# Default: "/var/run/datalayers".
-data_path = "/var/run/datalayers"
+# The provided token for internal communication in cluster mode.
+# Default: "c720790361da729344983bfc44238f24".
+token = "c720790361da729344983bfc44238f24"
 
 # The maximum number of active connections at a time between each RPC endpoints.
 # Default: 20.
@@ -256,25 +259,51 @@ rpc_max_conn = 20
 # Default: 3.
 rpc_min_conn = 3
 
+# The timeout of keep-alive in the cluster, in seconds, minimum 5
+# Default: "30s"
+keepalive_timeout = "30s"
+
+# The interval of keep-alive in the cluster, in seconds,
+# Default: "10s"
+keepalive_interval = "10s"
+
+# Whether or not to failover automatically when node offline
+# Default: false.
+auto_failover = true
+
+# The maximum duration allowed for node to be offline,
+# if the node is offline for a long time, it will be failovered if auto_failover is true
+# Minimum value: "3m"
+# Default: "10m"
+max_offline_duration = "10m"
+
 # The configurations of the scheduler.
 [scheduler]
 
 # The configurations of the flush job.
 [scheduler.flush]
 # The maximum number of running flush jobs at the same time.
-concurrence_limit = 3
+concurrence_limit = 10
 # The maximum number of pending flush jobs at the same time
 queue_limit = 10000
 
 [scheduler.gc]
 # The maximum number of running gc jobs at the same time.
-concurrence_limit = 1
+concurrence_limit = 100
 # The maximum number of pending gc jobs at the same time
 queue_limit = 10000
 
+[scheduler.compact]
+# The maximum number of pending compact jobs at the same time
+concurrence_limit = 3
+
 [scheduler.cluster_compact_inactive]
 # The maximum number of running `cluster compact inactive` jobs at the same time.
-concurrence_limit = 1
+concurrence_limit = 10
+
+[scheduler.cluster_compact_active]
+# The maximum number of running `cluster compact active` jobs at the same time.
+concurrence_limit = 10
 
 # The configurations of logging.
 [log]
@@ -317,6 +346,16 @@ enable_err_file = false
 # Default: true.
 verbose = true
 
+# The configurations of the MCP (Model Context Protocol) server.
+[mcp]
+# Whether to enable SSE.
+# Default: true.
+enable_sse = true
+
+# Whether to enable SSE OAuth.
+# Default: false.
+enable_sse_oauth = false
+
 # The configurations of runtime.
 #[runtime]
 
@@ -334,9 +373,12 @@ verbose = true
 #cpu_cores = 0.0
 
 # The configurations of license.
+# Configuration `key` has higher priority than `file`,
+# when no `key` is specified, the `file` configuration will be used.
 [license]
 # A trial license key which may be deprecated.
 key = "eyJ2IjoxLCJ0IjoxLCJjbiI6Iua+nOWbvuacquadpe+8iOaIkOmDve+8ieaVsOaNruenkeaKgOaciemZkOWFrOWPuCIsImNlIjoieWluYm8ueWFuZ0BkYXRhbGF5ZXJzLmlvIiwic2QiOiIyMDI1MDUwOSIsInZkIjoyMzYsIm5sIjozLCJjbCI6MzAsImVsIjoxMDAwMDAsImZzIjpbXX0K.e1gDGsCpvPA1fy/j2JUDvuug/kxJQyuAan0fIn3gGmFL1JUQ3V1bsi73jVl6R3wBkxMbJ13tWdBcTYZREVCVjqy22HvcSkGYJqKiQ0qx2jP2Zq22z2oiO/3frs0xuMdF6g5IE9C6PQq5X/OeFi6eFSTze4mcJhc5DaeB176oSqkyyAf+aKS23ncybYE2Nb55tkKwEVkWao3guMVhIsySInE0PXlaRYuAwmMsA0laYt1C1ZX+ktBu4CI/+C9tH6BvmkvPEagayjoITzjqdx9YRjM7/c8cSa159thLqYzvfQlLXX48bua5DS16KETk19BBc/uaHZxYXzSE1wYXFArjKw=="
+
 ```
 
 其中配置文件字段详细解释，请查看配置手册。
