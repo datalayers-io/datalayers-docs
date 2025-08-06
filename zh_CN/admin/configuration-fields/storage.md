@@ -83,16 +83,18 @@ write_rate_limit = "2MB"
 
 [storage.object_store.metadata_cache]
 # 缓存对象存储文件的元信息，有利于快速检索文件信息
-# 对象存储文件的元信息占比很小，无需配置过大
+# 对象存储文件的元信息占比很小,建议配置为 256MB 即可
 # Default: "0MB"
 memory = "256MB"
 
 [storage.object_store.file_cache]
 # 在内存中缓存对象存储文件的二进制内容，有利于加速文件的读取
+# 根据服务器资源情况进行配置
 # Default: "0MB"
 memory = "1024MB"
 
 # 在本地磁盘中缓存对象存储文件的二进制内容，有利于加速文件的读取
+# 根据服务器资源情况进行配置
 # Default: "0GB"
 disk = "20GB"
 
