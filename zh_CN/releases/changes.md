@@ -7,7 +7,7 @@
 ### 新功能
 - **​SQL HINTS**
   - 新增对SQL Hints的支持，允许开发者在查询中嵌入优化器指令，以干预执行计划生成。
-    - ​**​并行查询​​：**通过 parallel_degree 控制查询并行度（如：/*+ SET_VAR(parallel_degree=1) */）
+    - ​**​并行查询​**​：通过 parallel_degree 控制查询并行度（如：/*+ SET_VAR(parallel_degree=1) */）
 
 ### 增强
 - **优化查询逻辑​​**
