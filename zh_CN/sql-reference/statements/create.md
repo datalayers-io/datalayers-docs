@@ -36,8 +36,9 @@ with(k=v,k1=v1)
 
 对于时序（TimeSeries）引擎，至少有一个列需要为 **TIMESTAMP** 类型，且必须使用 `timestamp key` 语句来指定唯一的 timestamp key 列，这个列的类型必须为 **TIMESTAMP**。
 
-::: tip
-针对非 **TIMESTAMP** 类型，默认值只支持常量设置。针对 **TIMESTAMP** 类型，默认值除了常量外还支持输出`CURRENT_TIMESTAMP`，在写入数据时如果没有给出时间戳值将会使用写入时间。
+::: tips
+**TIMESTAMP** 类型字段，默认值支持数值常量、RFC3339 / ISO8601 格式时间字符串以及时间戳函数`CURRENT_TIMESTAMP`，在写入数据时对于缺失的 **TIMESTAMP** 类型字段会自动设置为当前时间。
+其他类型字段的默认值仅支持常量。
 :::  
 
 示例

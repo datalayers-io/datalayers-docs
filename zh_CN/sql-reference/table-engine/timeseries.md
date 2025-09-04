@@ -10,23 +10,38 @@
 ```SQL
 CREATE TABLE [IF NOT EXISTS] [database.]table_name 
 (
-    name1 type1 [ DEFAULT default_expr ],
-    name2 type2 [ DEFAULT default_expr ] ,
+    name1 TIMESTAMP [ DEFAULT default_expr ],
+    name2 type [ DEFAULT default_expr ],
+    name3 type [ DEFAULT default_expr ] ,
     ...
-    TIMESTAMP KEY (expr),
+    TIMESTAMP KEY (name1),
+    [ PRIMARY KEY (name1, ...) ],
     ...
 )
-PARTITION BY HASH(column_name) PARTITIONS 2
+PARTITION BY HASH(column_list) PARTITIONS 2
 [ENGINE=TimeSeries]
 [ WITH ( [ key = value] [, ... ] ) ] 
 ```
 
 **说明**  
 
-* TIMESTAMP KEY: 用户必须指定唯一的 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
-* ENGINE: 用于指定表引擎，时序引擎为: TimeSeries。
-* PARTITION: 在时序引擎中，一般将数据源唯一标识作为 partition key，并通过  PARTITIONS 设置分区数量(合理的设计分区数量有利于提升性能)。
-* 创建表时可以通过`WITH`参数对表进行配置。  
+* TIMESTAMP KEY
+  用户必须指定唯一的 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
+* PRIMARY KEY
+  用户可以指定 PRIMARY KEY，PRIMARY KEY 中必须包含 TIMESTAMP KEY，用于确定数据的唯一性。
+* PARTITION
+  * **BY** 根据指定列进行分区。
+  * **HASH** 表示按给定列的顺序依次计算 HASH 值，并按 HASH 结果计算分区。当前仅支持 HASH 算法。
+  * **column_list** 必须是`PRIMARY KEY`中除了`TIMESTAMP KEY`列以外的列的子集或者全集（如果指定了`PRIMARY KEY`）。
+  * **PARTITIONS** 表示分区数量，[合理的设置分区](../../development-guide/high-performance-writing.md#partition-数量)数量有利于提升性能。
+* ENGINE
+  指定表引擎，未指定时默认为时序引擎 TimeSeries。
+* WITH
+  指定 table options。
+
+*注：创建表之后，不支持修改 TIMESTAMP KEY, PARTITION 以及 PRIMARY KEY。*
+
+### 支持的 Table Options
 
 |  Name                      | Description                                                                                                                |  
 |  ------------------------  |-------------------------------------------------------------------------------------------------------------------------   |  
@@ -46,7 +61,9 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 |  COMPACT_TIME              | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 `02:00~06:00`。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
 |  COMPACT_MODE              | Compaction 支持的模式，缺省值为：`[COMPACT,TTL]`，支持选项：COMPACT,TTL,Delta，可以组合使用。当组合多个选项时，需以'[]'括起来，中间以英文逗号分隔，例如: `[COMPACT,TTL,Delta]`。如需关闭 Compaction，则指定为 Disable  |
 
-**示例**
+### 示例1
+
+指定 ts 列为 TIMESTAMP KEY，同时按 sn 列进行分区，分区数量为6
 
 ```SQL
 CREATE TABLE sensor_info (
@@ -59,6 +76,23 @@ CREATE TABLE sensor_info (
 PARTITION BY HASH(sn) PARTITIONS 6
 ENGINE=TimeSeries
 WITH (ttl='7d', memtable_size='512MiB')
+```
+
+### 示例2
+
+指定 ts 列为 TIMESTAMP KEY，ts、sn、zone 为 PRIMARY KEY，同时按 zone 列进行分区，分区数量为2
+
+```SQL
+CREATE TABLE sensor_info (
+     ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     sn INT64 NOT NULL,
+     zone string,
+     speed DOUBLE,
+     temperature REAL,
+     TIMESTAMP KEY (ts)
+     PRIMARY KEY (ts, sn, zone)
+) 
+PARTITION BY HASH(zone) PARTITIONS 2
 ```
 
 ## 修改表
