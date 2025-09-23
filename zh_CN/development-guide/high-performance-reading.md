@@ -49,7 +49,7 @@ path = "/var/lib/datalayers/cache/file"
 
 注：当内存、磁盘设置较小、且查询场景无热点数据，导致缓存数据被高频换入、换出影响查询性能。
 
-## Hints
+## SQL Hints
 
 SQL Hints 是一种在 SQL 查询中嵌入的特殊指令，用于指导数据库优化器选择特定的执行计划，从而提升查询性能或解决优化器的决策偏差。Datalayers 在 v2.3.9 开始支持该特性。
 
@@ -63,4 +63,42 @@ SELECT /*+ SET_VAR(parallel_degree=1) */ * FROM table;
 
 在查询时，Datalayers 默认策略会尝试调度更多的 CPU 资源，通过并行化将任务拆分为多个子任务（如数据分片、并行扫描、聚合）来加速查询。这种逻辑对于数据量较大时有显著优势，但对于小查询则会带来一定的副作用。因此在小查询时通过指定并行度，可极大提升查询 QPS 与性能。在时序场景，一般来说查询某设备一小段时间范围内的数据，建议设置 `parallel_degree=1`，可显著提升系统查询的 QPS。
 
+## LAST CACHE
+在时序场景中，经常需要查询 点/设备 最新一行的数据记录，用于追踪设备最新状态。Datalayers 在 `v2.3.12` 版本中，引入 LAST CACHE，用于缓存设备、点位最新一行数据，以加速查询。
 
+如需启用 LAST CACHE，需通过以下两个步骤：
+
+### 配置 LAST CACHE
+
+```toml
+# Cache size for last value. Setting it to 0 to disable the cache.
+ # Default: 2GB
+last_cache_size = "2GB"
+```
+该配置表示当前节点，LAST CACHE 最多使用 2GB 内存。
+
+### 启用 LAST CACHE 
+
+```sql
+CREATE TABLE `t` (
+  `ts` TIMESTAMP(9) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sid` INT32 NOT NULL,
+  `value` REAL,
+  `flag` INT8,
+  TIMESTAMP KEY(`ts`)
+)
+PARTITION BY HASH (`sid`) PARTITIONS 2
+ENGINE=TimeSeries
+WITH (
+  ENABLE_LAST_CACHE=TRUE,
+  UPDATE_MODE=APPEND
+)
+```
+在 table options 中，将ENABLE_LAST_CACHE设置为 true，即为该 table 启动了 LAST CACHE。
+
+通过上述配置后，即可对下面相关 SQL 进行加速查询。
+
+- select * from t where sid = 1 order by ts desc limit 1
+- select value from t where sid = 1 or sid = 2 order by ts desc limit 1
+- select last_value(value order by ts) from t where sid in (1,2,3)
+- select first_value(value order by ts desc) from t where sid = 1 or sid in (2,3)

@@ -18,8 +18,12 @@
 # 缓存 SST 文件的结构化元信息，用于条件过滤以加速查询。
 # 缓存配置过小，在文件较多时，可能导致缓存频繁换入换出，影响性能，可通过监控面板观察缓存的使用情况。
 # 关于如何配置该缓存大小，可参考[高性能查询](https://docs.datalayers.cn/datalayers/latest/development-guide/high-performance-reading.html)
-# Default: 512M
-meta_cache_size = "512M"
+# Default: 2GB
+meta_cache_size = "2GB"
+
+# 配置 LAST CACHE 最大可使用内存，设置为 0 表示禁用 LAST CACHE.
+# Default: 2GB
+last_cache_size = "2GB"
 
 # 服务启动时，预加载最近生成的文件的元信息。
 # 在`meta_cache_size` 配置的缓存容量足够的情况下，系统将加载所有 SST 文件的结构化元信息
