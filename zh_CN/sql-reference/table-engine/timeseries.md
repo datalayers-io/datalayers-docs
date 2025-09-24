@@ -60,6 +60,7 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 |  COMPACT_MAX_FILE_SIZE     | 可合并文件的最大尺寸，缺省值为：`300MiB`，支持单位：B、KiB、MiB、GiB、TiB、PiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
 |  COMPACT_TIME              | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 `02:00~06:00`。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
 |  COMPACT_MODE              | Compaction 支持的模式，缺省值为：`[COMPACT,TTL]`，支持选项：COMPACT,TTL,Delta，可以组合使用。当组合多个选项时，需以'[]'括起来，中间以英文逗号分隔，例如: `[COMPACT,TTL,Delta]`。如需关闭 Compaction，则指定为 Disable  |
+|  ENABLE_LAST_CACHE         | 是否缓存点位最新的数据，缺少值为：`false`。启用该功能后，对于查询点位最新值的场景，性能将会有巨大的提升  |
 
 ### 示例1
 
