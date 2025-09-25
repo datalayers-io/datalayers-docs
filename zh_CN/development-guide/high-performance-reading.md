@@ -99,6 +99,5 @@ WITH (
 通过上述配置后，即可对下面相关 SQL 进行加速查询。
 
 - select * from t where sid = 1 order by ts desc limit 1
-- select value from t where sid = 1 or sid = 2 order by ts desc limit 1
 - select last_value(value order by ts) from t where sid in (1,2,3)
 - select first_value(value order by ts desc) from t where sid = 1 or sid in (2,3)
