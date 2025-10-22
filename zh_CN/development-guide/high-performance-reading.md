@@ -94,10 +94,10 @@ WITH (
   UPDATE_MODE=APPEND
 )
 ```
-在 table options 中，将ENABLE_LAST_CACHE设置为 true，即为该 table 启动了 LAST CACHE。
+在 table options 中，将ENABLE_LAST_CACHE设置为 true，即为该 table 启用了 LAST CACHE 优化。
 
-通过上述配置后，即可对下面相关 SQL 进行加速查询。
+通过上述配置，即可对下面 SQL 加速查询。
 
 - select * from t where sid = 1 order by ts desc limit 1
-- select last_value(value order by ts) from t where sid in (1,2,3)
-- select first_value(value order by ts desc) from t where sid = 1 or sid in (2,3)
+- select last_value(value order by ts) from t where sid = 1
+- select first_value(value order by ts desc) from t where sid = 1

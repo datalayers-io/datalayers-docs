@@ -9,11 +9,7 @@ Key-Value 数据模型在 Datalayers 2.1.8 版本中发布，使用 Key-Value �
 
 ## Features
 
-* 完全兼容 Redis 协议，可使用 Redis 相关客户端进行接入。
+* 完全兼容 Redis 协议，可使用 Redis 客户端接入。
 * 支持常用 Redis 数据结构，参见：[Redis兼容性](./redis-compatibility.md)。
 * 支持 TB 级别的 key-value 存储，能够极大降低服务器资源成本与运维成本。
 * 迁移简单，不用修改代码即可从 Redis 迁移至 Datalayers。
-
-未来的更新还将包括支持将SQL操作映射到键值操作的功能，实现 SQL 与 Key-value 互通，进一步扩展我们平台的多功能性。
-
-

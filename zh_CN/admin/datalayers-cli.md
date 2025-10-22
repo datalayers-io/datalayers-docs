@@ -54,6 +54,7 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --port             | -P       | 设置连接 Datalayers 的端口                                                                           |
 | --database         | -d       | 设置连接 Datalayers 时使用的数据库                                                                    |
 | --execute          | -e       | 运行一次 SQL STATEMENT后退出                                                                         |
+| --load-file        |          | 执行指定的 SQL 脚本文件                                                                               |
 | --version          | -V       | 显示 CLI 工具的版本                                                                                  |
 | --tls              |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
 | --max-display-rows |          | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
