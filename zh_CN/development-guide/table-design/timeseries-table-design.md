@@ -86,3 +86,4 @@ CREATE TABLE `point_table` (
 ## PARTITION 数量
 - 一般来说 1 个 partition 每秒可高达数十万点位的写入，因此根据实际场景需求来设置即可
 - Partition 越多，会消耗越多的 CPU 与内存，建议 Partition 数量不超过集群内所有节点的 CPU CORE 之和 
+
