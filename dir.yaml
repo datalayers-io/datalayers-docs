@@ -49,16 +49,19 @@
       path: getting-started/command-line-tool
 
 - title_en: Development Guide
-  title_cn: 开发指南
+  title_cn: 最佳实践（开发指南）
   collapsed: false
   children:
     - title_en: Concepts
       title_cn: 概念
       path: development-guide/concepts
-    - title_en: Data Writing
-      title_cn: 数据写入与查询
-      path: development-guide/data-writing
+    - title_en: Database Connection
+      title_cn: 数据库连接
+      path: development-guide/connection
       children:
+        - title_en: Arrow Flight SQL
+          title_cn: Arrow Flight SQL 
+          path: development-guide/arrow-flight-sql
         - title_en: REST API
           title_cn: REST API
           collapsed: true
@@ -81,19 +84,51 @@
         - title_en: InfluxDB Line Protocol
           title_cn: InfluxDB Line Protocol
           path: development-guide/writing-with-influxdb-line-protocol
-        - title_en: Arrow Flight SQL
-          title_cn: Arrow Flight SQL
-          path: development-guide/arrow-flight-sql
+    - title_en: Table design best practices
+      title_cn:  数据表设计
+      path: development-guide/table-design/overview
+      collapsed: true
+      children:
+        - title_en: Overview
+          title_cn: 概述
+          path: development-guide/table-design/overview
+        - title_en: Time-Series Table Design
+          title_cn: 时序表模型
+          path: development-guide/table-design/timeseries-table-design
+    - title_en: High-performance writing
+      title_cn:  高性能写入
+      path: development-guide/high-performance-writing
+    - title_en: Query Performance Tuning
+      title_cn: 查询加速
+      path: development-guide/query-performance-tuning-overview
+      collapsed: true
+      children:
+        - title_en: Index Cache
+          title_cn: 索引缓存
+          path: development-guide/query-optimization/index-cache-optimization
+        - title_en: Data Cache
+          title_cn: 热点数据缓存
+          path: development-guide/query-optimization/hybrid-cache-optimization
+        - title_en: Last Cache
+          title_cn: Last Cache
+          path: development-guide/query-optimization/last-cache-optimization
+        - title_en: SQL Hints
+          title_cn: SQL Hints
+          path: development-guide/query-optimization/hints/overview
+          collapsed: true
+          children:
+            - title_en: Query Parallelism Control
+              title_cn: 查询并行度控制
+              path: development-guide/query-optimization/hints/parallel-degree
+            - title_en: Index Hints
+              title_cn: Index Hints
+              path: development-guide/query-optimization/hints/index
     - title_en: Downsampling
       title_cn: 时间窗口查询
       path: development-guide/downsampling
-    - title_en: High-performance writing
-      title_cn: 高性能写入
-      path: development-guide/high-performance-writing
-    - title_en: High-performance reading
-      title_cn: 高性能查询
-      path: development-guide/high-performance-reading
-
+    - title_en: Object Storage
+      title_cn: 对象存储
+      path: development-guide/object-storage
 - title_en: SQL Reference
   title_cn: SQL 参考
   collapsed: true
