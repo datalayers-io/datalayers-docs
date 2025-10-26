@@ -446,22 +446,37 @@
     - title_en: TLS
       title_cn: 连接加密(TLS)
       path: user-security/tls
-    - title_en: Access Control
-      title_cn: 访问控制
+    - title_en: Authentication and Authorization
+      title_cn: 认证与权限
       collapsed: true
       children:
-      - title_en: Overview
-        title_cn: 概述
-        path: user-security/access-control/overview
-      - title_en: User Management 
-        title_cn: 用户管理
-        path: user-security/access-control/user
-      - title_en: Privileges
-        title_cn: 权限管理
-        path: user-security/access-control/privilege
-      - title_en: Role Management
-        title_cn: 角色管理
-        path: user-security/access-control/role
+      - title_en: Authentication
+        title_cn: 连接认证
+        path: user-security/authentication/overview
+        collapsed: true
+        children:
+        - title_en: Overview
+          title_cn: 静态认证
+          path: user-security/authentication/static
+        - title_en: RBAC 
+          title_cn: 基于角色的访问控制
+          path: user-security/authentication/rbac
+      - title_en: Authorization
+        title_cn: 访问控制 
+        collapsed: true
+        children:
+        - title_en: Overview
+          title_cn: 概述
+          path: user-security/access-control/overview
+        - title_en: User Management 
+          title_cn: 用户管理
+          path: user-security/access-control/user
+        - title_en: Role Management
+          title_cn: 角色管理
+          path: user-security/access-control/role
+        - title_en: Privileges
+          title_cn: 权限管理
+          path: user-security/access-control/privilege
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true
