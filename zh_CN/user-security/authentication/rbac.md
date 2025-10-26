@@ -30,4 +30,4 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 
 注：
-- server.auth.type 需设置为 `rbac` 方可启用静态认证
+- 启动 RBAC 认证，需将server.auth.type 设置为 `rbac` 
