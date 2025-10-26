@@ -27,4 +27,4 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 注：
 - 静态认证模式下，所有通过认证的用户都拥有系统完整权限
-- server.auth.type 需设置为 static 方可启用静态认证
+- server.auth.type 需设置为 `static` 方可启用静态认证

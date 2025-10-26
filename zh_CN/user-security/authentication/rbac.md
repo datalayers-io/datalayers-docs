@@ -10,6 +10,19 @@ RBAC 提供完整的身份认证和权限管理体系，支持多用户、多角
 ​​**权限控制​**​：精确控制数据访问和操作权限  
 ​​**审计支持**​​：完整的操作日志和审计跟踪  
 
+## 配置说明
+
+```toml
+# The configurations of authorization.
+[server.auth]
+# 认证类型，可选：static/rbac
+# 默认: "static"
+type = "rbac" 
+
+# The provided JSON Web Token.
+# Default: "871b3c2d706d875e9c6389fb2457d957".
+jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
+```
 
 ## 详细说明
 
@@ -17,4 +30,4 @@ RBAC 提供完整的身份认证和权限管理体系，支持多用户、多角
 
 
 注：
-- server.auth.type 需设置为 rbac 方可启用静态认证
+- server.auth.type 需设置为 `rbac` 方可启用静态认证
