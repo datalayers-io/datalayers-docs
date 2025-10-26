@@ -444,7 +444,7 @@
   collapsed: true
   children:
     - title_en: TLS
-      title_cn: TLS
+      title_cn: 连接加密(TLS)
       path: user-security/tls
 - title_en: Release Notes
   title_cn: 版本发布说明
