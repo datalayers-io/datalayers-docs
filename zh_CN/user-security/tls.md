@@ -5,7 +5,7 @@ Datalayers 支持 TLS（Transport Layer Security）加密连接，确保客户�
 
 ### 服务端配置
 
-在配置文件中启用 TLS（包括 HTTPS 与 Flight SQL）：
+在配置文件中启用 TLS（包括 HTTPS 与 Arrow Flight SQL）：
 
 ```toml
 [server.tls]
