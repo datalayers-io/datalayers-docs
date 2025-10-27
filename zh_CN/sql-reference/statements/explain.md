@@ -8,9 +8,9 @@
 EXPLAIN [ANALYZE] [verbose] SELECT
 ```
 
-```tips
+::: tip
 ANALYZE: 执行语句并测量每个计划节点花费的时间与获取数据的记录数等。
-```
+:::
 
 ## 示例
 

@@ -32,6 +32,6 @@ REBALANCE TABLE table_name
 
 对指定 table 的所有 partitions 进行重新分布。
 
-```tips
+::: tip
 注：仅支持在集群模式下使用。
-```
+:::
