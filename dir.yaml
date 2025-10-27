@@ -467,16 +467,16 @@
         children:
         - title_en: Overview
           title_cn: 概述
-          path: user-security/access-control/overview
+          path: user-security/rbac/overview
         - title_en: User Management 
           title_cn: 用户管理
-          path: user-security/access-control/user
+          path: user-security/rbac/user
         - title_en: Role Management
           title_cn: 角色管理
-          path: user-security/access-control/role
+          path: user-security/rbac/role
         - title_en: Privileges
           title_cn: 权限管理
-          path: user-security/access-control/privilege
+          path: user-security/rbac/privilege
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true

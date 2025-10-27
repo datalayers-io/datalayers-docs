@@ -111,14 +111,6 @@ SHOW GRANTS [FOR user_or_role]
 SHOW PRIVILEGES;
 ```
 
-## 启用权限检查
-
-在配置文件中，存在一个 `server.auth.skip_grants` 选项，它用于控制是否启用权限检查：
-
-- 如果置为 `true`：Datalayers 会跳过请求的权限检查。此时可以通过配置文件中设置的 `server.auth.username` 和 `server.auth.password` 连接到 Datalayers，任何连接上的用户可以执行任意操作。
-
-- 如果置为 `false`：Datalayers 将启用请求的权限检查。此时无法通过配置文件中设置的用户名和密码连接到 Datalayers，必须通过 CREATE USER 命令显式创建的用户账号建立连接。并且连接建立后，系统会对用户发出的每一个请求进行权限验证，未被授权的操作将被拒绝执行。
-
 ## 权限变更生效时机
 
 正常情况下，通过权限管理语句（如 `GRANT`、`REVOKE`、`CREATE USER` 等）修改权限信息时，变更会立即在集群中生效。但如果网络或其他设施出现异常，变更可能只在部分节点上生效。
