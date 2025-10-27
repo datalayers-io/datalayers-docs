@@ -25,7 +25,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 ## 详细说明
 
-关于 RBAC 的完整功能说明和配置指南，请参考：[访问控制](../access-control/overview.md)
+关于 RBAC 的完整功能说明和配置指南，请参考：[访问控制](../rbac/overview.md)
 
 
 注：
