@@ -1,4 +1,4 @@
-# 系统调优
+# Datalayers 系统调优指南
 根据 `Datalayers` 特点，适当的调整操作系统参数能够获得更好的性能。
 
 ## 关闭交换分区
@@ -18,3 +18,7 @@ sysctl -p
 echo "* soft nofile 65535" >>  /etc/security/limits.conf
 echo "* hard nofile 65535" >>  /etc/security/limits.conf
 ```
+
+## 时钟同步
+
+时序数据在处理时，很多数据处理逻辑是与时间信息强相关，因此需确保系统时间正确。
