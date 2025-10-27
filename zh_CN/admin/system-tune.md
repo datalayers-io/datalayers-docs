@@ -3,6 +3,8 @@
 
 ## 关闭交换分区
 
+Linux 交换分区会给 Datalayers 带来严重的性能问题，因此需要禁用交换分区。
+
 ```shell
 echo "vm.swappiness = 0">> /etc/sysctl.conf
 swapoff -a && swapon -a
