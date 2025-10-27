@@ -16,6 +16,6 @@ INCLUDE NODE '127.0.0.1:8360'
 
 * 只允许 INCLUDE 被 EXCLUDE 排除的节点。
 
-```tips
+::: tip
 仅支持在集群模式下使用。
-```
+:::
