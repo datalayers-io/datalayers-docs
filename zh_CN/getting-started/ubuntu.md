@@ -13,18 +13,18 @@ Datalayers 支持的 Ubuntu 版本包括：
 :::: tabs
 ::: tab amd64
 
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-amd64.deb" download="datalayers-{@version_number@}-ubuntu22.04-amd64.deb">点击下载</a>deb安装包。
+1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb" download="datalayers-{@version_number@}-ubuntu24.04-amd64.deb">点击下载</a>deb安装包。
 
 > 或者直接使用`wget`命令下载安装包：
 >
 > ``` bash
-> wget https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+> wget https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 > ```
 
 2. 通过如下命令安装：
 
 ``` bash
-sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+sudo dpkg -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 ```
 
 ::: tip
@@ -32,25 +32,25 @@ sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
 您可以使用 dpkg 的 `--dry-run` 选项来测试安装流程，而不实际执行安装。
 
 ``` bash
-sudo dpkg --dry-run -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+sudo dpkg --dry-run -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 ```
 
 :::
 
 ::: tab arm64
 
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-arm64.deb" download="datalayers-{@version_number@}-ubuntu22.04-arm64.deb">点击下载</a>deb安装包。
+1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb" download="datalayers-{@version_number@}-ubuntu24.04-arm64.deb">点击下载</a>deb安装包。
 
 > 或者直接使用`wget`命令下载安装包：
 >
 > ``` bash
-> wget https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu22.04-arm64.deb
+> wget https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb
 > ```
 
 2. 通过如下命令安装：
 
 ``` bash
-sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-arm64.deb
+sudo dpkg -i ./datalayers-{@version_number@}-ubuntu24.04-arm64.deb
 ```
 
 ::: tip
@@ -58,7 +58,7 @@ sudo dpkg -i ./datalayers-{@version_number@}-ubuntu22.04-arm64.deb
 您可以使用 dpkg 的 `--dry-run` 选项来测试安装流程，而不实际执行安装。
 
 ``` bash
-sudo dpkg --dry-run -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+sudo dpkg --dry-run -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 ```
 
 :::
@@ -96,13 +96,13 @@ Configuration file '/etc/datalayers/datalayers.toml'
 您可以使用 dpkg 的 `--force-confold` 选项来强制保留您的配置文件：
 
 ``` bash
-sudo dpkg --force-confold -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+sudo dpkg --force-confold -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 ```
 
 也可以使用 dpkg 的 `--force-confnew` 选项来强制使用新版本的配置文件：
 
 ``` bash
-sudo dpkg --force-confnew -i ./datalayers-{@version_number@}-ubuntu22.04-amd64.deb
+sudo dpkg --force-confnew -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 ```
 
 :::

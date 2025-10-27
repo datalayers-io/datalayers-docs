@@ -1,6 +1,6 @@
 # 通过命令行工具体验 Datalayers
 
-dlsql 是 Datalayers 提供的一个交互式工具，借助该工具就能便捷地进行数据库的管理操作。
+dlsql 是 Datalayers 提供的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作体验。
 
 ## 验证 Datalayers 安装
 在成功安装 Datalayers 后，可通过以下命令来验证其是否正常工作。

@@ -5,7 +5,7 @@
 ## 语法
 
 ```sql
-EXPLAIN [ANALYZE] SELECT
+EXPLAIN [ANALYZE] [verbose] SELECT
 ```
 
 ```tips

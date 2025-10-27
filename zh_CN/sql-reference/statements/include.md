@@ -4,13 +4,14 @@
 
 ## 语法
 
-### INCLUDE NODE 'node_name'
-
 ```SQL
-INCLUDE NODE '127.0.0.1:8360'
+INCLUDE NODE 'node_name'
+
+# 示例：将 node name 为：datalayers-1:8360 的节点重新加回集群
+INCLUDE NODE 'datalayers-1:8360'
 ```
 
-被排除节点的名字可以通过 ```SHOW CLUSTER``` 指令查询到。
+被排除节点的名字可以通过 `SHOW CLUSTER` 指令查询到。
 
 ## 注意事项
 

@@ -4,13 +4,14 @@
 
 ## 语法
 
-### EXCLUDE NODE 'node_name'
-
 ```SQL
-EXCLUDE NODE '127.0.0.1:8360'
+EXCLUDE NODE 'node_name' [force]
+
+# 示例：排除一个 node name 为：datalayers-1:8360 的节点
+EXCLUDE NODE 'datalayers-1:8360'
 ```
 
-待排除节点的名字可以通过 ```SHOW CLUSTER``` 指令查询到。
+待排除节点的名字可以通过 `SHOW CLUSTER` 指令查询到。
 
 ## 注意事项
 
