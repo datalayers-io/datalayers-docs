@@ -274,8 +274,8 @@
         - title_en: Gap Fill
           title_cn: 插值函数
           path: sql-reference/gap_fill
-        - title_en: Json
-          title_cn: Json 函数
+        - title_en: JSON
+          title_cn: JSON 函数
           path: sql-reference/json
         - title_en: Cast
           title_cn: 类型转换函数
