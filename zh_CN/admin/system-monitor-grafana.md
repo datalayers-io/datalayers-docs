@@ -79,4 +79,4 @@ docker run --name my-grafana --network host grafana/grafana
 
 以下为监控面板示意图：
 
-![metrics example](../assets/dashboard_metrics.jpg)
+![metrics example](../assets/dashboard_metrics.png)
