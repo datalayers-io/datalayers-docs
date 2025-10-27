@@ -1,18 +1,25 @@
-# 用户管理
+# 用户管理指南
 
-## 创建用户
+## 用户账户概述
 
-用户账户由主机名和用户名构成，可以通过如下命令创建账户并设置密码：
+Datalayers 数据库采用​`​用户名`@`主机名​`​的复合账户体系，实现基于网络位置的精细化访问控制。每个用户账户包含两个关键要素
+- 用户名​​：标识用户身份
+- 主机名​​：限定允许连接的客户端IP范围
+
+## 用户生命周期管理
+### 创建用户
+
+**语法**：
 
 ```sql
 CREATE USER [IF NOT EXISTS] user IDENTIFIED BY 'password';
 ```
-
+**说明**
 - `user`：格式为`'user_name'@'host_name'`，例如 `'alice'@'127.0.0.1'`。
-  - 其中，主机名 `host_name` 支持使用 `%` 通配符，表示匹配任意网段。例如 `bob'@'%'` 表示允许用户 bob 从任意 IP 地址连接，`'bob'@'192.168.%'` 表示只允许从 `192.168.*.*` 网段连接
+- 主机名 `host_name` 支持使用 `%` 通配符，表示匹配任意网段。例如 `bob'@'%'` 表示允许用户 bob 从任意 IP 地址连接，`'bob'@'192.168.%'` 表示只允许从 `192.168.*.*` 网段连接
 - `password`：账户密码，最长为32位字符。
 
-示例：
+**示例**：
 
 ```sql
 CREATE USER 'alice'@'%' IDENTIFIED BY '123456';
@@ -24,21 +31,15 @@ CREATE USER 'alice'@'%' IDENTIFIED BY '123456';
 dlsql --username xxx --password xxx
 ```
 
-示例：
+**示例**：
 
 ```shell
 dlsql --username alice --password 123456
 ```
 
-或者简写为：
+### 密码管理
 
-```shell
-dlsql -u alice -p 123456
-```
-
-## 修改密码
-
-用户创建成功后，可以通过如下命令修改账户密码：
+**语法**：
 
 ```sql
 SET PASSWORD FOR user = 'password';
@@ -49,15 +50,15 @@ SET PASSWORD FOR user = 'password';
 SET PASSWORD FOR 'alice'@'%' = '567890';
 ```
 
-## 删除用户
+### 删除用户
 
-用户创建成功后，可以通过如下命令删除用户：
+**语法**：
 
 ```sql
 DROP USER [IF EXISTS] user;
 ```
 
-示例：
+**示例**：
 ```sql
 DROP USER 'alice'@'%';
 ```
