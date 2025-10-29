@@ -1,9 +1,37 @@
 # 数据库连接
-Datalayers 使用 SQL 作为查询语言，SQL 是一种相对简单的语言，易于学习和使用。
+Datalayers 支持以下几种协议进行连接与交互，可根据需求选择适合的协议
 
-Datalayers 支持以下协议进行连接、交互：
 
-**Arrow Flight SQL**：Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。部份场景相比 REST API 性能提升百倍。因此对于性能有要求的场景推荐使用该协议进行接入。   
-**REST API**：通过 REST API协议，使用 SQL 与数据库进行交互。  
-**InfluxDB 行协议**： 支持 InfluxDB 行协议数据写入。注：该协议仅支持写入。  
+## 支持的协议
 
+### Arrow Flight SQL（推荐用于高性能场景）
+- **协议特点**：基于 Apache Arrow 内存格式和 Flight RPC 框架的高性能 SQL 交互协议
+- **性能优势**：在数据传输场景下，相比 JDBC/ODBC 等驱动数据传输方案，性能提升可达百倍
+- **适用场景**：对性能有高要求的数据写入与查询场景
+
+### PostgreSQL 协议（即将推出）
+- **兼容性**：完整兼容 PostgreSQL 网络连接协议
+- **工具生态**：支持 PostgreSQL 生态的命令行工具、JDBC/ODBC 驱动及各类可视化工具
+- **当前状态**：该协议正在开发中，计划近期正式发布
+
+### REST API
+- **交互方式**：通过标准的 RESTful API 接口执行 SQL 操作
+- **适用场景**：适合需要 HTTP 协议集成的应用场景
+
+### InfluxDB 行协议
+- **功能特性**：专为时序数据写入优化的行协议
+- **使用限制**：该协议仅支持数据写入操作
+- **适用场景**：InfluxDB 兼容的时序数据摄入
+
+
+## 协议选择建议
+
+
+| 特性                                 |  适用场景                       |  功能支持           | 
+| -------------                        | -----------------------       | --------------------| 
+| **Arrow Flight SQL 高速传输协议**     | 高性能写入、查询与大数据量传输   | 完整读写            |
+| **PostgreSQL 连接协议**              | PostgreSQL 生态集成             | 完整读写            |     
+| **REST API**                        | HTTP 集成、简单查询              | 完整读写            |    
+| **InfluxDB 行协议**                 | 替换 InfluxDB 场景               | 仅支持写入           | 
+
+**推荐选择**：对于性能敏感的生产环境，建议优先考虑 Arrow Flight SQL 协议；如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布。

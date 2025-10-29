@@ -31,6 +31,9 @@ GRANT SELECT ON sales_db.* TO 'manager'@'%';
 ```sql
 GRANT INSERT, UPDATE ON inventory_db.products TO 'admin' WITH GRANT OPTION;
 ```
+::: tip
+角色目前不支持继承
+:::
 
 ### 收回角色权限
 
@@ -52,7 +55,7 @@ REVOKE ALL ON content_db.articles FROM 'editor';
 
 ### 将角色授予用户
 
-角色可以作为一个权限的集合体授予给用户或其他角色，被授予者将继承授予者的权限。
+角色可以作为一个权限的集合体授予给用户，被授予者将继承指定角色的权限。
 
 角色的授予可以通过如下命令实现：
 
@@ -61,8 +64,6 @@ GRANT user_or_role [, user_or_role] ...
     TO user_or_role [, user_or_role] ...
     [WITH ADMIN OPTION]
 ```
-
-授予者与被授予者之间不得形成权限继承环，因此在执行该命令前，系统会检查是否会导致循环依赖关系，若存在则拒绝执行。
 
 角色授予给用户后将立即生效，用户可以直接使用角色的权限。
 
