@@ -35,14 +35,14 @@ Datalayers 支持`HTTP`、`gRPC` 两种协议来进行交互，gRPC 的性能优
 ## Prepared Statement
 预处理语句是数据库系统中用于预编译 SQL 语句的一种机制，它在提升查询性能和安全性方面发挥着重要作用。
 
-当使用预处理语句时，Datalayers会预先编译 SQL 语句并将其存储在一个准备好的状态中。在后续执行该语句时，Datalayers可以直接使用已编译的版本，从而避免重复编译。这种机制不仅绕过了 SQL 解析器，加速了单条 SQL 的执行，更重要的是，它显著降低了 CPU 负载，释放了系统资源，这是Datalayers其他优化点能够生效的前提与保证。
+当使用预处理语句时，Datalayers 会预先编译 SQL 语句并将其存储在一个准备好的状态中。在后续执行该语句时，Datalayers 可以直接使用已编译的版本，从而避免重复编译。这种机制不仅绕过了 SQL 解析器，加速了单条 SQL 的执行，更重要的是，它显著降低了 CPU 负载，释放了系统资源。
 
 同时，数据库系统可以在执行 SQL 语句之前进行语法检查、语义分析和优化，进一步提高查询的执行效率。
 
 在 Datalayers 中，Prepared Statement 目前支持Insert 与 Query，核心是通过`?`作为占位符，随后对占位符进行参数绑定，以达到绕过 SQL 解析的效果。
 
-在Insert中，首先通过带有占位符的语句开启Prepared Statement，随后通过RecordBatch的形式来绑定参数，完成执行，需要注意：
-- 为保证高效执行，Insert 中在values部分只支持单行的形式，而最终生成的Insert batch大小取决于 参数绑定时RecordBatch 中的行数
+在 Insert 中，首先通过带有占位符的语句开启 Prepared Statement，随后通过 RecordBatch 的形式来绑定参数，完成执行，需要注意：
+- 为保证高效执行，Insert 中在 values 部分只支持单行的形式，而最终生成的 Insert batch 大小取决于 参数绑定时 RecordBatch 中的行数
 - 进行参数绑定时，每一行的列数必须严格相等，同时需和占位符数量相等且类型匹配
 
 具体语法如下：
@@ -74,7 +74,8 @@ let batch = RecordBatch::try_new(schema, columns).unwrap();
 在时序数据模型场景，合理设置 table options 有利于提升写的性能。
 
 ### Partition 数量
-在创建 table 时，可设置更多 partition 的数量，以提升系统写的性能。
+- 一般来说 1 个 partition 每秒可高达数十万点位的写入，因此根据实际场景需求来设置即可
+- Partition 越多，会消耗越多的 CPU 与内存，建议 partition 数量不超过集群内所有节点的 CPU CORE 之和
 
 示例： 
 ```SQL
