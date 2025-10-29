@@ -45,8 +45,8 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`point_number`) PARTITIONS 2
 ```
-
-- time 数据类型为 TIMESTAMP，精度为纳秒
+**说明**：
+- time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - point_number 表示点位唯一标识
 - 数据根据 `point_number` 的 hash 值来做分区，分区数量为：2
 - PARTITIONS 数量设置见后面说明
@@ -76,8 +76,8 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`region`) PARTITIONS 2
 ```
-
-- time 数据类型为 TIMESTAMP，精度为纳秒
+**说明**：
+- time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - 数据根据 `region` 的 hash 值来做分区，分区数量为：2
 - 唯一点位标识：`region` + `pointNumber`
 - PARTITIONS 数量设置见后面说明
