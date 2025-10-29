@@ -8,7 +8,7 @@
 首先，请执行以下命令拉取最新的 Datalayers 镜像：
 
 ``` bash
-docker pull datalayers/datalayers:nightly
+docker pull datalayers/datalayers:latest
 ```
 
 或者拉取指定版本的镜像：
@@ -23,7 +23,7 @@ docker pull datalayers/datalayers:v{@version_number@}
 docker run --name datalayers -d \
   -v ~/data:/var/lib/datalayers \
   -p 8360:8360 -p 8361:8361 \
-  datalayers/datalayers:nightly 
+  datalayers/datalayers:v{@version_number@} 
 ```
 
 ::: tip
