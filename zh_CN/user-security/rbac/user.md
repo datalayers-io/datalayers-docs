@@ -45,7 +45,7 @@ dlsql --username alice --password 123456
 SET PASSWORD FOR user = 'password';
 ```
 
-示例：
+**示例**：
 ```sql
 SET PASSWORD FOR 'alice'@'%' = '567890';
 ```
