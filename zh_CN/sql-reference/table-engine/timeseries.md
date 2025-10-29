@@ -54,7 +54,7 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 |  WAL_FSYNC_INTERVAL        | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：`3000`， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
 |  COMPRESSION               | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW                  |  
 |  UPDATE_MODE               | 写入重复数据时的处理方式，目前支持 `Overwrite`、`Append` 两种模式，缺省值为：`Append`。 `Append` 模式拥有更好的性能，目前 `Append` 模式暂不支持更新与删除。           |  
-|  STORAGE_TYPE              | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。集群模式下支持：S3、FDB 两种类型 |  
+|  STORAGE_TYPE              | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。支持：S3、FDB  等对象存储服务 |  
 |  COMPACT_WINDOW            | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
 |  COMPACT_MAX_ACTIVE_FILES  | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：`10`，文件级别过大或文件大小过大的不累加到可合并个数 |
 |  COMPACT_MAX_FILE_SIZE     | 可合并文件的最大尺寸，缺省值为：`300MiB`，支持单位：B、KiB、MiB、GiB、TiB、PiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
