@@ -1,50 +1,17 @@
-# 命令行
+# 交互终端概述
 
-本节向您介绍 Datalayers 支持的各类启动、管理命令 与 Datalayers CLI 交互式工具的使用。
+Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
 
-## 启动与管理命令
+## SQL 交互终端
 
-Datalayers 支持一些基本的启动和管理命令，您可以通过 `datalayers -h` 进行查看。如：
+**基本连接方式**
 
-```shell
-datalayers -h
-```
-
-以下是常用的管理命令：
-
-| 参数             | 简写     | 描述                                                       |
-| ----------      | -------  | ------------------------------------------------------    |
-| --config        | -c       | 指定配置文件 (默认: /etc/datalayers/datalayers.toml)         |
-| --verbose       | -v       | 打印解析、修正后的配置文件信息                                 |
-| --verbose       | -V       | 显示版本号并退出                                             |
-| --help          | -h       | 命令行使用帮助信息                                           |
-
-### 示例
-
-```shell
--- 指定配置文件启动集群模式。
-datalayers -c /etc/datalayers/cluster.toml
-
--- 指定配置文件启动单机模式，注意 -c 选项必须在后面。
-datalayers standalone -c /etc/datalayers/standalone.toml
-
--- 默认配置文件启动单机模式。
-datalayers standalone
-```
-
-## Datalayers CLI
-
-在 Datalayers的 镜像/安装包 中已经包含 CLI 交互式工具 `dlsql`。
-
-### 启动
-
-在终端下执行 `dlsql` 即可进行 Datalayers CLI 交互式界面。
-
+在终端中执行以下命令进入交互式界面：
 ```shell
 dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
 
-相关参数：
+**连接参数详解**
 
 | 参数                | 简写     | 描述                                                                                                |
 | ----------         | -------  | ----------------------------------------------------------------------------------------------    |
@@ -59,3 +26,44 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --tls              |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
 | --max-display-rows |          | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
 | --help             |          | show this help, then exit                                                                          |
+
+
+## 管理工具
+
+Datalayers 通过 Peer 认证提供本地账户管理功能。该机制基于 Unix Domain Socket 进行进程间认证，仅限服务器本地访问。使用该功能时需确保服务端已经启用 peer 服务。
+
+**启用 Peer 服务**
+```toml
+[server]
+# The unix socket file of peer server.
+# Don't support peer server by default.
+# Default: ""
+peer_addr = "run/datalayers.sock"
+```
+配置后需要重启 Datalayers 服务生效。
+
+**管理命令使用**
+
+通过执行以下指令，查看相应功能说明：
+```shell
+dlsql admin --help
+```
+
+**子命令说明**
+
+| 子命令             |  描述                                                     |
+| ----------        |  ------------------------------------------------------    |
+| init-root         |  初始化管理员帐号，详细参数可通过 --help 查看                 |
+| list-user         |  列出系统的帐号信息，详细参数可通过 --help 查看               |
+| reset-password    |  重置指定帐号的密码，详细参数可通过 --help 查看               |
+
+**详细帮助查看**
+
+```shell
+# 查看 init-root 的参数说明
+dlsql admin init-root --help
+# 查看 list-user 的参数说明
+dlsql admin list-user --help
+# 查看 reset-password 的参数说明
+dlsql admin reset-password --help
+```

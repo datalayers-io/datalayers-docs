@@ -16,9 +16,9 @@ source version: 7b954d42cede7309ec8263fce902d73f80a50f63
 
 ## 连接数据库
 Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
-> Datalayers提供了一个默认账号，其用户名/密码为: `admin/public`
+> 在静态认证的模式下（默认为静态认证），Datalayers 提供了一个默认账号，其用户名/密码为: `admin/public`
 ``` bash
-dlsql -u your_username -p your_password
+dlsql -u admin -p public
 ```
 参数说明：
 - `-u`参数用于指定用户名；
@@ -150,5 +150,5 @@ exit
 ```
 
 ::: tip
-更多 SQL 相关的使用，可查看[SQL 参考](../sql-reference/data-type.md)章节。
+更多 SQL 相关的使用，可查看 [SQL 参考](../sql-reference/data-type.md) 章节。
 :::
