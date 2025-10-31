@@ -24,11 +24,11 @@ Vector Store 是向量的存储抽象。为了节省存储空间，我们支持�
 
 ## 基于索引的向量检索
 
-基于索引的三层式结构，Datalayers 的向量检索分成如下步骤：
+给定查询向量 Q 以及 top-K 中的 K，基于索引的三层式结构，Datalayers 的向量检索分成如下步骤：
 
-1. 模糊搜索：给定查询向量 Q，我们首先访问 IVF Model，计算 Q 与所有质心的距离，并取最近的 P 个质心所对应的向量组。
+1. 模糊搜索：我们首先访问 IVF Model，计算 Q 与所有质心的距离，并取最近的 P 个质心所对应的向量组。
 2. 精确搜索：对于每个向量组，我们使用 Cell Index 加速向量组内的近似最近邻搜索，每个质心得到 top-N 个与 Q 距离最近的向量。
-3. Refine：考虑到向量索引会降低召回率，对于搜索得到的 `P * N` 个向量，计算它们与 Q 的距离，得到最终的 top-K 个距离最近的向量。其中 `N / K` 称为 `refine_factor`，表示为了补偿召回率，我们在精确搜索时多检索了多少向量。
+3. 精炼：考虑到向量索引会降低召回率，对于搜索得到的 `P * N` 个向量，计算它们与 Q 的距离，得到最终的 top-K 个距离最近的向量。其中 `N / K` 称为 `refine_factor`，表示为了补偿召回率，我们在精确搜索时每个向量组额外检索了多少个向量。这个步骤称为精炼（Refine）。
 
 ## 索引类型
 
@@ -38,15 +38,17 @@ Vector Store 是向量的存储抽象。为了节省存储空间，我们支持�
 | IVF_FLAT      | 支持配置 Cell 个数 | FLAT        | FLAT         |    是     |
 | IVF_PQ        | 支持配置 Cell 个数 | FLAT        | PQ           |    是     |
 | IVF_SQ        | 支持配置 Cell 个数 | FLAT        | SQ           |      否     |
-| IVF_RQ        | 支持配置 Cell 个数 | FLAT        | RQ       |      否     |
-| HNSW          | Cell 个数固定为 1 | HNSW        | FLAT            |      否     |
-| IVF_HNSW      | 支持配置 Cell 个数 | HNSW        | FLAT            |      否     |
+| IVF_RQ        | 支持配置 Cell 个数 | FLAT        | RQ           |      否     |
+| HNSW          | Cell 个数固定为 1 | HNSW        | FLAT          |      否     |
+| IVF_HNSW      | 支持配置 Cell 个数 | HNSW        | FLAT          |      否     |
 | IVF_HNSW_PQ   | 支持配置 Cell 个数 | HNSW        | PQ            |      否     |
+| IVF_HNSW_SQ   | 支持配置 Cell 个数 | HNSW        | SQ            |      否     |
+| IVF_HNSW_RQ   | 支持配置 Cell 个数 | HNSW        | RQ            |      否     |
 
 注：
 
-- Cell Index 为 FLAT，表示不使用 Cell Index。
-- Cell Index 为 HNSW，表示使用 HNSW（Hierarchical Navigable Small Worlds）索引作为 Cell Index。
+- Cell Index 为 FLAT，表示向量组内的搜索退回到平搜（Flat Search），即搜索所有向量。
+- Cell Index 为 HNSW，表示使用 HNSW（Hierarchical Navigable Small Worlds）索引加速向量组内的搜索。
 - Vector Store 为 FLAT，表示不使用任何量化算法，而存储原始、未经压缩的向量。
 - PQ 指 Product Quantization，即乘积量化。
 - SQ 指 Scalar Quantization，即标量量化。
@@ -54,107 +56,161 @@ Vector Store 是向量的存储抽象。为了节省存储空间，我们支持�
 
 ## 示例
 
-创建一个表，包含一个向量列，为该向量列指定 IVF_PQ 索引，同时指定构建索引的距离函数为 L2。
+我们提供了一个 Python 脚本，展示如何使用向量索引来加速向量检索。这个脚本执行的步骤如下：
 
-``` sql
-CREATE DATABASE IF NOT EXISTS `demo`;
+1. 创建数据库 `demo`。
+2. 创建表 `t`。表中包含一个向量列 `embed`，维度为 64。同时为该列指定 IVF_PQ 索引，同时设置构建索引的距离函数为 L2。
+3. 写入 5000 条随机数据。
+4. Flush 数据。
+5. 等待索引构建完成，默认等待 15 秒。
+6. 使用随机向量，执行向量检索。
 
-CREATE TABLE `demo`.`t` (
-  `ts` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sid` INT32 NOT NULL,
-  `value` REAL,
-  `flag` INT8,
-  `embed` VECTOR(64),
-  TIMESTAMP KEY(`ts`),
-  VECTOR INDEX `my_vector_index`(`embed`) WITH (TYPE=IVF_PQ, DISTANCE=L2)
-) 
-PARTITION BY HASH (`sid`) PARTITIONS 2
-ENGINE=TimeSeries
-WITH (
-  MEMTABLE_SIZE=1024MB,
-  STORAGE_TYPE=LOCAL,
-  UPDATE_MODE=APPEND
-);
+``` python
+import http
+import json
+import random
+import time
+from http.client import HTTPConnection
+
+
+def main():
+    host = "0.0.0.0"
+    port = 8361
+    url = "http://{}:{}/api/v1/sql".format(host, port)
+    headers = {
+        "Content-Type": "application/binary",
+        "Authorization": "Basic YWRtaW46cHVibGlj"
+    }
+    conn = http.client.HTTPConnection(host=host, port=port)
+
+    # Create database `demo`.
+    sql = "CREATE DATABASE IF NOT EXISTS demo;"
+    conn.request(method="POST", url=url, headers=headers, body=sql)
+    print_response("创建数据库", conn)
+
+    # Create table `t`.
+    sql = '''
+        CREATE TABLE IF NOT EXISTS `demo`.`t` (
+            `ts` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `sid` INT32 NOT NULL,
+            `value` REAL,
+            `flag` INT8,
+            `embed` VECTOR(64),
+            TIMESTAMP KEY(`ts`),
+            VECTOR INDEX `my_vector_index`(`embed`) WITH (TYPE=IVF_PQ, DISTANCE=L2)
+        ) 
+        PARTITION BY HASH (`sid`) PARTITIONS 1
+        ENGINE=TimeSeries
+        WITH (
+            MEMTABLE_SIZE=1024MB,
+            STORAGE_TYPE=LOCAL,
+            UPDATE_MODE=APPEND
+        );
+        '''
+    conn.request(method="POST", url=url, headers=headers, body=sql)
+    print_response("创建表", conn)
+
+    # 分批插入数据
+    insert_data(
+        conn, url, headers, total_rows=5000, batch_size=1000)
+
+    # Flush 数据
+    flush_data(conn, url, headers)
+
+    # 等待索引构建完成
+    print("等待索引构建完成...")
+    time.sleep(15)
+
+    # Vector search with random query vector
+    query_vector = generate_random_vector(64)
+    sql = f"SELECT value FROM demo.t WHERE sid = 1 ORDER BY l2_distance(embed, {query_vector}) LIMIT 1"
+    print(f"执行向量检索: {sql}")
+    conn.request(method="POST", url=url, headers=headers, body=sql)
+    print_query_result(conn)
+
+
+def generate_random_vector(dim: int) -> str:
+    """生成随机向量字符串表示"""
+    vector = [round(random.uniform(-1.0, 1.0), 6) for _ in range(dim)]
+    return "[" + ", ".join(map(str, vector)) + "]"
+
+
+def insert_data(conn: HTTPConnection, url: str, headers: dict, total_rows: int, batch_size: int):
+    """分批插入数据"""
+    num_batches = total_rows // batch_size
+
+    print(f"开始插入 {total_rows} 条数据，分 {num_batches} 批次，每批 {batch_size} 条")
+
+    for batch in range(num_batches):
+        print(f"插入第 {batch + 1}/{num_batches} 批次...")
+
+        values = []
+        for _ in range(batch_size):
+            sid = random.randint(0, 5000)
+            value = round(random.uniform(0.0, 100.0), 2)
+            flag = random.randint(0, 1)
+            embed = generate_random_vector(64)
+
+            values.append(f"({sid}, {value}, {flag}, {embed})")
+
+        sql = f"INSERT INTO demo.t (sid, value, flag, embed) VALUES {', '.join(values)}"
+        conn.request(method="POST", url=url, headers=headers, body=sql)
+
+        response = conn.getresponse()
+
+        if response.status == 200:
+            print(f"✓ 第 {batch + 1} 批次插入成功")
+        else:
+            print(f"✗ 第 {batch + 1} 批次插入失败: {response.status} {response.reason}")
+
+        response.read()
+
+        time.sleep(0.5)
+
+
+def flush_data(conn: HTTPConnection, url: str, headers: dict):
+    print("正在 Flush 数据")
+    sql = "FLUSH TABLE demo.t SYNC"
+    conn.request(method="POST", url=url, headers=headers, body=sql)
+
+    response = conn.getresponse()
+
+    if response.status == 200:
+        print(f"Flush 数据成功")
+    else:
+        print(f"Flush 数据失败: {response.status} {response.reason}")
+
+    response.read()
+
+
+def print_response(msg: str, conn: HTTPConnection):
+    with conn.getresponse() as response:
+        if response.status == 200:
+            print(f"{msg} 成功")
+        else:
+            print(f"{msg} 失败: {response.status} {response.reason}")
+
+        response.read()
+
+def print_query_result(conn: HTTPConnection):
+    print("检索结果:")
+
+    with conn.getresponse() as response:
+        data = response.read().decode('utf-8')
+        obj = json.loads(data)
+
+        columns = obj['result']['columns']
+        rows = obj['result']['values']
+
+        print(columns)
+        for row in rows:
+            print(row)
+
+if __name__ == "__main__":
+    main()
 ```
 
-使用以下脚本向该表写入一定规模的随机向量数据。
-
-``` bash
-#!/bin/bash
-
-# 数据库和表信息
-DATABASE="demo"
-TABLE="t"
-
-# 写入参数
-TOTAL_ROWS=10000
-BATCH_SIZE=1000
-NUM_BATCHES=$((TOTAL_ROWS / BATCH_SIZE))
-
-echo "开始向表 $DATABASE.$TABLE 写入 $TOTAL_ROWS 条数据..."
-echo "批次大小: $BATCH_SIZE, 总批次: $NUM_BATCHES"
-
-# 循环写入每个批次
-for ((batch=0; batch<NUM_BATCHES; batch++)); do
-    echo "正在写入第 $((batch+1)) 批次..."
-    
-    # 构建INSERT语句
-    SQL="INSERT INTO $DATABASE.$TABLE (sid, value, flag, embed) VALUES "
-    
-    # 为当前批次构建VALUES子句
-    for ((i=0; i<BATCH_SIZE; i++)); do
-        # 生成随机数据
-        SID=$((RANDOM % 10000))           # sid: 0-9999随机
-        VALUE=$(awk -v min=0 -v max=100 'BEGIN{srand(); print min+rand()*(max-min)}')  # value: 0-100随机实数
-        FLAG=$((RANDOM % 2))              # flag: 0或1
-        # embed: 生成64维随机向量，值在-1到1之间
-        EMBED_VECTOR="["
-        for ((j=0; j<64; j++)); do
-            RAND_VAL=$(awk -v min=-1 -v max=1 'BEGIN{srand(); printf "%.6f", min+rand()*(max-min)}')
-            EMBED_VECTOR+="$RAND_VAL"
-            if [ $j -lt 63 ]; then
-                EMBED_VECTOR+=","
-            fi
-        done
-        EMBED_VECTOR+="]"
-        
-        # 添加当前行的VALUES
-        SQL+="($SID, $VALUE, $FLAG, $EMBED_VECTOR)"
-        
-        # 如果不是最后一行，添加逗号
-        if [ $i -lt $((BATCH_SIZE-1)) ]; then
-            SQL+=","
-        fi
-    done
-    
-    # 执行SQL语句
-    echo "执行SQL语句..."
-    dlsql -e "$SQL"
-    
-    # 检查执行结果
-    if [ $? -eq 0 ]; then
-        echo "第 $((batch+1)) 批次写入成功"
-    else
-        echo "第 $((batch+1)) 批次写入失败"
-        exit 1
-    fi
-    
-    # 可选：批次间延迟，避免对系统造成过大压力
-    sleep 1
-done
-
-echo "数据写入完成！总共写入 $TOTAL_ROWS 条数据"
-```
-
-其中，dlsql 为 Datalayers 的命令行工具。
-
-手动执行数据刷盘（Flush），以确保触发索引构建。
-
-``` sql
-FLUSH TABLE demo.t;
-```
-
-等待一段时间，直到索引构建完成。Datalayers 会在终端打印日志，提示开始构建索引与索引构建完成。也可以通过 `SHOW TASKS` 命令检视当前正在执行、被挂起的索引构建任务。
+在测试机器上，为 5000 条数据构建向量索引大致需要 2 秒。为了确认在您的机器上索引已经构建完成，您可以通过执行 `SHOW TASKS` 命令检视当前正在执行、被挂起的索引构建任务。如果 `build_index` 任务的 `running` 和 `pending` 数量为 0，说明所有索引已经构建完毕。
 
 ``` sql
 > show tasks
@@ -170,24 +226,6 @@ FLUSH TABLE demo.t;
 | workflow    | 0       | 0       | 10                | 10000       | Table DDL operation.                               |
 +-------------+---------+---------+-------------------+-------------+----------------------------------------------------+
 ```
-
-基于向量索引，执行向量检索。
-
-``` sql
-> select value from demo.t order by l2_distance(embed, [-27.257347, 69.88406, -33.87725, -45.43667, 78.53923, -62.239624, 46.93875, -65.58995, 58.593567, -50.290775, -84.47287, -50.84324, -96.29624, 31.380386, -84.86805, 46.32669, 64.30214, -20.59021, -13.050842, 7.1819077, -90.43755, 78.410645, -95.14334, 11.760185, -28.298279, -50.35386, 28.105515, 2.62928, -1.5383224, -65.421036, -43.670464, -70.41793, 98.37227, -72.5616, -92.90261, 83.1181, 95.64261, -24.865028, -93.47577, 35.42575, 21.040176, -66.507195, 12.745956, 11.97419, -63.0162, -56.616615, -2.9391556, 9.117722, 51.044647, -34.543037, 0.15356445, -43.10696, 75.61786, 51.381348, -83.28052, -72.96283, 95.93945, 20.84031, 78.44403, 4.9338837, -40.74118, -75.96121, 62.313156, 59.93535]) limit 5;
-
-+-----------+
-| value     |
-+-----------+
-| 160.44057 |
-| 114.49519 |
-| 144.50352 |
-| 130.83801 |
-| 161.06036 |
-+-----------+
-```
-
-注意，示例数据为随机生成，因此实际检索结果可能与示例结果存在差异。
 
 ## 注意事项
 
