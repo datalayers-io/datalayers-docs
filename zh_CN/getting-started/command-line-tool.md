@@ -1,6 +1,6 @@
-# 通过命令行工具体验 Datalayers
+# 通过 dlsql 操作 Datalayers
 
-dlsql 是 Datalayers 提供的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作体验。
+dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库管理。
 
 ## 连接数据库
 Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
