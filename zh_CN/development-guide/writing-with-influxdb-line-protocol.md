@@ -1,19 +1,21 @@
-# InfluxDB Line Protocol
+# InfluxDB 行协议接入指南
 
-Datalayers 兼容 InfluxDB Line Protocol。  
-[InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/)  
+## 概述
 
-## API 参考
-
-```SHELL
-HTTP://<HOST>:<PORT>/write
-
-```
+Datalayers 完全兼容 [InfluxDB Line Protocol V1](https://docs.influxdata.com/influxdb/v1/write_protocols/line_protocol_tutorial/) 协议，为时序数据提供高效写入能力。该协议特别适合从现有 InfluxDB 系统迁移的场景。
 
 ## 示例
-
+### 单条写入
 ```shell
-curl -i -XPOST "http://127.0.0.1:8361/write?db=db_name&u=admin&p=public&precision=ns" -d 'weather,location=us-midwest temperature=82 1699429527'
+curl -u"admin:public" -i -XPOST "http://127.0.0.1:8361/write?db=demo&precision=ns" \
+  -d 'sensor,device_id=temp_sensor_001 temperature=23.5,humidity=45.2 1699429527000000000'
+```
+### 批量写入
+```shell
+curl -u"admin:public" -i -XPOST "http://127.0.0.1:8361/write?db=demo&precision=ns" \
+  -d 'sensor,device_id=device_001 temperature=22.1,humidity=45.2 1699429527100000000
+      sensor,device_id=device_002 temperature=23.4,humidity=45.3 1699429528000000000
+      sensor,device_id=device_001 temperature=22.3,humidity=45.4 1699429530000000000'
 ```
 
 ## 注意事项

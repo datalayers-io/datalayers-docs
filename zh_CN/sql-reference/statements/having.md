@@ -1,8 +1,7 @@
-# HAVING Statement
+# HAVING 语句参考指南
 
-`HAVING` 子句在 SQL 中用于在 `GROUP BY` 子句聚合后对结果集进行条件过滤。它与 `WHERE` 子句不同，`WHERE` 子句在数据分组前对个别记录进行过滤，而 `HAVING` 子句则是在数据已经被 `GROUP BY` 子句聚合之后，对这些分组的结果进行过滤。
-
-`HAVING` 子句通常与聚合函数（如 `SUM`、`AVG`、`MAX`、`MIN`、`COUNT` 等）一起使用，用于指定筛选条件。
+## 概述
+HAVING 子句是 SQL 中用于对 GROUP BY 分组后的结果进行过滤的关键语句。它与 WHERE 子句的主要区别在于执行时机：WHERE 在分组前过滤单个记录，而 HAVING 在分组后过滤整个分组。
 
 ## 语法
 
