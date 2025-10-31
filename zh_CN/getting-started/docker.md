@@ -1,10 +1,9 @@
-# 通过 Docker 快速体验 Datalayers
+# 通过 Docker 快速体验
 
-本文将介绍如何通过 Docker 快速体验 Datalayers 的各项功能。若未安装 Docker，请至<a href="https://docs.docker.com/get-docker/" target="_blank">Docker官方文档</a>查看并安装。
+本文介绍如何使用 Docker 快速部署和体验 Datalayers 数据库。若未安装 Docker，请至<a href="https://docs.docker.com/get-docker/" target="_blank"> Docker官方文档 </a>查看并安装。
 
-
-## 通过 Docker 启动 Datalayers
-
+## 通过 Docker 启动
+### 拉取 Datalayers 镜像
 首先，请执行以下命令拉取最新的 Datalayers 镜像：
 
 ``` bash
@@ -17,6 +16,7 @@ docker pull datalayers/datalayers:latest
 docker pull datalayers/datalayers:v{@version_number@}
 ```
 
+### 启动 Datalayers
 执行以下命令，启动一个 Datalayers 容器：
 
 ``` bash
@@ -26,16 +26,18 @@ docker run --name datalayers -d \
   datalayers/datalayers:v{@version_number@} 
 ```
 
-::: tip
-其中`~/data`是指定容器运行数据能持久化的目录。
+**参数说明​​**
+- -v ~/data:/var/lib/datalayers：将主机目录挂载至容器，确保数据持久化
+- -p 8360:8360：映射 gRPC 服务端口
+- -p 8361:8361：映射 HTTP 服务端口
 
-Datalayers 默认将启动 `8360` 与 `8361` 端口：
-- `8360`端口用于提供 gRPC 服务；
-- `8361`端口用于提供 HTTP 服务；
-:::
+> **重要提示**​​：
+> 请将 ~/data替换为您希望持久化存储数据的实际目录路径。
+
+
+### 验证服务状态
 
 可以通过`docker ps -a`命令来查看容器运行状态。
-
 
 此外，也可以执行以下命令进入容器：
 
@@ -44,4 +46,8 @@ docker exec -it datalayers bash
 ```
 
 ## 体验功能
-当进入容器后，即可使用[命令行工具](./command-line-tool.md)快速体验 Datalayers 的各项功能。
+
+成功启动容器后，您可以通过以下方式体验 Datalayers：
+- 使用命[命令行工具](./command-line-tool.md)连接数据库进行操作
+- 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
+- 使用 [HTTP](../development-guide/insert-with-restapi.md) 协议连接数据库进行操作
