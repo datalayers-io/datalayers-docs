@@ -104,7 +104,7 @@
       collapsed: true
       children:
         - title_en: Index Cache
-          title_cn: 索引缓存
+          title_cn: 索引缓存调优
           path: development-guide/query-optimization/index-cache-optimization
         - title_en: Data Cache
           title_cn: 热点数据缓存
