@@ -1,6 +1,8 @@
-# 通过 dlsql 操作 Datalayers
+# 使用命令行工具操作 Datalayers
 
-dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库管理。
+## 工具简介
+
+dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
 
 ## 连接数据库
 Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
@@ -130,7 +132,7 @@ DROP DATABASE demo;
 ```
 **注：删除数据库，需要先删除所有表。**
 
-## 退出交互
+## 退出
 
 使用以下命令可退出交互：
 
