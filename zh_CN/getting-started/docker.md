@@ -1,4 +1,4 @@
-# 通过 Docker 快速体验
+# Docker 环境安装指南
 
 本文介绍如何使用 Docker 快速部署和体验 Datalayers 数据库。若未安装 Docker，请至<a href="https://docs.docker.com/get-docker/" target="_blank"> Docker官方文档 </a>查看并安装。
 
