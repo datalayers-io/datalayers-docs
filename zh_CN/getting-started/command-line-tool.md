@@ -2,18 +2,6 @@
 
 dlsql 是 Datalayers 提供的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作体验。
 
-## 验证 Datalayers 安装
-在成功安装 Datalayers 后，可通过以下命令来验证其是否正常工作。
-``` bash
-dlsql --version
-```
-该命令将会输出如下结果：
-```shell
-Datalayers command line tools 2.2.3
-built: 2024-10-29T07:00:06+0000
-source version: 7b954d42cede7309ec8263fce902d73f80a50f63
-```
-
 ## 连接数据库
 Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
 > 在静态认证的模式下（默认为静态认证），Datalayers 提供了一个默认账号，其用户名/密码为: `admin/public`
@@ -75,13 +63,14 @@ CREATE TABLE sensor_info (
 
 > Datalayers 支持更多[数据类型](../sql-reference/data-type.md)以及[表配置](../sql-reference/table-engine/timeseries.md)。
 
+## 写入数据
 可以执行以下命令写入一些示例数据：
 
 ``` sql
 INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('101', 34.12, 40.6), ('102', 56.12, 52.3);
 ```
 
-## 查询表
+## 查询数据
 
 首先，选中要执行操作的数据库：
 
