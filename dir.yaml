@@ -58,6 +58,7 @@
     - title_en: Database Connection
       title_cn: 数据库连接
       path: development-guide/connection
+      collapsed: true
       children:
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL 
@@ -441,7 +442,7 @@
       path: integration/datalayers-with-dbeaver
 - title_en: User & Security
   title_cn: 用户与安全
-  collapsed: true
+  collapsed: false
   children:
     - title_en: TLS
       title_cn: 连接加密(TLS)
@@ -459,7 +460,7 @@
           title_cn: 静态认证
           path: user-security/authentication/static
         - title_en: RBAC 
-          title_cn: 基于角色的访问控制
+          title_cn: 基于角色的访问认证
           path: user-security/authentication/rbac
       - title_en: Authorization
         title_cn: 访问控制 
