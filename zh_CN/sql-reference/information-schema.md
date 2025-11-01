@@ -1,5 +1,7 @@
-# INFORMATION_SCHEMA
-INFORMATION_SCHEMA 是 Datalayers 中用于提供数据库的元数据访问的一个虚拟数据库。INFORMATION_SCHEMA 中的表并不存储实际的数据，而是存储数据库对象（如表、列、sst_files等信息）的元数据信息，因此 INFORMATION_SCHEMA 下所有表均为只读表（视图）。以下是一些常用的 `information_schema` 表。 
+# INFORMATION_SCHEMA 元数据参考指南
+
+## 概述
+INFORMATION_SCHEMA 是 Datalayers 提供的标准元数据目录，包含数据库、表、列、索引等对象的元信息。这些只读视图允许用户查询数据库结构信息，是数据库管理和开发的重要工具。
 
 ## schemata
 |  类型名称             | 类型                       |  备注                                        |

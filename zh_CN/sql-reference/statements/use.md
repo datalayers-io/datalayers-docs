@@ -1,6 +1,7 @@
-# USE Statement
+# USE 语句详解
 
-设置当前会话的数据库，目前仅支持在命令行工具 `dlsql` 下使用。 关于 dlsql 工具使用，请查看[命令行工具](../../admin/datalayers-cli.md#datalayers-cli)章节。
+## 功能概述
+USE 语句用于设置当前会话的默认数据库。执行后，后续的所有 SQL 操作（如表查询、数据操作等）将默认在该数据库中进行，无需在每条语句中显式指定数据库名称。目前仅支持在命令行工具 `dlsql` 下使用。 关于 dlsql 工具使用，请查看[命令行工具](../../admin/datalayers-cli.md#datalayers-cli)章节。
 
 ## 语法
 

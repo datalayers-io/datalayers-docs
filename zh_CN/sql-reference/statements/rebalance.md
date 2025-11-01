@@ -1,9 +1,8 @@
-# REBALANCE Statement
+# REBALANCE 语句详解
 
-对服务器节点上 table 的 partitions 进行重新分布，提高服务器集群的负载均衡性。  
-::: tip
-注：该指令仅支持时序引擎。
-:::
+## 功能概述
+REBALANCE 语句用于重新分布集群中的数据分区，优化数据在节点间的分布均衡性。该操作通过调整分区布局，消除数据倾斜，提升集群整体性能和资源利用率。
+
 ## 语法
 
 ```SQL
@@ -34,6 +33,5 @@ REBALANCE TABLE table_name
 
 对指定 table 的所有 partitions 进行重新分布。
 
-::: tip
-注：仅支持在集群模式下使用。
-:::
+## 注意事项
+- 仅支持在集群模式下使用。

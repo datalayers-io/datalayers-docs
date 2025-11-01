@@ -1,6 +1,7 @@
-# Within Group Statement
+# Within Group 语句详解
 
-`Within Group` 用于有序集合聚合函数（Ordered-set Aggregate Function），即那些需要数据有序才能正确计算的聚合函数，例如求中位数、求百分位数等。`Within Group` 用来对数据的某一列指定排序规则，然后对排序后的这一列应用聚合函数。
+## 功能概述
+WITHIN GROUP 语句是用于有序集合聚合函数（Ordered-set Aggregate Functions）的关键语法，它允许在聚合计算前对数据进行排序。这些函数需要数据按特定顺序排列才能正确计算，如百分位数、中位数等统计指标。
 
 ## 示例
 
