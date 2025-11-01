@@ -1,5 +1,7 @@
-# 时序模型
-时序模型是针对时序、日志等场景优化的数据模型。时序引擎利用时序数据具有时间局部性以及数据查询场景等特点进行优化，以实现高吞吐写入、低存储成本以及高效的计算与分析。
+# 时序数据模型指南
+
+## 概述
+时序模型是针对时序数据、日志数据等场景专门优化的数据模型。时序引擎利用时序数据具有时间局部性以及数据查询场景等特点进行优化，以实现高吞吐写入、低存储成本以及高效的计算与分析。
 
 ## 建表语法
 
@@ -45,8 +47,8 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`point_number`) PARTITIONS 2
 ```
-
-- time 数据类型为 TIMESTAMP，精度为纳秒
+**说明**：
+- time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - point_number 表示点位唯一标识
 - 数据根据 `point_number` 的 hash 值来做分区，分区数量为：2
 - PARTITIONS 数量设置见后面说明
@@ -76,8 +78,8 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`region`) PARTITIONS 2
 ```
-
-- time 数据类型为 TIMESTAMP，精度为纳秒
+**说明**：
+- time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - 数据根据 `region` 的 hash 值来做分区，分区数量为：2
 - 唯一点位标识：`region` + `pointNumber`
 - PARTITIONS 数量设置见后面说明
@@ -87,3 +89,4 @@ CREATE TABLE `point_table` (
 - 一般来说 1 个 partition 每秒可高达数十万点位的写入，因此根据实际场景需求来设置即可
 - Partition 越多，会消耗越多的 CPU 与内存，建议 Partition 数量不超过集群内所有节点的 CPU CORE 之和 
 
+合理的时序表设计是保证系统性能的关键，建议根据实际业务场景和数据特征进行针对性优化。

@@ -104,7 +104,7 @@
       collapsed: true
       children:
         - title_en: Index Cache
-          title_cn: 索引缓存
+          title_cn: 索引缓存调优
           path: development-guide/query-optimization/index-cache-optimization
         - title_en: Data Cache
           title_cn: 热点数据缓存
@@ -274,8 +274,8 @@
         - title_en: Gap Fill
           title_cn: 插值函数
           path: sql-reference/gap_fill
-        - title_en: Json
-          title_cn: Json 函数
+        - title_en: JSON
+          title_cn: JSON 函数
           path: sql-reference/json
         - title_en: Cast
           title_cn: 类型转换函数
@@ -446,6 +446,37 @@
     - title_en: TLS
       title_cn: 连接加密(TLS)
       path: user-security/tls
+    - title_en: Authentication and Authorization
+      title_cn: 认证与权限
+      collapsed: true
+      children:
+      - title_en: Authentication
+        title_cn: 连接认证
+        path: user-security/authentication/overview
+        collapsed: true
+        children:
+        - title_en: Overview
+          title_cn: 静态认证
+          path: user-security/authentication/static
+        - title_en: RBAC 
+          title_cn: 基于角色的访问控制
+          path: user-security/authentication/rbac
+      - title_en: Authorization
+        title_cn: 访问控制 
+        collapsed: true
+        children:
+        - title_en: Overview
+          title_cn: 概述
+          path: user-security/rbac/overview
+        - title_en: User Management 
+          title_cn: 用户管理
+          path: user-security/rbac/user
+        - title_en: Role Management
+          title_cn: 角色管理
+          path: user-security/rbac/role
+        - title_en: Privileges
+          title_cn: 权限管理
+          path: user-security/rbac/privilege
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true

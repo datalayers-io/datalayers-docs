@@ -1,6 +1,7 @@
-# ALTER Statement
+# ALTER TABLE 语句详解
 
-ALTER 语句是一种用于修改数据库对象（如table、table options等）结构或属性的 SQL 命令。它可以在不删除原有对象的情况下动态调整其定义，是数据库管理和优化的重要工具。
+## 功能概述
+ALTER TABLE 语句是用于修改表结构的核心 SQL 命令，允许在不删除重建表的情况下动态调整表定义。
 
 ## ADD COLUMN
 

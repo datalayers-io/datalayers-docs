@@ -1,22 +1,33 @@
-# 聚合查询
+# 聚合查询：降采样与时间窗口分析
 
-在时序数据库中，降采样与聚合运算是较为常用的组合。通过降采样/抽稀减少数据点来降低数据点，以此减少计算、传输的负担，适用于长时间段的数据分析。而聚合计算则通过将多个数据点合并为一个值（如平均值、最大值或最小值）来提取趋势。两者结合可以有效提高查询性能，减少数据处理时间，同时保留重要的趋势信息，适用于工业IoT、监控和数据可视化等场景。
+## 概述
+在时序数据场景中，降采样与聚合计算是核心的数据处理技术。通过降低数据采样频率并将多个数据点合并为代表性数值，能够有效减少计算和传输开销，特别适用于长期趋势分析和可视化展示。
 
-## 按时间窗口查询
-Datalayers 支持按时间窗口进行聚合查询。
-典型应用场景：传感器每秒上报数据，如我们展示该传感器数据最近一天或者一个月的变化趋势时，如果以秒为单位进行展示，则会带来以下一些问题：  
-* 数据传输量大
-* 客户端计算量大且复杂
-* 不利于图形展示、观察（点位过于密集）
+## 应用价值
+- 性能优化：减少数据处理量，提升查询效率
+- 趋势分析：保留关键数据特征，突出长期变化规律
+- 资源节约：降低存储、传输和计算资源消耗
+- 可视化友好：生成适合图表展示的数据密度
 
-按时间窗口对数据进行切割、聚合运行特别适用于此类场景。
+典型应用场景：工业物联网监控、系统性能指标分析、业务数据趋势展示等。
 
-### 示例
+
+## 时间窗口聚合查询
+### 场景说明
+
+以传感器数据为例，采集频率为1秒级别。当需要展示最近一天或一个月的数据趋势时，原始数据点过于密集会导致：
+- 数据传输量过大
+- 客户端渲染性能下降
+- 图表可读性差（点距过密）
+
+时间窗口聚合通过数据分组和计算，有效解决上述问题。
+
+### 数据表结构示例
 Table schema 如下：
 ```sql
 CREATE TABLE sensor_info (
   ts TIMESTAMP(9) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  sn STRING,
+  sn INT32 NOT NULL,
   speed DOUBLE,
   temperature DOUBLE,
   timestamp KEY (ts))
@@ -25,16 +36,28 @@ CREATE TABLE sensor_info (
   with (ttl='10d');
 ```
 
-假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1分钟 的区间对数据进行聚合（获取一分钟以内 temperature 的平均值 ），则可使用时间函数对数据进行切割与计算。SQL 语句如下：
+### 查询示例
+#### 分钟级聚合分析
+查询设备`sn=1`的温度数据，按1分钟窗口计算平均值
 
 ```sql
-SELECT date_bin('1 minutes', ts) as timepoint, avg(temperature) as temp from sensor_info where sn = 1 group by timepoint;
+SELECT 
+  date_bin('1 minutes', ts) as timepoint, 
+  avg(temperature) as avg_temp 
+FROM sensor_info 
+WHERE sn = 1
+GROUP BY timepoint 
 ```
 
-假设数据采集频率为 `1Hz`，在数据展示时我们希望查询 `sn = 1` 并且以 1天 的区间对数据进行聚合（获取一天以内 temperature 的最大值 ），则可使用时间函数对数据进行切割与计算。SQL 语句如下：
-
+#### 天级聚合分析
+查询设备sn=1的温度数据，按1天窗口计算最大值
 ```sql
-SELECT date_bin('1 day', ts) as timepoint, max(temperature) as temp from sensor_info where sn = 1 group by timepoint;
+SELECT 
+  date_bin('1 day', ts) as timepoint, 
+  max(temperature) as max_temp 
+FROM sensor_info 
+WHERE sn = 1
+GROUP BY timepoint 
 ```
 
 更多函数说明：

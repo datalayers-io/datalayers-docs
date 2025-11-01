@@ -1,21 +1,27 @@
-# LAST CACHE
-在时序场景中，经常需要查询 点/设备 最新一行的数据记录，用于追踪设备最新状态。Datalayers 在 v2.3.12 版本中，引入 LAST CACHE，用于缓存设备、点位最新一行数据，以加速查询。
+# LAST CACHE 优化指南
 
-如需启用 LAST CACHE，需通过以下两个步骤：
+## 概述
+在时序数据场景中，经常需要查询特定设备或点位的最新数据记录，用于实时监控和设备状态追踪。Datalayers v2.3.12 版本引入了 LAST CACHE 功能，专门用于缓存设备最新数据，显著提升相关查询性能。
 
-## 配置 LAST CACHE 
+## 功能特性
+- **高效内存缓存**：专为最新数据查询优化
+- **按需开启**：支持按表级别灵活控制启用与禁用
 
+## 配置步骤
+如需启用 LAST CACHE，需通过以下两个步骤
+### 配置全局缓存大小
+
+在 Datalayers 配置文件（默认路径：/etc/datalayers/datalayers.toml）中设置：
 ```toml
 # 配置 LAST CACHE 在当前节点上，最多使用多少内存。
 # 默认: 2GB
 last_cache_size = "2GB"
 ```
-该配置表示当前节点，LAST CACHE 最多使用 2GB 内存。
+此配置表示单个节点上 LAST CACHE 功能可使用的最大内存容量。
 
-## 启用 LAST CACHE 
+### 启用表级 LAST CACHE
 
-Datalayers 中，可根据 TABLE OPTIONS 中的配置决定当前表是否启用 LAST CACHE 优化。如下 table schema：
-
+在创建表时，通过 TABLE OPTIONS 启用该表的 LAST CACHE 优化：
 ```sql
 CREATE TABLE `t` (
   `ts` TIMESTAMP(9) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -31,9 +37,10 @@ WITH (
 )
 ```
 
-在 table options 中，将ENABLE_LAST_CACHE设置为 true，即为该 table 启用了 LAST CACHE 优化。
+将 ENABLE_LAST_CACHE设置为 TRUE即为该表启用 LAST CACHE 优化。
 
-通过上述配置，即可对下面 SQL 加速查询。
+## 优化的查询场景
+通过上述配置，即可对下面 SQL 加速查询：
 - select * from t where sid = 1 order by ts desc limit 1
 - select last_value(value order by ts) from t where sid = 1
 - select first_value(value order by ts desc) from t where sid = 1

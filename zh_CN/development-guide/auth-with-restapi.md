@@ -1,7 +1,10 @@
-# 认证
+# 认证与安全
 
-Datalayers 支持 HTTP/HTTPS 协议进行交互。 当连接到数据库时会进行身份验证。 Datalayers 提供了以下两种的内置身份验证机制，允许用户配置一个固定的 用户名与密码进行认证。
-如下：
+## 概述
+Datalayers 支持基于 HTTP/HTTPS 协议的身份认证机制，确保数据库连接的安全性。系统提供内置的身份验证方式，允许管理员配置固定的用户名和密码进行访问控制。
+
+## 认证配置
+在 Datalayers 配置文件（默认路径：/etc/datalayers/datalayers.toml）中设置认证参数：
 ```toml
 # ...
 [server]
@@ -18,17 +21,19 @@ Datalayers REST API 支持以下两种认证方式，可根据使用场景自由
 
 
 ## HTTP BASIC 认证
-Datalayers 的 REST API 使用 [`HTTP BASIC 认证`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#basic) 认证 携带认证凭据。
+Datalayers REST API 默认使用 [`HTTP BASIC 认证`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#basic) 认证方式，认证凭据通过 HTTP 头部传递。
 
-**示例：**
-```
+**基本用法**
+```shell
 curl -u"<username>:<password>" -X POST \
 http://<HOST>:<PORT>/api/v1/sql?db=<database_name> \
 -H 'Content-Type: application/binary' \
 -d '<SQL STATEMENT>'
 ```
 
-## HTTP Bearer 认证
-即将支持。   
-参考： [`HTTP Bearer 认证`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Authentication#bearer)
+**示例**
 
+```shell
+curl -u"admin:public" -i -XPOST "http://127.0.0.1:8361/api/v1/sql" \
+  -d 'show databases'
+```

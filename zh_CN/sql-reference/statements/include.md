@@ -1,6 +1,7 @@
-# INCLUDE Statement
+# INCLUDE NODE 语句详解
 
-消除被 EXCLUDE 节点的被排除状态，可以分配 partition 到 INCLUDE 的节点上。
+## 功能概述
+INCLUDE NODE 语句用于恢复被排除节点的集群参与资格。执行后，目标节点将重新成为集群的活跃成员，可以接收新的数据分区分配，实现集群的动态扩容或故障恢复。
 
 ## 语法
 
@@ -15,8 +16,6 @@ INCLUDE NODE 'datalayers-1:8360'
 
 ## 注意事项
 
-* 只允许 INCLUDE 被 EXCLUDE 排除的节点。
+* 只允许 INCLUDE 被 EXCLUDE 排除的节点；
+* 仅支持在集群模式下使用。
 
-::: tip
-仅支持在集群模式下使用。
-:::

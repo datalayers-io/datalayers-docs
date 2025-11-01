@@ -1,7 +1,7 @@
 # 多语言接入示例
 
-我们提供以下语言的示例，展示如何使用基于 HTTP/HTTPS 的 REST API 与 Datalayers 进行交互：
-目前提供以下示例：
+## 概述
+Datalayers 提供基于 HTTP/HTTPS 的 REST API 接口，支持多种编程语言进行数据交互。本文提供 Python、Go 和 Shell 的完整接入示例，帮助您快速集成 Datalayers 到现有应用中。
 
 * Python
 * Go

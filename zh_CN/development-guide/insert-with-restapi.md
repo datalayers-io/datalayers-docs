@@ -1,9 +1,11 @@
-# 数据写入
+# 数据写入指南
 
-Datalayers 支持通过 HTTP/HTTPS 进行交互，`SQL STATEMENT` 通过 `HTTP BODY` 的方式进行传递。SQL 相关语法请参考：[SQL Reference](../sql-reference/data-type.md)
+## 概述
+Datalayers 支持通过 HTTP/HTTPS 协议执行数据写入操作，SQL 语句通过 HTTP 请求体进行传输。本文详细介绍如何使用 REST API 进行数据库操作，包括库表创建和数据插入。SQL 相关语法请参考：[SQL Reference](../sql-reference/data-type.md)
 
-## 语法
+## 基础语法
 
+**通用请求格式**
 ```shell
 curl -u"<username>:<password>" -X POST \
 http://127.0.0.1:8361/api/v1/sql?db=<database_name> \
@@ -40,7 +42,7 @@ http://127.0.0.1:8361/api/v1/sql?db=demo \
 返回值
 
 ```json
-{"affected_rows":1}
+{"affected_rows":0}
 ```
 
 ### 插入数据

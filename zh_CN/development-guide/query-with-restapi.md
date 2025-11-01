@@ -1,9 +1,12 @@
-# 数据查询
+# 数据查询指南
 
-Datalayers 支持通过 HTTP/HTTPS 进行交互，`SQL STATEMENT` 通过 `HTTP BODY` 的方式进行传递。SQL 相关语法请参考：[SQL Reference](../sql-reference/data-type.md)
+## 概述
 
-## 语法
 
+Datalayers 提供基于 HTTP/HTTPS 协议的 SQL 查询接口，支持通过 REST API 执行各类数据检索操作。查询结果以结构化 JSON 格式返回，包含完整的元数据信息。SQL 相关语法请参考：[SQL Reference](../sql-reference/data-type.md)。
+
+## 基础语法
+**通用请求格式**
 ```shell
 curl -u"<username>:<password>" -X POST \
 http://127.0.0.1:8361/api/v1/sql?db=<database_name> \

@@ -1,6 +1,7 @@
-# TRUNCATE TABLE Statement
+# TRUNCATE TABLE 语句详解
 
-TRUNCATE 是一种用于快速清空表中所有数据的 SQL 语句，与 DELETE 不同，TRUNCATE 通常以更高效的方式删除表中的所有行。TRUNCATE 操作直接重置表的数据，而不记录逐行删除操作。
+## 功能概述
+TRUNCATE TABLE 是一种用于快速清空表中所有数据的 DDL 语句。与 DELETE 语句不同，TRUNCATE 通过直接重置表数据的方式实现高效清理，特别适用于需要快速清空大表的场景。
 
 ## 语法
 

@@ -1,17 +1,19 @@
-# Arrow Flight SQL
+# Arrow Flight SQL 的高速数据传输协议
 
-Arrow Flight SQL 是一种使用 Arrow 内存格式和 Flight RPC 框架与 SQL 数据库交互的协议。Datalayers 支持 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可使用支持 Arrow Flight SQL 的 SDK 进行接入。 Arrow Flight SQL 还提供了通用的 [JDBC](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver) 驱动，支持与遵循 Arrow Flight SQL 协议的数据库无缝交互。
+Datalayers 完整实现了 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，基于该协议实现高性能数据链路。该协议结合了 Apache Arrow 的内存列式格式与 gRPC 的高效通信框架，专为大规模数据分析场景设计，实现高速的数据传输。
 
-Datalayers 基于 Arrow Flight SQL 构建了高速数据传输链路，目前主流编译语言已支持使用 Arrow Flight SQL 客户端 从 Datalayers 高速读取海量数据，极大提升了其他系统与 Datalayers 间数据传输效率。同时在传输过程中使用 Arrow 的列存格式，在数据传输过程将完全避免序列化/反序列化操作，可彻底消除序列化/反序列化带来时间及性能损耗、提升系统的吞吐能力。
+## 核心优势
+- **极致性能**：直接在 Arrow 列式内存格式上进行传输，完全避免了序列化与反序列化开销，从而显著降低延迟、提升吞吐量。
+- **跨语言兼容**：提供多语言原生客户端支持，并与标准的 JDBC 驱动兼容，便于不同技术栈的系统集成。
 
-## 接入
+## 接入指南
 
-目前我们支持Arrow Flight SQL 客户端的环境有（详见下面接入示例）：
+Datalayers 支持多种语言的 Arrow Flight SQL 客户端接入，具体示例见下文
 
 * [Go](https://github.com/datalayers-io/examples/tree/main/go)
 * [Rust](https://github.com/datalayers-io/examples/tree/main/rust)
 * [Java](https://github.com/datalayers-io/examples/tree/main/java)
 * [Python](https://github.com/datalayers-io/examples/tree/main/python)
-* 基于 [Arrow Flight SQL JDBC](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver)
+* [JDBC](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver) 基于 Arrow Flight SQL JDBC 驱动
 
 更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
