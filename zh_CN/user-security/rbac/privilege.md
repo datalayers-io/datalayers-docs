@@ -73,8 +73,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'developer'@'127.0.0.1';
 可以通过如下命令收回用户或角色的权限：
 
 ```sql
-REVOKE [IF EXISTS]
-    priv_type [, priv_type] ...
+REVOKE priv_type [, priv_type] ...
     ON priv_level
     FROM user_or_role [, user_or_role] ...
 ```
@@ -122,31 +121,60 @@ SHOW PRIVILEGES;
 
 | 操作                  | 需要的权限 |
 |-----------------------|------------|
+| SELECT                | 表的 SELECT 权限 |
+| INSERT                | 表的 INSERT 权限 |
+| UPDATE                | 表的 UPDATE 权限 |
+| DELETE                | 表的 DELETE 权限 |
 | ALTER TABLE           | 表的 ALTER 权限|
-| ANALYZE TABLE         | 表的 INSERT 和 SELECT 权限 |
 | COMPACT TABLE         | 表的 INSERT 权限|
 | CREATE DATABASE       | 全局 CREATE 权限 |
-| CREATE INDEX          | 表的 INDEX 权限 |
+| CREATE INDEX          | 表的 ALTER 权限 |
 | CREATE TABLE          | 数据库的 CREATE 权限|
 | CREATE ROLE           | CREATE ROLE 权限 |
 | CREATE USER           | CREATE USER 权限 |
 | DESC TABLE            | 表的 SELECT 权限 |
 | DROP DATABASE         | 数据库的 DROP 权限 |
-| DROP INDEX            | 表的 INDEX 权限 |
+| DROP INDEX            | 表的 ALTER 权限 |
+| DROP NODE             | SUPER 权限 |
 | DROP TABLE            | 表的 DROP 权限 |
 | DROP ROLE             | DROP ROLE 权限 |
 | DROP USER             | CREATE USER 权限 |
-| EXCLUDE NODE          | SUPER 权限 | 
+| EXCLUDE NODE          | SUPER 权限 |
 | EXPLAIN               | 需要与 EXPLAIN 要分析的语句相同的权限 |
-| FLUSH                 | RELOAD 权限     |
+| EXPORT PARTITION      | 表的 SELECT 权限 |
+| FLUSH                 | RELOAD 权限 |
 | GRANT                 | 如果是授予权限，需要 GRANT 权限以及 GRANT 所赋予的权限；<br> 如果是授予角色，需要满足以下条件之一：（1）具有 SUPER 权限（2）已经被授予过该角色，且 `WITH_GRANT_OPTION = true`|
 | INCLUDE NODE          | SUPER 权限 |
 | REBALANCE             | SUPER 权限 |
 | REVOKE                | 如果是收回权限，需要 GRANT 权限以及 REVOKE 所撤销的权限；<br> 如果是收回角色，需要 `SUPER` 权限|
 | SET PASSWORD          | CREATE USER 权限 |
+| SHOW CLUSTER          | 无权限要求 |
+| SHOW CURRENT NODE     | 无权限要求 |
+| SHOW CREATE DATABASE  | 数据库的 SELECT 权限 |
 | SHOW CREATE TABLE     | 表的 SELECT 权限 |
-| SHOW DATABASES        | 能查看至少有一种权限的数据库，若具有 SHOW DATABASES 权限，则能查看所有数据库 |
-| SHOW GRANTS           | `information_schema` 数据库的 SELECT 权限（查看当前用户则无需权限） |
+| SHOW DATABASES        | 能查看至少有一种数据库权限或数据库内表权限，若具有 SHOW DATABASES 权限，则能查看所有数据库 |
+| SHOW GRANTS           | SUPER 权限（查看当前用户则无需权限） |
+| SHOW LICENSE          | SUPER 权限 |
+| SHOW MIGRATION        | SUPER 权限 |
+| SHOW PARTITIONS       | 如果指定了 `ON TABLE` 选项，则需要该表的 SELECT 权限；<br> 否则能够查看所有具备 `SELECT` 权限的表的 parititons |
+| SHOW PRIVILEGES       | 无权限要求 |
 | SHOW TABLES           | 能查看至少有一种权限的表 |
+| SHOW TASKS            | SUPER 权限 |
+| SHOW VERSION          | SUPER 权限 |
+| STOP MIGRATION        | SUPER 权限 |
 | TRIM DATABASE         | 数据库的 DROP 权限|
 | TRUNCATE TABLE        | 表的 DROP 权限 |
+
+## 特定权限
+
+### INFORMATION SCHEMA 数据库的权限
+
+所有用户都直接获得对 `information_schema` 数据库的 `SELECT` 权限。
+
+不能通过 `REVOKE` 回收该数据库的权限。
+
+访问 `information_schema` 数据库中的表数据时，会根据用户具备的权限来展示数据，以 `tables` 表为例，用户只能查看到自己有权限访问表的信息。
+
+::: tip
+可以通过 `GRANT` 授予该数据库的权限，但授权操作没有实际作用，不建议这样做。
+:::

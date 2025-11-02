@@ -21,10 +21,23 @@ type = "rbac"
 # The provided JSON Web Token.
 # Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
+
+# 密码强度，支持三种：
+# weak: 弱密码，没有特殊要求；
+# moderate: 一般密码，至少 8 位字符，至少包含大写、小写、数字和特殊字符中的三种；
+# strong: 强密码，至少 14 位字符，包含大写、小写、数字和特殊字符。
+# 默认：weak
+#password_strength = "weak"
+
+# 防暴力破解密码
+# 形式为 "a/b/c"，a,b,c 都是整数，含义是连续失败 a 次后，b 分钟内禁止该用户重复尝试登录，之后每再失败一次，禁止时间延长 c 分钟。
+# a最大值为 10，b,c 最大值为 120 分钟。
+# 默认：0/0/0 表示不开启防暴力破解
+#password_lockout = "3/5/5"
 ```
 
 ## 初始化用户
-安装 Datalayers 后，首次使用 rbac认证模式启动时，系统默认没有预置管理员账户。您需要手动初始化第一个管理员账户。本文提供两种初始化方法。
+安装 Datalayers 后，首次使用 rbac 认证模式启动时，系统默认没有预置管理员账户。您需要手动初始化第一个管理员账户。本文提供两种初始化方法。
 
 ### 基于 Peer 认证初始化
 Peer 认证是一种基于操作系统进程间通信（IPC）的本地认证机制，它通过 Unix Domain Socket 进行身份验证，仅允许在同一台机器上运行的进程进行访问。
@@ -66,7 +79,7 @@ dlsql admin init-root --user admin@% --password public
 基于静态认证，通过相应的授权语句进行创建用户来初始化系统用户。
 - 配置为[静态认证](static.md)，配置好后重启系统
 - 参考 `rbac` 中的[用户管理](../rbac/user.md),并创建好帐号
-- 创建好后将认证 `server.auth.type`修改为 `rbac` 并重启系统
+- 创建好后将认证 `server.auth.type` 修改为 `rbac` 并重启系统
 - 使用创建的帐号进行登陆
 
 ## 详细说明
