@@ -334,6 +334,9 @@
     - title_en: Quick Start
       title_cn: 快速开始
       path: vector-search/quick-start
+    - title_en: Vector Index 
+      title_cn: 向量索引
+      path: vector-search/vector-index
 
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储

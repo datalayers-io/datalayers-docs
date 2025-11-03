@@ -1,9 +1,10 @@
-# 快速上手
+# 快速开始
 
-本教程介绍如何使用 Datalayers 数据库执行向量存储和向量检索。
+本文档介绍如何在 Datalayers 数据库中进行向量数据的存储和检索操作。
 
-我们创建一个含有向量列的表。
+## 创建向量表
 
+首先创建一个包含向量列的数据表：
 ```sql
 CREATE TABLE t(
     ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -18,8 +19,9 @@ ENGINE=TimeSeries
 
 其中，`embed VECTOR(3)` 表示创建一个名为 `embed` 的向量列，该列中每个向量的维度为 3。
 
-向该表写入一些数据：
+## 插入向量数据
 
+向表中插入示例数据：
 ```sql
 INSERT INTO t (id, tag, embed) VALUES
 (1, 'cat', [1.0, 1.1, 1.2]),
@@ -27,8 +29,9 @@ INSERT INTO t (id, tag, embed) VALUES
 (3, 'mouse', [6.4, 9.1, 7.8]);
 ```
 
-查询该表，应该得到如下数据：
+## 查询数据
 
+查看表中所有数据：
 ```sql
 > SELECT * FROM t ORDER BY id;
 +---------------------------+----+-------+------------------+
@@ -40,6 +43,7 @@ INSERT INTO t (id, tag, embed) VALUES
 +---------------------------+----+-------+------------------+
 ```
 
+## 向量相似度检索
 使用 ORDER BY + LIMIT 语句，构造出向量检索所对应的 SQL。例如搜索与目标向量最近的一个向量所对应的 tag：
 
 ```sql
