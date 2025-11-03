@@ -16,7 +16,7 @@ CREATE USER [IF NOT EXISTS] user IDENTIFIED BY 'password';
 ```
 **说明**
 - `user`：格式为`'user_name'@'host_name'`，例如 `'alice'@'127.0.0.1'`。
-- 主机名 `host_name` 支持使用 `%` 通配符，表示匹配任意网段。例如 `bob'@'%'` 表示允许用户 bob 从任意 IP 地址连接，`'bob'@'192.168.%'` 表示只允许从 `192.168.*.*` 网段连接
+- 主机名 `host_name` 支持使用 `%` 通配符，表示匹配任意网段。例如 `'bob'@'%'` 表示允许用户 bob 从任意 IP 地址连接，`'bob'@'192.168.%'` 表示只允许从 `192.168.*.*` 网段连接
 - `password`：账户密码，最长为32位字符。
 
 **示例**：
@@ -70,3 +70,11 @@ DROP USER 'alice'@'%';
 ```sql
 SELECT USER();
 ```
+
+## 密码强度管理
+
+通过修改 [server 配置](../../admin/configuration-fields/server.md)中的 `password_strength` 参数来设置密码强度要求。
+
+## 防暴力破解密码
+
+通过修改 [server 配置](../../admin/configuration-fields/server.md)中的 `password_lockout` 参数来设置防暴力破解密码的策略。

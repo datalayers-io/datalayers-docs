@@ -60,20 +60,28 @@ REVOKE ALL ON content_db.articles FROM 'editor';
 角色的授予可以通过如下命令实现：
 
 ```sql
-GRANT user_or_role [, user_or_role] ...
-    TO user_or_role [, user_or_role] ...
+GRANT role [, role] ...
+    TO user [, user] ...
     [WITH ADMIN OPTION]
 ```
 
 角色授予给用户后将立即生效，用户可以直接使用角色的权限。
+
+::: tip
+由于目前角色不支持继承，只能将角色授予给用户，而不能将角色授予给其他角色。
+:::
 
 ### 将角色从用户处收回
 
 **基本语法**：
 
 ```sql
-REVOKE user_or_role [, user_or_role] ...
-    FROM user_or_role [, user_or_role] ...
+REVOKE role [, role] ...
+    FROM user [, user] ...
 ```
 
 收回后，用户将无法再使用该角色的权限。
+
+::: tip
+由于目前角色不支持继承，只能收回用户身上的角色。
+:::

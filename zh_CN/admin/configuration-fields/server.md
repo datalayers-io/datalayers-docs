@@ -64,22 +64,17 @@ password = "public"
 # Default: "87113c3d906df75e9c6389fbd457d957".
 jwt_secret = "87212c3d906df71e9c6289fbd456d917"
 
-# Password strength requirements.
-# weak: no requirements, simple password.
-# moderate: at least 8 characters, including at least three types of the following:
-#   uppercase letters, lowercase letters, digits, and special characters.
-# strong: at least 14 characters, including all types of the following:
-#   uppercase letters, lowercase letters, digits, and special characters.
-# Default: "weak"
+# 密码强度，支持三种：
+# weak: 弱密码，没有特殊要求；
+# moderate: 一般密码，至少 8 位字符，至少包含大写、小写、数字和特殊字符中的三种；
+# strong: 强密码，至少 14 位字符，包含大写、小写、数字和特殊字符。
+# 默认：weak
 #password_strength = "weak"
 
-# Password protection against brute-force attacks.
-# Form as "a/b/c", means:
-# Account locked for "b" minutes after "a" failed password attempts,
-#  and locked for another "c" miniutes after the each failed attempt.
-# The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
-# 0/-/- means no lockout.
-# Default: "0/0/0"
+# 防暴力破解密码
+# 形式为 "a/b/c"，a,b,c 都是整数，含义是连续失败 a 次后，b 分钟内禁止该用户重复尝试登录，之后每再失败一次，禁止时间延长 c 分钟。
+# a最大值为 10，b,c 最大值为 120 分钟。
+# 默认：0/0/0 表示不开启防暴力破解
 #password_lockout = "3/5/5"
 
 # The configurations of the Redis service.
