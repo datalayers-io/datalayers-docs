@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 2.3.14
+
+发布日期: 2025-10-07
+
+### 新功能
+- **RBAC 访问控制**：新增[基于角色的访问控制](../user-security/rbac/overview.md)功能，实现更精细化的权限管理。
+- **Prometheus 增强**：支持 Prometheus Remote Write 协议，可通过该协议直接写入数据。
+- **向量索引**：新增多种[向量索引](../vector-search/vector-index.md)类型的支持，提升检索效率与灵活性。
+- **用户认证**：新增 peer认证 机制，支持用户初始化及密码重置等功能。
+- **审计日志**：新增审计日志功能，增强操作可追溯性与安全性。
+
+### ️优化
+- **查询性能**：优化 count(*)查询逻辑，显著提升包含时间范围过滤条件（如 WHERE ts > now() - INTERVAL 10 day）的查询效率。
+
 ## 2.3.13
 
 发布日期: 2025-10-20
@@ -13,7 +27,7 @@
 - 优化 last cache 逻辑，提升 last cache 效率
 - 优化 sst file 过期文件清理逻辑，通过分批清理，降低后端压力
 - 优化 compaction 逻辑，提升 compaction 的效率
-- 优化 failover 逻辑，如果启动时节点处于 replay 过程中，不触发 failover 逻辑
+- 优化 failover 逻辑，如果启动时节点处于 prepare 过程中，不触发 failover 逻辑
 
 ### 修复
 - 修复了 PIVOT 函数在特殊情况（复杂 SQL）下可能出现栈溢出的问题

@@ -444,7 +444,7 @@
       title_cn: DBeaver
       path: integration/datalayers-with-dbeaver
 - title_en: User & Security
-  title_cn: 用户与安全
+  title_cn: 安全与合规
   collapsed: false
   children:
     - title_en: TLS
@@ -481,6 +481,9 @@
         - title_en: Privileges
           title_cn: 权限管理
           path: user-security/rbac/privilege
+    - title_en: Audit Logs
+      title_cn: 审计日志
+      path: user-security/audit-logs
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true
