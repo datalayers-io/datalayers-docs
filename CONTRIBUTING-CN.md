@@ -2,7 +2,6 @@
 
 欢迎您的参与，以帮助改善 Datalayers 文档。当您反馈问题，编辑、新增、翻译文档内容时，可以为 Datalayers 开源社区提供非常有价值的帮助。
 
-
 ## 目录
 
 - [文档编写指南](#文档编写指南)
@@ -14,11 +13,9 @@
 - [PR 自动检查](#pr-自动检查)
 - [如何寻求帮助](#如何寻求帮助)
   
-
 ## 文档编写指南
 
 为了确保文档的一致性，我们要求所有贡献者参考我们的 [文档编写指南](./DOCS-WRITING-GUIDE-CN.md)，该指南对文档**目录配置**及 **Markdown 书写规范**进行了详细的说明。
-
 
 ## 如何贡献文档
 
@@ -70,7 +67,7 @@ todo截图
 
 2. 将 Fork 的仓库 Clone 到本地，然后进入本地目录，添加上游仓库。
 
-   ```
+   ```shell
    git remote add upstream https://github.com/datalayers-io/docs-datalayers.git
    ```
 
@@ -102,11 +99,9 @@ Datalayers 中文文档一般会先于英文文档发布，所以文档翻译大
 
    回到步骤 2 里认领的 PR 里，依次添加 2 条评论：`/unlabel translation/doing` 及 `/label translation/done`，表明翻译已完成。
 
-
 ## PR 自动检查
 
 文档项目将会根据 [文档编写指南](./DOCS-WRITING-GUIDE-CN.md) 里的规则进行自动检查，检查通过的 PR 才能被合并。假如你提 PR 时遇到了 markdownlint check 失败，报错信息里会明确提示哪一个文件的哪一行出了什么问题，请根据提示修改后再更新到 PR 里。
-
 
 ## 如何寻求帮助
 
@@ -117,4 +112,3 @@ Datalayers 中文文档一般会先于英文文档发布，所以文档翻译大
 todo截图
 
 - 直接提交 GitHub Issue：[https://github.com/datalayers-io/docs-datalayers/issues/new](https://github.com/datalayers-io/docs-datalayers/issues/new)。
-
