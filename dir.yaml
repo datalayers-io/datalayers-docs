@@ -395,6 +395,9 @@
         - title_en: Log Configuration
           title_cn: 日志配置
           path: admin/configuration-fields/log
+        - title_en: Audit logs
+          title_cn: 审计日志
+          path: admin/configuration-fields/audit-logs
         - title_en: License Configuration
           title_cn: License 配置
           path: admin/configuration-fields/license
