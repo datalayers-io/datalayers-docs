@@ -28,12 +28,17 @@ max_files = 30
 kinds = "ddl,admin"
 
 # 需要记录的审计操作类型，多个操作用逗号分隔
-# 支持的操作："update", "delete", "create", "alter", "drop", "truncate", "trim", 
+# 支持的操作："select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim", 
 # "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke", 
 # "flush", "cluster", "migrate", "compact", "export", "misc",
 # 特殊值："all" 表示记录所有操作
 # 默认值："all"
 actions = "all"
+
+# 要排除记录的审计操作类型，多个操作用逗号分隔
+# 支持的操作和 actions 相同
+# 默认值："select,insert"
+excludes = "select,insert"
 ```
 
 ## 配置说明
@@ -43,14 +48,19 @@ actions = "all"
 - **max_files**: 控制日志文件轮转数量，避免磁盘空间过度占用
 - **kinds**: 精细化控制需要记录的日志类型，减少不必要的日志记录
 - **actions**: 根据实际安全需求，选择需要审计的具体数据库操作
-- 同时满足 **kinds** 和 **actions** 条件的日志才会被记录
+- **excludes**: 根据实际安全需求，选择排除不需要记录的操作类型
+- 同时满足 **kinds** 和 **actions** 且不在 **excludes** 条件的日志才会被记录
 
 ## 操作约束
 
 | 操作              | kind    |  action |
 |-------------------|---------|---------|
-| UPDATE            | write   | update |
-| DELETE            | write   | delete |
+| INSERT            | dml     | insert |
+| UPDATE            | dml     | update |
+| DELETE            | dml     | delete |
+| SELECT            | dql     | select |
+| DESC TABLE        | dql     | desc |
+| SHOW              | dql     | show |
 | CREATE ROLE       | admin   | create_user |
 | CREATE USER       | admin   | create_user |
 | DROP ROLE         | admin   | drop_user |
@@ -75,8 +85,6 @@ actions = "all"
 | DROP NODE         | admin   | cluster |
 | REBALANCE         | admin   | migrate |
 | STOP MIGRATION    | admin   | migrate |
-| DESC TABLE        | dql     | desc |
-| SHOW              | dql     | show |
 
 ## 注意事项
 
