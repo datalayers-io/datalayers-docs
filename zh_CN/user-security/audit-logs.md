@@ -40,8 +40,8 @@ Datalayers 采用事件开始前记录审计日志的方式，审计日志的记
 | DROP NODE         | admin   | cluster |
 | REBALANCE         | admin   | migrate |
 | STOP MIGRATION    | admin   | migrate |
-| DESC TABLE        | admin   | desc |
-| SHOW              | admin   | show |
+| DESC TABLE        | dql     | desc |
+| SHOW              | dql     | show |
 
 
 ::: tip

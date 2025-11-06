@@ -22,7 +22,7 @@ path = "audit"
 max_files = 30
 
 # 需要记录的审计日志类型，多个类型用逗号分隔
-# 支持的类型："read", "write", "ddl", "admin", "misc"
+# 支持的类型："read", "write", "ddl", "dql", "admin", "misc"
 # 特殊值："all" 表示记录所有类型
 # 默认值："ddl,admin"
 kinds = "ddl,admin"
