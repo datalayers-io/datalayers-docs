@@ -1,48 +1,52 @@
 # 审计日志
 
-Datalayers 提供数据库操作审计能力，可记录用户对数据库的查询、修改等操作。审计日志以文件形式存储，便于后续查询与分析。
+Datalayers 提供数据库操作审计能力，可记录用户对数据库的查询、修改等操作。审计日志以文件形式存储，每条记录采用 `JSON` 格式，便于后续查询与分析。
+
+::: tip
+Datalayers 采用事件开始前记录审计日志的方式，审计日志的记录数有可能多于实际操作完成数。
+:::
 
 ## 开启审计日志
 
-审计日志功能默认关闭，需要在配置文件中进行启用和配置：
+审计日志功能默认关闭，需要在配置文件中进行启用和配置，配置方法可参考 [配置审计日志](../admin/configuration-fields/audit-logs.md)
 
-```toml
-# 审计日志配置
-[audit]
-# 是否启用审计日志功能
-# 默认值：false
-enable = true
+## 各操作的审计约束
 
-# 审计日志文件存储目录
-# 路径相对于 `base_dir` 配置项
-# 默认值："audit"
-path = "audit"
+| 操作              | kind    |  action |
+|-------------------|---------|---------|
+| UPDATE            | write   | update |
+| DELETE            | write   | delete |
+| CREATE ROLE       | admin   | create_user |
+| CREATE USER       | admin   | create_user |
+| DROP ROLE         | admin   | drop_user |
+| DROP USER         | admin   | drop_user |
+| GRANT             | admin   | grant |
+| REVOKE            | admin   | revoke |
+| SET PASSWORD      | admin   | set_password |
+| CREATE DATABASE   | ddl     | create |
+| DROP DATABASE     | ddl     | drop |
+| TRIM DATABASE     | ddl     | trim |
+| CREATE TABLE      | ddl     | create |
+| DROP TABLE        | ddl     | drop |
+| ALTER TABLE       | ddl     | alter |
+| TRUNCATE TABLE    | ddl     | truncate |
+| CREATE INDEX      | ddl     | alter |
+| DROP INDEX        | ddl     | alter |
+| FLUSH             | admin   | flush |
+| COMPACT           | admin   | compact |
+| EXPORT            | admin   | export |
+| EXCLUDE NODE      | admin   | cluster |
+| INCLUDE NODE      | admin   | cluster |
+| DROP NODE         | admin   | cluster |
+| REBALANCE         | admin   | migrate |
+| STOP MIGRATION    | admin   | migrate |
+| DESC TABLE        | admin   | desc |
+| SHOW              | admin   | show |
 
-# 审计日志文件最大保留数量
-# 系统每日生成新的日志文件
-# 默认值：30
-max_files = 30
 
-# 需要记录的审计日志类型，多个类型用逗号分隔
-# 支持的类型："read"（查询操作）
-# 特殊值："all" 表示记录所有类型
-# 默认值："ddl,admin"
-kinds = "ddl,admin"
-
-# 需要记录的审计操作类型，多个操作用逗号分隔
-# 支持的操作："select"（查询）、"update"（更新）等
-# 特殊值："all" 表示记录所有操作
-# 默认值："all"
-actions = "all"
-```
-
-## 配置说明
-
-- **enable**: 设置为 true 以启用审计日志功能
-- **path**: 指定日志存储路径，支持相对路径（基于 base_dir）或绝对路径
-- **max_files**: 控制日志文件轮转数量，避免磁盘空间过度占用
-- **kinds**: 精细化控制需要记录的日志类型，减少不必要的日志记录
-- **actions**: 根据实际安全需求，选择需要审计的具体数据库操作
+::: tip
+目前不支持对 SELECT 和 INSERT 语句的审计。
+:::
 
 ## 查看审计日志
 

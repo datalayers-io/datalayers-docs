@@ -2,9 +2,7 @@
 
 Datalayers 提供数据库操作审计能力，可记录用户对数据库的查询、修改等操作。审计日志以文件形式存储，便于后续查询与分析。
 
-## 开启审计日志
-
-审计日志功能默认关闭，需要在配置文件中进行启用和配置：
+## 配置示例
 
 ```toml
 # 审计日志配置
@@ -24,13 +22,15 @@ path = "audit"
 max_files = 30
 
 # 需要记录的审计日志类型，多个类型用逗号分隔
-# 支持的类型："read"（查询操作）
+# 支持的类型："read", "write", "ddl", "admin", "misc"
 # 特殊值："all" 表示记录所有类型
 # 默认值："ddl,admin"
 kinds = "ddl,admin"
 
 # 需要记录的审计操作类型，多个操作用逗号分隔
-# 支持的操作："select"（查询）、"update"（更新）等
+# 支持的操作："update", "delete", "create", "alter", "drop", "truncate", "trim", 
+# "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke", 
+# "flush", "cluster", "migrate", "compact", "export", "misc",
 # 特殊值："all" 表示记录所有操作
 # 默认值："all"
 actions = "all"
@@ -43,15 +43,4 @@ actions = "all"
 - **max_files**: 控制日志文件轮转数量，避免磁盘空间过度占用
 - **kinds**: 精细化控制需要记录的日志类型，减少不必要的日志记录
 - **actions**: 根据实际安全需求，选择需要审计的具体数据库操作
-
-## 查看审计日志
-
-审计日志文件默认存储在以下目录：
-
-``` text
-/var/lib/datalayers/audit
-```
-
-您可以通过查看该目录下的日志文件来获取详细的审计信息。系统会按日期自动分割日志文件，便于管理和查询。
-
-在生产环境中，建议根据实际安全合规要求，合理配置 kinds 和 actions 参数，平衡审计需求与系统性能。
+- 同时满足 **kinds** 和 **actions** 条件的日志才会被记录
