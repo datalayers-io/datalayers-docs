@@ -16,8 +16,8 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | ----------------------------------------------------- | --------- | --------------------------------------------------------- |
 | **datalayers_system_memory_usage**                    | gauge     | <span style="color:red">*</span> Datalayers 节点系统内存使用量，建议峰值负载不高于 60%       |
 | **datalayers_memory_usage**                           | gauge     | <span style="color:red">*</span> Datalayers 进程内存占用，建议峰值时不高于系统总内存的 60%   |
-| **datalayers_cpu_usage**                              | gauge     | <span style="color:red">*</span> Datalayers 进程 CPU 使用率，峰值不高于 60%                |
-| **datalayers_system_cpu_usage**                       | gauge     | <span style="color:red">*</span> Datalayers 节点系统整体 CPU 使用率，峰值是不高于 60%       |
+| **datalayers_cpu_usage**                              | gauge     | <span style="color:red">*</span> Datalayers 进程 CPU 使用率，建议峰值时不高于 60%                |
+| **datalayers_system_cpu_usage**                       | gauge     | <span style="color:red">*</span> Datalayers 节点系统整体 CPU 使用率，建议峰值时不高于 60%       |
 | datalayers_system_memory_total                        | gauge     | Datalayers 节点系统总内存                                  |
 | datalayers_cpu_total                                  | gauge     | Datalayers 节点 CPU core 数量                              |
 | datalayers_ingest_rows_total                          | counter   | Datalayers 写入的行数                                     |
