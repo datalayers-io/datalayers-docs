@@ -44,3 +44,41 @@ actions = "all"
 - **kinds**: 精细化控制需要记录的日志类型，减少不必要的日志记录
 - **actions**: 根据实际安全需求，选择需要审计的具体数据库操作
 - 同时满足 **kinds** 和 **actions** 条件的日志才会被记录
+
+## 操作约束
+
+| 操作              | kind    |  action |
+|-------------------|---------|---------|
+| UPDATE            | write   | update |
+| DELETE            | write   | delete |
+| CREATE ROLE       | admin   | create_user |
+| CREATE USER       | admin   | create_user |
+| DROP ROLE         | admin   | drop_user |
+| DROP USER         | admin   | drop_user |
+| GRANT             | admin   | grant |
+| REVOKE            | admin   | revoke |
+| SET PASSWORD      | admin   | set_password |
+| CREATE DATABASE   | ddl     | create |
+| DROP DATABASE     | ddl     | drop |
+| TRIM DATABASE     | ddl     | trim |
+| CREATE TABLE      | ddl     | create |
+| DROP TABLE        | ddl     | drop |
+| ALTER TABLE       | ddl     | alter |
+| TRUNCATE TABLE    | ddl     | truncate |
+| CREATE INDEX      | ddl     | alter |
+| DROP INDEX        | ddl     | alter |
+| FLUSH             | admin   | flush |
+| COMPACT           | admin   | compact |
+| EXPORT            | admin   | export |
+| EXCLUDE NODE      | admin   | cluster |
+| INCLUDE NODE      | admin   | cluster |
+| DROP NODE         | admin   | cluster |
+| REBALANCE         | admin   | migrate |
+| STOP MIGRATION    | admin   | migrate |
+| DESC TABLE        | dql     | desc |
+| SHOW              | dql     | show |
+
+## 注意事项
+
+- 目前不支持对 SELECT 和 INSERT 语句的审计。
+- Datalayers 采用事件开始前记录审计日志的方式，审计日志的记录数有可能多于实际操作完成数。
