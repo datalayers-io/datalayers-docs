@@ -83,7 +83,7 @@ jwt_secret = "87212c3d906df71e9c6289fbd456d917"
 # Key-Value 服务仅在集群模式下才能工作.
 # 默认情况下不启动 Key-Value 服务.
 # Default: "".
-# addr = "0.0.0.0:8362"
+# addr = "0.0.0.0:6379"
 
 # The username.
 # Default: "admin".

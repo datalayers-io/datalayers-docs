@@ -14,7 +14,7 @@ Datalayers 中的键值存储服务默认处于禁用状态，通过以下配置
 # Users can start this service only when Datalayers server starts in cluster mode.
 # Do not support redis service by default.
 # Default: "".
-addr = "0.0.0.0:8362"
+addr = "0.0.0.0:6379"
 
 # The username.
 # Default: "admin".
