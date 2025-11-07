@@ -2,6 +2,10 @@
 
 Prometheus 兼容 Prometheus 的 PromQL 与 Remote Write 协议。
 
-## 功能差异
+## 配置
 
-## 区别与限制
+## Remote Write
+
+## PromQL
+
+## 注意事项
