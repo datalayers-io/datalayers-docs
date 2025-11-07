@@ -8,7 +8,7 @@ Datalayers 提供标准的 HTTP 协议接口，支持通过简单的 RESTful 请
 
 ## 认证方式
 
-Datalayers REST API 默认使用 `HTTP BASIC` 认证 认证方式，认证凭据通过 HTTP 头部传递。帐户信息参考：[认证与权限](../user-security/authentication/overview.md)
+Datalayers REST API 默认使用 `HTTP BASIC` 认证 认证方式，认证凭据通过 HTTP 头部传递。帐户信息参考：[认证与权限](../../user-security/authentication/overview.md)
 
 
 ## 基本用法
