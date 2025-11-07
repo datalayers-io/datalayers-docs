@@ -91,6 +91,9 @@
         - title_en: InfluxDB Line Protocol
           title_cn: InfluxDB Line Protocol
           path: development-guide/writing-with-influxdb-line-protocol
+        - title_en: Redis Protocol
+          title_cn: Redis 协议
+          path: development-guide/redis
     - title_en: Table design best practices
       title_cn:  数据表设计
       path: development-guide/table-design/overview
