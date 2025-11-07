@@ -45,7 +45,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 | -------------                        | -----------------------       | --------------------| -------------------  |
 | **Arrow Flight SQL 高速传输协议**     | 高性能写入、查询与大数据量传输   | 完整读写            | 完整功能              |
 | **PostgreSQL 连接协议**              | PostgreSQL 生态集成             | 完整读写            | 完整功能               |
-| **Prometheus 连接协议**              | Prometheus 生态集成             | 完整读写            | Prometheus 为单值模型，使用上存在细微差异  |
+| **Prometheus 协议**                 | Prometheus 生态集成             | 完整读写            | Prometheus 为单值模型，使用上存在细微差异  |
 | **REST API**                         | HTTP 集成、简单查询             | 完整读写            | 完整读写              |
 | **InfluxDB 行协议**                  | 替换 InfluxDB 场景              | 仅支持写入          | 仅支持写入             |
 
