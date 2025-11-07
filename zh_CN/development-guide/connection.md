@@ -4,6 +4,11 @@
 
 Datalayers 提供多种协议支持，满足不同场景下的数据库连接和交互需求。用户可根据性能要求、开发生态和集成复杂度等因素选择合适的连接协议。
 
+## 认证
+
+Datalayers 支持多种认证机制与细粒度的权限控制，默认为静态认证，初始帐号密码为：`admin/public`。  
+更多介绍参考 [连接认证与权限](../user-security/authentication/overview.md)
+
 ## 支持的协议
 
 ### Arrow Flight SQL（推荐用于高性能场景）
