@@ -4,7 +4,7 @@
 
 Datalayers 提供多种协议支持，满足不同场景下的数据库连接和交互需求。用户可根据性能要求、开发生态和集成复杂度等因素选择合适的连接协议。
 
-## 认证
+## 用户与权限
 
 Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态认证，初始帐号密码为：`admin/public`。  
 更多介绍参考 [连接认证与权限](../user-security/authentication/overview.md)
@@ -39,6 +39,11 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 - **使用限制**：该协议仅支持数据写入操作
 - **适用场景**：InfluxDB 兼容的时序数据摄入
 
+### Redis 协议
+
+- **兼容性**：完全兼容 Redis 协议
+- **适用场景**：分布式、海量键值存储需求
+
 ## 协议选择建议
 
 | 特性                                 |  适用场景                       |  功能支持           | 备注                 |
@@ -48,6 +53,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 | **Prometheus 协议**                 | Prometheus 生态集成             | 完整读写            | Prometheus 为单值模型，使用上存在细微差异  |
 | **REST API**                         | HTTP 集成、简单查询             | 完整读写            | 完整读写              |
 | **InfluxDB 行协议**                  | 替换 InfluxDB 场景              | 仅支持写入          | 仅支持写入             |
+| **Redis 协议**                      | 键值存储场景                     | 完整读写            | 仅支持 key-value 操作             |
 
 ## 推荐选择
 
@@ -55,4 +61,5 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 - 如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布
 - 如需使用现有 Prometheus 工具链，可使用 Prometheus 协议
 - 如需使用现有 InfluxDB 工具链写入，可使用 InfluxDB 行协议
+- 键值存储需求场景，可使用 Redis 协议接入
 - 如上述相关协议均不能满足的情况，可使用 REST API 协议
