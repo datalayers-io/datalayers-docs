@@ -63,6 +63,12 @@
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL 
           path: development-guide/arrow-flight-sql
+        - title_en: PostgreSQL Protocol
+          title_cn: PostgreSQL 协议
+          path: development-guide/postgresql/overview
+        - title_en: Prometheus Protocol
+          title_cn: Prometheus 协议
+          path: development-guide/prometheus/overview
         - title_en: REST API
           title_cn: REST API
           collapsed: true

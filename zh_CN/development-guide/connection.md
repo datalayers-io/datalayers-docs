@@ -36,12 +36,18 @@ Datalayers 提供多种协议支持，满足不同场景下的数据库连接和
 
 ## 协议选择建议
 
-| 特性                                 |  适用场景                       |  功能支持           |
-| -------------                        | -----------------------       | --------------------|
-| **Arrow Flight SQL 高速传输协议**     | 高性能写入、查询与大数据量传输   | 完整读写            |
-| **PostgreSQL 连接协议**              | PostgreSQL 生态集成             | 完整读写            |
-| **Prometheus 连协议**                | Prometheus 生态集成             | 完整读写            |
-| **REST API**                         | HTTP 集成、简单查询             | 完整读写            |
-| **InfluxDB 行协议**                  | 替换 InfluxDB 场景              | 仅支持写入           |
+| 特性                                 |  适用场景                       |  功能支持           | 备注                 |
+| -------------                        | -----------------------       | --------------------| -------------------  |
+| **Arrow Flight SQL 高速传输协议**     | 高性能写入、查询与大数据量传输   | 完整读写            | 完整功能              |
+| **PostgreSQL 连接协议**              | PostgreSQL 生态集成             | 完整读写            | 完整功能               |
+| **Prometheus 连接协议**              | Prometheus 生态集成             | 完整读写            | Prometheus 为单值模型，使用上存在细微差异  |
+| **REST API**                         | HTTP 集成、简单查询             | 完整读写            | 完整读写              |
+| **InfluxDB 行协议**                  | 替换 InfluxDB 场景              | 仅支持写入          | 仅支持写入             |
 
-**推荐选择**：对于性能敏感的生产环境，建议优先考虑 Arrow Flight SQL 协议；如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布。
+## 推荐选择
+
+- 对于性能敏感的生产环境，建议优先考虑 Arrow Flight SQL 协议
+- 如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布
+- 如需使用现有 Prometheus 工具链，可使用 Prometheus 协议
+- 如需使用现有 InfluxDB 工具链写入，可使用 InfluxDB 行协议
+- 如上述相关协议均不能满足的情况，可使用 REST API 协议
