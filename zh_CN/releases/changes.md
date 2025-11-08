@@ -6,7 +6,7 @@
 
 ### 新功能
 
-- **RBAC 访问控制**：新增[基于角色的访问控制](../user-security/rbac/overview.md)功能，实现更精细化的权限管理。
+- **RBAC 访问控制**：新增[基于角色的访问控制](../user-security/rbac/overview.md)功能，实现细粒度的权限控制。
 - **Prometheus 增强**：支持 Prometheus Remote Write 协议，可通过该协议直接写入数据。
 - **向量索引**：新增多种[向量索引](../vector-search/vector-index.md)类型的支持，提升检索效率与灵活性。
 - **用户认证**：新增 peer认证 机制，支持用户初始化及密码重置等功能。
