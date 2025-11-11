@@ -5,17 +5,22 @@
 dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
 
 ## 连接数据库
+
 Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
 > 在静态认证的模式下（默认为静态认证），Datalayers 提供了一个默认账号，其用户名/密码为: `admin/public`
+
 ``` bash
 dlsql -h 127.0.0.1 -u admin -p public
 ```
+
 参数说明：
+
 - `-h`参数用于指定服务器地址；
 - `-u`参数用于指定用户名；
 - `-p`参数用于指定用户对应的密码；
 
 以下是使用 dlsql 来连接 Datalayers 数据库的简单实例：
+
 ``` bash
 dlsql -h 127.0.0.1 -u admin -p public
 ```
@@ -67,6 +72,7 @@ CREATE TABLE sensor_info (
 > Datalayers 支持更多[数据类型](../sql-reference/data-type.md)以及[表配置](../sql-reference/table-engine/timeseries.md)。
 
 ## 写入数据
+
 可以执行以下命令写入一些示例数据：
 
 ``` sql
@@ -80,7 +86,9 @@ INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('10
 ``` sql
 use demo;
 ```
+
 以下是一些查询操作示例：
+
 - 查询表中记录总条数：
 
 ``` sql
@@ -98,7 +106,6 @@ SELECT AVG(speed) FROM sensor_info;
 ``` sql
 SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sensor_info group by timepoint;
 ```
-
 
 ## 其他常见操作
 
@@ -131,6 +138,7 @@ DROP TABLE sensor_info;
 ``` sql
 DROP DATABASE demo;
 ```
+
 **注：删除数据库，需要先删除所有表。**
 
 ## 退出

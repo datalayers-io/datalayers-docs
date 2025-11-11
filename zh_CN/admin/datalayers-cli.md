@@ -7,6 +7,7 @@ Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的
 **基本连接方式**
 
 在终端中执行以下命令进入交互式界面：
+
 ```shell
 dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
@@ -27,12 +28,12 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 | --max-display-rows |          | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
 | --help             |          | show this help, then exit                                                                          |
 
-
 ## 管理工具
 
 Datalayers 通过 Peer 认证提供本地账户管理功能。该机制基于 Unix Domain Socket 进行进程间认证，仅限服务器本地访问。使用该功能时需确保服务端已经启用 peer 服务。
 
-**启用 Peer 服务**
+### 启用 Peer 服务
+
 ```toml
 [server]
 # The unix socket file of peer server.
@@ -40,13 +41,13 @@ Datalayers 通过 Peer 认证提供本地账户管理功能。该机制基于 Un
 # Default: ""
 peer_addr = "run/datalayers.sock"
 ```
-配置后需要重启 Datalayers 服务生效。
 
-**管理命令使用**
+**注**：配置后需要重启 Datalayers 服务生效。
+
+### 管理命令使用
 
 通过默认 host 或指定 Unix Socket 文件路径连接 Datalayers 服务器，可以进入控制台进行高权限操作：
+
 ```shell
-dlsql
-# 或者
-dlsql -h /var/lib/datalayers/run/datalayers.sock
+sudo -u datalayers dlsql
 ```

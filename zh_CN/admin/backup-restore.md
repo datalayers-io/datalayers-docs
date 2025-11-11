@@ -1,9 +1,11 @@
 # 数据备份与恢复
 
 ## 概述
+
 数据库备份和恢复的目的是为了保护数据安全，防止数据丢失或损坏。通过定期备份，能够在系统故障、硬件损坏或人为错误时，将数据库恢复到最近的可用状态，确保业务连续性和数据完整性。本章节主要介绍数据备份与恢复功能。
 
 ## 工具使用说明
+
 `dldump` 工具提供了丰富的选项以供配置，您可以通过执行 `dldump --help` 以查看 `dldump` 的所有子命令和选项。此处对一些重要的选项进行说明：
 
 | 参数                | <div style="width:40px">简写</div>     | 描述                                                                                                                         |
@@ -25,17 +27,21 @@
 | --help             |                                        | show this help, then exit                                                                                                    |
 
 ## 备份与恢复
+
 以下通过一个示例来介绍 **dldump** 工具的使用。这个示例首先为单机版 Datalayers 写入一些数据，然后使用 **dldump** 将数据导出到备份目录；再创建一个新的 Datalayers 实例，从备份目录加载数据并写入到新的 Datalayers 实例；最后使用 **dlsql** 工具查询新的 Datalayers 实例，以验证成功执行了备份与恢复。
 
 为方便叙述，本文将被备份的 Datalayers 实例称为 1 号节点，将被恢复的 Datalayers 实例称为 2 号节点。
 
 ### 准备工作
+
 启动 1 号节点：
+
 ``` shell
 datalayers standalone -c datalayers.toml
 ```
 
 使用 `dlsql` 工具创建数据库 `test`、表 `device`、以及往 `device` 表写入一些数据，对应的 SQL 及输出如下：
+
 ``` sql
 > CREATE DATABASE test; 
 Query OK, 0 rows affected. (0.001 sec)
@@ -66,40 +72,52 @@ Query OK, 10 rows affected. (0.002 sec)
 ```
 
 ### 数据备份
+
 执行数据备份：
+
 ``` shell
 dldump -h localhost -P 8360 -d test -o /tmp/datalayers/backup
 ```
+
 该命令将 1 号节点的数据导出到指定的 `/tmp/datalayers/backup` 目录。
 
 备份完成后，`/tmp/datalayers/backup` 目录将会有如下的层次结构：
-```
+
+```text
 backup
   - test
     - create.sql
     - device_0.parquet
 ```
+
 根据 `dldump` 工具的设计，每个数据库会有一个独立的备份目录，这个目录会以数据库的名称命名。例如，`test` 数据库对应一个同名的 `test` 目录。数据库目录下存在一个 `create.sql` 文件，它里面包含了这个数据库的建库语句和每个表的建表语句。数据库目录下的其他文件则为表数据文件。表数据文件的命名规则是 `<table_name>_<sequence>.parquet`，`table_name` 为表名，如示例中的 `device` 表；`sequence` 表示该数据文件为这张表的第几个数据文件，`dldump` 会根据数据导出时的顺序对数据文件进行排序。
 
 > **注**：如果您开启了文件系统的“显示隐藏文件和目录”的选项，那么您还会在 `test` 目录下发现 `.schema` 文件。为了保证数据恢复时的 schema 与备份时的一致，`dldump` 在备份时会将所有表的 schema 统一编码到 `.schema` 文件中，在恢复时再从中解码出 schema。
 
 ### 数据恢复
+
 启动 2 号节点：
+
 ``` shell
 datalayers standalone -c datalayers.toml
 ```
+
 请注意，您需要对配置文件 `datalayers.toml` 做必要的修改。一方面，2 号节点使用的数据目录 `storage.local.path` 必须与 1 号节点不同，否则会导致恢复失败。另一方面，如果 1 号节点没有关闭，那么您需要改动 2 号节点使用的 SQL 服务端口 `server.port` 和 HTTP 服务端口 `server.http_port`，以确保其能够成功启动。
 
 执行数据恢复：
+
 ``` shell
 dldump -h localhost -P 8360 -i /tmp/datalayers/backup
 ```
+
 该命令将从 `/tmp/datalayers/backup` 路径加载备份文件，并将数据写入到 2 号节点中。待该命令执行完成后，便完成了数据恢复。
 
 ### 验证数据
+
 使用 `dlsql` 工具对 2 号节点执行查询，以验证恢复数据的完整性。
 
 验证 `test` 数据库被成功恢复：
+
 ``` sql
 > SHOW DATABASES;
 +--------------------+---------------------------+
@@ -110,9 +128,11 @@ dldump -h localhost -P 8360 -i /tmp/datalayers/backup
 +--------------------+---------------------------+
 2 rows in set (0.003 sec)
 ```
+
 > **注**：`information_schema` 是每个 Datalayers 实例自动生成的系统表组成的数据库，默认不会备份和恢复它。
 
 验证 `test` 数据库的 `device` 表被成功恢复：
+
 ``` sql
 > USE test;
 Database changed to `test`
@@ -127,6 +147,7 @@ test> SHOW TABLES;
 ```
 
 验证 `device` 表的所有数据被成功恢复：
+
 ``` sql
 test> SELECT * FROM device; 
 +---------------------------+-----+-------+------+
