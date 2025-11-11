@@ -1,6 +1,7 @@
 # 向量索引技术指南
 
 ## 概述
+
 向量索引是加速大规模向量数据集检索的关键技术。Datalayers 支持多种向量索引类型，通过三层式架构实现高效的近似最近邻搜索。
 使用向量索引会带来额外的构建索引开销、检索开销，同时可能会降低召回率（recall），因此需要根据具体场景选择合适的索引、以及配置合适的参数。
 
@@ -53,6 +54,27 @@ Vector Store 是向量的存储抽象。为了节省存储空间，我们支持�
 - PQ 指 Product Quantization，即乘积量化。
 - SQ 指 Scalar Quantization，即标量量化。
 - RQ 指 RaBit Quantization。
+
+## 语法
+
+Datalayers 支持在建表时为向量列指定向量索引，语法为：
+
+``` sql
+VECTOR INDEX <index_name>(<vector_col_name>) [ WITH (<vector_index_options>) ]
+```
+
+例如，在创建表 `t` 时，给 `embed` 向量列指定一个向量索引，命名为 `my_vector_index`，同时将其类型设置为 `IVF_PQ`，距离函数设置为 `L2`。
+
+``` sql
+CREATE TABLE `t` (
+    `ts` TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `sid` INT32 NOT NULL,
+    `embed` VECTOR(64),
+    TIMESTAMP KEY(`ts`),
+    VECTOR INDEX `my_vector_index`(`embed`) WITH (TYPE=IVF_PQ, DISTANCE=L2)
+) 
+PARTITION BY HASH (`sid`) PARTITIONS 1
+```
 
 ## 示例
 
