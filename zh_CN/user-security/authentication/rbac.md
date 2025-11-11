@@ -39,7 +39,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 ## 初始化用户
 
-安装 Datalayers 后，首次使用 rbac 认证模式启动时，系统默认没有预置管理员账户。您需要手动初始化第一个管理员账户。本文提供两种初始化方法。
+安装 Datalayers 后，首次使用 rbac 认证模式启动时，系统默认没有预置管理员账户。需要手动初始化第一个管理员账户。本文提供两种初始化方法。
 
 ### 基于 Peer 认证初始化
 
@@ -69,9 +69,9 @@ peer_addr = "run/datalayers.sock"
 2. 执行初始化指令
 
 ```shell
-dlsql -e "CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'"
-dlsql -e "GRANT SUPER ON *.* TO 'admin'@'%'"
-
+# 以 deb/rpm 安装方式为例
+sudo -u datalayers dlsql -e "CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'"
+sudo -u datalayers dlsql -e "GRANT SUPER ON *.* TO 'admin'@'%'"
 ```
 
 通过上述命令即可创建一个用户名为 admin、密码为 public，可从任意 IP 地址登录的管理员账户。
