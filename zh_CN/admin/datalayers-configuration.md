@@ -38,11 +38,6 @@ addr = "0.0.0.0:8360"
 # Default: "0.0.0.0:8361".
 http = "0.0.0.0:8361"
 
-# The unix socket file of peer server.
-# Don't support peer server by default.
-# Default: ""
-# peer_addr = "run/datalayers.sock"
-
 # A session is regarded timeout if it's not active in the past `session_timeout` duration.
 # Default: "10s".
 session_timeout = "10s"
@@ -94,6 +89,13 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # 0/-/- means no lockout.
 # Default: "0/0/0"
 #password_lockout = "3/5/5"
+
+# The configurations of the unix domain socket server.
+[server.uds]
+# The path of the unix domain socket, relative to `base_dir`.
+# DONOT configure this options means do not support uds server by default.
+# Recommend: "run/datalayers.sock"
+# path = "run/datalayers.sock"
 
 # The configurations of the Redis service.
 [server.redis]

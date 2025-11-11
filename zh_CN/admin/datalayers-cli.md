@@ -19,11 +19,12 @@ Linux 的 Peer 认证（Peer Credentials Authentication）是基于内核级别�
 Datalayers 集成 Peer 认证能力，为数据库账号管理提供安全便捷的解决方案，通过 Peer 认证的连接，将获得系统最高权限。使用 Peer 认证需依赖 `Unix Socket` 服务，因此需确保该服务已启用，如下：
 
 ```toml
-[server]
-# The unix socket file of peer server.
-# Don't support peer server by default.
-# Default: ""
-peer_addr = "run/datalayers.sock"
+# The configurations of the unix domain socket server.
+[server.uds]
+# The path of the unix domain socket, relative to `base_dir`.
+# DONOT configure this options means do not support uds server by default.
+# Recommend: "run/datalayers.sock"
+path = "run/datalayers.sock"
 ```
 
 通过以下命令即可进入交互终端：

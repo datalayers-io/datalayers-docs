@@ -57,11 +57,12 @@ Datalayers 集成 Peer 认证能力，为数据库账号管理提供安全便捷
 1. 配置 peer 服务（默认未启用）
 
 ```toml
-[server]
-# The unix socket file of peer server.
-# Don't support peer server by default.
-# Default: ""
-peer_addr = "run/datalayers.sock"
+# The configurations of the unix domain socket server.
+[server.uds]
+# The path of the unix domain socket, relative to `base_dir`.
+# DONOT configure this options means do not support uds server by default.
+# Recommend: "run/datalayers.sock"
+path = "run/datalayers.sock"
 ```
 
 配置好后需重启服务
