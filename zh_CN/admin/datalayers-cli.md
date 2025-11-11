@@ -15,7 +15,7 @@ dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 
 | 参数                | 简写     | 描述                                                                                                |
 | ----------         | -------  | ----------------------------------------------------------------------------------------------    |
-| --host             | -h       | 设置连接 Datalayers 服务器地址, 默认:127.0.0.1                                                         |
+| --host             | -h       | 设置连接 Datalayers 服务器地址, 默认为本地路径通过 Unix Socket 方式连接: /var/lib/datalayers/run/datalayers.sock |
 | --username         | -u       | 设置连接 Datalayers 使用的用户名                                                                      |
 | --password         | -p       | 设置连接 Datalayers 使用的密码                                                                        |
 | --port             | -P       | 设置连接 Datalayers 的端口                                                                           |
@@ -44,26 +44,9 @@ peer_addr = "run/datalayers.sock"
 
 **管理命令使用**
 
-通过执行以下指令，查看相应功能说明：
+通过默认 host 或指定 Unix Socket 文件路径连接 Datalayers 服务器，可以进入控制台进行高权限操作：
 ```shell
-dlsql admin --help
-```
-
-**子命令说明**
-
-| 子命令             |  描述                                                     |
-| ----------        |  ------------------------------------------------------    |
-| init-root         |  初始化管理员帐号，详细参数可通过 --help 查看                 |
-| list-user         |  列出系统的帐号信息，详细参数可通过 --help 查看               |
-| reset-password    |  重置指定帐号的密码，详细参数可通过 --help 查看               |
-
-**详细帮助查看**
-
-```shell
-# 查看 init-root 的参数说明
-dlsql admin init-root --help
-# 查看 list-user 的参数说明
-dlsql admin list-user --help
-# 查看 reset-password 的参数说明
-dlsql admin reset-password --help
+dlsql
+# 或者
+dlsql -h /var/lib/datalayers/run/datalayers.sock
 ```

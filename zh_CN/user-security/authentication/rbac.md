@@ -64,11 +64,13 @@ peer_addr = "run/datalayers.sock"
 
 2. 执行初始化指令
 ```shell
-dlsql admin init-root --user admin@% --password public
+dlsql -e "CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'"
+dlsql -e "GRANT SUPER ON *.* TO 'admin'@'%'"
 
-# 更多指令可通过 dlsql admin --help 查看
 ```
-通过上术命令即可创建一个用户名为 admin、密码为 public，可从任意 IP 地址登录的管理员账户。
+通过上述命令即可创建一个用户名为 admin、密码为 public，可从任意 IP 地址登录的管理员账户。
+
+通过 `dlsql` 指令进入控制台，执行上面的语句也可以创建管理员账户。
 
 **注意事项**
 - Peer 认证仅限本地访问，确保操作在服务器本地执行

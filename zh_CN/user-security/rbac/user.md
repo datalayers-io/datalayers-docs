@@ -28,13 +28,13 @@ CREATE USER 'alice'@'%' IDENTIFIED BY '123456';
 用户账户创建以后，可以在客户端启动时传递如下参数登录账户：
 
 ```shell
-dlsql --username xxx --password xxx
+dlsql -h 127.0.0.1 --username xxx --password xxx
 ```
 
 **示例**：
 
 ```shell
-dlsql --username alice --password 123456
+dlsql -h 127.0.0.1 --username alice --password 123456
 ```
 
 ### 密码管理
