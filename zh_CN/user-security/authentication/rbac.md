@@ -70,18 +70,23 @@ peer_addr = "run/datalayers.sock"
 
 ```shell
 # 以 deb/rpm 安装方式为例
-sudo -u datalayers dlsql -e "CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'"
-sudo -u datalayers dlsql -e "GRANT SUPER ON *.* TO 'admin'@'%'"
+sudo -u datalayers dlsql 
+> CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'
+Query OK, 0 rows affected. (0.001 sec)
+> GRANT SUPER ON *.* TO 'admin'@'%'
+Query OK, 0 rows affected. (0.001 sec)
 ```
 
 通过上述命令即可创建一个用户名为 admin、密码为 public，可从任意 IP 地址登录的管理员账户。
 
-**注意事项**：
+#### 注意事项
 
-- Peer 认证仅限本地访问，确保操作在服务器本地执行
-- 初始化完成后，可根据实际需求决定是否禁用 Unix Socket 服务
-- 如遇到连接问题，请检查 socket 文件路径权限及服务状态
-- 通过 Peer 认证的连接，将获得系统最高权限
+- **认证限制说明**
+  - 仅限本地访问：Peer 认证仅支持通过 Unix Socket 的本地连接
+- **严格的权限要求**：连接端账号必须满足以下条件之一：
+  - 具备超级管理员权限（root 用户）
+  - 用户的 GID 与数据库服务运行时的 GID 完全一致
+- **权限**：通过 Peer 认证建立的连接将获得系统级最高权限
 
 ### 基于静态认证初始化
 
