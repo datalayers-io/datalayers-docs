@@ -12,7 +12,7 @@ Datalayers CLI 支持两种连接认证方式，用户可根据实际场景选�
 dlsql -h 127.0.0.1 -u admin -p public -d sensor_info -P 8360
 ```
 
-##  基于 Peer 认证
+## 基于 Peer 认证
 
 Linux 的 Peer 认证（Peer Credentials Authentication）是基于内核级别的进程身份验证机制，通过 `Unix Domain Socket` 通信为连接方提供可靠的身份验证。
 
@@ -29,6 +29,7 @@ peer_addr = "run/datalayers.sock"
 通过以下命令即可进入交互终端：
 
 ```shell
+# 以 deb/rpm 安装场景为例
 sudo -u datalayers dlsql
 ```
 
