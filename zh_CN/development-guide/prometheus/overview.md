@@ -7,7 +7,7 @@ Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol） �
 
 - 继续使用现有的 Prometheus 数据采集配置（如 Prometheus Server、vmagent、Exporter 等），仅需调整数据写入目标，即可将监控数据推送至 Datalayers；
 - 使用 Grafana 等可视化工具直接查询 Datalayers 中的监控数据，无需重写查询语句；
-- 在不改变现有监控体系架构的前提下，逐步将 Datalayers 作为 Prometheus 的补充存储层，或直接作为 替代方案，以满足更高性能、更大规模、更优成本等需求。
+- 在不改变现有监控体系架构的前提下，逐步将 Datalayers 作为 Prometheus 的补充存储层，或直接作为替代方案，以满足更高性能、更大规模、更优成本等需求。
 
 ## 主要优势
 
@@ -28,4 +28,4 @@ Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol） �
   - Azure Blob Storage
   - Google Cloud Storage (GCS)
 
-  同时，对于兼容 S3 协议的第三方对象存储服务（如 MinIO），支持 零代码接入，帮助您以极低的成本实现监控数据的长期、安全、高效存储。
+  同时，对于兼容 S3 协议的第三方对象存储服务（如 MinIO），支持零代码接入，帮助您以极低的成本实现监控数据的长期、安全、高效存储。
