@@ -70,7 +70,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 
 ## 推荐选择
 
-- 对于性能敏感的生产环境，建议优先考虑 Arrow Flight SQL 协议
+- 对于性能敏感的生产环境，建议使用 Arrow Flight SQL 协议
 - 如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布
 - 如需使用现有 Prometheus 工具链，可使用 Prometheus 协议
 - 如需使用现有 InfluxDB 工具链写入，可使用 InfluxDB 行协议
