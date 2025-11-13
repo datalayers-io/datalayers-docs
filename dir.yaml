@@ -119,7 +119,7 @@
               path: development-guide/query-optimization/hints/index
     - title_en: Downsampling
       title_cn: 时间窗口查询
-      path: development-guide/downsampling
+      path: development-guide/time-window-aggregation-query
     - title_en: Object Storage
       title_cn: 对象存储
       path: development-guide/object-storage
