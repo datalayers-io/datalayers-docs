@@ -34,13 +34,13 @@ path = "run/datalayers.sock"
 sudo -u datalayers dlsql
 ```
 
-### Peer 认证注意事项
+**Peer 认证注意事项**：
 
 - **认证限制**
   - 仅限本地访问：Peer 认证仅支持通过 Unix Socket 的本地连接
 - **连接端权限要求**：连接端账号必须满足以下条件之一：
   - 具备超级管理员权限（root 用户）
-  - 用户的 GID 与数据库服务运行时的 GID 完全一致
+  - 用户的 UID 与数据库服务运行时的 UID 完全一致
 - **权限**：通过 Peer 认证建立的连接将获得系统级最高权限
 - 配置 `Unix Socket` 服务后，需重启 Datalayers，以确保服务生效
 
