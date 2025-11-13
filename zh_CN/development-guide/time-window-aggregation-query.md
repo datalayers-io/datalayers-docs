@@ -70,6 +70,7 @@ GROUP BY timepoint
 ```
 
 更多函数说明：
+
 - [聚合函数](../sql-reference/aggregation.md)
 - [时间与日期函数](../sql-reference/date.md)
 - [数学函数](../sql-reference/math.md)
