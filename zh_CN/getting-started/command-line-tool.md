@@ -40,13 +40,13 @@ dlsql -h <host> -P <port> -u admin -p public
 连接数据库服务后，可以执行以下命令创建一个数据库：
 
 ``` sql
-create database demo;
+> create database demo;
 ```
 
-可通过以下命令查看数据库的情况：
+可通过以下命令查看当前帐户下所有数据库：
 
 ``` sql
-show databases;
+> show databases;
 ```
 
 ## 创建表
@@ -54,7 +54,7 @@ show databases;
 首先选中要执行操作的数据库：
 
 ``` sql
-use demo;
+> use demo;
 ```
 
 接着，可以通过以下命令尝试创建数据表：
