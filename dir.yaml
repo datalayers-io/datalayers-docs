@@ -91,7 +91,7 @@
           path: development-guide/table-design/timeseries-table-design
     - title_en: High-performance writing
       title_cn:  高性能写入
-      path: development-guide/high-performance-writing
+      path: development-guide/high-performance-ingestion
     - title_en: Query Performance Tuning
       title_cn: 查询加速
       path: development-guide/query-performance-tuning-overview
