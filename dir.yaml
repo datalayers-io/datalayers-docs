@@ -346,7 +346,7 @@
       path: key-value-data-model/redis-compatibility
 
 - title_en: Prometheus
-  title_cn: Prometheus 兼容
+  title_cn: Prometheus 
   collapsed: true
   children:
     - title_en: Overview
