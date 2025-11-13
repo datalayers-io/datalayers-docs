@@ -4,7 +4,7 @@
 
 dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
 
-详细用法参考[命令行工具](../admin/datalayers-cli.md)。
+详细用法参考 [命令行工具](../admin/datalayers-cli.md)。
 
 ## 连接数据库
 
@@ -141,16 +141,10 @@ DROP TABLE sensor_info;
 DROP DATABASE demo;
 ```
 
-**注：删除数据库，需要先删除所有表。**
+**注**：删除数据库前，必须先行删除其包含的所有表。若数据库中存在表，为确保数据安全，删除操作将被系统禁止。
 
 ## 退出
 
-使用以下命令可退出交互：
+使用 `exit` 或者 `quit` 命令可退出交互终端。
 
-``` sql
-exit
-```
-
-::: tip
 更多 SQL 相关的使用，可查看 [SQL 参考](../sql-reference/data-type.md) 章节。
-:::
