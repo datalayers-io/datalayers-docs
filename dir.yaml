@@ -345,6 +345,20 @@
       title_cn: Redis 兼容性
       path: key-value-data-model/redis-compatibility
 
+- title_en: Prometheus
+  title_cn: Prometheus 兼容
+  collapsed: true
+  children:
+    - title_en: Overview
+      title_cn: 概述
+      path: prometheus/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: prometheus/quick-start
+    - title_en: PromQL Compatibility
+      title_cn: PromQL 兼容性
+      path: prometheus/promql-compatibility
+
 - title_en: Operation Guide
   title_cn: 运维指南
   collapsed: true

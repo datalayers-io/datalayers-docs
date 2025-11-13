@@ -1,0 +1,19 @@
+# PromQL 兼容性
+
+## 选择器
+
+Datalayers 支持 Instant 选择器和 Range 选择器。并且对于普通标签，Datalayers 完整支持四种匹配运算符 (`=, !=, =~, !=`)。
+
+对于特殊标签 `__name__`, `__database__`，Datalayers 目前只支持等值匹配 (`=`)，其它运算符将返回错误。
+
+Datalayers 支持 `offset` 修饰符，但不支持 `@` 修饰符。
+
+## 运算符和函数
+
+| 类型 | 支持 | 不支持 |
+| :--- | :--- | :--- |
+| **运算符** | `neg`, `add`, `sub`, `mul`, `div`, `mod`, `eq`, `ne`, `gt`, `lt`, `ssgt`, `sslt`, `sseq`, `ssne`, `slt`, `sle`, `sge`, `power`, `atan2`, `and`, `or`, `unless` | 无 |
+| **聚合** | `sum`, `avg`, `min`, `max`, `stddev`, `stdvar`, `topk`, `bottomk`, `count_values`, `count`, `quantile`, `grouping`| `limitk`, `limit_ratio` |
+| **Instant 函数** | `abs`, `ceil`, `exp`, `ln`, `log2`, `log10`, `sqrt`, `acos`, `asin`, `atan`, `sin`, `cos`, `tan`, `acosh`, `asinh`, `atanh`, `sinh`, `cosh`, `scalar`, `tanh`, `timestamp`, `sort`, `sort_desc`, `histogram_quantile`, `predict_linear`, `absent`, `sgn`, `pi`, `deg`, `rad`, `floor`, `clamp`, `clamp_max`, `clamp_min` | 其它 `histogram_<aggr>` 函数|
+| **Range 函数** | `idelta`, `<aggr>_over_time` (如 `count_over_time`, `stddev_over_time`, `stdvar_over_time`), `changes`, `delta`, `rate`, `deriv`, `increase`, `irate`, `reset` | 无 |
+| **其他函数** | `label_join`, `label_replace`, `sort_by_label`, `sort_by_label_desc` | 无 |
