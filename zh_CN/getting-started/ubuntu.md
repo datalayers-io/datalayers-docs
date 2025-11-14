@@ -139,4 +139,4 @@ sudo dpkg -P datalayers
 成功启动容器后，您可以通过以下方式体验 Datalayers：
 - 使用命[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
-- 使用 [HTTP](../development-guide/insert-with-restapi.md) 协议连接数据库进行操作
+- 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作

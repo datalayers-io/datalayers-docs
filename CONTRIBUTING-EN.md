@@ -17,13 +17,11 @@ Thank you for your contributions to Datalayers open-source project.
   - [PR automatic check](#pr-automatic-check)
   - [How to get help](#how-to-get-help)
 
-
 ## Documentation Writing Guide
 
 To ensure consistency throughout all Datalayers documentation,
 we kindly request all contributors reference our [Documentation Writing Guide](./DOCS-WRITING-GUIDE-EN.md).
 This guideline provides detailed instructions on document **directory configuration** and **Markdown writing specifications**.
-
 
 ## How to contribute
 
@@ -82,7 +80,8 @@ We recommend first-time contributors to directly use the [Online editing](#onlin
 1. Open the document repository [https://github.com/datalayers-io/docs-datalayers](https://github.com/datalayers-io/docs-datalayers) for Fork.
 
 1. Clone the forked repository into your local workspace and then go to the local directory and add the upstream repository.
-   ```
+
+   ```shell
    git remote add upstream https://github.com/datalayers-io/docs-datalayers.git
    ```
 
@@ -92,13 +91,13 @@ We recommend first-time contributors to directly use the [Online editing](#onlin
 1. Optional: Checkout a work-branch `git checkout -b my-first-pr-branch-for-datalayers-1.0`
 
 1. Edit, commit, and push the branch to your fork
-   ```
+
+   ```shell
    git commit -a -m 'docs(WHICH_DOC): fix xxxx in WHICH_DOC'
    git push origin my-first-pr-branch-for-datalayers-1.0
    ```
 
 1. Create a Pull request from your forked repository to the upstream repository.
-
 
 ## PR automatic check
 
@@ -110,6 +109,5 @@ so please follow the instructions to modify and update the PR.
 ## How to get help
 
 If you encounter any problems when contributing to the documentation, you can contact us for getting help in the following methods.
-
 
 - Submit the GitHub Issue directly: [https://github.com/datalayers-io/docs-datalayers/issues/new](https://github.com/datalayers-io/docs-datalayers/issues/new).

@@ -1,6 +1,7 @@
 # TimeSeries 时序表引擎指南
 
 ## 概述
+
 TimeSeries 表引擎是专为时序场景设计的高性能存储与计算引擎，具备高效写入、快速查询和优秀压缩比等特性。适用于车联网、工业物联网、能源监控、APM（应用性能监控）等时序数据密集场景。
 
 ## 创建表语法
@@ -31,7 +32,7 @@ PARTITION BY HASH(column_list) PARTITIONS 2
   * **BY** 根据指定列进行分区。
   * **HASH** 表示按给定列的顺序依次计算 HASH 值，并按 HASH 结果计算分区。当前仅支持 HASH 算法。
   * **column_list** 必须是`PRIMARY KEY`中除了`TIMESTAMP KEY`列以外的列的子集或者全集（如果指定了`PRIMARY KEY`）。
-  * **PARTITIONS** 表示分区数量，[合理的设置分区](../../development-guide/high-performance-writing.md#partition-数量)数量有利于提升性能。
+  * **PARTITIONS** 表示分区数量，[合理的设置分区](../../development-guide/high-performance-ingestion.md#partition-数量)数量有利于提升性能。
 * ENGINE
   指定表引擎，未指定时默认为时序引擎 TimeSeries。
 * WITH
@@ -116,7 +117,7 @@ ALTER TABLE integers MODIFY  OPTIONS ttl='10d', memtable_size='64M';
 INSERT INTO table_name (column1,column2,column3,...) VALUES (value1,value2,value3,...);
 ```
 
-**示例**
+**示例**：
 
 ```SQL
 INSERT INTO sensor_info (sn, speed, temperature) VALUES 

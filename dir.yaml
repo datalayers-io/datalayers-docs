@@ -63,28 +63,21 @@
         - title_en: Arrow Flight SQL
           title_cn: Arrow Flight SQL 
           path: development-guide/arrow-flight-sql
+        - title_en: PostgreSQL Protocol
+          title_cn: PostgreSQL 协议
+          path: development-guide/postgresql/overview
+        - title_en: Prometheus Protocol
+          title_cn: Prometheus 协议
+          path: development-guide/prometheus/overview
         - title_en: REST API
           title_cn: REST API
-          collapsed: true
-          children:
-            - title_en: Authentication
-              title_cn: 认证
-              path: development-guide/auth-with-restapi
-            - title_en: Insert
-              title_cn: 数据写入
-              path: development-guide/insert-with-restapi
-            - title_en: Query
-              title_cn: 数据查询
-              path: development-guide/query-with-restapi
-            - title_en: ERROR CODE
-              title_cn: 错误码说明
-              path: development-guide/errno-with-restapi
-            - title_en: Multi-language Access Examples
-              title_cn: 多语言接入示例
-              path: development-guide/multi-language-examples
+          path: development-guide/rest-api/overview
         - title_en: InfluxDB Line Protocol
           title_cn: InfluxDB Line Protocol
           path: development-guide/writing-with-influxdb-line-protocol
+        - title_en: Redis Protocol
+          title_cn: Redis 协议
+          path: development-guide/redis
     - title_en: Table design best practices
       title_cn:  数据表设计
       path: development-guide/table-design/overview
@@ -98,7 +91,7 @@
           path: development-guide/table-design/timeseries-table-design
     - title_en: High-performance writing
       title_cn:  高性能写入
-      path: development-guide/high-performance-writing
+      path: development-guide/high-performance-ingestion
     - title_en: Query Performance Tuning
       title_cn: 查询加速
       path: development-guide/query-performance-tuning-overview
@@ -126,7 +119,7 @@
               path: development-guide/query-optimization/hints/index
     - title_en: Downsampling
       title_cn: 时间窗口查询
-      path: development-guide/downsampling
+      path: development-guide/time-window-aggregation-query
     - title_en: Object Storage
       title_cn: 对象存储
       path: development-guide/object-storage
@@ -352,6 +345,20 @@
       title_cn: Redis 兼容性
       path: key-value-data-model/redis-compatibility
 
+- title_en: Prometheus
+  title_cn: Prometheus 
+  collapsed: true
+  children:
+    - title_en: Overview
+      title_cn: 概述
+      path: prometheus/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: prometheus/quick-start
+    - title_en: PromQL Compatibility
+      title_cn: PromQL 兼容性
+      path: prometheus/promql-compatibility
+
 - title_en: Operation Guide
   title_cn: 运维指南
   collapsed: true
@@ -395,9 +402,15 @@
         - title_en: Log Configuration
           title_cn: 日志配置
           path: admin/configuration-fields/log
+        - title_en: Audit logs
+          title_cn: 审计日志
+          path: admin/configuration-fields/audit-logs
         - title_en: License Configuration
           title_cn: License 配置
           path: admin/configuration-fields/license
+        - title_en: MCP
+          title_cn: MCP 配置
+          path: admin/configuration-fields/mcp
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
@@ -444,8 +457,8 @@
       title_cn: DBeaver
       path: integration/datalayers-with-dbeaver
 - title_en: User & Security
-  title_cn: 用户与安全
-  collapsed: false
+  title_cn: 安全与合规
+  collapsed: true
   children:
     - title_en: TLS
       title_cn: 连接加密(TLS)
@@ -481,6 +494,9 @@
         - title_en: Privileges
           title_cn: 权限管理
           path: user-security/rbac/privilege
+    - title_en: Audit Logs
+      title_cn: 审计日志
+      path: user-security/audit-logs
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true
