@@ -18,6 +18,8 @@ $$
 \text{l2\_distance}(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}
 $$
 
+注意，由于开根并不影响相似度的比较，因此为了性能考虑，Datalayers 在计算 L2 距离时省去了开根操作。
+
 语法：
 
 ```sql
@@ -39,11 +41,15 @@ SELECT * FROM t ORDER BY l2_distance(embed, [1.0, 2.0, 3.0]) LIMIT 1;
 
 ### 余弦距离函数
 
+余弦距离通常用于对向量的模不敏感的场景。
+
 计算公式为：
 
 $$
 \text{cosine\_distance}(\mathbf{x}, \mathbf{y}) = 1 - \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\|_2 \cdot \|\mathbf{y}\|_2} = 1 - \frac{\sum_{i=1}^n x_i y_i}{\sqrt{\sum_{i=1}^n x_i^2} \cdot \sqrt{\sum_{i=1}^n y_i^2}}
 $$
+
+注意，Datalayers 根据向量检索的传统，用 `1` 减去余弦距离，将余弦距离从 `[-1, 1]` 正则化到 `[0, 2]`。这使得余弦距离越小，向量相似度越高。
 
 语法：
 
@@ -55,19 +61,22 @@ cosine_distance(x, y)
 
 ### 负内积距离函数
 
-向量的内积（Dot Product，又称 Inner Product），定义为两个向量逐个元素的乘积之和。负内积，则为内积的负。之所以使用负内积，
-是因为我们希望使得所有向量距离函数，均满足距离越小、向量相似度越大的关系。
+向量的内积（Dot Product，又称 Inner Product），定义为两个向量逐个元素的乘积之和。负内积，由 `1` 减去内积所得到。
 
 计算公式为：
 
 $$
-\text{dot\_distance}(\mathbf{x}, \mathbf{y}) = -\mathbf{x} \cdot \mathbf{y} = -\sum_{i=1}^n x_i y_i
+\text{dot\_distance}(\mathbf{x}, \mathbf{y}) = 1 - \mathbf{x} \cdot \mathbf{y} = 1 - \sum_{i=1}^n x_i y_i
 $$
+
+注意，当输入为归一化的向量时，负内积距离等于正则化后的余弦距离，因此负内积距离越小，向量相似度越高。
+当输入为未归一化的向量时，负内积距离受向量的模长影响，负内积距离越大，向量相似度越高。
+建议仅针对归一化的向量使用负内积距离，以获得更好的性能。
 
 语法：
 
 ```sql
-l2_distance(x, y)
+dot_distance(x, y)
 ```
 
 示例：参考 L2 距离函数的示例。
