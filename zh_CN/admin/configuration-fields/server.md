@@ -25,11 +25,6 @@ addr = "0.0.0.0:8360"
 # Default: "0.0.0.0:8361".
 http = "0.0.0.0:8361"
 
-# The unix socket file of peer server.
-# Don't support peer server by default.
-# Default: ""
-# peer_addr = "run/datalayers.sock"
-
 # 配置 session 超时时间.
 # Default: "10s".
 session_timeout = "10s"
@@ -77,13 +72,20 @@ jwt_secret = "87212c3d906df71e9c6289fbd456d917"
 # 默认：0/0/0 表示不开启防暴力破解
 #password_lockout = "3/5/5"
 
+# The configurations of the unix domain socket server.
+[server.uds]
+# Unix Domain Socket 的文件路径，指定相对路径则是相对 `base_dir`.
+# 不配置表示不开启此服务，默认为不开启。
+# 建议配置项: "run/datalayers.sock"
+# path = "run/datalayers.sock"
+
 # The configurations of the Redis service.
 [server.redis]
 # 配置 Key-Value 服务的监听地址.
 # Key-Value 服务仅在集群模式下才能工作.
 # 默认情况下不启动 Key-Value 服务.
 # Default: "".
-# addr = "0.0.0.0:8362"
+# addr = "0.0.0.0:6379"
 
 # The username.
 # Default: "admin".

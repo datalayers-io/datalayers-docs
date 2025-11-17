@@ -23,7 +23,7 @@ Datalayers 支持多种安装方式，具体安装方法请参考**快速开始*
 首先，通过以下命令连接到数据库：
 
 ``` bash
-dlsql -u admin -p public
+dlsql -h 127.0.0.1 -u admin -p public
 ```
 
 然后创建一个示例数据库：

@@ -38,11 +38,6 @@ addr = "0.0.0.0:8360"
 # Default: "0.0.0.0:8361".
 http = "0.0.0.0:8361"
 
-# The Redis Service endpoint of the server.
-# Users can start this service only when Datalayers server starts in cluster mode.
-# Default: "0.0.0.0:8362".
-# redis = "0.0.0.0:8362"
-
 # A session is regarded timeout if it's not active in the past `session_timeout` duration.
 # Default: "10s".
 session_timeout = "10s"
@@ -60,6 +55,11 @@ timezone = "Asia/Shanghai"
 
 # The configurations of authorization.
 [server.auth]
+# The type of the authorization.
+# type = "static" or "rbac"
+# Default: "static"
+type = "static"
+
 # The username.
 # Default: "admin".
 username = "admin"
@@ -71,6 +71,46 @@ password = "public"
 # The provided JSON Web Token.
 # Default: "871b3c2d706d875e9c6389fb2457d957".
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
+
+# Password strength requirements.
+# weak: no requirements, simple password.
+# moderate: at least 8 characters, including at least three types of the following:
+#   uppercase letters, lowercase letters, digits, and special characters.
+# strong: at least 14 characters, including all types of the following:
+#   uppercase letters, lowercase letters, digits, and special characters.
+# Default: "weak"
+#password_strength = "weak"
+
+# Password protection against brute-force attacks.
+# Form as "a/b/c", means:
+# Account locked for "b" minutes after "a" failed password attempts,
+#  and locked for another "c" miniutes after the each failed attempt.
+# The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
+# 0/-/- means no lockout.
+# Default: "0/0/0"
+#password_lockout = "3/5/5"
+
+# The configurations of the unix domain socket server.
+[server.uds]
+# The path of the unix domain socket, relative to `base_dir`.
+# DONOT configure this options means do not support uds server by default.
+# Recommend: "run/datalayers.sock"
+# path = "run/datalayers.sock"
+
+# The configurations of the Redis service.
+[server.redis]
+# Users can start this service only when Datalayers server starts in cluster mode.
+# Do not support redis service by default.
+# Default: "".
+# addr = "0.0.0.0:6379"
+
+# The username.
+# Default: "admin".
+#username = "admin"
+
+# The password.
+# Default: "public".
+#password = "public"
 
 # The configurations of the Time-Series engine.
 [ts_engine]
@@ -84,8 +124,12 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 #max_memory_used_size = "10GB"
 
 # Cache size for SST file metadata. Setting it to 0 to disable the cache.
-# Default: 512M
+# Default: 2GB
 meta_cache_size = "2GB"
+
+# Cache size for last value. Setting it to 0 to disable the cache.
+# Default: 2GB
+last_cache_size = "2GB"
 
 # Whether or not to preload parquet metadata on startup.
 # This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
@@ -186,7 +230,7 @@ write_rate_limit = "2MB"
 # In a path-style URI, the bucket is the first slash-delimited component of the Request-URI,
 # the endpoint use the following format: https://s3.region-code.amazonaws.com/bucket-name.
 # We support path-style URL access in minio even though your minio service does not enable this feature,
-# and you are also allowed accessing with path-style like http://<ip>:<port> or http://minio.example.net 
+# and you are also allowed accessing with path-style like http://<ip>:<port> or http://minio.example.net
 # if you set `virtual_hosted_style` to false
 # [storage.object_store.s3]
 # bucket = "datalayers"
@@ -216,8 +260,10 @@ write_rate_limit = "2MB"
 # Default: "0MB"
 memory = "256MB"
 
+# The file cache of storage is a hybrid cache. Enabling disk cache requires memory cache to be enabled as well.
+# However, you can enable memory cache without enabling disk cache.
 [storage.object_store.file_cache]
-# Setting to 0 to disable file cache in memory.
+# Setting to 0 will disable both memory cache and disk cache.
 # Default: "0MB"
 # memory = "1024MB"
 
@@ -346,11 +392,46 @@ enable_err_file = false
 # Default: true.
 verbose = true
 
+# The configurations of audit logs.
+[audit]
+# Whether to enable audit logs.
+# Default: false.
+enable = false
+
+# The directory to store audit log files.
+# The path relative to `base_dir`
+# Default: "audit".
+path = "audit"
+
+# The maximum count of audit log files.
+# Generate a new file every day.
+# Default: 30.
+max_files = 30
+
+# Supported kinds of audit logs, separated by comma.
+# Kind list: "dml", "ddl", "dql", "admin", "misc"
+# "all" means all kinds could be logged.
+# Default: "ddl,admin"
+kinds = "ddl,admin"
+
+# Supported actions of audit logs, separated by comma.
+# Action list: "select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim", 
+#   "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke", 
+#   "flush", "cluster", "migrate", "compact", "export", "misc",
+# "all" means all actions could be logged.
+# Default: "all"
+actions = "all"
+
+# Exclude actions of audit logs, separated by comma.
+# Optional value is the same as `actions`.
+# Default: "select,insert"
+excludes = ""
+
 # The configurations of the MCP (Model Context Protocol) server.
 [mcp]
 # Whether to enable SSE.
 # Default: true.
-enable_sse = true
+enable_sse = false
 
 # Whether to enable SSE OAuth.
 # Default: false.
@@ -378,7 +459,6 @@ enable_sse_oauth = false
 [license]
 # A trial license key which may be deprecated.
 key = "eyJ2IjoxLCJ0IjoxLCJjbiI6Iua+nOWbvuacquadpe+8iOaIkOmDve+8ieaVsOaNruenkeaKgOaciemZkOWFrOWPuCIsImNlIjoieWluYm8ueWFuZ0BkYXRhbGF5ZXJzLmlvIiwic2QiOiIyMDI1MDUwOSIsInZkIjoyMzYsIm5sIjozLCJjbCI6MzAsImVsIjoxMDAwMDAsImZzIjpbXX0K.e1gDGsCpvPA1fy/j2JUDvuug/kxJQyuAan0fIn3gGmFL1JUQ3V1bsi73jVl6R3wBkxMbJ13tWdBcTYZREVCVjqy22HvcSkGYJqKiQ0qx2jP2Zq22z2oiO/3frs0xuMdF6g5IE9C6PQq5X/OeFi6eFSTze4mcJhc5DaeB176oSqkyyAf+aKS23ncybYE2Nb55tkKwEVkWao3guMVhIsySInE0PXlaRYuAwmMsA0laYt1C1ZX+ktBu4CI/+C9tH6BvmkvPEagayjoITzjqdx9YRjM7/c8cSa159thLqYzvfQlLXX48bua5DS16KETk19BBc/uaHZxYXzSE1wYXFArjKw=="
-
 ```
 
 其中配置文件字段详细解释，请查看配置手册。
