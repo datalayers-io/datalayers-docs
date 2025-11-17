@@ -46,7 +46,7 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 
 | Key                                                   | Type      | 说明                                                      |
 | ----------------------------------------------------- | --------- | --------------------------------------------------------- |
-| **fdb_database_available**                            | gauge     | <span style="color:red">*</span> 元数据服务状态状态，`0` 不健康，`1` 状态       |
+| **fdb_database_available**                            | gauge     | <span style="color:red">*</span> 元数据服务状态，`0` 不健康，`1` 状态       |
 | **fdb_process_disk_free_bytes**                       | gauge     | <span style="color:red">*</span> 元数据存储磁盘已使用空间大小，单位：bytes, 使用空间超过 `95%` 会导致服务不可用    |
 | **fdb_exporter_latency_seconds**                      | gauge     | <span style="color:red">*</span> 访问元数据服务的时延，单位：秒。不应该大于 `1`                     |
 | fdb_process_disk_total_bytes                          | gauge     | 元数据存储磁盘的总空间大小，单位：bytes   |
