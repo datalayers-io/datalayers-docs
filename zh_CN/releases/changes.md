@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## 2.3.14
+
+发布日期: 2025-11-20
+
+本版本重点增强了系统的 安全性、可观测性、查询性能与向量检索能力，并进一步完善了对 Prometheus 生态的兼容性，为用户提供更灵活、更安全、更高性能的数据管理体验。
+
+### 新功能
+
+- **RBAC 访问控制**：新增 [基于角色的访问控制](../user-security/rbac/overview.md) 功能，实现细粒度的权限控制。
+- **Prometheus 增强**：支持 Prometheus Remote Write 协议，可通过该协议直接写入数据。现 Datalayers 已经完全兼容 Prometheus 写入与查询协议，可做为 Prometheus 的长期存储或者替换 Prometheus。
+- **向量索引**：新增多种 [向量索引](../vector-search/vector-index.md) 类型的支持，提升检索效率与灵活性。
+- **用户认证**：新增 peer认证 机制，详见 [peer认证](../admin/datalayers-cli.md)。
+- **审计日志**：新增审计日志功能，增强操作可追溯性与安全性。
+
+### ️优化
+
+- **查询性能**：
+  - 优化 count(*) 查询逻辑，显著提升包含时间范围过滤条件（如 WHERE ts > now() - INTERVAL 10 day）的查询效率。
+  - 提升 `select * from t order by time limit 1` 语句的查询效率。
+
 ## 2.3.13
 
 发布日期: 2025-10-20
