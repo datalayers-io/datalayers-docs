@@ -12,7 +12,7 @@ Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol） �
 ## 主要优势
 
 - **无缝集成**  
-  支持 Prometheus 原生 Remote Write 协议，可接收 Prometheus 的实时数据推送。
+  支持 Prometheus Remote Write 协议，可接收 Prometheus 的实时数据推送。
 - **生态兼容**  
   兼容标准的 PromQL（Prometheus Query Language） 与 HTTP API，可直接对接 Grafana 等生态组件对接。
 - **集群支持**  

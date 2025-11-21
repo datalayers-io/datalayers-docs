@@ -79,6 +79,18 @@ jwt_secret = "87212c3d906df71e9c6289fbd456d917"
 # 建议配置项: "run/datalayers.sock"
 # path = "run/datalayers.sock"
 
+# The configurations of the Prometheus server.
+[server.prometheus]
+# The Prometheus endpoint.
+# Default: "0.0.0.0:9090"
+# addr = "0.0.0.0:9090"
+
+# The default memtable size for auto-created metric tables.
+# memtable_size = "5MB"
+
+# The default TTL for auto-created metric tables.
+# ttl = "356d"
+
 # The configurations of the Redis service.
 [server.redis]
 # 配置 Key-Value 服务的监听地址.

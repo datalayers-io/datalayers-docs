@@ -6,7 +6,7 @@ Datalayers 是一款面向工业物联网、车联网、具身智能、AI、能�
 
 ### 时序数据存储
 
-- 专为时序数据优化的存储引擎，支持高吞吐写入与海量时间线管理
+- 为时序数据优化的存储引擎，支持高吞吐写入与海量时间线管理
 - 提供行业领先的数据压缩比，大幅降低存储成本
 - 内置丰富的时序处理函数，满足复杂分析需求
 
@@ -52,4 +52,4 @@ Datalayers 是一款面向工业物联网、车联网、具身智能、AI、能�
 - 支持 JDBC 驱动接入
 - 支持 HTTP 协议
 - 支持 InfluxDB 行协议接入
-- 兼容 Prometheus 查询协议与 Remote Write 协议
+- 支持 Prometheus 查询协议与 Remote Write 协议，兼容现有 Prometheus 生态工具，可做为 Prometheus 的长期存储或者作为 Prometheus 的替换
