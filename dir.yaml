@@ -497,6 +497,9 @@
     - title_en: Audit Logs
       title_cn: 审计日志
       path: user-security/audit-logs
+    - title_en: Password Policy
+      title_cn: 密码策略
+      path: user-security/password-policy
 - title_en: Release Notes
   title_cn: 版本发布说明
   collapsed: true

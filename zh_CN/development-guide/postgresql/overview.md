@@ -1,7 +1,8 @@
-# PostgreSQL 协议（开发中）
+# PostgreSQL 协议（Beta）
 
-Datalayers 兼容 PostgreSQL 网络连接协议，兼容 PostgreSQL 生态的命令行工具、JDBC/ODBC 和各种可视化工具。
+Datalayers 兼容 PostgreSQL 网络连接协议，兼容 PostgreSQL 生态的命令行工具、JDBC 和各种可视化工具。
 
 ## ⚠️注意
 
-该协议目前正在开发中，计划近期发布。
+- 支持 PostgreSQL 的连接、认证与 SQL 执行。
+- 该协议目前处于 Beta 状态。
