@@ -1,8 +1,23 @@
 # 交互终端概述
 
-Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
+Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具，支持 SQL（兼容 MySQL 方言） 与 [PRQL](https://prql-lang.org/) 进行交互，默认使用 SQL。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
 
 Datalayers CLI 支持两种连接认证方式，用户可根据实际场景选择。
+
+## 交互语言
+
+dlsql 默认使用 SQL 语言（MySQL 方言）进行交互，同时支持 [PRQL](https://prql-lang.org/)，可在 dlsql 交互式终端内通过 `set dialect = prql` 指定，将交互语言指定为 PRQL，如需切换回 SQL， 则执行 `set dialect = sql` 即可。
+
+```sql
+# 使用 prql 做为查询语言
+> set dialect = prql
+
+# 使用 SQL 做为查询语言
+> set dialect = sql
+
+```
+
+注：该查询语言目前为客户端行为，因此暂时仅支持 `dlsql` 中使用
 
 ## 连接认证方式
 
@@ -53,7 +68,7 @@ dlsql 内置 WEB 控制台，提供可视化操作界面。
 启动命令如下：
 
 ```shell
-dlsql --webui 9362
+dlsql --web-console 9362
 ```
 
 启动后，通过 `http://<服务器地址>:9362` 即可访问 WEB 控制台，帐号与密码为数据库对应的帐号与密码。
@@ -69,7 +84,7 @@ dlsql --webui 9362
 | --database         | -d                                    | 设置连接 Datalayers 时使用的数据库                                                                    |
 | --execute          | -e                                    | 运行一次 SQL STATEMENT后退出                                                                         |
 | --load-file        |                                       | 执行指定的 SQL 脚本文件                                                                               |
-| --webui            |                                       | 指定 WEB 控制台的坚挺端口并启动 WEB 控制台                                                             |
+| --web-console      |                                       | 指定 WEB 控制台的监听端口并启动 WEB 控制台                                                             |
 | --version          | -V                                    | 显示 CLI 工具的版本                                                                                  |
 | --tls              |                                       | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
 | --max-display-rows |                                       | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
