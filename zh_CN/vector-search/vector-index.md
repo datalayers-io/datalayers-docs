@@ -39,10 +39,13 @@ Vector Store 是向量的存储抽象。为了节省存储空间，我们支持�
 | IVF_FLAT      | 支持配置 Cell 个数 | FLAT        | FLAT         |    是     |
 | IVF_PQ        | 支持配置 Cell 个数 | FLAT        | PQ           |    是     |
 | IVF_SQ        | 支持配置 Cell 个数 | FLAT        | SQ           |      否     |
-| IVF_RQ        | 支持配置 Cell 个数 | FLAT        | RQ           |      否     |
-| HNSW          | Cell 个数固定为 1 | HNSW        | FLAT          |      否     |
-| IVF_HNSW      | 支持配置 Cell 个数 | HNSW        | FLAT          |      否     |
-| IVF_HNSW_PQ   | 支持配置 Cell 个数 | HNSW        | PQ            |      否     |
+| IVF_RQ        | 支持配置 Cell 个数 | FLAT        | RQ           |      是     |
+| HNSW          | Cell 个数固定为 1 | HNSW        | FLAT          |      是     |
+| HNSW_SQ       | Cell 个数固定为 1 | HNSW        | SQ          |      否     |
+| HNSW_PQ       | Cell 个数固定为 1 | HNSW        | PQ          |      是     |
+| HNSW_RQ       | Cell 个数固定为 1 | HNSW        | RQ          |      否     |
+| IVF_HNSW      | 支持配置 Cell 个数 | HNSW        | FLAT          |      是     |
+| IVF_HNSW_PQ   | 支持配置 Cell 个数 | HNSW        | PQ            |      是     |
 | IVF_HNSW_SQ   | 支持配置 Cell 个数 | HNSW        | SQ            |      否     |
 | IVF_HNSW_RQ   | 支持配置 Cell 个数 | HNSW        | RQ            |      否     |
 
