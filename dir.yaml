@@ -393,6 +393,9 @@
         - title_en: Cluster Configuration
           title_cn: 集群配置
           path: admin/configuration-fields/node
+        - title_en: Query Configuration
+          title_cn: 查询配置
+          path: admin/configuration-fields/query
         - title_en: Scheduler Configuration
           title_cn: 调度器配置
           path: admin/configuration-fields/scheduler

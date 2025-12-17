@@ -95,14 +95,14 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The path of the unix domain socket, relative to `base_dir`.
 # DONOT configure this options means do not support uds server by default.
 # Recommend: "run/datalayers.sock"
-# path = "run/datalayers.sock"
+path = "run/datalayers.sock"
 
 # The configurations of the Redis service.
 [server.redis]
 # Users can start this service only when Datalayers server starts in cluster mode.
 # Do not support redis service by default.
 # Default: "".
-# addr = "0.0.0.0:6379"
+# addr = "0.0.0.0:8362"
 
 # The username.
 # Default: "admin".
@@ -111,6 +111,46 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The password.
 # Default: "public".
 #password = "public"
+
+# The configurations of the Prometheus server.
+[server.prometheus]
+# The Prometheus endpoint.
+# Default: "0.0.0.0:9090"
+# addr = "0.0.0.0:9090"
+
+# The default memtable size for auto-created metric tables.
+memtable_size = "5MB"
+
+# The default TTL for auto-created metric tables.
+ttl = "356d"
+
+# The configurations of the Postgres sql service.
+[server.postgres]
+# The endpoint of the server.
+# Don't support postgres protocol by default.
+# Recommend: "0.0.0.0:5432".
+#addr = "0.0.0.0:5432"
+
+# Query related configurations.
+[query]
+# The size of the memory pool which limits the total memory usage of query.
+# You're recommended to set the pool size to approximate 60% ~ 80% of your total available memory usage.
+# Default: 60% of the host machine's available memory.
+# memory_pool_size = "8GB"
+
+# The configurations of the slow query logging.
+[query.slow_query]
+# Whether to enable slow query logging.
+# Default: false
+# enable = false
+
+# Record queries that take longer than this threshold.
+# Default: "5s"
+# threshold = "5s"
+
+# Sample ratio for recording slow queries.
+# Default: 1.0, which records all slow queries. Valid range (0.0, 1.0].
+# sample_ratio = 1.0
 
 # The configurations of the Time-Series engine.
 [ts_engine]
@@ -390,7 +430,7 @@ enable_err_file = false
 
 # Makes the logging more verbose by inserting line number and file name.
 # Default: true.
-verbose = true
+verbose = false
 
 # The configurations of audit logs.
 [audit]
@@ -415,8 +455,8 @@ max_files = 30
 kinds = "ddl,admin"
 
 # Supported actions of audit logs, separated by comma.
-# Action list: "select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim", 
-#   "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke", 
+# Action list: "select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim",
+#   "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke",
 #   "flush", "cluster", "migrate", "compact", "export", "misc",
 # "all" means all actions could be logged.
 # Default: "all"
@@ -458,7 +498,7 @@ enable_sse_oauth = false
 # when no `key` is specified, the `file` configuration will be used.
 [license]
 # A trial license key which may be deprecated.
-key = "eyJ2IjoxLCJ0IjoxLCJjbiI6Iua+nOWbvuacquadpe+8iOaIkOmDve+8ieaVsOaNruenkeaKgOaciemZkOWFrOWPuCIsImNlIjoieWluYm8ueWFuZ0BkYXRhbGF5ZXJzLmlvIiwic2QiOiIyMDI1MDUwOSIsInZkIjoyMzYsIm5sIjozLCJjbCI6MzAsImVsIjoxMDAwMDAsImZzIjpbXX0K.e1gDGsCpvPA1fy/j2JUDvuug/kxJQyuAan0fIn3gGmFL1JUQ3V1bsi73jVl6R3wBkxMbJ13tWdBcTYZREVCVjqy22HvcSkGYJqKiQ0qx2jP2Zq22z2oiO/3frs0xuMdF6g5IE9C6PQq5X/OeFi6eFSTze4mcJhc5DaeB176oSqkyyAf+aKS23ncybYE2Nb55tkKwEVkWao3guMVhIsySInE0PXlaRYuAwmMsA0laYt1C1ZX+ktBu4CI/+C9tH6BvmkvPEagayjoITzjqdx9YRjM7/c8cSa159thLqYzvfQlLXX48bua5DS16KETk19BBc/uaHZxYXzSE1wYXFArjKw=="
+key = "eyJ2IjoxLCJ0IjoxLCJjbiI6IkRhdGFsYXllcnMiLCJjZSI6InlpbmJvLnlhbmdAZGF0YWxheWVycy5pbyIsInNkIjoiMjAyNTEyMTUiLCJ2ZCI6MTgyLCJubCI6NSwiY2wiOjEwMDAsImVsIjoxMDAwMDAwMCwiZnMiOltdfQo=.a3GoQ3tQ2q/DyZxTaX6M5HLuNT64/IoMfgEML+dZBTwEy0SNvG0nQesJhAssw9TlTyh5FKuqfWQsBmS3JMbtub+LNB1YF51TB19dd8qv3UKT/FZg4TWql+drtFxRZPPVLg1QZA7vV11OWZWSg5Id3ZDskXOw1Fn1pWTDO8GC4hfqQQvMclYmfmLYrkkEv8+cikqTiv2DU5zzV+Oca2emKTYOJ5Ti9wYtD/2gu0niekCXgjRblDFa9Yauypqo/v2oE/6R7zqPOxre1EjqdCtmURRtMdievOwubXYpBljt/LJ079sY/3wgYq65L65rdpW+/u9PdwFIz9AIsgM1dV1lkQ=="
 ```
 
 其中配置文件字段详细解释，请查看配置手册。

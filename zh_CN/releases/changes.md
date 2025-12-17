@@ -8,8 +8,8 @@
 
 - **PostgreSQL 协议兼容**：现支持 PostgreSQL 连接协议，用户可使用更广泛的第三方客户端、GUI 工具（如 DBeaver）和驱动程序连接至数据库，提升操作灵活性与集成便利性。
 - **PRQL 查询支持**：dlsql 命令行工具已集成 [PRQL](https://prql-lang.org/) 查询语言，为用户提供更具表达力的现代化数据查询与转换体验。具体用法请参阅 [dlsql文档](../admin/datalayers-cli.md#交互语言)。
-- **可视化 Web 控制台**：dlsql工具现已集成内置的 Web 控制台，提供数据库的可视化操作与管理界面，简化数据库管理任务。启用方法详见[dlsql文档](../admin/datalayers-cli.md#web-控制台)。
-- **慢查询日志**：新增慢日志记录功能，帮助识别和优化执行效率较低的查询，以提升系统整体性能。
+- **可视化 Web 控制台**：dlsql工具现已集成内置的 Web 控制台，提供数据库的可视化操作与管理界面，简化数据库管理任务。使用方法详见[dlsql文档](../admin/datalayers-cli.md#web-控制台)。
+- **慢查询日志**：新增慢日志记录功能，帮助识别和优化执行效率较低的查询，以提升系统整体性能。使用方法详见[查询配置文档](../admin/configuration-fields/query.md)。
 
 ### 增强
 
