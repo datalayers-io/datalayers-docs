@@ -4,7 +4,7 @@ Datalayers 提供数据库操作审计能力，可记录用户对数据库的查
 
 ## 开启审计日志
 
-审计日志功能默认关闭，需要在配置文件中进行启用和配置，配置方法可参考 [配置审计日志](../admin/configuration-fields/audit-logs.md)
+审计日志功能默认关闭，需要在配置文件中进行启用和配置，配置方法可参考 [审计日志](../admin/configuration-fields/audit-logs.md)
 
 ## 查看审计日志
 
