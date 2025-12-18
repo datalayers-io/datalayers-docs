@@ -30,7 +30,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 - **性能优势**：在数据传输场景下，相比 JDBC/ODBC 等驱动数据传输方案，性能提升可达百倍
 - **适用场景**：对性能有高要求的数据写入与查询场景
 
-### PostgreSQL 协议（即将推出）
+### PostgreSQL 协议（Beta）
 
 - **兼容性**：完整兼容 PostgreSQL 网络连接协议
 - **工具生态**：支持 PostgreSQL 生态的命令行工具、JDBC/ODBC 驱动及各类可视化工具
@@ -62,7 +62,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 | 特性                                 |  适用场景                       |  功能支持           | 备注                 |
 | -------------                        | -----------------------       | --------------------| -------------------  |
 | **Arrow Flight SQL 高速传输协议**     | 高性能写入、查询与大数据量传输   | 完整读写            | 完整功能              |
-| **PostgreSQL 连接协议**              | PostgreSQL 生态集成             | 完整读写            | 完整功能               |
+| **PostgreSQL 连接协议（Beta）**      | PostgreSQL 生态集成             | 完整读写            | 认证与 SQL 执行       |
 | **Prometheus 协议**                 | Prometheus 生态集成             | 完整读写            | Prometheus 为单值模型，使用上存在细微差异  |
 | **REST API**                         | HTTP 集成、简单查询             | 完整读写            | 完整读写              |
 | **InfluxDB 行协议**                  | 替换 InfluxDB 场景              | 仅支持写入          | 仅支持写入             |
@@ -71,7 +71,7 @@ Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态
 ## 推荐选择
 
 - 对于性能敏感的生产环境，建议使用 Arrow Flight SQL 协议
-- 如需使用现有 PostgreSQL 工具链，可等待 PostgreSQL 协议正式发布
+- 如需使用现有 PostgreSQL 工具链，可使用 PostgreSQL 协议（目前该协议处于 Beta 阶段）
 - 如需使用现有 Prometheus 工具链，可使用 Prometheus 协议
 - 如需使用现有 InfluxDB 工具链写入，可使用 InfluxDB 行协议
 - 键值存储需求场景，可使用 Redis 协议接入

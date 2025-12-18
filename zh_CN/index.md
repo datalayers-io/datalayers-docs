@@ -47,7 +47,7 @@ Datalayers 是一款面向工业物联网、车联网、具身智能、AI、能�
 
 - 使用 SQL (兼容 MySQL 方言)作为查询语言，以降低学习、使用与迁移成本
 - 完整实现 `Arrow Flight SQL` 协议，实现数据高速传输
-- 即将支持 `PostgreSQL` 网络连接协议
+- 支持 `PostgreSQL` 网络连接协议
 - 提供多语言的 SDK，实现快速接入
 - 支持 JDBC 驱动接入
 - 支持 HTTP 协议

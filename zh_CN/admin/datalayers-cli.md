@@ -1,10 +1,27 @@
 # 交互终端概述
 
-Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
+Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具，支持 SQL（兼容 MySQL 方言） 与 [PRQL](https://prql-lang.org/) 进行交互，默认使用 SQL。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
 
 Datalayers CLI 支持两种连接认证方式，用户可根据实际场景选择。
 
-## 基于帐号密码认证
+## 交互语言
+
+dlsql 默认使用 SQL 语言（MySQL 方言）进行交互，同时支持 [PRQL](https://prql-lang.org/)，可在 dlsql 交互式终端内通过 `set dialect = prql` 指定，将交互语言指定为 PRQL，如需切换回 SQL， 则执行 `set dialect = sql` 即可。
+
+```sql
+# 使用 prql 做为查询语言
+> set dialect = prql
+
+# 使用 SQL 做为查询语言
+> set dialect = sql
+
+```
+
+注：该查询语言目前为客户端行为，因此暂时仅支持 `dlsql` 中使用
+
+## 连接认证方式
+
+### 帐号密码认证
 
 适用于远程或本地 TCP/IP 连接，提供灵活的身份验证。在终端中执行以下命令进入交互式界面：
 
@@ -12,7 +29,7 @@ Datalayers CLI 支持两种连接认证方式，用户可根据实际场景选�
 dlsql -h 127.0.0.1 -u admin -p public -P 8360
 ```
 
-## 基于 Peer 认证
+### Peer 认证
 
 Linux 的 Peer 认证（Peer Credentials Authentication）是基于内核级别的进程身份验证机制，通过 `Unix Domain Socket` 通信为连接方提供可靠的身份验证。
 
@@ -44,18 +61,31 @@ sudo -u datalayers dlsql
 - **权限**：通过 Peer 认证建立的连接将获得系统级最高权限
 - 配置 `Unix Socket` 服务后，需重启 Datalayers，以确保服务生效
 
+## WEB 控制台
+
+dlsql 内置 WEB 控制台，提供可视化操作界面。
+
+启动命令如下：
+
+```shell
+dlsql --web-console 9362
+```
+
+启动后，通过 `http://<服务器地址>:9362` 即可访问 WEB 控制台，帐号与密码为数据库对应的帐号与密码。
+
 ## 连接参数详解
 
-| 参数                | 简写     | 描述                                                                                                |
-| ----------         | -------  | ----------------------------------------------------------------------------------------------    |
-| --host             | -h       | 设置连接 Datalayers 服务器地址, 默认为本地路径通过 Unix Socket 方式连接: /var/lib/datalayers/run/datalayers.sock |
-| --username         | -u       | 设置连接 Datalayers 使用的用户名                                                                      |
-| --password         | -p       | 设置连接 Datalayers 使用的密码                                                                        |
-| --port             | -P       | 设置连接 Datalayers 的端口                                                                           |
-| --database         | -d       | 设置连接 Datalayers 时使用的数据库                                                                    |
-| --execute          | -e       | 运行一次 SQL STATEMENT后退出                                                                         |
-| --load-file        |          | 执行指定的 SQL 脚本文件                                                                               |
-| --version          | -V       | 显示 CLI 工具的版本                                                                                  |
-| --tls              |          | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
-| --max-display-rows |          | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
-| --help             |          | show this help, then exit                                                                          |
+| 参数               | <div style="width:28px">简写 </div>    | 描述                                                                                                |
+| ----------         | ------------------------------------  | ----------------------------------------------------------------------------------------------    |
+| --host             | -h                                    | 设置连接 Datalayers 服务器地址, 默认为本地路径通过 Unix Socket 方式连接: /var/lib/datalayers/run/datalayers.sock |
+| --username         | -u                                    | 设置连接 Datalayers 使用的用户名                                                                      |
+| --password         | -p                                    | 设置连接 Datalayers 使用的密码                                                                        |
+| --port             | -P                                    | 设置连接 Datalayers 的端口                                                                           |
+| --database         | -d                                    | 设置连接 Datalayers 时使用的数据库                                                                    |
+| --execute          | -e                                    | 运行一次 SQL STATEMENT后退出                                                                         |
+| --load-file        |                                       | 执行指定的 SQL 脚本文件                                                                               |
+| --web-console      |                                       | 指定 WEB 控制台的监听端口并启动 WEB 控制台                                                             |
+| --version          | -V                                    | 显示 CLI 工具的版本                                                                                  |
+| --tls              |                                       | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt       |
+| --max-display-rows |                                       | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为： `40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制）         |
+| --help             |                                       | show this help, then exit                                                                          |

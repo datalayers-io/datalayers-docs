@@ -16,17 +16,17 @@ rotation = "DAILY"
 
 # 日志是否输出到标准输出中，在容器中，将默认输出到标准输出 
 # Default: true.
-enable_stdout = true
+enable_stdout = false
 
 # Enables logging to files if set to true.
 # Default: false.
-enable_file = false
+enable_file = true
 
 # 设置错误日志是否启用单独的文件文件存储.
 # Default: false.
-enable_err_file = false
+enable_err_file = true
 
 # Makes the logging more verbose by inserting line number and file name.
 # Default: true.
-verbose = true
+verbose = false
 ```
