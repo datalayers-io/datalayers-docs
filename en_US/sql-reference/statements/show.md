@@ -1,7 +1,9 @@
 
-# SHOW Statement
+# SHOW 语句详解
 
-SHOW 提供了多种形式获取数据库、表、列、集群、License和状态等简单信息，如需更多信息请使用 SELECT 语句查询 `INFORMATION_SCHEMA` 中的数据。
+## 功能概述
+
+SHOW 语句是 Datalayers 提供的元数据查询命令，用于快速获取数据库系统的各类信息。它提供了比直接查询 INFORMATION_SCHEMA 更简洁的语法，适合日常管理和监控使用。
 
 ## SHOW DATABASES
 
@@ -17,6 +19,14 @@ SHOW DATABASES
 
 ```SQL
 SHOW TABLES
+```
+
+## SHOW INDEX
+
+查看某个 `table` 下所有的索引。
+
+```SQL
+SHOW INDEX FROM [db].table_name
 ```
 
 ## SHOW CREATE TABLE
@@ -70,6 +80,11 @@ SHOW TASKS
 # 仅支持 SHOW TASKS 结果中 type 列的值，例如:
 SHOW TASKS flush
 ```
+
+## SHOW CURRENT node
+
+在集群模式gh，通过该命令可查看当前连接对应的节点。  
+注：在单机模式下该命令会返回空。
 
 ## SHOW VERSION
 
