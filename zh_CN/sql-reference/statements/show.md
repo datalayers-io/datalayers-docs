@@ -2,6 +2,7 @@
 # SHOW 语句详解
 
 ## 功能概述
+
 SHOW 语句是 Datalayers 提供的元数据查询命令，用于快速获取数据库系统的各类信息。它提供了比直接查询 INFORMATION_SCHEMA 更简洁的语法，适合日常管理和监控使用。
 
 ## SHOW DATABASES
@@ -18,6 +19,14 @@ SHOW DATABASES
 
 ```SQL
 SHOW TABLES
+```
+
+## SHOW INDEX
+
+查看某个 `table` 下所有的索引。
+
+```SQL
+SHOW INDEX FROM [db].table_name
 ```
 
 ## SHOW CREATE TABLE
