@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 2.3.17
+
+发布日期: 2026-01-24
+
+### 增强
+
+- **支持 Float16 类型**
+- **支持 Binary 类型**
+- **创建向量索引时，支持更多索引配置项**：添加 IVF_PQ 索引的 num_cells、num_bits 等配置项，添加 HNSW 索引的 ef_construction、max_level、m 等配置项。
+- **支持向量检索时指定 nprobes、refine_factor 等查询参数，允许用户平衡召回率和性能**：用法示例 `select * from t where parameters('nprobes=4', 'refine_factor=2') order by l2_distance(embed, query) limit 1`。
+- **为向量索引支持 PQ4 量化算法**：PQ4 相比 PQ8，在牺牲一定查询精度的情况下，大幅降低了大规模向量存储成本。
+- **支持使用 Postgres 风格的向量距离运算符**：`<->` 代表 l2_distance，`<#>` 代表 dot_distance，`<=>` 代表 cosine_distance。用法示例 `select * from t order by embed <-> query limit 1`
+- **支持 PromQL 的 U_ 转义语法**
+
+
+### 修复
+
+- 修复了在单机运行模式下，表名中包含下划线（_）字符时，在特定场景下系统未能正确处理的问题。
+
+### 优化
+
+- 避免在 append 模式下使用 MergeReader，大幅优化了 append 模式下内存 + 磁盘混合查询场景的性能。
+- 检索 HNSW 索引时，如果 filter rate 较大，回退到 flat search，以优化召回率。
+
+
 ## 2.3.16
 
 发布日期: 2026-01-05
