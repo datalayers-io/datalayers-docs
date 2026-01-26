@@ -134,3 +134,16 @@ Datalayers 支持 Instant 选择器和 Range 选择器。
 | `sort_by_label_desc(v, label...)` | 按标签值降序排序 | `sort_by_label_desc(up, "instance")` |
 
 以上标签与排序函数语义参考 Prometheus 文档。
+
+## PromQL 查询示例
+
+| 场景 | 查询 |
+| :--- | :--- |
+| 按作业统计 QPS | `sum by (job) (rate(http_requests_total[1m]))` |
+| 按方法与状态码聚合 | `sum by (method, status) (rate(http_requests_total[5m]))` |
+| 5xx 错误率 | `sum(rate(http_requests_total{status="500"}[5m])) / sum(rate(http_requests_total[5m]))` |
+| GET 请求量（窗口内样本数） | `count_over_time(http_requests_total{method="GET"}[2m])` |
+| Top N 实例吞吐 | `topk(3, sum by (instance) (rate(http_requests_total[2m])))` |
+| P95 请求耗时（直方图） | `histogram_quantile(0.95, sum by (le) (rate(request_duration_seconds_bucket[5m])))` |
+| 平滑后的平均 QPS | `avg_over_time(rate(http_requests_total{job="web"}[30s])[5m:30s])` |
+| 缺失目标探测 | `absent(http_requests_total{job="missing"})` |
