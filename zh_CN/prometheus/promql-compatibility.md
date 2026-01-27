@@ -33,8 +33,6 @@ Datalayers 支持 Instant 选择器和 Range 选择器。
 | 比较二元 | `==`, `!=`, `>`, `<`, `>=`, `<=` | 默认作为过滤；加 `bool` 返回 0/1 | `up == 1`, `up > bool 0` |
 | 逻辑/集合 | `and`, `or`, `unless` | 向量集合运算：交集/并集/差集 | `up{job="api"} unless up{job="api",instance="node-1"}` |
 
-以上运算符语义参考 Prometheus 文档。
-
 **向量匹配与分组修饰**：向量与向量运算可使用 `on()` / `ignoring()` 指定匹配标签，并通过 `group_left` / `group_right` 进行多对一/一对多匹配。
 
 ### 聚合运算符
@@ -53,11 +51,9 @@ Datalayers 支持 Instant 选择器和 Range 选择器。
 | `count_values` | 按值计数并写入新标签 | `count_values("value", up)` |
 | `quantile` | 计算分位数 | `quantile(0.95, node_load5)` |
 
-以上聚合运算符语义参考 Prometheus 文档。
+**聚合分组**：聚合运算可结合 `by()` / `without()` 指定分组标签。
 
-**聚合分组**：聚合运算可结合 `by()` / `without()` 指定分组标签（旧文档中的 `grouping` 指此类能力）。
-
-**不支持**：`limitk`, `limit_ratio`。
+**暂不支持**：`limitk`, `limit_ratio`。
 
 ## 函数
 
@@ -122,8 +118,6 @@ Datalayers 支持 Instant 选择器和 Range 选择器。
 | `irate(v[range])` | 近似瞬时每秒增长率 | `irate(http_requests_total[5m])` |
 | `resets(v[range])` | 计数器重置次数 | `resets(http_requests_total[1h])` |
 
-以上 Range 函数语义参考 Prometheus 文档。
-
 ### 其他函数
 
 | 函数 | 说明 | 示例 |
@@ -132,8 +126,6 @@ Datalayers 支持 Instant 选择器和 Range 选择器。
 | `label_replace(v, dst, repl, src, regex)` | 按正则替换标签 | `label_replace(up, "instance", "$1", "instance", "(.*):\\d+")` |
 | `sort_by_label(v, label...)` | 按标签值升序排序 | `sort_by_label(up, "instance")` |
 | `sort_by_label_desc(v, label...)` | 按标签值降序排序 | `sort_by_label_desc(up, "instance")` |
-
-以上标签与排序函数语义参考 Prometheus 文档。
 
 ## PromQL 查询示例
 
