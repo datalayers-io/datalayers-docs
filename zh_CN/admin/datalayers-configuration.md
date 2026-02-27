@@ -122,7 +122,7 @@ path = "run/datalayers.sock"
 memtable_size = "5MB"
 
 # The default TTL for auto-created metric tables.
-ttl = "356d"
+ttl = "365d"
 
 # The configurations of the Postgres sql service.
 [server.postgres]
@@ -130,6 +130,20 @@ ttl = "356d"
 # Don't support postgres protocol by default.
 # Recommend: "0.0.0.0:5432".
 #addr = "0.0.0.0:5432"
+
+# The configurations of the MCP (Model Context Protocol) server.
+[server.mcp]
+# Whether to enable MCP over Streamable HTTP.
+# Default: false.
+# enable = true
+
+# Whether to enable auth middleware for MCP endpoints.
+# Default: true.
+# enable_auth = false
+
+# Whether to enable stateful mode.
+# Default: false.
+# stateful_mode = true
 
 # Query related configurations.
 [query]
@@ -142,7 +156,7 @@ ttl = "356d"
 [query.slow_query]
 # Whether to enable slow query logging.
 # Default: false
-# enable = false
+# enable = true
 
 # Record queries that take longer than this threshold.
 # Default: "5s"
@@ -466,16 +480,6 @@ actions = "all"
 # Optional value is the same as `actions`.
 # Default: "select,insert"
 excludes = ""
-
-# The configurations of the MCP (Model Context Protocol) server.
-[mcp]
-# Whether to enable SSE.
-# Default: true.
-enable_sse = false
-
-# Whether to enable SSE OAuth.
-# Default: false.
-enable_sse_oauth = false
 
 # The configurations of runtime.
 #[runtime]

@@ -411,9 +411,6 @@
         - title_en: License Configuration
           title_cn: License 配置
           path: admin/configuration-fields/license
-        - title_en: MCP
-          title_cn: MCP 配置
-          path: admin/configuration-fields/mcp
     - title_en: Command Line Interface
       title_cn: 命令行接口
       path: admin/datalayers-cli
