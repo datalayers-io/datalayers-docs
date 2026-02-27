@@ -7,7 +7,7 @@ Datalayers 提供多种协议支持，满足不同场景下的数据库连接和
 ## 用户与权限
 
 Datalayers 支持多种认证机制与细粒度的权限控制。默认为静态认证，初始帐号密码为：`admin/public`。  
-更多介绍参考 [连接认证与权限](../user-security/authentication/overview.md)
+更多介绍请参考 [连接认证与权限](../user-security/authentication/overview.md)
 
 ## 端口说明
 

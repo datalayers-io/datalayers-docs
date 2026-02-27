@@ -4,7 +4,7 @@
 
 ## 批量写入
 
-原则：单次请求数据量越大，写入效率越高。建议每批次数据量控制在8000条以内以获得最佳性能。
+原则：单次请求携带的数据量越大，写入效率越高。建议每批次数据量控制在 8000 条以内，以获得最佳性能。
 
 **通过 SQL 批量写入**：
 
@@ -27,7 +27,7 @@ curl -i -XPOST "http://127.0.0.1:8361/write?db=db_name&u=admin&p=public&precisio
 ```
 
 :::tip
-无论是使用 SQL 写入还 行协议 写入，在每一次请求中携带更多的数据，将获得更好的写入性能。
+无论是使用 SQL 写入还是行协议写入，在每一次请求中携带更多的数据，均可获得更好的写入性能。
 :::
 
 ## 并发写入
@@ -47,7 +47,7 @@ curl -i -XPOST "http://127.0.0.1:8361/write?db=db_name&u=admin&p=public&precisio
 
 同时，数据库系统可以在执行 SQL 语句之前进行语法检查、语义分析和优化，进一步提高查询的执行效率。
 
-在 Datalayers 中，Prepared Statement 目前支持Insert 与 Query，核心是通过`?`作为占位符，随后对占位符进行参数绑定，以达到绕过 SQL 解析的效果。
+在 Datalayers 中，Prepared Statement 目前支持 Insert 与 Query，核心是通过 `?` 作为占位符，随后对占位符进行参数绑定，以达到绕过 SQL 解析的效果。
 
 在 Insert 中，首先通过带有占位符的语句开启 Prepared Statement，随后通过 RecordBatch 的形式来绑定参数，完成执行，需要注意：
 
