@@ -44,7 +44,7 @@
         - title_en: Centos
           title_cn: Centos
           path: getting-started/centos
-    - title_en: Command-line tool
+    - title_en: Command-line Tool
       title_cn: 命令行工具
       path: getting-started/command-line-tool
 
@@ -78,7 +78,7 @@
         - title_en: Redis Protocol
           title_cn: Redis 协议
           path: development-guide/redis
-    - title_en: Table design best practices
+    - title_en: Table Design Best Practices
       title_cn:  数据表设计
       path: development-guide/table-design/overview
       collapsed: true
@@ -89,7 +89,10 @@
         - title_en: Time-Series Table Design
           title_cn: 时序表模型
           path: development-guide/table-design/timeseries-table-design
-    - title_en: High-performance writing
+        - title_en: Log Table Design
+          title_cn: 日志表模型
+          path: development-guide/table-design/log-table-design
+    - title_en: High-Performance Writing
       title_cn:  高性能写入
       path: development-guide/high-performance-ingestion
     - title_en: Query Performance Tuning
@@ -130,7 +133,7 @@
     - title_en: Data Type
       title_cn: 数据类型
       path: sql-reference/data-type
-    - title_en: operator
+    - title_en: Operator
       title_cn: 运算符
       path: sql-reference/operators
     - title_en: Table Engine
@@ -141,7 +144,7 @@
         - title_en: Time-Series Engine
           title_cn: 时序引擎
           path: sql-reference/table-engine/timeseries
-        - title_en: key-Value Engine
+        - title_en: Key-Value Engine
           title_cn: Key-Value引擎
           path: sql-reference/table-engine/kv
         - title_en: Streaming Engine
@@ -150,7 +153,7 @@
         - title_en: Log Engine
           title_cn: 日志引擎
           path: sql-reference/table-engine/log
-    - title_en: SQL STATEMENTS
+    - title_en: SQL Statements
       title_cn: SQL 语句
       collapsed: true
       children:
@@ -163,7 +166,7 @@
         - title_en: SELECT
           title_cn: SELECT
           path: sql-reference/statements/select
-          collapsed: false
+          collapsed: true
           children:
             - title_en: WHERE
               title_cn: WHERE
@@ -225,6 +228,9 @@
         - title_en: DROP
           title_cn: DROP
           path: sql-reference/statements/drop
+        - title_en: REFRESH
+          title_cn: REFRESH
+          path: sql-reference/statements/refresh
         - title_en: EXPLAIN
           title_cn: EXPLAIN
           path: sql-reference/statements/explain
@@ -277,6 +283,9 @@
         - title_en: Streaming Window Functions
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window
+        - title_en: Fulltext Functions
+          title_cn: 全文索引函数
+          path: sql-reference/fulltext-functions
         - title_en: Vector Functions
           title_cn: 向量函数
           path: sql-reference/vector-functions
@@ -286,9 +295,36 @@
     - title_en: INFORMATION_SCHEMA
       title_cn: INFORMATION_SCHEMA
       path: sql-reference/information-schema
-    - title_en: Configure column codec
+    - title_en: Configure Column Codec
       title_cn: 列编码与压缩算法
       path: sql-reference/column-codec
+- title_en: Index
+  title_cn: 索引
+  collapsed: true
+  children:
+    - title_en: Log Search
+      title_cn: 日志检索
+      collapsed: true
+      children:
+        - title_en: Overview
+          title_cn: 概述
+          path: log-search/overview
+        - title_en: Quick Start
+          title_cn: 快速开始
+          path: log-search/quick-start
+    - title_en: Vector Search
+      title_cn: 向量检索
+      collapsed: true
+      children:
+        - title_en: Vector Search Overview
+          title_cn: 概述
+          path: vector-search/overview
+        - title_en: Quick Start
+          title_cn: 快速开始
+          path: vector-search/quick-start
+        - title_en: Vector Index
+          title_cn: 向量索引
+          path: vector-search/vector-index
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction
@@ -373,10 +409,10 @@
         - title_en: Performance Tuning (Linux)
           title_cn: 操作系统优化
           path: admin/system-tune
-        - title_en: Optimize configuration
+        - title_en: Optimize Configuration
           title_cn: 优化配置
           path: admin/optimize-configuration
-    - title_en: Datalayers configuration
+    - title_en: Datalayers Configuration
       title_cn: 配置手册
       path: admin/datalayers-configuration
       collapsed: true
@@ -405,7 +441,7 @@
         - title_en: Log Configuration
           title_cn: 日志配置
           path: admin/configuration-fields/log
-        - title_en: Audit logs
+        - title_en: Audit Logs
           title_cn: 审计日志
           path: admin/configuration-fields/audit-logs
         - title_en: License Configuration
