@@ -131,7 +131,6 @@ ON [database.]table_name (column_name)
 | `lowercase` | 将英文 token 统一转为小写，减少大小写差异影响 | 英文日志或中英混合文本检索 |
 | `english_stop` | 过滤英文停用词（如 `the`、`is`） | 需要降低英文高频虚词噪音 |
 | `english_stemmer` | 对英文词做词干提取（如 `running` -> `run`） | 需要提升英文词形变化召回 |
-| `chinese_punctuation` | 过滤中文标点符号 token | 中文日志或中英混合日志检索 |
 
 `standard` 说明：`standard` 分词器基于空格和标点符号进行分词，适合英文文本。
 
@@ -143,7 +142,7 @@ CREATE INVERTED INDEX idx_message ON logs (message);
 CREATE INVERTED INDEX IF NOT EXISTS idx_message ON logs (message);
 
 CREATE INVERTED INDEX idx_message_cn ON logs (message)
-WITH (tokenizer='chinese', filters='lowercase,chinese_punctuation,english_stop', with_position='true');
+WITH (tokenizer='chinese', filters='lowercase,english_stop', with_position='true');
 
 CREATE INVERTED INDEX idx_message_std ON logs (message)
 WITH (tokenizer='standard', filters='lowercase,english_stop,english_stemmer');

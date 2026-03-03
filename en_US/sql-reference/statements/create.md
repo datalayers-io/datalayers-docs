@@ -124,7 +124,6 @@ Options
 | `lowercase` | Normalizes English tokens to lowercase to reduce case variance | English logs or mixed Chinese-English text search |
 | `english_stop` | Removes English stop words (for example, `the`, `is`) | Reduce noise from high-frequency function words |
 | `english_stemmer` | Applies English stemming (for example, `running` -> `run`) | Improve recall across inflected word forms |
-| `chinese_punctuation` | Removes Chinese punctuation tokens | Chinese logs or mixed Chinese-English log search |
 
 `standard` tokenizer notes: `standard` tokenizes text by whitespace and punctuation and is suitable for English text.
 
@@ -136,7 +135,7 @@ CREATE INVERTED INDEX idx_message ON logs (message);
 CREATE INVERTED INDEX IF NOT EXISTS idx_message ON logs (message);
 
 CREATE INVERTED INDEX idx_message_cn ON logs (message)
-WITH (tokenizer='chinese', filters='lowercase,chinese_punctuation,english_stop', with_position='true');
+WITH (tokenizer='chinese', filters='lowercase,english_stop', with_position='true');
 
 CREATE INVERTED INDEX idx_message_std ON logs (message)
 WITH (tokenizer='standard', filters='lowercase,english_stop,english_stemmer');
