@@ -1,3 +1,7 @@
+---
+title: "TLS 连接加密配置指南 | Datalayers 文档"
+description: "Datalayers 支持 TLS（Transport Layer Security）加密连接，确保客户端与服务器之间的通信安全。本文档介绍如何配置和使用 TLS 加密功能。"
+---
 # TLS 连接加密配置指南
 
 Datalayers 支持 TLS（Transport Layer Security）加密连接，确保客户端与服务器之间的通信安全。本文档介绍如何配置和使用 TLS 加密功能。

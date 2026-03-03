@@ -1,3 +1,7 @@
+---
+title: "ALTER TABLE 语句详解 | Datalayers 文档"
+description: "Datalayers ALTER TABLE 语句详解 - ALTER TABLE 语句是用于修改表结构的核心 SQL 命令，允许在不删除重建表的情况下动态调整表定义。"
+---
 # ALTER TABLE 语句详解
 
 ## 功能概述

@@ -1,3 +1,7 @@
+---
+title: "时间序列引擎 | Datalayers 文档"
+description: "ts_engine 部分定义了 Datalayers 中时间序列引擎的配置设置。根据用户资源与数据模型，合理的配合将获得更好的性能。"
+---
 # 时间序列引擎
 
 `ts_engine` 部分定义了 Datalayers 中时间序列引擎的配置设置。根据用户资源与数据模型，合理的配合将获得更好的性能。

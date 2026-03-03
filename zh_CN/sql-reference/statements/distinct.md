@@ -1,3 +1,7 @@
+---
+title: "DISTINCT 语句参考指南 | Datalayers 文档"
+description: "Datalayers DISTINCT 语句参考指南 - DISTINCT 关键字是 SQL 中用于消除重复记录的核心语句，它可以从查询结果中返回唯一不同的值。DISTINCT 既可以用于简单的列去重，也可以与聚合函数结合实现复杂的去重统计。"
+---
 # DISTINCT 语句参考指南
 
 ## 概述

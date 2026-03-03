@@ -1,3 +1,7 @@
+---
+title: "REFRESH 语句详解 | Datalayers 文档"
+description: "Datalayers REFRESH 语句详解 - REFRESH 语句用于触发索引的数据刷新构建。对创建索引前写入的历史数据，可通过该语句补建索引。"
+---
 # REFRESH 语句详解
 
 ## 功能概述

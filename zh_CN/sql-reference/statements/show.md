@@ -1,3 +1,7 @@
+---
+title: "SHOW 语句详解 | Datalayers 文档"
+description: "SHOW 语句是 Datalayers 提供的元数据查询命令，用于快速获取数据库系统的各类信息。它提供了比直接查询 INFORMATION_SCHEMA 更简洁的语法，适合日常管理和监控使用。"
+---
 
 # SHOW 语句详解
 

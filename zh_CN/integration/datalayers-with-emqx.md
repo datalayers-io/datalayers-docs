@@ -1,3 +1,7 @@
+---
+title: "通过 EMQX 实现数据写入 | Datalayers 文档"
+description: "Datalayers 应用集成 - EMQX 是一款高度可扩展、高性能的开源 MQTT 消息代理（Message Broker），用于处理海量物联网设备的消息通信。它是基于 Erlang/OTP 语言开发的，具有卓越的并发处理能力和稳定性。EMQX 主要应用于物联网（IoT）领域，帮助设备通过 M…"
+---
 # 通过 EMQX 实现数据写入
 
 [EMQX](https://www.emqx.com/en) 是一款高度可扩展、高性能的开源 MQTT 消息代理（Message Broker），用于处理海量物联网设备的消息通信。它是基于 Erlang/OTP 语言开发的，具有卓越的并发处理能力和稳定性。EMQX 主要应用于物联网（IoT）领域，帮助设备通过 MQTT 协议进行消息发布和订阅，广泛用于智慧城市、智能制造、车联网、能源管理等领域。

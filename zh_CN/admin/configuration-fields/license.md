@@ -1,3 +1,7 @@
+---
+title: "License 配置 | Datalayers 文档"
+description: "license 部分管理 Datalayers 系统的许可证密钥。"
+---
 # License 配置
 
 `license` 部分管理 Datalayers 系统的许可证密钥。

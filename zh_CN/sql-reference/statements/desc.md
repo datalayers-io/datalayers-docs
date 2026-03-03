@@ -1,3 +1,7 @@
+---
+title: "DESC 语句详解 | Datalayers 文档"
+description: "Datalayers DESC 语句详解 - DESC（DESCRIBE）语句是用于快速查看表结构的元数据查询命令。它提供了一种简洁的方式来获取表的列定义、数据类型、约束等结构信息，是数据库开发和维护的常用工具。"
+---
 
 # DESC 语句详解
 

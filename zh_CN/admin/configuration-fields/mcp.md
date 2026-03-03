@@ -1,3 +1,7 @@
+---
+title: "MCP | Datalayers 文档"
+description: "Datalayers MCP（Model Context Protocol）服务的配置参数说明，包括 SSE 开关等配置项。"
+---
 # MCP
 
 ## 配置

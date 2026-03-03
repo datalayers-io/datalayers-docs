@@ -1,3 +1,7 @@
+---
+title: "DBeaver | Datalayers 文档"
+description: "DBeaver 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。"
+---
 # DBeaver
 
 [DBeaver](https://github.com/dbeaver/dbeaver) 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。

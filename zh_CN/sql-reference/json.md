@@ -1,3 +1,7 @@
+---
+title: "Json 函数详解 | Datalayers 文档"
+description: "Datalayers Json 函数详解 - JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持从 JSON 字符串中提取特定类型的值、检查键是否存在以及进行条件查询。这些函数在处理半结构化数据和 API 响应时特别有用。"
+---
 # Json 函数详解
 
 ## 功能概述

@@ -1,3 +1,7 @@
+---
+title: "DELETE Statement | Datalayers 文档"
+description: "Datalayers SQL 语句 - DELETE 语句用于从表中删除数据。"
+---
 # DELETE Statement
 
 DELETE 语句用于从表中删除数据。

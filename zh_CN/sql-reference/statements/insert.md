@@ -1,3 +1,7 @@
+---
+title: "INSERT 语句参考指南 | Datalayers 文档"
+description: "Datalayers INSERT 语句参考指南 - INSERT 语句是 SQL 中用于向数据库表插入新记录的核心操作。"
+---
 # INSERT 语句参考指南
 
 ## 概述

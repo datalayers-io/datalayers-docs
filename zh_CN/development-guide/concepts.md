@@ -1,3 +1,7 @@
+---
+title: "核心概念解析 | Datalayers 文档"
+description: "Datalayers 是一款分布式多模超融合数据库，本章节将系统介绍其核心概念和术语，帮助您快速理解和使用 Datalayers 的各项功能。"
+---
 # 核心概念解析
 
 ## 概述

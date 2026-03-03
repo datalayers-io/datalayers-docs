@@ -1,3 +1,7 @@
+---
+title: "快速开始 | Datalayers 文档"
+description: "Datalayers 完全兼容 Prometheus Remote Write 协议，可无缝承接 Prometheus 数据流。本指南将帮助您快速完成数据接入和查询配置。"
+---
 # 快速开始
 
 Datalayers 完全兼容 Prometheus Remote Write 协议，可无缝承接 Prometheus 数据流。本指南将帮助您快速完成数据接入和查询配置。

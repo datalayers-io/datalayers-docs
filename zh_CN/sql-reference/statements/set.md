@@ -1,3 +1,7 @@
+---
+title: "SET STATEMENT | Datalayers 文档"
+description: "Datalayers SQL 语句 - SET 语句用于更改连接中或全局的某些配置项。"
+---
 # SET STATEMENT
 
 SET 语句用于更改连接中或全局的某些配置项。

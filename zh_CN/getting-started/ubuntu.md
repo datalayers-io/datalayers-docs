@@ -1,3 +1,7 @@
+---
+title: "Ubuntu 系统安装指南 | Datalayers 文档"
+description: "本文详细介绍在 Ubuntu 系统中安装、使用 Datalayers 数据库的完整流程。"
+---
 # Ubuntu 系统安装指南
 
 本文详细介绍在 Ubuntu 系统中安装、使用 Datalayers 数据库的完整流程。
