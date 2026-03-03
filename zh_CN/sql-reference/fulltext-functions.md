@@ -1,6 +1,6 @@
 ---
 title: "全文检索函数 | Datalayers 文档"
-description: "Datalayers 提供以下 3 个全文检索相关 UDF："
+description: "介绍 Datalayers 提供全文检索的相关函数"
 ---
 # 全文检索函数
 
