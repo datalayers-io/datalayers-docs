@@ -20,3 +20,19 @@ DROP DATABASE [IF EXISTS] database_name
 ```
 
 删除指定的 `database`, 如果 `database` 不为空（database下有 table），则不可删除。  
+
+### DROP INDEX
+
+Drops a specified index (including inverted and vector indexes).
+
+```SQL
+DROP INDEX [IF EXISTS] index_name ON [database.]table_name
+```
+
+Examples
+
+```SQL
+DROP INDEX idx_message ON logs;
+
+DROP INDEX IF EXISTS idx_message ON logs;
+```

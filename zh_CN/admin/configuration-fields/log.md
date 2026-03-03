@@ -1,3 +1,7 @@
+---
+title: "日志配置 | Datalayers 文档"
+description: "Datalayers 配置参数 - log 部分配置日志的生成、存储和管理方式。"
+---
 # 日志配置
 
 `log` 部分配置日志的生成、存储和管理方式。

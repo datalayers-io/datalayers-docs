@@ -1,3 +1,7 @@
+---
+title: "连接认证 | Datalayers 文档"
+description: "Datalayers 提供静态认证、RBAC两种连接认证方式，分别适用于不同的使用场景和安全需求。"
+---
 # 连接认证
 
 Datalayers 提供[静态认证](./static.md)、[RBAC](../rbac/overview.md)两种连接认证方式，分别适用于不同的使用场景和安全需求。

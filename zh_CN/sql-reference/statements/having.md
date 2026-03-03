@@ -1,3 +1,7 @@
+---
+title: "HAVING 语句参考指南 | Datalayers 文档"
+description: "Datalayers HAVING 语句参考指南 - HAVING 子句是 SQL 中用于对 GROUP BY 分组后的结果进行过滤的关键语句。它与 WHERE 子句的主要区别在于执行时机：WHERE 在分组前过滤单个记录，而 HAVING 在分组后过滤整个分组。"
+---
 # HAVING 语句参考指南
 
 ## 概述

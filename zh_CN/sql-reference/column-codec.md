@@ -1,3 +1,7 @@
+---
+title: "列级编码与压缩配置指南 | Datalayers 文档"
+description: "Datalayers 采用 列式存储，列存专门针对分析型工作负载进行了优化，能够显著提高分析效率、降低存储成本。在列式存储中，表的每一列会独立存储，这为压缩技术的应用提供了便利，从而提高了存储效率。Datalayers 支持为每个列单独配置编码和压缩算法，用户可以根据工作负载的需求，选择合适的编码…"
+---
 # 列级编码与压缩配置指南
 
 ## 概述
@@ -61,7 +65,7 @@ Datalayers 支持的编码算法如下：
 如果没有显式指定编码算法，不同数据类型的默认编码算法为：
 
 - `Boolean`：`RLE`。
-- `Int32`：`DLETA_BINARY_PACKED`。
+- `Int32`：`DELTA_BINARY_PACKED`。
 - `Int64`：`DELTA_BINARY_PACKED`。
 - `BYTE_ARRAY`：`DELTA_BYTE_ARRAY`。
 - 其他类型：`PLAIN`。

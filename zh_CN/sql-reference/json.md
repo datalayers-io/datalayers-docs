@@ -1,6 +1,11 @@
+---
+title: "Json 函数详解 | Datalayers 文档"
+description: "Datalayers Json 函数详解 - JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持从 JSON 字符串中提取特定类型的值、检查键是否存在以及进行条件查询。这些函数在处理半结构化数据和 API 响应时特别有用。"
+---
 # Json 函数详解
 
 ## 功能概述
+
 JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持从 JSON 字符串中提取特定类型的值、检查键是否存在以及进行条件查询。这些函数在处理半结构化数据和 API 响应时特别有用。
 
 ## 函数列表
@@ -114,7 +119,7 @@ select * from t where json_get_int(json_col, 'count') > 100;
 语法：
 
 ``` sql
-json_get_bool(expression, key)
+json_get_float(expression, key)
 ```
 
 其中 `expression` 可以为一个字符串字面量，或字符串类型的列。

@@ -1,4 +1,8 @@
-# 快速开始
+---
+title: "KV 存储快速开始 | Datalayers 文档"
+description: "Datalayers 提供兼容 Redis 协议的键值存储服务，本节将指导您快速启用并连接该服务，完成从配置到验证的全流程操作。"
+---
+# KV 存储快速开始
 
 Datalayers 提供兼容 Redis 协议的键值存储服务，本节将指导您快速启用并连接该服务，完成从配置到验证的全流程操作。
 
@@ -41,5 +45,5 @@ sudo systemctl restart datalayers
 2. 安装完成后，使用以下命令连接到 Datalayers 键值存储服务：
 
 ```bash
-redis-cli -p 8362
+redis-cli -p 6379
 ```

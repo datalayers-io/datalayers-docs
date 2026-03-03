@@ -1,3 +1,7 @@
+---
+title: "CAST 函数详解 | Datalayers 文档"
+description: "Datalayers CAST 函数详解 - CAST 函数是 SQL 中用于数据类型转换的核心函数，可以将一个表达式的值转换为指定的目标数据类型。如果转换不可行，函数会抛出错误，确保数据转换的类型安全。"
+---
 # CAST 函数详解
 
 ## 功能概述

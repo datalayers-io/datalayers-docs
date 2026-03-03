@@ -1,3 +1,7 @@
+---
+title: "RBAC（基于角色的访问控制） | Datalayers 文档"
+description: "Datalayers RBAC（基于角色的访问控制） - RBAC 提供完整的身份认证和权限管理体系，支持多用户、多角色的细粒度权限控制。"
+---
 # RBAC（基于角色的访问控制）
 
 ## 概述
@@ -67,12 +71,12 @@ path = "run/datalayers.sock"
 
 配置好后需重启服务
 
-2. 执行初始化指令
+1. 执行初始化指令
 
 ```shell
 # 以 deb/rpm 安装方式为例
 sudo -u datalayers dlsql 
-> CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'
+> CREATE USER IF NOT EXISTS 'admin'@'%' identified by 'public'
 Query OK, 0 rows affected. (0.001 sec)
 > GRANT SUPER ON *.* TO 'admin'@'%'
 Query OK, 0 rows affected. (0.001 sec)

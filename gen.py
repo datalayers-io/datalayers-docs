@@ -21,9 +21,21 @@ def read_title_from_md(lang, path):
         dir = 'zh_CN'
     path = dir + '/' + path + '.md'
     with open(path) as f:
+        in_frontmatter = False
+        first_line = True
         for line in f:
-            if line.strip():
-                return line.strip('\n').strip('#').strip()
+            stripped = line.strip()
+            if first_line and stripped == '---':
+                in_frontmatter = True
+                first_line = False
+                continue
+            first_line = False
+            if in_frontmatter:
+                if stripped == '---':
+                    in_frontmatter = False
+                continue
+            if stripped:
+                return stripped.strip('#').strip()
 
 def parse(children, lang):
     acc=[]

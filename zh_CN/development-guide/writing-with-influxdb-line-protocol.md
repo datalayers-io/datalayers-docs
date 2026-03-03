@@ -1,3 +1,7 @@
+---
+title: "InfluxDB 行协议接入指南 | Datalayers 文档"
+description: "Datalayers 完全兼容 InfluxDB Line Protocol V1 协议，为时序数据提供高效写入能力。该协议特别适合从现有 InfluxDB 系统迁移的场景。"
+---
 # InfluxDB 行协议接入指南
 
 ## 概述

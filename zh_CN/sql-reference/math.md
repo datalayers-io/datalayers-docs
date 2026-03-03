@@ -1,6 +1,11 @@
+---
+title: "数学函数详解 | Datalayers 文档"
+description: "Datalayers 数学函数详解 - 数学函数是用于对数值数据进行计算和处理的核心函数集。这些函数在数据分析、科学计算、财务建模和业务逻辑处理中具有重要作用。"
+---
 # 数学函数详解
 
 ## 功能概述
+
 数学函数是用于对数值数据进行计算和处理的核心函数集。这些函数在数据分析、科学计算、财务建模和业务逻辑处理中具有重要作用。
 
 ## 函数列表
@@ -13,7 +18,7 @@
 | asin(expression)     | 数值类型 | DOUBLE | 反正弦函数 |
 | asinh(expression)    | 数值类型 | DOUBLE | 双曲正弦或反正弦函数 |
 | atan(expression)     | 数值类型 | DOUBLE | 反正切函数 |
-| atahh(expression)    | 数值类型 | DOUBLE | 双曲正切或反正切函数 |
+| atanh(expression)    | 数值类型 | DOUBLE | 双曲正切或反正切函数 |
 | atan2(expression\_y, expression\_x) | 数值类型 | DOUBLE | 反正切函数，expression\_y 是要操作的第一个数值表达式，expression\_x 是要操作的第二个数值表达式 |
 | cbrt(expression)     | 数值类型 | DOUBLE | 返回立方根 |
 | ceil(expression)     | 数值类型 | DOUBLE |  将数字向上舍入，例如：ceil(17.4) = 18 |

@@ -1,7 +1,12 @@
+---
+title: "SHOW 语句详解 | Datalayers 文档"
+description: "SHOW 语句是 Datalayers 提供的元数据查询命令，用于快速获取数据库系统的各类信息。它提供了比直接查询 INFORMATION_SCHEMA 更简洁的语法，适合日常管理和监控使用。"
+---
 
 # SHOW 语句详解
 
 ## 功能概述
+
 SHOW 语句是 Datalayers 提供的元数据查询命令，用于快速获取数据库系统的各类信息。它提供了比直接查询 INFORMATION_SCHEMA 更简洁的语法，适合日常管理和监控使用。
 
 ## SHOW DATABASES
@@ -74,7 +79,7 @@ SHOW TASKS flush
 
 ## SHOW CURRENT node
 
-在集群模式gh，通过该命令可查看当前连接对应的节点。  
+在集群模式下，通过该命令可查看当前连接对应的节点。  
 注：在单机模式下该命令会返回空。
 
 ## SHOW VERSION

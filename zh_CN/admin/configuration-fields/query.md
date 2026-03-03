@@ -1,3 +1,7 @@
+---
+title: "查询配置 | Datalayers 文档"
+description: "query 配置组用于管理 Datalayers 的查询行为。主要包括 内存资源控制 和 慢查询日志记录。"
+---
 # 查询配置
 
 `query` 配置组用于管理 Datalayers 的查询行为。主要包括 `内存资源控制` 和 `慢查询日志记录`。

@@ -1,3 +1,7 @@
+---
+title: "DBeaver | Datalayers 文档"
+description: "DBeaver 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。"
+---
 # DBeaver
 
 [DBeaver](https://github.com/dbeaver/dbeaver) 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。
@@ -34,5 +38,5 @@ Datalayers 支持 Arrow Flight SQL 协议，因此通过配置 DBeaver 即可实
 1. 从顶部菜单中选择数据库、新建数据库连接
 2. 搜索此前添加的驱动名称（如此前添加的 Datalayers），找到后双击该图标，进入配置界面
 3. 配置地址、用户名与密码，点击 **Finish** 完成配置
-4. 此时便完成了连接 Datalayers 的配置，点击左右实例，便可对数据库进行相应操作
+4. 此时便完成了连接 Datalayers 的配置，点击左侧实例，便可对数据库进行相应操作
 ![DBeaver](../assets/dbeaver/datalayers-with-dbeaver.png)

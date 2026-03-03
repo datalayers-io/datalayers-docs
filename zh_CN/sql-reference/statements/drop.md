@@ -1,3 +1,7 @@
+---
+title: "DROP 语句详解 | Datalayers 文档"
+description: "Datalayers DROP 语句详解 - DROP 语句是用于永久删除数据库对象的 SQL 命令。该操作不可撤销，一旦执行，目标对象及其所有关联数据将被永久删除，需要谨慎使用。"
+---
 
 # DROP 语句详解
 
@@ -21,6 +25,22 @@ DROP DATABASE [IF EXISTS] database_name
 ```
 
 删除指定的 `database`, 如果 `database` 不为空（database下有 table），则不可删除。  
+
+### DROP INDEX
+
+删除指定索引（包括倒排索引和向量索引）。
+
+```SQL
+DROP INDEX [IF EXISTS] index_name ON [database.]table_name
+```
+
+示例
+
+```SQL
+DROP INDEX idx_message ON logs;
+
+DROP INDEX IF EXISTS idx_message ON logs;
+```
 
 
 ### DROP NODE
