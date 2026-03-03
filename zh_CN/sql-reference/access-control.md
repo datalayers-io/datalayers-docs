@@ -1,6 +1,5 @@
 ---
-title: "ACCESS CONTROL | Datalayers 文档"
-description: "Datalayers ACCESS CONTROL的详细说明、语法规则与使用示例。"
+title: "访问控制 | Datalayers 文档"
+description: "Datalayers 访问控制的详细说明、语法规则与使用示例。"
 ---
-# ACCESS CONTROL
-
+# 访问控制

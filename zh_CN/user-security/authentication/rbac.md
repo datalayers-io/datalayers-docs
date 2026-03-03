@@ -71,12 +71,12 @@ path = "run/datalayers.sock"
 
 配置好后需重启服务
 
-2. 执行初始化指令
+1. 执行初始化指令
 
 ```shell
 # 以 deb/rpm 安装方式为例
 sudo -u datalayers dlsql 
-> CREATE USER IF NOT EXISTS'admin'@'%' identified by 'public'
+> CREATE USER IF NOT EXISTS 'admin'@'%' identified by 'public'
 Query OK, 0 rows affected. (0.001 sec)
 > GRANT SUPER ON *.* TO 'admin'@'%'
 Query OK, 0 rows affected. (0.001 sec)

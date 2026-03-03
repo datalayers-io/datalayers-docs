@@ -1,8 +1,8 @@
 ---
-title: "SET STATEMENT | Datalayers 文档"
+title: "SET 语句详解 | Datalayers 文档"
 description: "Datalayers SQL 语句 - SET 语句用于更改连接中或全局的某些配置项。"
 ---
-# SET STATEMENT
+# SET 语句详解
 
 SET 语句用于更改连接中或全局的某些配置项。
 
@@ -13,9 +13,9 @@ SET 语句用于更改连接中或全局的某些配置项。
 SET session timezone = 'Asia/Shanghai' ;
 ```
 
-## AVAILABLE SET CONFIG
+## 可用配置项
 
-|Name| Description| Input type| Default value| Example|
+|名称| 描述| 输入类型| 默认值| 示例|
 | ---- | ---- | ---- | ---- | ---- |
 | timezone | 当前时区 | VARCHAR | 系统 (服务端当地) 时区 / 服务端配置时区 | ```SET session timezone = 'Asia/Shanghai';``` |
 

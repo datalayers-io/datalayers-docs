@@ -2,7 +2,7 @@
 title: "CentOS 系统安装指南 | Datalayers 文档"
 description: "本文详细介绍在 CentOS 系统中安装、使用 Datalayers 数据库的完整流程。"
 ---
-# CentOS 系统安装指南 
+# CentOS 系统安装指南
 
 本文详细介绍在 CentOS 系统中安装、使用 Datalayers 数据库的完整流程。
 
@@ -13,7 +13,6 @@ Datalayers 支持的 CentOS 版本为：
 
 ## 安装 Datalayers
 
-
 1. 下载安装包，<a href="https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm" download="datalayers-{@version_number@}-el7-amd64.rpm">点击下载</a>rpm安装包。
 
 > 或者直接使用`wget`命令下载安装包：
@@ -22,7 +21,7 @@ Datalayers 支持的 CentOS 版本为：
 > wget https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm
 > ```
 
-2. 通过如下命令安装：
+1. 通过如下命令安装：
 
 ``` bash
 sudo yum localinstall ./datalayers-{@version_number@}-el7-amd64.rpm
@@ -41,6 +40,7 @@ sudo yum localinstall ./datalayers-{@version_number@}-el7-amd64.rpm
 ## 服务管理
 
 ### 启动服务
+
 执行以下命令，将以 systemd 方式启动（单机模式）：
 
 ``` bash
@@ -48,6 +48,7 @@ sudo systemctl start datalayers
 ```
 
 ### 查看服务状态
+
 可通过以下命令查看其启动状态：
 
 ``` bash
@@ -55,6 +56,7 @@ systemctl status datalayers
 ```
 
 ### 停止服务
+
 可通过以下命令停止服务：
 
 ``` bash
@@ -62,6 +64,7 @@ sudo systemctl stop datalayers
 ```
 
 ### 重启服务
+
 可通过以下命令重启服务：
 
 ``` bash
@@ -81,6 +84,7 @@ sudo yum remove datalayers
 ## 体验功能
 
 成功启动容器后，您可以通过以下方式体验 Datalayers：
-- 使用命[命令行工具](./command-line-tool.md)连接数据库进行操作
+
+- 使用[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
 - 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作

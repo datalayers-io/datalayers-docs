@@ -65,7 +65,7 @@ Datalayers 支持的编码算法如下：
 如果没有显式指定编码算法，不同数据类型的默认编码算法为：
 
 - `Boolean`：`RLE`。
-- `Int32`：`DLETA_BINARY_PACKED`。
+- `Int32`：`DELTA_BINARY_PACKED`。
 - `Int64`：`DELTA_BINARY_PACKED`。
 - `BYTE_ARRAY`：`DELTA_BYTE_ARRAY`。
 - 其他类型：`PLAIN`。
