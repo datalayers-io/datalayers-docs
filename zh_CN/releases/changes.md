@@ -81,7 +81,7 @@ description: "Datalayers CHANGELOG"
 ### 新功能
 
 - **RBAC 访问控制**：新增 [基于角色的访问控制](../user-security/rbac/overview.md) 功能，实现细粒度的权限控制。
-- **Prometheus 增强**：支持 Prometheus Remote Write 协议，可通过该协议直接写入数据。现 Datalayers 已经完全兼容 Prometheus 写入与查询协议，可做为 Prometheus 的长期存储或者替换 Prometheus。
+- **Prometheus 增强**：支持 Prometheus Remote Write 协议，可通过该协议直接写入数据。现 Datalayers 已经完全兼容 Prometheus 写入与查询协议，可作为 Prometheus 的长期存储或者替换 Prometheus。
 - **向量索引**：新增多种 [向量索引](../vector-search/vector-index.md) 类型的支持，提升检索效率与灵活性。
 - **用户认证**：新增 peer认证 机制，详见 [peer认证](../admin/datalayers-cli.md)。
 - **审计日志**：新增审计日志功能，增强操作可追溯性与安全性。
@@ -247,7 +247,7 @@ description: "Datalayers CHANGELOG"
 
 ### 增强
 
-- 优化统计信息，提升部份场景聚合函数的性能。
+- 优化统计信息，提升部分场景聚合函数的性能。
 
 ## 2.3.4
 
@@ -529,14 +529,14 @@ description: "Datalayers CHANGELOG"
 ### 修复
 
 - dlsql 可能 panic 的问题。
-- 在部份场景下，datalayers 平滑退出耗时较长的问题。
-- 查询数据结果中存在补录数据时，部份查询场景可能报错的问题。
+- 在部分场景下，datalayers 平滑退出耗时较长的问题。
+- 查询数据结果中存在补录数据时，部分查询场景可能报错的问题。
 
 ### 其他
 
 - 表名支持 `-` 连接符（如表名中带`-`， 在执行相关 SQL 语句时，需使用 "`" 将对应的字符串进行包裹）。
-- 丰富 Hybrid cache 的 metrics，以更方便的观察 Hybrid cache 的使用情况。
-- 优化 dlsql 的错误处理，当 SQL 语句报错时可更清晰的展示相关错误信息。
+- 丰富 Hybrid cache 的 metrics，以更方便地观察 Hybrid cache 的使用情况。
+- 优化 dlsql 的错误处理，当 SQL 语句报错时可更清晰地展示相关错误信息。
 
 ## 2.2.1
 
@@ -549,8 +549,8 @@ description: "Datalayers CHANGELOG"
 ### 增强
 
 - 使用 `dldump` 工具进行备份与还原时，添加了进度条。
-- 系统重启时，将根据 CPU Core 数量，对于 `wal` 进行并性重放，以加速系统启动。
-- 使用 InfluxDB 行协议写入，所有 `tag` 做为 partition key。
+- 系统重启时，将根据 CPU Core 数量，对 `wal` 进行并行重放，以加速系统启动。
+- 使用 InfluxDB 行协议写入，所有 `tag` 作为 partition key。
 - 缓存更多数据的统计信息，以加速查询。
 
 ### 修复
@@ -579,7 +579,7 @@ description: "Datalayers CHANGELOG"
 
 ### 增强
 
-- 优化了错误消息，对部份错误表述更加清晰。
+- 优化了错误消息，对部分错误表述更加清晰。
 
 ### 其他
 
