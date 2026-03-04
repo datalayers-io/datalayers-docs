@@ -45,6 +45,7 @@ Query OK, 0 rows affected. (0.034 sec)
 - 左侧菜单导航致至 `集成` > `连接器`
 - 点击 "创建"，在搜索框中输入 `Datalayers`，在搜索结果中选择 **Datalayers**, 点击下一步
 - 填写 **Datalayers** 连接信息，填写完成后可点击**测试连接**，确保连接成功，如下图：
+
 ![demo](../assets/datalayers-with-emqx.jpg)
 
 **注**：服务器通讯地址填写 `Datalayers HTTP 地址`
@@ -54,10 +55,14 @@ Query OK, 0 rows affected. (0.034 sec)
 #### 创建规则
 
 - 在左侧菜单导航 `集成` > `规则` 页面，在左侧 SQL 编辑器中填写相应的 SQL 规则，点击右侧 `创建`。如下图：
+
   ![create emqx rule](../assets/create_emqx_rule.jpg)
+
 - 在创建规则页面填写相应连接器信息、数据模板。如下图：
+
   ![create emqx rule](../assets/emqx_rules_action.jpg)
   在`写语句`的编辑器中，写入相应的语句模板。
+
 - 在右下角点击创建，以保存动作
 - 在创建规则页面，点击`保存`  
 
@@ -72,6 +77,7 @@ Query OK, 0 rows affected. (0.034 sec)
 - 在右边连接配置中，确保相应配置信息正常，点击连接，确保成功连接到 MQTT Broker
 - 在订阅栏中，主题框中输入 `t/#` 进行通配订阅，方便后续观察
 - 在发布窗口中，主题框输入`t/1`，Payload 框中输入 `{ "sid": "1", "temp":25.6 }`，点击发布，此时我们将看到 pub 与 sub 的消息，如下：
+
   ![emqx pub sub](../assets/emqx_pub_sub.jpg)
 
 ```text

@@ -1,12 +1,12 @@
 ---
 title: "使用命令行工具操作 Datalayers | Datalayers 文档"
-description: "dlsql 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。"
+description: "dlsql 是 Datalayers 内置的、通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。"
 ---
 # 使用命令行工具操作 Datalayers
 
 ## 工具简介
 
-`dlsql` 是 Datalayers 内置的一个 通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
+`dlsql` 是 Datalayers 内置的、通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
 
 详细用法参考 [命令行工具](../admin/datalayers-cli.md)。
 

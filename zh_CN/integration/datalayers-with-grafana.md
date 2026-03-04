@@ -20,7 +20,7 @@ description: "随着物联网 (IoT)、工业自动化、智能能源等领域的
 
 Datalayers 支持多种安装方式，具体安装方法请参考**快速开始**章节。
 
-此处我们以 Ubuntu 操作系统、amd64 平台为例，请至[下载页](https://datalayers.cn/download?broker=ubuntu)下载对应平台的 `deb` 安装包。
+此处我们以 Ubuntu 操作系统、amd64 平台为例，请前往 [下载页](https://datalayers.cn/download?broker=ubuntu) 下载对应平台的 `deb` 安装包。
 
 安装完成后，可以通过我们提供的命令行工具写入一些示例数据：
 
@@ -83,7 +83,7 @@ bash -c "$(curl -fsSL \
   -u admin \
   -p public
 
-# 参数为 datalayers 连接相关配置：-h 为地址和端口， -u 为用户名，-p 为密码，请根据实际情况修改
+# 参数为 Datalayers 连接相关配置：`-h` 为地址和端口，`-u` 为用户名，`-p` 为密码，请根据实际情况修改
 ```
 
 该脚本将为你自动安装插件，并在当前目录生成相关配置文件，脚本运行结束后，请根据脚本提示，进入到你的 Grafana 实例目录，启动 Grafana 服务。
@@ -159,7 +159,7 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 如果你想免去安装和配置 Datalayers 与 Grafana，可以通过我们提供的 docker compose 零配置快速体验。
 
-首先你需要拉取这个[开源项目](https://github.com/datalayers-io/datalayers-with-grafana)。 它使用 Docker 将 Datalayers、Datalayers 对应的镜像整合到一个 docker-compose 文件中，这样可以快速启动这些服务。
+首先你需要拉取这个 [开源项目](https://github.com/datalayers-io/datalayers-with-grafana)。它使用 Docker 将 Datalayers 及其相关镜像整合到一个 `docker-compose` 文件中，从而快速启动这些服务。
 
 ``` bash
 git clone https://github.com/datalayers-io/datalayers-with-grafana.git

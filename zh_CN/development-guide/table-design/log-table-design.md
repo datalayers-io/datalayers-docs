@@ -38,12 +38,12 @@ PARTITION BY HASH(partition_key) PARTITIONS n
 
 在通用日志场景中，通常按 `service` 做分区，日志正文放在 `message` 字段，并在建表时直接声明倒排索引。
 
-| 字段      | 备注 |
-|-----------|------|
-| ts        | 日志时间（必须字段） |
-| service   | 服务名/应用名，用于隔离与过滤 |
-| level     | 日志级别（INFO/WARN/ERROR） |
-| message   | 日志正文，用于全文检索 |
+| 字段 | 备注 |
+| --- | --- |
+| ts | 日志时间（必须字段） |
+| service | 服务名/应用名，用于隔离与过滤 |
+| level | 日志级别（INFO/WARN/ERROR） |
+| message | 日志正文，用于全文检索 |
 
 建表语句如下：
 
@@ -69,12 +69,12 @@ PARTITION BY HASH(service) PARTITIONS 2;
 
 在多租户场景中，建议使用 `tenant_id` 作为分区键，先按租户过滤，再在日志正文中做全文检索。
 
-| 字段       | 备注 |
-|------------|------|
-| ts         | 日志时间 |
-| tenant_id  | 租户标识 |
-| host       | 主机或节点 |
-| message    | 日志正文 |
+| 字段 | 备注 |
+| --- | --- |
+| ts | 日志时间 |
+| tenant_id | 租户标识 |
+| host | 主机或节点 |
+| message | 日志正文 |
 
 建表语句如下：
 

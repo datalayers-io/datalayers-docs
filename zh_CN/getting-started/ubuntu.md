@@ -79,7 +79,7 @@ Configuration file '/etc/datalayers/datalayers.toml'
 *** datalayers.toml (Y/I/N/O/D/Z) [default=N] ? 
 ```
 
-**强制处理选项​​**
+**强制处理选项**
 
 - 强制保留您的配置文件
 

@@ -57,38 +57,38 @@ excludes = "select,insert"
 
 ## 操作约束
 
-| 操作              | kind    |  action |
-|-------------------|---------|---------|
-| INSERT            | dml     | insert |
-| UPDATE            | dml     | update |
-| DELETE            | dml     | delete |
-| SELECT            | dql     | select |
-| DESC TABLE        | dql     | desc |
-| SHOW              | dql     | show |
-| CREATE ROLE       | admin   | create_user |
-| CREATE USER       | admin   | create_user |
-| DROP ROLE         | admin   | drop_user |
-| DROP USER         | admin   | drop_user |
-| GRANT             | admin   | grant |
-| REVOKE            | admin   | revoke |
-| SET PASSWORD      | admin   | set_password |
-| CREATE DATABASE   | ddl     | create |
-| DROP DATABASE     | ddl     | drop |
-| TRIM DATABASE     | ddl     | trim |
-| CREATE TABLE      | ddl     | create |
-| DROP TABLE        | ddl     | drop |
-| ALTER TABLE       | ddl     | alter |
-| TRUNCATE TABLE    | ddl     | truncate |
-| CREATE INDEX      | ddl     | alter |
-| DROP INDEX        | ddl     | alter |
-| FLUSH             | admin   | flush |
-| COMPACT           | admin   | compact |
-| EXPORT            | admin   | export |
-| EXCLUDE NODE      | admin   | cluster |
-| INCLUDE NODE      | admin   | cluster |
-| DROP NODE         | admin   | cluster |
-| REBALANCE         | admin   | migrate |
-| STOP MIGRATION    | admin   | migrate |
+| 操作 | kind | action |
+| --- | --- | --- |
+| INSERT | dml | insert |
+| UPDATE | dml | update |
+| DELETE | dml | delete |
+| SELECT | dql | select |
+| DESC TABLE | dql | desc |
+| SHOW | dql | show |
+| CREATE ROLE | admin | create_user |
+| CREATE USER | admin | create_user |
+| DROP ROLE | admin | drop_user |
+| DROP USER | admin | drop_user |
+| GRANT | admin | grant |
+| REVOKE | admin | revoke |
+| SET PASSWORD | admin | set_password |
+| CREATE DATABASE | ddl | create |
+| DROP DATABASE | ddl | drop |
+| TRIM DATABASE | ddl | trim |
+| CREATE TABLE | ddl | create |
+| DROP TABLE | ddl | drop |
+| ALTER TABLE | ddl | alter |
+| TRUNCATE TABLE | ddl | truncate |
+| CREATE INDEX | ddl | alter |
+| DROP INDEX | ddl | alter |
+| FLUSH | admin | flush |
+| COMPACT | admin | compact |
+| EXPORT | admin | export |
+| EXCLUDE NODE | admin | cluster |
+| INCLUDE NODE | admin | cluster |
+| DROP NODE | admin | cluster |
+| REBALANCE | admin | migrate |
+| STOP MIGRATION | admin | migrate |
 
 ## 注意事项
 

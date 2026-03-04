@@ -1,10 +1,10 @@
 ---
 title: "调度器配置 | Datalayers 文档"
-description: "scheduler 管理 Datalayers 系统的作业调度，包括 memtable 数据落盘、垃圾回收（GC）和SST Compact等任务。这些设置帮助控制系统在负载下可以并发运行多少作业，以及可以排队多少作业。"
+description: "scheduler 管理 Datalayers 系统的作业调度，包括 memtable 数据落盘、垃圾回收（GC）和 SST Compact 等任务。这些设置用于控制系统在负载下可并发运行和排队的作业数量上限。"
 ---
 # 调度器配置
 
-`scheduler` 管理 Datalayers 系统的作业调度，包括 memtable 数据落盘、垃圾回收（GC）和SST Compact等任务。这些设置帮助控制系统在负载下可以并发运行多少作业，以及可以排队多少作业。
+`scheduler` 管理 Datalayers 系统的作业调度，包括 memtable 数据落盘、垃圾回收（GC）和 SST Compact 等任务。这些设置用于控制系统在负载下可并发运行和排队的作业数量上限。
 
 这些配置确保了系统作业如刷新、垃圾回收和压缩的良好管理，提供最佳性能，同时防止资源过载。
 

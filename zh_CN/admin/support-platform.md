@@ -6,8 +6,8 @@ description: "Datalayers 支持的操作系统平台列表，包括 x86_64、ARM
 
 ## Datalayers 支持的平台列表
 
-| 平台              | 状态          |
-| ----------       | ------------ |
-| x86_64/amd64     | ●            |
-| arm64            | ●            |
-| M(Apple silicon) | ●            |
+| 平台 | 状态 |
+| --- | --- |
+| x86_64/amd64 | ● |
+| arm64 | ● |
+| M(Apple silicon) | ● |

@@ -1,12 +1,12 @@
 ---
 title: "Prometheus 协议 | Datalayers 文档"
-description: "Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol） 与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具的无缝集成。 这意味着您可以："
+description: "Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol）与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具无缝集成。"
 ---
 # Prometheus 协议
 
 ## 概述
 
-Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol） 与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具的无缝集成。
+Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol）与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具无缝集成。
 这意味着您可以：
 
 - 继续使用现有的 Prometheus 数据采集配置，仅需调整数据写入目标，即可将监控数据推送至 Datalayers；

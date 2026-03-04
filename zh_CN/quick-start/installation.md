@@ -9,7 +9,7 @@ Datalayers 支持多种安装部署方式，您可以根据实际环境和需求
 ## 部署方式
 
 | 部署方式 | 适用场景 | 说明 |
-|---------|---------|------|
+| --- | --- | --- |
 | [Docker](../getting-started/docker.md) | 快速体验、开发测试 | 一键拉起，快速试用 |
 | [Ubuntu](../getting-started/ubuntu.md) | Linux 生产环境 | 适用于 Ubuntu/Debian 系统 |
 | [CentOS](../getting-started/centos.md) | Linux 生产环境 | 适用于 CentOS/RHEL 系统 |

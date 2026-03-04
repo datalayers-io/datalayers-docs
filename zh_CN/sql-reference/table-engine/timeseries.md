@@ -29,41 +29,48 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 **说明**  
 
 * TIMESTAMP KEY
+
   用户必须指定唯一的 `TIMESTAMP KEY`，TIMESTAMP KEY 字段必须为 `TIMESTAMP` 类型。
+
 * PRIMARY KEY
+
   用户可以指定 PRIMARY KEY，PRIMARY KEY 中必须包含 TIMESTAMP KEY，用于确定数据的唯一性。
+
 * PARTITION
   * **BY** 根据指定列进行分区。
   * **HASH** 表示按给定列的顺序依次计算 HASH 值，并按 HASH 结果计算分区。当前仅支持 HASH 算法。
   * **column_list** 必须是`PRIMARY KEY`中除了`TIMESTAMP KEY`列以外的列的子集或者全集（如果指定了`PRIMARY KEY`）。
   * **PARTITIONS** 表示分区数量，[合理的设置分区](../../development-guide/high-performance-ingestion.md#partition-数量)数量有利于提升性能。
 * ENGINE
+
   指定表引擎，未指定时默认为时序引擎 TimeSeries。
+
 * WITH
+
   指定 table options。
 
 *注：创建表之后，不支持修改 TIMESTAMP KEY, PARTITION 以及 PRIMARY KEY。*
 
 ### 支持的 Table Options
 
-|  Name                      | Description                                                                                                                |  
-|  ------------------------  |-------------------------------------------------------------------------------------------------------------------------   |  
-|  TTL                       | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期 。支持时间单位：m（分钟）、h（小时）、d（天）           |  
-|  MEMTABLE_SIZE             | 每个 `partition` 内存中缓存的数据大小，缺省值为 `256MiB`。支持单位：MiB、GiB                                                       |  
-|  FLUSH_INTERVAL            | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为`1d`。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天）                                    |  
-|  FLUSH_ON_EXIT             | 程序退出前是否将未落盘的 memtable 持久化到存储中，缺省值为`true` |
-|  BACKFILL_TIME_WINDOW | 允许数据补录的时间窗口，缺省值为`30d`。支持单位：h(小时)、d(天)。每个`partition`独立计算，仅在`memtable`发生持久化之后生效。每一次`memtable`持久化后都会刷新该时间窗口。如果同时配置了`TTL`，则以两者中的较小值为准。例如：某个 partition 的 memtable 持久化时包含的最大时间戳为 2025-06-30 11:29:46，TTL=10d，BACKFILL_TIME_WINDOW=30d，则允许补录数据的最小时间为 2025-06-20 11:29:46 |
-|  MAX_ROW_GROUP_LENGTH      | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000`                                                                     |  
-|  WAL_FSYNC_INTERVAL        | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：`3000`， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
-|  COMPRESSION               | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW                  |  
-|  UPDATE_MODE               | 写入重复数据时的处理方式，目前支持 `Overwrite`、`Append` 两种模式，缺省值为：`Append`。 `Append` 模式拥有更好的性能，目前 `Append` 模式暂不支持更新与删除。           |  
-|  STORAGE_TYPE              | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。支持：S3、FDB  等对象存储服务 |  
-|  COMPACT_WINDOW            | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
-|  COMPACT_MAX_ACTIVE_FILES  | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：`10`，文件级别过大或文件大小过大的不累加到可合并个数 |
-|  COMPACT_MAX_FILE_SIZE     | 可合并文件的最大尺寸，缺省值为：`300MiB`，支持单位：B、KiB、MiB、GiB、TiB、PiB。 此设置表示当待合并文件大小超过时，不再合并这个文件，注意这个值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于此设置。    |
-|  COMPACT_TIME              | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 `02:00~06:00`。支持 UTC 时区设置形式如： UTC,02:00\~06:00  支持多时间窗口设置形式如： UTC,02:00\~04:00,13:00\~15:00，不允许多个时间窗口重叠，允许时间跨凌晨如：23:00\~02:00 |
-|  COMPACT_MODE              | Compaction 支持的模式，缺省值为：`[COMPACT,TTL]`，支持选项：COMPACT,TTL,Delta，可以组合使用。当组合多个选项时，需以'[]'括起来，中间以英文逗号分隔，例如: `[COMPACT,TTL,Delta]`。如需关闭 Compaction，则指定为 Disable  |
-|  ENABLE_LAST_CACHE         | 是否缓存点位最新的数据，缺省值为：`false`。启用该功能后，对于查询点位最新值的场景，性能将会有巨大的提升  |
+| Name | Description |
+| --- | --- |
+| TTL | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期。支持时间单位：m（分钟）、h（小时）、d（天） |
+| MEMTABLE_SIZE | 每个 `partition` 内存中缓存的数据大小，缺省值为 `256MiB`。支持单位：MiB、GiB |
+| FLUSH_INTERVAL | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为`1d`。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天） |
+| FLUSH_ON_EXIT | 程序退出前是否将未落盘的 memtable 持久化到存储中，缺省值为`true` |
+| BACKFILL_TIME_WINDOW | 允许数据补录的时间窗口，缺省值为`30d`。支持单位：h(小时)、d(天)。每个`partition`独立计算，仅在`memtable`发生持久化之后生效。每一次`memtable`持久化后都会刷新该时间窗口。如果同时配置了`TTL`，则以两者中的较小值为准。例如：某个 partition 的 memtable 持久化时包含的最大时间戳为 2025-06-30 11:29:46，TTL=10d，BACKFILL_TIME_WINDOW=30d，则允许补录数据的最小时间为 2025-06-20 11:29:46 |
+| MAX_ROW_GROUP_LENGTH | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000` |
+| WAL_FSYNC_INTERVAL | 用于配置 WAL 文件落盘的间隔，如果设置为 0，则实时刷盘。缺省值：`3000`，最大值：60000（60 秒）。单位：ms（毫秒） |
+| COMPRESSION | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW |
+| UPDATE_MODE | 写入重复数据时的处理方式，目前支持 `Overwrite`、`Append` 两种模式，缺省值为：`Append`。`Append` 模式拥有更好的性能，目前 `Append` 模式暂不支持更新与删除。 |
+| STORAGE_TYPE | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。支持：S3、FDB 等对象存储服务 |
+| COMPACT_WINDOW | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
+| COMPACT_MAX_ACTIVE_FILES | 活跃窗口的可合并 Parquet 文件个数，大于这个值时，会触发活跃窗口 Compaction，缺省值为：`10`，文件级别过大或文件大小过大的不累加到可合并个数 |
+| COMPACT_MAX_FILE_SIZE | 可合并文件的最大尺寸，缺省值为：`300MiB`，支持单位：B、KiB、MiB、GiB、TiB、PiB。此设置表示当待合并文件大小超过阈值时，不再合并该文件。注意该值不是对目标文件的强制大小限制，允许出现合并结果文件大小大于该设置的情况。 |
+| COMPACT_TIME | 非活跃窗口合并的工作时间，缺省值为当前系统设置时区的 `02:00~06:00`。支持 UTC 时区设置形式，如：`UTC,02:00~06:00`；支持多时间窗口设置形式，如：`UTC,02:00~04:00,13:00~15:00`。不允许多个时间窗口重叠，支持跨凌晨时间窗口（如：`23:00~02:00`）。 |
+| COMPACT_MODE | Compaction 支持的模式，缺省值为：`[COMPACT,TTL]`，支持选项：COMPACT,TTL,Delta，可以组合使用。当组合多个选项时，需以'[]'括起来，中间以英文逗号分隔，例如: `[COMPACT,TTL,Delta]`。如需关闭 Compaction，则指定为 Disable |
+| ENABLE_LAST_CACHE | 是否缓存点位最新的数据，缺省值为：`false`。启用该功能后，对于查询点位最新值的场景，性能将会有巨大的提升 |
 
 ### 示例1
 

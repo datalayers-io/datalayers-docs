@@ -15,7 +15,7 @@ ADD COLUMN子句可用于向表中添加指定类型的新列。
 ```SQL
 -- 在表 `table_name` 中添加一个新列 `k`, 类型为 INT 
 ALTER TABLE table_name ADD COLUMN k INT;
--- 在表 `table_name` 中添加 一个新列 `l`, 类型为 INT， 默认值为 10
+-- 在表 `table_name` 中添加一个新列 `l`，类型为 INT，默认值为 10
 ALTER TABLE table_name ADD COLUMN l INT DEFAULT 10;
 ```
 
