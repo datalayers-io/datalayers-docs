@@ -1,6 +1,6 @@
 ---
 title: "权限管理"
-description: "Datalayers RBAC 权限 - 权限是指角色或用户访问数据库对象的能力。"
+description: "Datalayers RBAC 权限管理：介绍权限类型、作用域、授权与回收语法，帮助你构建可控的数据库访问策略。"
 ---
 # 权限管理
 

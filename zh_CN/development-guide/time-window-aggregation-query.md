@@ -79,4 +79,4 @@ GROUP BY timepoint
 - [时间与日期函数](../sql-reference/date.md)
 - [数学函数](../sql-reference/math.md)
 - [插值函数](../sql-reference/gap_fill.md)
-- [Json 函数](../sql-reference/json.md)
+- [JSON 函数](../sql-reference/json.md)

@@ -1,6 +1,6 @@
 ---
 title: "License 配置"
-description: "license 部分管理 Datalayers 系统的许可证密钥。"
+description: "Datalayers License 配置说明：介绍许可证 key 与 file 的优先级规则、默认路径及生产环境建议配置方式。"
 ---
 # License 配置
 

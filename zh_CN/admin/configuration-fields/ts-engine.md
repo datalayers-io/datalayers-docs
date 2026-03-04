@@ -1,10 +1,10 @@
 ---
 title: "时间序列引擎"
-description: "ts_engine 部分定义了 Datalayers 中时间序列引擎的配置设置。根据用户资源与数据模型，合理的配合将获得更好的性能。"
+description: "Datalayers 时间序列引擎配置说明：介绍 ts_engine 关键参数及其调优建议，涵盖内存使用、元数据缓存、LAST CACHE 与 WAL 行为。"
 ---
 # 时间序列引擎
 
-`ts_engine` 部分定义了 Datalayers 中时间序列引擎的配置设置。根据用户资源与数据模型，合理的配合将获得更好的性能。
+`ts_engine` 部分定义了 Datalayers 时间序列引擎的核心配置。根据硬件资源和数据模型合理设置参数，可获得更优的写入与查询性能。
 
 ## 配置示例
 

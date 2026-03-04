@@ -1,6 +1,6 @@
 ---
 title: "表设计概览"
-description: "使用 CREATE 语句在 Datalayers 中创建表。"
+description: "Datalayers 表设计概览：介绍 CREATE 建表语法、命名规则、数据类型与常用表属性（TTL、BACKFILL_TIME_WINDOW、UPDATE_MODE 等）。"
 ---
 # 表设计概览
 

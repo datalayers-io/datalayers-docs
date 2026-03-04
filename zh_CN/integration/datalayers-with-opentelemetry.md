@@ -1,8 +1,8 @@
 ---
-title: "OpenTelemetry"
-description: "Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。"
+title: "Datalayers 集成 OpenTelemetry 指南"
+description: "Datalayers 集成 OpenTelemetry 指南：介绍如何使用 OpenTelemetry Collector 的 InfluxDB Exporter 将链路与指标数据写入 Datalayers，并给出最简配置示例。"
 ---
-# OpenTelemetry
+# Datalayers 集成 OpenTelemetry 指南
 
 Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。
 
@@ -49,7 +49,7 @@ The following configuration options are supported:
   * `max_interval` (default = 30s) Upper bound on backoff interval
   * `max_elapsed_time` (default = 120s) Maximum amount of time (including retries) spent trying to send a request/batch
 
-详见: [influxdb-exporter configuration](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/influxdbexporter/README.md)
+详见 [influxdb-exporter configuration](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/influxdbexporter/README.md)。
 
 ## 最简 OpenTelemetry Collector 配置示例
 

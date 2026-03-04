@@ -1,10 +1,10 @@
 ---
 title: "交互终端概述"
-description: "Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具，支持 SQL（兼容 MySQL 方言） 与 PRQL 进行交互，默认使用 SQL。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。"
+description: "Datalayers CLI 交互终端（dlsql）使用指南：介绍 SQL/PRQL 交互、连接认证、Web 控制台与常用启动参数。"
 ---
 # 交互终端概述
 
-Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具，支持 SQL（兼容 MySQL 方言） 与 [PRQL](https://prql-lang.org/) 进行交互，默认使用 SQL。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。
+Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库交互的命令行工具，支持 SQL（兼容 MySQL 方言）与 [PRQL](https://prql-lang.org/) 两种交互语言，默认使用 SQL。该工具已包含在 Datalayers 镜像和安装包中，可用于 SQL 执行与系统管理。
 
 Datalayers CLI 支持两种连接认证方式，用户可根据实际场景选择。
 
@@ -21,7 +21,7 @@ dlsql 默认使用 SQL 语言（MySQL 方言）进行交互，同时支持 [PRQL
 
 ```
 
-注：该查询语言目前为客户端行为，因此暂时仅支持 `dlsql` 中使用
+注：该查询语言切换目前为客户端行为，因此暂时仅支持在 `dlsql` 中使用。
 
 ## 连接认证方式
 
@@ -43,7 +43,7 @@ Datalayers 集成 Peer 认证能力，为数据库账号管理提供安全便捷
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# DONOT configure this options means do not support uds server by default.
+# Do not configure this option if you do not want UDS server support.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 ```

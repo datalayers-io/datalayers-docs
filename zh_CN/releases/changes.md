@@ -1,8 +1,8 @@
 ---
-title: "CHANGELOG"
-description: "Datalayers CHANGELOG"
+title: "版本更新日志"
+description: "Datalayers 版本更新日志（Changelog）：按版本列出新增功能、性能优化与问题修复，帮助你快速了解每次发布变更。"
 ---
-# CHANGELOG
+# 版本更新日志
 
 ## 2.3.18
 

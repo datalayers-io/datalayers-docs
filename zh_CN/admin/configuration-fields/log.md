@@ -1,6 +1,6 @@
 ---
 title: "日志配置"
-description: "Datalayers 配置参数 - log 部分配置日志的生成、存储和管理方式。"
+description: "Datalayers 日志配置说明：介绍 log 配置组中的日志轮转、标准输出、文件落盘与详细日志参数。"
 ---
 # 日志配置
 

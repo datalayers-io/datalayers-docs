@@ -64,7 +64,7 @@ Datalayers 集成 Peer 认证能力，为数据库账号管理提供安全便捷
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# DONOT configure this options means do not support uds server by default.
+# Do not configure this option if you do not want UDS server support.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 ```

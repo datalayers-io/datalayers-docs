@@ -1,8 +1,8 @@
 ---
-title: "存储"
-description: "storage 部分配置了 Datalayers 系统中的各种存储组件和缓存机制。这些配置控制数据如何在内存、磁盘上缓存，以及如何存储在不同的后端存储中，如本地存储、FDB 和对象存储（S3、Azure、GCS）。"
+title: "存储配置"
+description: "Datalayers 存储配置说明：介绍本地存储、FDB 与对象存储（S3/Azure/GCS）及缓存相关参数，帮助你按场景优化存储性能与成本。"
 ---
-# 存储
+# 存储配置
 
 `storage` 部分配置了 Datalayers 系统中的各种存储组件和缓存机制。这些配置控制数据如何在内存、磁盘上缓存，以及如何存储在不同的后端存储中，如本地存储、FDB 和对象存储（S3、Azure、GCS）。
 
@@ -72,14 +72,14 @@ write_rate_limit = "2MB"
 # virtual_hosted_style = true
 
 # [storage.object_store.azure]
-# container = "datalayers" # your can change it as you want
+# container = "datalayers" # you can customize this value
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
 # write_rate_limit = "0MB"
 
 # [storage.object_store.gcs]
-# bucket = "datalayers" # your can change it as you want
+# bucket = "datalayers" # you can customize this value
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"

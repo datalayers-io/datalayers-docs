@@ -1,8 +1,8 @@
 ---
-title: "Prometheus 协议"
-description: "Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol）与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具无缝集成。"
+title: "Prometheus 协议兼容"
+description: "Datalayers Prometheus 协议兼容说明：支持 Remote Write 与 PromQL，可与 Prometheus 与 Grafana 生态无缝集成。"
 ---
-# Prometheus 协议
+# Prometheus 协议兼容
 
 ## 概述
 

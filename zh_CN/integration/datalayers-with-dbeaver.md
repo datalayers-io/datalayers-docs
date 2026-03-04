@@ -1,8 +1,8 @@
 ---
-title: "DBeaver"
-description: "DBeaver 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。"
+title: "Datalayers 集成 DBeaver 指南"
+description: "Datalayers 集成 DBeaver 指南：介绍 Arrow Flight SQL JDBC 驱动配置、连接参数设置与常见使用步骤，帮助你通过 DBeaver 管理 Datalayers 数据库。"
 ---
-# DBeaver
+# Datalayers 集成 DBeaver 指南
 
 [DBeaver](https://github.com/dbeaver/dbeaver) 是一款开源、跨平台的数据库管理工具，主要用于操作和管理各种数据库。从 Datalayers 2.2.4 版本开始，支持使用 DBeaver 工具对 Datalayers 进行操作、管理。
 
