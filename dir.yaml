@@ -87,10 +87,10 @@
           title_cn: 概述
           path: development-guide/table-design/overview
         - title_en: Time-Series Table Design
-          title_cn: 时序表模型
+          title_cn: 时序存储
           path: development-guide/table-design/timeseries-table-design
         - title_en: Log Table Design
-          title_cn: 日志表模型
+          title_cn: 日志存储
           path: development-guide/table-design/log-table-design
     - title_en: High-Performance Writing
       title_cn: 高性能写入
