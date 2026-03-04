@@ -25,6 +25,14 @@ SHOW DATABASES
 SHOW TABLES
 ```
 
+## SHOW INDEX
+
+查看某个 `table` 下所有的索引。
+
+```SQL
+SHOW INDEX FROM [db].table_name
+```
+
 ## SHOW CREATE TABLE
 
 获取指定 table 的 SCHEMA
