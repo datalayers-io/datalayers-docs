@@ -1,5 +1,5 @@
 ---
-title: "系统监控 | Datalayers 文档"
+title: "系统监控"
 description: "Datalayers 指标支持与 Prometheus 集成。Datalayers 启动后，您可以通过 HTTP 协议访问 http://:8361/metrics 获取系统实时指标数据。这些指标可通过 Prometheus 进行采集存储，并通过 Grafana 进行可视化展示。"
 ---
 # 系统监控

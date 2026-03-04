@@ -1,5 +1,5 @@
 ---
-title: "Runtime 配置 | Datalayers 文档"
+title: "Runtime 配置"
 description: "Datalayers 配置参数 - 该配置项用于 CPU Core 与 用户线程、后台线程进行分离与绑定，以保障系统在高负载时前台线程与后台线程不会争抢 CPU 资源。在系统负载较高的场景建议配置该项。"
 ---
 # Runtime 配置

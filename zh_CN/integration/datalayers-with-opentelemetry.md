@@ -1,5 +1,5 @@
 ---
-title: "OpenTelemetry | Datalayers 文档"
+title: "OpenTelemetry"
 description: "Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。"
 ---
 # OpenTelemetry

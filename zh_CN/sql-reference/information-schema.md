@@ -1,5 +1,5 @@
 ---
-title: "INFORMATION_SCHEMA 元数据参考指南 | Datalayers 文档"
+title: "INFORMATION_SCHEMA 元数据参考指南"
 description: "INFORMATION_SCHEMA 是 Datalayers 提供的标准元数据目录，包含数据库、表、列、索引等对象的元信息。这些只读视图允许用户查询数据库结构信息，是数据库管理和开发的重要工具。"
 ---
 # INFORMATION_SCHEMA 元数据参考指南

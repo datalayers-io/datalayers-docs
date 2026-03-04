@@ -1,5 +1,5 @@
 ---
-title: "MCP | Datalayers 文档"
+title: "MCP"
 description: "Datalayers MCP（Model Context Protocol）服务的配置参数说明，包括 MCP 开关等配置项。"
 ---
 # MCP

@@ -1,5 +1,5 @@
 ---
-title: "Docker 环境安装指南 | Datalayers 文档"
+title: "Docker 环境安装指南"
 description: "本文介绍如何使用 Docker 快速部署和体验 Datalayers 数据库。"
 ---
 # Docker 环境安装指南

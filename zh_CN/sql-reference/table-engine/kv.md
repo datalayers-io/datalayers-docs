@@ -1,5 +1,5 @@
 ---
-title: "Key-Value 表引擎 | Datalayers 文档"
+title: "Key-Value 表引擎"
 description: "Datalayers Key-Value 引擎说明，支持通过 Redis 协议进行键值存储模型的交互操作。"
 ---
 # Key-Value 表引擎

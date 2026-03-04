@@ -1,5 +1,5 @@
 ---
-title: "PostgreSQL 协议（Beta） | Datalayers 文档"
+title: "PostgreSQL 协议（Beta）"
 description: "Datalayers 兼容 PostgreSQL 网络连接协议，兼容 PostgreSQL 生态的命令行工具、JDBC 和各种可视化工具。"
 ---
 # PostgreSQL 协议（Beta）

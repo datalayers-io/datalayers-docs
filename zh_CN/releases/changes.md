@@ -1,5 +1,5 @@
 ---
-title: "CHANGELOG | Datalayers 文档"
+title: "CHANGELOG"
 description: "Datalayers CHANGELOG"
 ---
 # CHANGELOG

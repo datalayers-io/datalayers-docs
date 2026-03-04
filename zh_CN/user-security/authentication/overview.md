@@ -1,5 +1,5 @@
 ---
-title: "连接认证 | Datalayers 文档"
+title: "连接认证"
 description: "Datalayers 提供静态认证、RBAC两种连接认证方式，分别适用于不同的使用场景和安全需求。"
 ---
 # 连接认证

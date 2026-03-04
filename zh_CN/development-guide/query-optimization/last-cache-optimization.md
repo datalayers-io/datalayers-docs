@@ -1,5 +1,5 @@
 ---
-title: "LAST CACHE 优化指南 | Datalayers 文档"
+title: "LAST CACHE 优化指南"
 description: "在时序数据场景中，经常需要查询特定设备或点位的最新数据记录，用于实时监控和设备状态追踪。Datalayers v2.3.12 版本引入了 LAST CACHE 功能，专门用于缓存设备最新数据，显著提升相关查询性能。"
 ---
 # LAST CACHE 优化指南

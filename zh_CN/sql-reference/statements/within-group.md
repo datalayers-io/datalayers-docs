@@ -1,5 +1,5 @@
 ---
-title: "Within Group 语句详解 | Datalayers 文档"
+title: "Within Group 语句详解"
 description: "Datalayers Within Group 语句详解 - WITHIN GROUP 语句是用于有序集合聚合函数（Ordered-set Aggregate Functions）的关键语法，它允许在聚合计算前对数据进行排序。这些函数需要数据按特定顺序排列才能正确计算，如百分位数、中位数等统计指标。"
 ---
 # Within Group 语句详解

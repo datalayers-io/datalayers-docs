@@ -1,5 +1,5 @@
 ---
-title: "交互终端概述 | Datalayers 文档"
+title: "交互终端概述"
 description: "Datalayers CLI 交互终端（dlsql）是与 Datalayers 数据库进行交互的命令行工具，支持 SQL（兼容 MySQL 方言） 与 PRQL 进行交互，默认使用 SQL。该工具已包含在 Datalayers 的镜像和安装包中，提供 SQL 执行和系统管理功能。"
 ---
 # 交互终端概述

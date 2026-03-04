@@ -1,5 +1,5 @@
 ---
-title: "PromQL 兼容性 | Datalayers 文档"
+title: "PromQL 兼容性"
 description: "Datalayers 提供高度兼容的 PromQL 查询能力，支持绝大多数常用的选择器、运算符和函数，确保从 Prometheus 平滑迁移。"
 ---
 # PromQL 兼容性

@@ -1,5 +1,5 @@
 ---
-title: "HTTP REST API 接入指南 | Datalayers 文档"
+title: "HTTP REST API 接入指南"
 description: "Datalayers 提供标准的 HTTP 协议接口，支持通过简单的 RESTful 请求直接与数据库交互（如执行 SQL 语句、管理数据库对象等）。本指南将介绍如何快速接入 API，包括认证方式、基础用法、常见操作示例及错误处理规范。"
 ---
 # HTTP REST API 接入指南

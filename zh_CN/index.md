@@ -1,5 +1,5 @@
 ---
-title: "Datalayers 文档概述 | Datalayers 文档"
+title: "Datalayers 文档概述"
 description: "Datalayers 是一款面向工业物联网、车联网、具身智能、AI、能源等领域的分布式多模态超融合数据库。支持时序、日志、键值、向量等存储模型，实现多模态数据的统一管理、高效处理与分析。"
 ---
 # Datalayers 文档概述

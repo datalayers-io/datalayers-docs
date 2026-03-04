@@ -1,5 +1,5 @@
 ---
-title: "EXPLAIN 语句详解 | Datalayers 文档"
+title: "EXPLAIN 语句详解"
 description: "EXPLAIN 语句是 Datalayers 提供的强大查询分析工具，用于展示查询语句的执行计划。通过分析执行计划，用户可以深入了解查询的底层执行逻辑，识别性能瓶颈，并进行针对性的优化。"
 ---
 # EXPLAIN 语句详解

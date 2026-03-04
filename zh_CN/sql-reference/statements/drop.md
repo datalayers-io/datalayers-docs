@@ -1,5 +1,5 @@
 ---
-title: "DROP 语句详解 | Datalayers 文档"
+title: "DROP 语句详解"
 description: "Datalayers DROP 语句详解 - DROP 语句是用于永久删除数据库对象的 SQL 命令。该操作不可撤销，一旦执行，目标对象及其所有关联数据将被永久删除，需要谨慎使用。"
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "PIVOT 语句详解 | Datalayers 文档"
+title: "PIVOT 语句详解"
 description: "Datalayers PIVOT 语句详解 - PIVOT 是 SQL 中用于 “行转列” 的工具。它接受一个表或子查询作为输入，基于某个字段的不同取值，将这些取值 “转置” 为结果表中的多个列，同时对数据进行聚合填充。"
 ---
 # PIVOT 语句详解

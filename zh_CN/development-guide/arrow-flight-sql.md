@@ -1,5 +1,5 @@
 ---
-title: "Arrow Flight SQL 的高速数据传输协议 | Datalayers 文档"
+title: "Arrow Flight SQL 的高速数据传输协议"
 description: "Datalayers 完整实现了 Arrow Flight SQL 协议，基于该协议实现高性能数据链路。该协议结合了 Apache Arrow 的内存列式格式与 gRPC 的高效通信框架，专为大规模数据分析场景设计，实现高速的数据传输。"
 ---
 # Arrow Flight SQL 的高速数据传输协议

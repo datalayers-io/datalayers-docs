@@ -1,5 +1,5 @@
 ---
-title: "日志检索快速开始 | Datalayers 文档"
+title: "日志检索快速开始"
 description: "Datalayers 日志检索 - 本文示例演示如何利用倒排索引启用高效日志检索。"
 ---
 # 日志检索快速开始

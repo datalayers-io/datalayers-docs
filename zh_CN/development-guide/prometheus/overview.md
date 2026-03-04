@@ -1,5 +1,5 @@
 ---
-title: "Prometheus 协议 | Datalayers 文档"
+title: "Prometheus 协议"
 description: "Datalayers 兼容 Prometheus 的远程写入协议（Remote Write Protocol）与 PromQL（Prometheus Query Language）查询语言，支持与 Prometheus 原生生态工具无缝集成。"
 ---
 # Prometheus 协议

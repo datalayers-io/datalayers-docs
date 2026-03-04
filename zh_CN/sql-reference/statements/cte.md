@@ -1,5 +1,5 @@
 ---
-title: "CTE（公共表表达式）参考指南 | Datalayers 文档"
+title: "CTE（公共表表达式）参考指南"
 description: "Datalayers CTE（公共表表达式）参考指南 - CTE（Common Table Expression，公共表表达式）是 SQL 中用于创建临时命名结果集的高级功能。在特定的场景下使用 CTE 可提高查询性能，提升查询语句的可读性、可维护性。"
 ---
 # CTE（公共表表达式）参考指南

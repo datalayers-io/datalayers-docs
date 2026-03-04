@@ -1,5 +1,5 @@
 ---
-title: "CREATE 语句参考指南 | Datalayers 文档"
+title: "CREATE 语句参考指南"
 description: "Datalayers CREATE 语句参考指南 - CREATE 语句是 SQL 中用于创建数据库对象（如数据库、表、索引等）的核心语句。通过 CREATE 语句，用户可以定义对象的结构、约束以及属性，是数据库设计和初始化的基础。"
 ---
 

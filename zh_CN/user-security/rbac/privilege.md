@@ -1,5 +1,5 @@
 ---
-title: "权限管理 | Datalayers 文档"
+title: "权限管理"
 description: "Datalayers RBAC 权限 - 权限是指角色或用户访问数据库对象的能力。"
 ---
 # 权限管理

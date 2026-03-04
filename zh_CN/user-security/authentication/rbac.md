@@ -1,5 +1,5 @@
 ---
-title: "RBAC（基于角色的访问控制） | Datalayers 文档"
+title: "RBAC（基于角色的访问控制）"
 description: "Datalayers RBAC（基于角色的访问控制） - RBAC 提供完整的身份认证和权限管理体系，支持多用户、多角色的细粒度权限控制。"
 ---
 # RBAC（基于角色的访问控制）

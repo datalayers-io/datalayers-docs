@@ -1,5 +1,5 @@
 ---
-title: "时间与日期函数说明 | Datalayers 文档"
+title: "时间与日期函数说明"
 description: "Datalayers 时间与日期函数说明 - TIMESTAMP 函数是用于处理时间戳数据的核心函数集，提供丰富的时间计算、格式化、提取和转换功能。这些函数在时序数据分析、报表生成和业务逻辑处理中具有重要作用。"
 aside: false
 ---

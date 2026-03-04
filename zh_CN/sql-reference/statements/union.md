@@ -1,5 +1,5 @@
 ---
-title: "Union 语句详解 | Datalayers 文档"
+title: "Union 语句详解"
 description: "Datalayers Union 语句详解 - UNION 语句用来合并两个 SELECT 语句的结果，将两个结果集拼接成一个结果集。使用 UNION 时，每个 SELECT 语句必须具有相同数量的列，且对应列的数据类型必须互相兼容。"
 ---
 # Union 语句详解

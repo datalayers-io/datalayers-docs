@@ -1,5 +1,5 @@
 ---
-title: "系统监控指标 | Datalayers 文档"
+title: "系统监控指标"
 description: "Datalayers 提供丰富的监控指标，帮助用户全面掌握服务运行状态，快速识别和定位系统异常。"
 ---
 # 系统监控指标

@@ -1,5 +1,5 @@
 ---
-title: "FLUSH  语句详解 | Datalayers 文档"
+title: "FLUSH  语句详解"
 description: "FLUSH 语句是 Datalayers 时序、日志引擎专用的数据管理命令，用于将内存（wal）中的数据进行强制落盘，将 wal 数据落到存储引擎中。"
 ---
 # FLUSH  语句详解

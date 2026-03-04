@@ -1,5 +1,5 @@
 ---
-title: "TRIM 数据清理语句详解 | Datalayers 文档"
+title: "TRIM 数据清理语句详解"
 description: "TRIM 语句是 Datalayers 时序、日志引擎专用的数据管理命令，用于立即触发数据库的垃圾数据清理过程。该命令能够快速回收存储空间。"
 ---
 # TRIM 数据清理语句详解

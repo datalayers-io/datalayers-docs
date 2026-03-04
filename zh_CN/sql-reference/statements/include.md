@@ -1,5 +1,5 @@
 ---
-title: "INCLUDE NODE 语句详解 | Datalayers 文档"
+title: "INCLUDE NODE 语句详解"
 description: "Datalayers INCLUDE NODE 语句详解 - INCLUDE NODE 语句用于恢复被排除节点的集群参与资格。执行后，目标节点将重新成为集群的活跃成员，可以接收新的数据分区分配，实现集群的动态扩容或故障恢复。"
 ---
 # INCLUDE NODE 语句详解

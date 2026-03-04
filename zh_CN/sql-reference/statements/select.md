@@ -1,5 +1,5 @@
 ---
-title: "SELECT 语句参考指南 | Datalayers 文档"
+title: "SELECT 语句参考指南"
 description: "SELECT 语句是 SQL 中最核心的数据检索操作，用于从数据库中查询和提取数据。Datalayers 提供完整的 SELECT 语法支持，包括复杂查询、聚合分析、多表关联等高级功能。"
 ---
 # SELECT 语句参考指南

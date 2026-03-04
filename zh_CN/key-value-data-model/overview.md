@@ -1,5 +1,5 @@
 ---
-title: "Key-Value 键值存储概述 | Datalayers 文档"
+title: "Key-Value 键值存储概述"
 description: "Datalayers 键值存储服务是一个分布式、支持海量存储的高性能键值存储系统。该服务完全兼容 Redis 协议，用户可直接沿用熟悉的 Redis 客户端、工具链及开发模式，无需为协议适配或架构改造投入额外成本，即享分布式环境下的稳定、高效键值存储能力。"
 ---
 # Key-Value 键值存储概述
