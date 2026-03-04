@@ -1,10 +1,11 @@
 ---
-title: "GROUP BY 语句参考指南 | Datalayers 文档"
+title: "GROUP BY 语句参考指南"
 description: "Datalayers GROUP BY 语句参考指南 - GROUP BY 子句是 SQL 中用于数据分组和聚合分析的核心语句，它根据指定的列或表达式对数据进行分组，然后对每个组应用聚合函数进行计算。GROUP BY 是数据分析、报表生成和统计计算的基础工具。"
 ---
 # GROUP BY 语句参考指南
 
 ## 概述
+
 GROUP BY 子句是 SQL 中用于数据分组和聚合分析的核心语句，它根据指定的列或表达式对数据进行分组，然后对每个组应用聚合函数进行计算。GROUP BY 是数据分析、报表生成和统计计算的基础工具。
 
 ## 语法

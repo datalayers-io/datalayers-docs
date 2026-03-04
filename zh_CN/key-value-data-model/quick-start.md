@@ -1,5 +1,5 @@
 ---
-title: "KV 存储快速开始 | Datalayers 文档"
+title: "KV 存储快速开始"
 description: "Datalayers 提供兼容 Redis 协议的键值存储服务，本节将指导您快速启用并连接该服务，完成从配置到验证的全流程操作。"
 ---
 # KV 存储快速开始

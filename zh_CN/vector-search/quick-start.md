@@ -1,5 +1,5 @@
 ---
-title: "向量检索快速开始 | Datalayers 文档"
+title: "向量检索快速开始"
 description: "本文档介绍如何在 Datalayers 数据库中进行向量数据的存储和检索操作。"
 ---
 # 向量检索快速开始

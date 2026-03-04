@@ -1,13 +1,15 @@
 ---
-title: "角色管理指南 | Datalayers 文档"
+title: "角色管理指南"
 description: "Datalayers 角色管理指南 - 角色是权限的逻辑分组，作为不可登录的特殊用户账户，用于简化多用户的权限管理。通过将权限打包成角色，可以实现批量授权和统一的权限维护。"
 ---
 # 角色管理指南
 
 ## 角色概述
+
 角色是权限的逻辑分组，作为不可登录的特殊用户账户，用于简化多用户的权限管理。通过将权限打包成角色，可以实现批量授权和统一的权限维护。
 
 ## 角色生命周期管理
+
 ### 创建角色
 
 **基本语法**：
@@ -35,6 +37,7 @@ GRANT SELECT ON sales_db.* TO 'manager'@'%';
 ```sql
 GRANT INSERT, UPDATE ON inventory_db.products TO 'admin' WITH GRANT OPTION;
 ```
+
 ::: tip
 角色目前不支持继承
 :::

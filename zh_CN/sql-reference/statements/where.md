@@ -1,15 +1,17 @@
 ---
-title: "WHERE 子句参考指南 | Datalayers 文档"
+title: "WHERE 子句参考指南"
 description: "Datalayers WHERE 子句参考指南 - WHERE 子句是 SQL 查询中用于过滤记录的核心组件，它通过指定条件表达式来限制查询结果集中包含的行。正确使用 WHERE 子句可以显著提高查询效率和结果准确性。"
 ---
 # WHERE 子句参考指南
 
 ## 概述
+
 WHERE 子句是 SQL 查询中用于过滤记录的核心组件，它通过指定条件表达式来限制查询结果集中包含的行。正确使用 WHERE 子句可以显著提高查询效率和结果准确性。
 
 `WHERE` 子句可以与比较运算符（如 `=`, `<>`, `>`, `<`, `>=`, `<=`）、逻辑运算符（如 `AND`, `OR`, `NOT`）以及其他函数（如 `BETWEEN`, `IN`, `LIKE`, `IS NULL`）一起使用，以构建复杂的条件表达式。
 
 ## 语法
+
 ```sql
 SELECT column1, column2, ...
 FROM table_name

@@ -1,5 +1,5 @@
 ---
-title: "系统监控 | Datalayers 文档"
+title: "系统监控"
 description: "Datalayers 指标支持与 Prometheus 集成。Datalayers 启动后，您可以通过 HTTP 协议访问 http://:8361/metrics 获取系统实时指标数据。这些指标可通过 Prometheus 进行采集存储，并通过 Grafana 进行可视化展示。"
 ---
 # 系统监控
@@ -77,13 +77,13 @@ Prometheus 启动完成后，将会定时从 Datalayers 服务定时拉取指标
 docker run --name my-grafana --network host grafana/grafana
 ```
 
-### 登陆 Grafana
+### 登录 Grafana
 
 启动后通过浏览器访问 Grafana，默认用户名/密码为：admin/admin。
 
 ### 添加 Prometheus 数据源
 
-找到 Grafana 菜单 `Configuration - Data sources` ，选择 Prometheus 分类，进入页面后，填入 Prometheus Server 地址，根据需求填写其他配置，保存并通过测试后生效。
+找到 Grafana 菜单 `Configuration - Data sources`，选择 Prometheus 分类，进入页面后填入 Prometheus Server 地址，根据需求填写其他配置，保存并通过测试后生效。
 
 ### 添加监控面板
 

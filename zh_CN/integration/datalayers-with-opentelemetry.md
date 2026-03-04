@@ -1,28 +1,29 @@
 ---
-title: "OpenTelemetry | Datalayers 文档"
+title: "OpenTelemetry"
 description: "Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。"
 ---
 # OpenTelemetry
+
 Datalayers 支持 InfluxDB 的行协议，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 插件与 Datalayers 实现集成。
 
 ![architecture diagram](../assets/architecture-diagram.png)
 
 ## OpenTelemetry Collector
-OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/opentelemetry-collector/tags)、 [Contrib](https://hub.docker.com/r/otel/opentelemetry-collector-contrib)   两个不同的版本。 其中前者只包基础的插件， 后者包含了所有的插件。Core 版本中没有 influxdb exporter 插件，而 Contrib 版本中有。也可以按需自己构建镜像， 只包含自己需要的插件， 建议生产环境采用这种方式， 参考：[Building a custom collector](https://opentelemetry.io/docs/collector/custom-collector)
+
+OpenTelemetry Collector 官方提供了 [Core](https://hub.docker.com/r/otel/opentelemetry-collector/tags) 和 [Contrib](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 两个版本。前者仅包含基础插件，后者包含完整插件集。Core 版本不包含 influxdb exporter 插件，而 Contrib 版本包含该插件。您也可以按需自定义构建镜像，仅保留所需插件，建议在生产环境采用此方式。参考：[Building a custom collector](https://opentelemetry.io/docs/collector/custom-collector)
 
 InfluxDB Exporter 详细文档参考：[influxdb-exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/influxdbexporter)
 
 ### 配置项说明
 
-
 The following configuration options are supported:
 
 * `endpoint` (required) HTTP/S destination for line protocol
-  - if path is set to root (/) or is unspecified, it will be changed to /api/v2/write.
+  * if path is set to root (/) or is unspecified, it will be changed to /api/v2/write.
 * `timeout` (default = 5s) Timeout for requests
 * `headers`: (optional) additional headers attached to each HTTP request
-  - header `User-Agent` is `OpenTelemetry -> Influx` by default
-  - if `token` (below) is set, then header `Authorization` will overridden with the given token
+  * header `User-Agent` is `OpenTelemetry -> Influx` by default
+  * if `token` (below) is set, then header `Authorization` will overridden with the given token
 * `org` (required) Name of InfluxDB organization that owns the destination bucket
 * `bucket` (required) name of InfluxDB bucket to which signals will be written
 * `token` (optional) The authentication token for InfluxDB
@@ -48,9 +49,7 @@ The following configuration options are supported:
   * `max_interval` (default = 30s) Upper bound on backoff interval
   * `max_elapsed_time` (default = 120s) Maximum amount of time (including retries) spent trying to send a request/batch
 
-
 详见: [influxdb-exporter configuration](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/exporter/influxdbexporter/README.md)
-
 
 ## 最简 OpenTelemetry Collector 配置示例
 
@@ -79,9 +78,4 @@ service:
       exporters: [influxdb]
 ```
 
-配置中 Exporter 的 endpoint 需要替换成自己的 Datalayers 地址。由于当前 Datalayers 默认只支持 v1 版本的 InfluxDB Line Protocol，所以需要将 v1_compatibility 设置为 true。要使用的数据库名称需要提前在 Datalayers 中创建。 在 receivers 中选择一个协议，比如 otlp，和协议对应的 endpoint 配置。 从 receivers 中收到的数据会被 processor 处理，这里没有配置，所以直接发送到 exporters， 即为 Datalayers。当 Datalayers 收到数据后，会根据配置的数据库名称，将数据写入到对应的数据库中， 如果没有对应的表， 则会自动创建(如果关闭了 Datalayers 的自动创建表功能， 则需要提前在 Datalayers 中创建表)。
-
-
-
-
-
+配置中 Exporter 的 endpoint 需要替换为实际的 Datalayers 地址。由于当前 Datalayers 默认仅支持 v1 版本的 InfluxDB Line Protocol，因此需要将 `v1_compatibility` 设置为 `true`。目标数据库需提前在 Datalayers 中创建。在 receivers 中选择一个协议（例如 otlp）并配置对应 endpoint。receivers 接收的数据会先经过 processors（此处为空配置），然后发送到 exporters（即 Datalayers）。当 Datalayers 收到数据后，会根据配置的数据库名称写入对应数据库；如果目标表不存在，则会自动创建（若关闭了自动建表功能，则需提前建表）。

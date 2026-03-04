@@ -1,5 +1,5 @@
 ---
-title: "全文检索函数 | Datalayers 文档"
+title: "全文检索函数"
 description: "介绍 Datalayers 提供全文检索的相关函数"
 ---
 # 全文检索函数

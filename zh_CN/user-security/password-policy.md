@@ -1,5 +1,5 @@
 ---
-title: "密码策略 | Datalayers 文档"
+title: "密码策略"
 description: "Datalayers 的密码策略用于定义系统密码的强度要求和认证安全机制，包括密码复杂度规则和防暴力破解保护。"
 ---
 # 密码策略

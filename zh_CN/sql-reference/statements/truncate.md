@@ -1,10 +1,11 @@
 ---
-title: "TRUNCATE TABLE 语句详解 | Datalayers 文档"
+title: "TRUNCATE TABLE 语句详解"
 description: "Datalayers TRUNCATE TABLE 语句详解 - TRUNCATE TABLE 是一种用于快速清空表中所有数据的 DDL 语句。与 DELETE 语句不同，TRUNCATE 通过直接重置表数据的方式实现高效清理，特别适用于需要快速清空大表的场景。"
 ---
 # TRUNCATE TABLE 语句详解
 
 ## 功能概述
+
 TRUNCATE TABLE 是一种用于快速清空表中所有数据的 DDL 语句。与 DELETE 语句不同，TRUNCATE 通过直接重置表数据的方式实现高效清理，特别适用于需要快速清空大表的场景。
 
 ## 语法
@@ -12,6 +13,7 @@ TRUNCATE TABLE 是一种用于快速清空表中所有数据的 DDL 语句。与
 ```sql
 TRUNCATE TABLE table_name;
 ```
+
 * `table_name` 指定需要清空的表名
 
 ## 注意事项

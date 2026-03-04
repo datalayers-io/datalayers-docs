@@ -1,10 +1,11 @@
 ---
-title: "EXCLUDE NODE 语句详解 | Datalayers 文档"
+title: "EXCLUDE NODE 语句详解"
 description: "Datalayers EXCLUDE NODE 语句详解 - EXCLUDE NODE 语句用于将指定的计算节点从集群中临时排除。被排除的节点将不再接收新的数据分区分配，现有分区会自动迁移到其他可用节点，实现集群的平滑缩容或故障节点隔离。"
 ---
 # EXCLUDE NODE 语句详解
 
 ## 功能概述
+
 EXCLUDE NODE 语句用于将指定的计算节点从集群中临时排除。被排除的节点将不再接收新的数据分区分配，现有分区会自动迁移到其他可用节点，实现集群的平滑缩容或故障节点隔离。
 
 ## 语法

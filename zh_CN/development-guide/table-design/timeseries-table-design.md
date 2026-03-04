@@ -1,10 +1,11 @@
 ---
-title: "时序数据模型指南 | Datalayers 文档"
+title: "时序数据模型指南"
 description: "Datalayers 时序数据模型指南 - 时序模型是针对时序数据、日志数据等场景专门优化的数据模型。时序引擎利用时序数据具有时间局部性以及数据查询场景等特点进行优化，以实现高吞吐写入、低存储成本以及高效的计算与分析。"
 ---
 # 时序数据模型指南
 
 ## 概述
+
 时序模型是针对时序数据、日志数据等场景专门优化的数据模型。时序引擎利用时序数据具有时间局部性以及数据查询场景等特点进行优化，以实现高吞吐写入、低存储成本以及高效的计算与分析。
 
 ## 建表语法
@@ -31,13 +32,12 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 
 在某时序场景中，点表中包括以下几个字段，查询场景为点查。
 
-| 字段          |  备注                                                   | 
-| ------------- | ------------------------------------------------------ | 
-| time          | 数据产生/记录的时间点（时序数据必须拥有一个时间）           |   
-| point_number  | 点位信息                                                |   
-| temperature   | 温度                                                   |   
-| humidity      | 湿度                                                    |   
-
+| 字段 | 备注 |
+| --- | --- |
+| time | 数据产生/记录的时间点（时序数据必须拥有一个时间） |
+| point_number | 点位信息 |
+| temperature | 温度 |
+| humidity | 湿度 |
 
 建表语句如下：
 
@@ -51,7 +51,9 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`point_number`) PARTITIONS 2
 ```
+
 **说明**：
+
 - time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - point_number 表示点位唯一标识
 - 数据根据 `point_number` 的 hash 值来做分区，分区数量为：2
@@ -61,13 +63,13 @@ CREATE TABLE `point_table` (
 
 在某时序场景中，点表中包括以下几个字段（相比场景一增加了 `region` 字段），查询场景为点查、区域查询（region）。
 
-| 字段          |  备注                                                   | 
-| ------------- | ------------------------------------------------------ | 
-| time          | 数据产生/记录的时间点（时序数据必须拥有一个时间）           |   
-| region        | 点位所属区域                                             |   
-| point_number  | 点位信息                                                |   
-| temperature   | 温度                                                   |   
-| humidity      | 湿度                                                    |   
+| 字段 | 备注 |
+| --- | --- |
+| time | 数据产生/记录的时间点（时序数据必须拥有一个时间） |
+| region | 点位所属区域 |
+| point_number | 点位信息 |
+| temperature | 温度 |
+| humidity | 湿度 |
 
 建表语句如下：
 
@@ -82,7 +84,9 @@ CREATE TABLE `point_table` (
  )                                                     
  PARTITION BY HASH (`region`) PARTITIONS 2
 ```
+
 **说明**：
+
 - time 数据类型为 TIMESTAMP，精度为纳秒，时序模型中必须包含时间字段，并通过 `TIMESTAMP KEY` 语句指定
 - 数据根据 `region` 的 hash 值来做分区，分区数量为：2
 - 唯一点位标识：`region` + `pointNumber`
@@ -90,7 +94,8 @@ CREATE TABLE `point_table` (
 - 相比场景一，场景二根据 region 查询的性能会更优（如有这类查询场景需求）
 
 ## PARTITION 数量
+
 - 一般来说 1 个 partition 每秒可高达数十万点位的写入，因此根据实际场景需求来设置即可
-- Partition 越多，会消耗越多的 CPU 与内存，建议 Partition 数量不超过集群内所有节点的 CPU CORE 之和 
+- Partition 越多，会消耗越多的 CPU 与内存，建议 Partition 数量不超过集群内所有节点的 CPU CORE 之和
 
 合理的时序表设计是保证系统性能的关键，建议根据实际业务场景和数据特征进行针对性优化。

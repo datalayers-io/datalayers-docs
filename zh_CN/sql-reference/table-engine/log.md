@@ -1,5 +1,5 @@
 ---
-title: "日志表引擎指南 | Datalayers 文档"
+title: "日志表引擎指南"
 description: "Datalayers 日志表引擎的功能特性、建表语法与适用场景说明，专为日志存储与分析场景优化。"
 ---
 # 日志表引擎指南

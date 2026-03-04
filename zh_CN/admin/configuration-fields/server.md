@@ -1,5 +1,5 @@
 ---
-title: "Server | Datalayers 文档"
+title: "Server"
 description: "server 部分包含用于启动和管理 Datalayers 服务监听器的配置。"
 ---
 # Server
@@ -72,7 +72,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # Password protection against brute-force attacks.
 # Form as "a/b/c", means:
 # Account locked for "b" minutes after "a" failed password attempts,
-#  and locked for another "c" miniutes after the each failed attempt.
+#  and locked for another "c" minutes after each failed attempt.
 # The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
 # 0/-/- means no lockout.
 # Default: "0/0/0"

@@ -1,5 +1,5 @@
 ---
-title: "配置文件介绍 | Datalayers 文档"
+title: "配置文件介绍"
 description: "本章节将介绍 Datalayers 配置文件信息。"
 ---
 # 配置文件介绍
@@ -10,11 +10,11 @@ description: "本章节将介绍 Datalayers 配置文件信息。"
 
 Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置有所不同：
 
-| 安装方式           | 配置文件所在位置                         |
-| ----------------- | -------------------------             |
-| DEB 或 RPM 包安装  | `/etc/datalayers/datalayers.toml`     |
-| Docker 容器       | `/etc/datalayers/datalayers.toml`     |
-| 解压缩包安装       | `./etc/datalayers.toml`                |
+| 安装方式 | 配置文件所在位置 |
+| --- | --- |
+| DEB 或 RPM 包安装 | `/etc/datalayers/datalayers.toml` |
+| Docker 容器 | `/etc/datalayers/datalayers.toml` |
+| 解压缩包安装 | `./etc/datalayers.toml` |
 
 主配置文件包含了大部分常用的配置项，如果您没有在配置文件中明确指定某个配置项，Datalayers 将使用默认配置。
 
@@ -88,7 +88,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # Password protection against brute-force attacks.
 # Form as "a/b/c", means:
 # Account locked for "b" minutes after "a" failed password attempts,
-#  and locked for another "c" miniutes after the each failed attempt.
+#  and locked for another "c" minutes after each failed attempt.
 # The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
 # 0/-/- means no lockout.
 # Default: "0/0/0"

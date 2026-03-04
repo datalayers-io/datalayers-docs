@@ -1,5 +1,5 @@
 ---
-title: "Ubuntu 系统安装指南 | Datalayers 文档"
+title: "Ubuntu 系统安装指南"
 description: "本文详细介绍在 Ubuntu 系统中安装、使用 Datalayers 数据库的完整流程。"
 ---
 # Ubuntu 系统安装指南
@@ -79,7 +79,7 @@ Configuration file '/etc/datalayers/datalayers.toml'
 *** datalayers.toml (Y/I/N/O/D/Z) [default=N] ? 
 ```
 
-**强制处理选项​​**
+**强制处理选项**
 
 - 强制保留您的配置文件
 

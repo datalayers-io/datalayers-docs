@@ -1,5 +1,5 @@
 ---
-title: "Join 语句详解 | Datalayers 文档"
+title: "Join 语句详解"
 description: "Datalayers Join 语句详解 - JOIN 语句是 SQL 中用于连接多个表的核心操作，它基于表之间的关联关系将数据组合在一起，形成更完整的数据视图。"
 ---
 # Join 语句详解

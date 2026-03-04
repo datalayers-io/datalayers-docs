@@ -1,5 +1,5 @@
 ---
-title: "节点配置 | Datalayers 文档"
+title: "节点配置"
 description: "node 配置是 Datalayers 集群中节点的行为和属性。节点的配置确保正确的标识、角色分配、超时设置、连接管理和数据存储。"
 ---
 # 节点配置
