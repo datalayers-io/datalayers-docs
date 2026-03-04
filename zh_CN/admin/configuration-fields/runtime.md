@@ -1,10 +1,10 @@
 ---
 title: "Runtime 配置"
-description: "Datalayers 配置参数 - 该配置项用于 CPU Core 与 用户线程、后台线程进行分离与绑定，以保障系统在高负载时前台线程与后台线程不会争抢 CPU 资源。在系统负载较高的场景建议配置该项。"
+description: "Datalayers Runtime 配置说明：介绍 CPU 核心隔离与前后台线程绑定策略，帮助你在高负载场景下减少资源争抢并提升稳定性。"
 ---
 # Runtime 配置
 
-该配置项用于 `CPU Core` 与 `用户线程`、`后台线程`进行分离与绑定，以保障系统在高负载时前台线程与后台线程不会争抢 CPU 资源。在系统负载较高的场景建议配置该项。
+该配置项用于将 `CPU Core` 与 `用户线程`、`后台线程`进行隔离与绑定，以保障系统在高负载场景下减少前后台线程的 CPU 资源争抢。
 
 ::: tip
 后台线程包括不限于：compact、flush、gc、compact_active、compact_inactive

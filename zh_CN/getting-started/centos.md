@@ -1,6 +1,6 @@
 ---
 title: "CentOS 系统安装指南"
-description: "本文详细介绍在 CentOS 系统中安装、使用 Datalayers 数据库的完整流程。"
+description: "Datalayers CentOS 安装指南：介绍 RPM 安装包部署、服务启动与基础验证步骤，帮助你快速完成环境搭建。"
 ---
 # CentOS 系统安装指南
 

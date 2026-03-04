@@ -1,8 +1,8 @@
 ---
-title: "Json 函数详解"
-description: "Datalayers Json 函数详解 - JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持从 JSON 字符串中提取特定类型的值、检查键是否存在以及进行条件查询。这些函数在处理半结构化数据和 API 响应时特别有用。"
+title: "JSON 函数详解"
+description: "Datalayers JSON 函数详解 - JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持从 JSON 字符串中提取特定类型的值、检查键是否存在以及进行条件查询。这些函数在处理半结构化数据和 API 响应时特别有用。"
 ---
-# Json 函数详解
+# JSON 函数详解
 
 ## 功能概述
 
@@ -10,7 +10,7 @@ JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持
 
 ## 函数列表
 
-我们目前提供以下 Json 函数：
+我们目前提供以下 JSON 函数：
 
 - [`json_contains`](#json_contains)
 - [`json_get_bool`](#json_get_bool)
@@ -18,11 +18,11 @@ JSON 函数是用于解析和提取 JSON 格式数据的核心工具集，支持
 - [`json_get_float`](#json_get_float)
 - [`json_get_str`](#json_get_str)
 
-注意，这些函数目前并不会判断所给定的字符串是否为**完全合法**的 Json 字符串。
+注意，这些函数目前并不会判断所给定的字符串是否为**完全合法**的 JSON 字符串。
 
 ### json_contains
 
-功能：检查 Json 字符串中是否包含指定的 key。
+功能：检查 JSON 字符串中是否包含指定的 key。
 
 语法：
 
@@ -52,7 +52,7 @@ select * from t where json_contains(json_col, 'name.first') = true;
 
 ### json_get_bool
 
-功能：从 Json 字符串中提取指定 key 对应的布尔型 value。
+功能：从 JSON 字符串中提取指定 key 对应的布尔型 value。
 
 语法：
 
@@ -83,7 +83,7 @@ select * from t where json_get_bool(json_col, 'settings.enabled') = true;
 
 ### json_get_int
 
-功能：从 Json 字符串中提取指定 key 对应的整型 value。
+功能：从 JSON 字符串中提取指定 key 对应的整型 value。
 
 语法：
 
@@ -114,7 +114,7 @@ select * from t where json_get_int(json_col, 'count') > 100;
 
 ### json_get_float
 
-功能：从 Json 字符串中提取指定 key 对应的浮点型 value。
+功能：从 JSON 字符串中提取指定 key 对应的浮点型 value。
 
 语法：
 
@@ -145,7 +145,7 @@ select * from t where json_get_float(json_col, 'measurements.weight') between 50
 
 ### json_get_str
 
-功能：从 Json 字符串中提取指定 key 对应的字符串型 value。
+功能：从 JSON 字符串中提取指定 key 对应的字符串型 value。
 
 语法：
 

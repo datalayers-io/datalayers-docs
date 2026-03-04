@@ -1,8 +1,8 @@
 ---
 title: "Datalayers 集成 Grafana 可视化指南"
-description: "随着物联网 (IoT)、工业自动化、智能能源等领域的迅猛发展，数据量呈现爆炸式增长。如何高效管理这些时序数据并实现实时监控，已成为各行业面临的关键挑战。Datalayers 作为一款专为工业 IoT 和连接车辆等场景优化的时序数据库，提供了强大的分布式存储和计算能力。而通过与 Grafana 的集成…"
+description: "Datalayers 集成 Grafana 可视化指南：介绍如何安装 Datalayers 与 Grafana 插件、完成数据源配置、执行 SQL 查询并构建 Dashboard，帮助你快速实现时序数据可视化。"
 ---
-# Grafana
+# Datalayers 集成 Grafana 可视化指南
 
 随着物联网 (IoT)、工业自动化、智能能源等领域的迅猛发展，数据量呈现爆炸式增长。如何高效管理这些时序数据并实现实时监控，已成为各行业面临的关键挑战。Datalayers 作为一款专为工业 IoT 和连接车辆等场景优化的时序数据库，提供了强大的分布式存储和计算能力。而通过与 Grafana 的集成，用户可以将这些复杂的时序数据以可视化的形式呈现出来，帮助实现实时数据洞察。
 
@@ -131,13 +131,13 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 ![select all](../assets/datalayers-with-grafana/select_all_example.jpg)
 
-图中使用 `Home - Explore` 面板查询数据，使用默认的界面模式试图拼出 `select * from demo.test` 这样的查询语句。
+图中使用 `Home - Explore` 面板查询数据，在默认可视化构建模式下可生成 `select * from demo.test` 这类查询语句。
 
 当然也可以切换到 SQL 编辑器模式，编写更复杂的查询语句。
 
 ![select data use sql-editor](../assets/datalayers-with-grafana/switch_to_sql_editor.jpg)
 
-你也可以使用`函数` 对数据进行聚合等操作，详见[SQL函数](../sql-reference/aggregation.html)。
+你也可以使用函数对数据进行聚合等操作，详见[SQL 函数](../sql-reference/aggregation.md)。
 
 在插件的编辑器模式中，你可以使用一些 Grafana 变量，请点击帮助按钮查看：
 
@@ -157,7 +157,7 @@ allow_loading_unsigned_plugins = datalayersio-datasource
 
 ## Docker Compose 一键部署
 
-如果你想免去安装和配置 Datalayers 与 Grafana，可以通过我们提供的 docker compose 零配置快速体验。
+如果您希望免去安装和配置 Datalayers 与 Grafana 的过程，可以通过我们提供的 Docker Compose 方案进行零配置快速体验。
 
 首先你需要拉取这个 [开源项目](https://github.com/datalayers-io/datalayers-with-grafana)。它使用 Docker 将 Datalayers 及其相关镜像整合到一个 `docker-compose` 文件中，从而快速启动这些服务。
 

@@ -1,10 +1,10 @@
 ---
 title: "配置文件介绍"
-description: "本章节将介绍 Datalayers 配置文件信息。"
+description: "Datalayers 配置文件介绍：说明 datalayers.toml 的路径、默认行为与核心配置项，帮助你快速完成服务部署与调优。"
 ---
 # 配置文件介绍
 
-本章节将介绍 Datalayers 配置文件信息。
+本文介绍 Datalayers 配置文件的结构、常见位置与使用方式。
 
 ## 配置文件目录
 
@@ -97,7 +97,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# DONOT configure this options means do not support uds server by default.
+# Do not configure this option if you do not want UDS server support.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 
@@ -268,7 +268,7 @@ write_rate_limit = "2MB"
 
 # The configurations of the S3 object store.
 # We support both virtual-hosted–style and path-style URL access in S3 service.
-# Set To true to enable virtual-hosted–style request.
+# Set to true to enable virtual-hosted–style request.
 # In a virtual-hosted–style URI, the bucket name is part of the domain name in the URL,
 # the endpoint use the following format: https://bucket-name.s3.region-code.amazonaws.com.
 # In a path-style URI, the bucket is the first slash-delimited component of the Request-URI,
@@ -278,22 +278,22 @@ write_rate_limit = "2MB"
 # if you set `virtual_hosted_style` to false
 # [storage.object_store.s3]
 # bucket = "datalayers"
-# access_key = "CPjH8R6WYrb9KB6riEZo"
-# secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
+# access_key = "PLEASE_CHANGE_ME"
+# secret_key = "PLEASE_CHANGE_ME"
 # endpoint = "https://bucket-name.s3.region-code.amazonaws.com"
 # region = "region-code"
 # write_rate_limit = "0MB"
 # virtual_hosted_style = true
 
 # [storage.object_store.azure]
-# container = "datalayers" # your can change it as you want
+# container = "datalayers" # you can customize this value
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
 # write_rate_limit = "0MB"
 
 # [storage.object_store.gcs]
-# bucket = "datalayers" # your can change it as you want
+# bucket = "datalayers" # you can customize this value
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"

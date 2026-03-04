@@ -1,68 +1,68 @@
 ---
-title: "Join 语句详解"
-description: "Datalayers Join 语句详解 - JOIN 语句是 SQL 中用于连接多个表的核心操作，它基于表之间的关联关系将数据组合在一起，形成更完整的数据视图。"
+title: "JOIN 语句详解"
+description: "Datalayers JOIN 语句详解 - JOIN 语句是 SQL 中用于连接多个表的核心操作，它基于表之间的关联关系将数据组合在一起，形成更完整的数据视图。"
 ---
-# Join 语句详解
+# JOIN 语句详解
 
 ## 功能概述
 
 JOIN 语句是 SQL 中用于连接多个表的核心操作，它基于表之间的关联关系将数据组合在一起，形成更完整的数据视图。
 
-## Inner Join
+## INNER JOIN
 
 ```sql
 select * from sx1 join sx2 on sx1.sid = sx2.sid
 ```
 
-## Full Join
+## FULL JOIN
 
 ```sql
 select * from sx1 full join sx2 on sx1.sid = sx2.sid
 ```
 
-## Left Join
+## LEFT JOIN
 
 ```sql
 select * from sx1 left join sx2 on sx1.sid = sx2.sid
 ```
 
-## Left Semi Join
+## LEFT SEMI JOIN
 
 ```sql
 select * from sx1 left semi join sx2 on sx1.sid = sx2.sid
 ```
 
-## Left Anti-Semi Join
+## LEFT ANTI JOIN
 
 ```sql
 select * from sx1 left anti join sx2 on sx1.sid = sx2.sid
 ```
 
-## Right Join
+## RIGHT JOIN
 
 ```sql
 select * from sx1 right join sx2 on sx1.sid = sx2.sid
 ```
 
-## Right Semi Join
+## RIGHT SEMI JOIN
 
 ```sql
 select * from sx1 right semi join sx2 on sx1.sid = sx2.sid
 ```
 
-## Right Anti-Semi Join
+## RIGHT ANTI JOIN
 
 ```sql
 select * from sx1 right anti join sx2 on sx1.sid = sx2.sid
 ```
 
-## Natural Join
+## NATURAL JOIN
 
 ```sql
 select * from sx1 natural join sx2
 ```
 
-## Cross Join
+## CROSS JOIN
 
 ```sql
 select * from sx1 cross join sx2

@@ -1,6 +1,6 @@
 ---
 title: "查询配置"
-description: "query 配置组用于管理 Datalayers 的查询行为。主要包括 内存资源控制 和 慢查询日志记录。"
+description: "Datalayers 查询配置说明：介绍 query 配置组中的内存资源控制与慢查询日志参数，帮助你在性能与可观测性之间取得平衡。"
 ---
 # 查询配置
 

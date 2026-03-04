@@ -1,6 +1,6 @@
 ---
 title: "Docker 环境安装指南"
-description: "本文介绍如何使用 Docker 快速部署和体验 Datalayers 数据库。"
+description: "Datalayers Docker 环境安装指南：介绍镜像拉取、容器启动与基础验证步骤，帮助你快速完成本地部署。"
 ---
 # Docker 环境安装指南
 

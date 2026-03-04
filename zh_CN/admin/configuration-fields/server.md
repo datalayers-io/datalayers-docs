@@ -1,8 +1,8 @@
 ---
-title: "Server"
-description: "server 部分包含用于启动和管理 Datalayers 服务监听器的配置。"
+title: "Server 配置"
+description: "Datalayers Server 配置说明：介绍服务启动模式、FlightSQL/HTTP 监听地址、会话超时、时区和 TLS 证书等关键参数。"
 ---
-# Server
+# Server 配置
 
 `server` 部分包含用于启动和管理 Datalayers 服务监听器的配置。
 
@@ -81,7 +81,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# DONOT configure this options means do not support uds server by default.
+# Do not configure this option if you do not want UDS server support.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 
