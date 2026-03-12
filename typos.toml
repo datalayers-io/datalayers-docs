@@ -8,6 +8,7 @@ extend-exclude = []
 # Add word correction as key-value pairs. 
 # For e.g., `"abc" = "def"` states that the word `abc` is miss spelled and its correct form is `def`.
 [default.extend-words]
+"mosquitto" = "mosquitto"
 
 [default.extend-identifiers]
 "DataLayers" = "Datalayers"

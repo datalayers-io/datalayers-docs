@@ -43,6 +43,32 @@ DROP INDEX idx_message ON logs;
 DROP INDEX IF EXISTS idx_message ON logs;
 ```
 
+### DROP SOURCE
+
+删除指定 source。
+
+```SQL
+DROP SOURCE [IF EXISTS] [db.]source_name
+```
+
+说明
+
+- 如果 source 仍被某个 pipeline 引用，删除会失败。
+- `IF EXISTS` 可用于忽略不存在对象的报错。
+
+### DROP PIPELINE
+
+删除指定 pipeline。
+
+```SQL
+DROP PIPELINE [IF EXISTS] [db.]pipeline_name
+```
+
+说明
+
+- 删除 pipeline 时，系统会尝试先停止正在运行的任务，然后再删除元数据。
+- `IF EXISTS` 可用于忽略不存在对象的报错。
+
 ### DROP NODE
 
 ```SQL
