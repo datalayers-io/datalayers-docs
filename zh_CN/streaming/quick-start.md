@@ -1,11 +1,11 @@
 ---
 title: "流计算快速开始"
-description: "通过 Kafka source、pipeline 和内部 sink table，快速体验 Datalayers 流计算的最小闭环。"
+description: "通过一个 Kafka 示例快速体验 Datalayers 流计算的基本用法。"
 ---
 
 # 快速开始
 
-本文通过一个最小可运行示例，带你完成 `Kafka -> Source -> Pipeline -> Sink Table` 的完整链路。
+本文通过一个最小可运行示例，演示 `Kafka -> Source -> Pipeline -> Sink Table` 的完整链路。
 
 ## 前提条件
 
@@ -71,7 +71,7 @@ CREATE TABLE sink_t (
 PARTITION BY HASH(sid) PARTITIONS 1;
 ```
 
-这里的 `sink_t` 是 pipeline 的写入目标。当前版本要求 sink 必须是 `TimeSeries` 表。
+这里的 `sink_t` 是 pipeline 的写入目标。当前版本要求 sink 必须为 `TimeSeries` 表。
 
 ## Step 4：创建 source 和 pipeline
 
@@ -91,7 +91,7 @@ CREATE SOURCE src_kafka (
 );
 ```
 
-创建 pipeline，只保留 `value >= 2.0` 的事件：
+创建 pipeline，仅保留 `value >= 2.0` 的事件：
 
 ```sql
 CREATE PIPELINE p_kafka
@@ -104,7 +104,7 @@ WHERE value >= 2.0;
 
 ## Step 5：向 Kafka 发布测试数据
 
-在另一个终端启动 producer，它会提供一个交互式的输入界面供输入数据。
+在另一个终端启动 producer，然后输入测试数据。
 
 ```bash
 docker exec -it dl-kafka kafka-console-producer \
@@ -130,7 +130,7 @@ docker exec -it dl-kafka kafka-console-producer \
 SELECT ts, sid, value FROM sink_t ORDER BY ts;
 ```
 
-预期结果中只会看到两行，也就是 `value >= 2.0` 的记录。
+预期结果仅包含两行，即 `value >= 2.0` 的记录。
 
 ## Step 7：查看和控制流任务
 

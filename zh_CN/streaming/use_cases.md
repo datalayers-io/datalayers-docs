@@ -1,17 +1,17 @@
 ---
-title: "流计算案例"
-description: "通过 Kafka、MQTT 和 Polling HTTP 三类案例，展示 Datalayers 流计算在实时清洗、阈值过滤和外部数据接入中的使用方式。"
+title: "应用示例"
+description: "通过 Kafka、MQTT 和 HTTP 示例说明流计算的典型使用方式。"
 ---
 
-# 流计算案例
+# 应用示例
 
 ## 场景 1：Kafka 设备遥测阈值过滤
 
-当前版本的流计算功能比较基础，主要适合在线清洗和简单的阈值过滤场景，暂不支持复杂的窗口聚合、状态管理和事件时间处理等功能。
+当前版本的流计算能力以在线清洗和简单过滤为主，暂不支持复杂窗口聚合、状态管理和事件时间处理等功能。
 
 ### Kafka 场景
 
-设备持续上报遥测数据，你希望只保留超过阈值的异常事件，写入内部时序表供后续查询和告警使用。
+设备持续上报遥测数据，只保留超过阈值的异常事件，并写入内部时序表供后续查询和告警使用。
 
 ### 建表
 
@@ -62,7 +62,7 @@ WHERE value >= 80.0;
 
 ### MQTT 场景
 
-工业设备或边缘网关通过 MQTT 上报 JSON 消息，你只希望保留满足业务条件的数据写入数据库。
+工业设备或边缘网关通过 MQTT 上报 JSON 消息，只保留满足业务条件的数据写入数据库。
 
 ### 创建 MQTT source
 
@@ -104,11 +104,11 @@ WHERE value >= 2.0;
 - 适合现场 MQTT 主题的在线接入
 - 可以先完成统一 schema 和基础过滤，再进入内部分析链路
 
-## 场景 3：Polling HTTP 外部接口接入
+## 场景 3：HTTP 外部接口接入
 
 ### HTTP 场景
 
-某个第三方系统没有消息队列，只提供 HTTP API。你希望按固定周期轮询接口，把返回结果持续写入数据库。
+某个第三方系统仅提供 HTTP API，没有消息队列。此时可以按固定周期轮询接口，并将返回结果持续写入数据库。
 
 ### 创建 HTTP once source
 
@@ -118,7 +118,7 @@ CREATE SOURCE src_http_once (
   sid STRING NOT NULL,
   value FLOAT64
 ) WITH (
-  connector='polling_http',
+  connector='http',
   endpoint='http://127.0.0.1:18080/once',
   method='GET',
   poll='once',
@@ -134,7 +134,7 @@ CREATE SOURCE src_http_poll (
   sid STRING NOT NULL,
   value FLOAT64
 ) WITH (
-  connector='polling_http',
+  connector='http',
   endpoint='http://127.0.0.1:18080/poll?ts=${now_ts}',
   method='GET',
   poll='interval(200)',
@@ -165,5 +165,3 @@ WHERE value >= 201.0;
 
 - 适合轮询第三方接口、设备网关接口或内部 HTTP 服务
 - 可以把 API 返回结果直接转成持续可查的表数据
-
-## 当前版本适合的案例类型

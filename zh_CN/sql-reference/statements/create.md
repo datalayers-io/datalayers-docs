@@ -77,7 +77,7 @@ CREATE SOURCE source_name (
     column_name data_type [NOT NULL],
     ...
 ) WITH (
-    connector='kafka|mqtt|polling_http',
+    connector='kafka|mqtt|http',
     format='json|csv',
     key='value',
     ...
