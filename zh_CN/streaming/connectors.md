@@ -1,15 +1,15 @@
 ---
 title: "流计算 Connectors"
-description: "介绍 Datalayers 流计算中的 connector 概念、connector support matrix，以及 Kafka、MQTT、HTTP 三类 connector 的入口文档。"
+description: "介绍 Datalayers 流计算支持的 connector 类型及其适用场景。"
 ---
 
 # Connectors
 
 ## 什么是 Connector
 
-connector 决定 source 如何从外部系统读取数据。它负责建立连接、拉取或订阅消息，并把原始消息体交给 format 解码。
+Connector 决定 source 如何从外部系统读取数据，负责建立连接、拉取或订阅消息，并将原始消息交给 format 解码。
 
-在 Datalayers 当前版本中：
+当前版本中：
 
 - connector 只用于 source 侧
 - 目前只支持 Datalayers 内部时序表作为 sink，暂不支持外部系统作为 sink

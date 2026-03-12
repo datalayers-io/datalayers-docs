@@ -1,19 +1,19 @@
 ---
 title: "流计算模型"
-description: "介绍 Datalayers 流计算模型，包括 source、pipeline、sink table 等核心概念，以及它们之间的关系。"
+description: "介绍 Datalayers 流计算的核心对象及其关系。"
 ---
 
 # 流计算模型
 
 ## 总体模型
 
-Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 执行实时处理，最终写入内部 sink table。
+Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 处理后写入内部 sink table。
 
 ```text
 external system -> source -> pipeline -> sink table
 ```
 
-这个模型强调两点：
+这一模型强调两点：
 
 - 数据是持续到达的，不是一次性批处理
 - 处理逻辑会常驻运行，直到被停止、失败或删除
@@ -23,7 +23,7 @@ external system -> source -> pipeline -> sink table
 
 ## Source
 
-`SOURCE` 是外部事件流在 Datalayers 中的入口。
+`SOURCE` 是外部事件流进入 Datalayers 的入口。
 
 它主要负责三件事：
 
@@ -49,12 +49,12 @@ CREATE SOURCE src_mqtt (
 
 需要注意：
 
-- source 只描述输入流，不保存结果
+- source 只描述输入流，不保存数据
 - `WITH (...)` 必须非空，且 connector / format 选项会严格校验
 
 ## Pipeline
 
-`PIPELINE` 是持续运行的实时任务定义。它绑定一个 source、一个 sink table，以及一条 `AS SELECT ...` 查询。
+`PIPELINE` 是持续运行的实时任务定义，绑定一个 source、一个 sink table 和一条 `AS SELECT ...` 查询。
 
 ```sql
 CREATE PIPELINE p_mqtt
@@ -68,7 +68,7 @@ WHERE value >= 2.0;
 pipeline 的职责是：
 
 - 从 source 中持续读取事件
-- 执行轻量级实时变换
+- 执行轻量级实时处理
 - 将结果写入 sink table
 
 当前版本对于 pipeline 有如下限制：
@@ -80,18 +80,18 @@ pipeline 的职责是：
 
 ## Sink Table
 
-sink 不是独立对象，而是 Datalayers 中已经存在的一张内部表。当前版本要求：
+sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当前版本要求：
 
 - sink table 必须事先创建
 - sink table 必须使用 `TimeSeries` 引擎
 - pipeline 输出列名和类型必须与 sink table 严格兼容
 - sink table 中非空且没有默认值的列，必须出现在 pipeline 输出里
 
-这意味着，设计 sink table 时应先确定 pipeline 输出 schema，再创建表结构。
+这意味着在设计 sink table 时，应先确定 pipeline 输出 schema，再创建表结构。
 
 ## Pipeline 生命周期与状态
 
-创建 pipeline 后，系统会在后台启动对应的实时任务。你可以通过 `SHOW PIPELINES` 观察其状态，例如：
+创建 pipeline 后，系统会在后台启动对应的实时任务。可以通过 `SHOW PIPELINES` 查看其状态，例如：
 
 - `Running`
 - `Stopped`

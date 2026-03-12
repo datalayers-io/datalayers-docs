@@ -1,11 +1,11 @@
 ---
 title: "HTTP Connector"
-description: "介绍 Datalayers 流计算中 HTTP source connector 的配置项、轮询模式和完整使用示例。"
+description: "介绍 HTTP source connector 的配置方式、轮询模式和示例。"
 ---
 
 # HTTP Connector
 
-HTTP connector 通过单次或持续轮询 HTTP endpoint，把返回内容作为 source 输入。
+HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为 source 输入。
 
 ## 适用场景
 
@@ -27,12 +27,12 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，把返回内容作为
 | `username` | STRING | 无 | No | Basic Auth 用户名 |
 | `password` | STRING | 无 | No | Basic Auth 密码 |
 
-鉴权相关约束如下：
+鉴权约束如下：
 
 - `auth_type='none'`：表示不使用鉴权。此时不能输入 `username`、`password`，否则会报错。
 - `auth_type='basic_auth'`：表示使用 Basic Auth。此时必须同时输入 `username` 和 `password`。
 
-format 相关配置请参考 [Formats](./format.md)。
+Format 相关配置请参考 [Formats](./format.md)。
 
 ## endpoint 支持的时间变量
 
@@ -45,7 +45,7 @@ format 相关配置请参考 [Formats](./format.md)。
 | `${now_datetime}` | 当前 UTC 日期时间，格式 `YYYY-MM-DD HH:MM:SS` |
 | `${now_compact}` | 当前 UTC 紧凑时间，格式 `YYYYMMDDHHMMSS` |
 
-这些时间变量只能出现在 `endpoint` 中。对于 `poll='interval(...)'` 的 source，系统会在每次发起 HTTP 请求前重新计算这些变量，因此常用于：
+这些时间变量只能出现在 `endpoint` 中。对于 `poll='interval(...)'` 的 source，系统会在每次发起 HTTP 请求前重新计算这些变量，常用于：
 
 - 传递时间窗口参数
 - 构造带时间戳的查询串
@@ -72,7 +72,7 @@ endpoint='http://127.0.0.1:18080/data/${now_date}/metrics.csv'
 endpoint='http://127.0.0.1:18080/export_${now_compact}.csv'
 ```
 
-如果你的上游接口会根据时间参数返回不同结果，推荐把时间变量和 `poll='interval(...)'` 组合使用。
+如果上游接口会根据时间参数返回不同结果，建议将时间变量与 `poll='interval(...)'` 组合使用。
 
 ## 示例
 
@@ -86,7 +86,7 @@ endpoint='http://127.0.0.1:18080/export_${now_compact}.csv'
 其中：
 
 - `/once` 每次返回一行固定 CSV 数据
-- `/poll` 每次被访问时都会返回一行新的 CSV 数据
+- `/poll` 每次访问都会返回一行新的 CSV 数据
 
 ```python
 from http.server import BaseHTTPRequestHandler, HTTPServer

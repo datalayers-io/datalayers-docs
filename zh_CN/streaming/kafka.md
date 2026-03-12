@@ -1,11 +1,11 @@
 ---
 title: "Kafka Connector"
-description: "介绍 Datalayers 流计算中 Kafka source connector 的配置项、适用场景和完整使用示例。"
+description: "介绍 Kafka source connector 的配置方式、适用场景和示例。"
 ---
 
 # Kafka Connector
 
-Kafka connector 用于把 Kafka topic 中的消息持续读入 Datalayers source。
+Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source。
 
 ## 适用场景
 
@@ -25,7 +25,7 @@ Kafka connector 用于把 Kafka topic 中的消息持续读入 Datalayers source
 | `username` | STRING | 无 | No | SASL 用户名 |
 | `password` | STRING | 无 | No | SASL 密码 |
 
-format 相关配置请参考 [Formats](./format.md)。
+Format 相关配置请参考 [Formats](./format.md)。
 
 ## 示例：读取 Kafka JSON 事件流
 
@@ -120,7 +120,7 @@ docker exec -it dl-kafka kafka-console-producer \
 SELECT ts, sid, value FROM sink_t ORDER BY ts;
 ```
 
-预期只看到 `value >= 2.0` 的两行。
+预期仅看到 `value >= 2.0` 的两行。
 
 ## 注意事项
 

@@ -1,11 +1,11 @@
 ---
 title: "流计算 Formats"
-description: "介绍 Datalayers 流计算当前支持的 JSON 和 CSV 格式，以及相关配置项、示例数据和配置方式。"
+description: "介绍 Datalayers 流计算支持的消息格式及相关配置。"
 ---
 
 # Formats
 
-format 用于把 connector 读取到的消息体解析成 source 的列结构。
+Format 用于将 connector 读取的消息解析为 source 的列结构。
 
 ## 支持的 Formats
 
@@ -26,14 +26,14 @@ format 用于把 connector 读取到的消息体解析成 source 的列结构。
 说明：
 
 - `bad_data` 仅对 source 生效
-- 当前解码按“逐行”方式处理消息，适合 newline-delimited JSON 和按行 CSV
+- 当前按逐行方式解码消息，适合 newline-delimited JSON 和按行 CSV
 
 ## JSON
 
 ### JSON 特点
 
-- 易于表达嵌套或半结构化事件
-- 适合 Kafka、MQTT 和 HTTP 返回的结构化消息
+- 适合结构化或半结构化事件
+- 常用于 Kafka、MQTT 和 HTTP 返回的结构化消息
 - 字段名通常可直接映射到 source 列名
 
 ### JSON 示例数据
@@ -71,8 +71,8 @@ CREATE SOURCE src_json (
 ### CSV 特点
 
 - 结构简单，适合规则化文本数据
-- 适合轮询 HTTP 接口返回的表格型数据，也可用于 Kafka 或 MQTT 中的按行 CSV 消息
-- 每一行对应一条记录
+- 适合 HTTP 接口返回的表格型数据，也可用于 Kafka 或 MQTT 中的按行 CSV 消息
+- 每行对应一条记录
 
 ### CSV 示例数据
 
@@ -117,9 +117,9 @@ CREATE SOURCE src_csv (
 
 ### bad_data 怎么选择
 
-当上游消息偶尔出现坏行、但你更关注链路持续可用时，可以使用 `bad_data='drop'`，让系统跳过当前坏批次。
+当上游消息偶尔出现坏行、但更关注链路持续可用时，可以使用 `bad_data='drop'`，让系统跳过当前坏批次。
 
-当你希望任何格式错误都立即暴露出来，便于快速定位上游数据问题时，可以使用 `bad_data='fail'`。
+当希望格式错误立即暴露、便于定位上游数据问题时，可以使用 `bad_data='fail'`。
 
 ## 相关文档
 
