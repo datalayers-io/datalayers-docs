@@ -32,7 +32,7 @@ Kafka / MQTT / HTTP
 
 ## 应用场景
 
-- 从 Kafka、MQTT、Polling HTTP 持续接收或拉取数据
+- 从 Kafka、MQTT、HTTP 持续接收或拉取数据
 - 在数据入库前做字段筛选、投影、阈值过滤等实时计算
 - 将清洗、转换后的结果写入内部时序表，供 SQL 查询、看板或告警系统使用
 

@@ -11,8 +11,8 @@ format 用于把 connector 读取到的消息体解析成 source 的列结构。
 
 | Format | 适用 connector | 说明 |
 | --- | --- | --- |
-| JSON | Kafka、MQTT、Polling HTTP | 适合结构化事件消息 |
-| CSV | Kafka、MQTT、Polling HTTP | 适合简单表格型文本或按行输入 |
+| JSON | Kafka、MQTT、HTTP | 适合结构化事件消息 |
+| CSV | Kafka、MQTT、HTTP | 适合简单表格型文本或按行输入 |
 
 ## 通用规则
 
@@ -96,7 +96,7 @@ CREATE SOURCE src_csv (
   sid STRING NOT NULL,
   value FLOAT64
 ) WITH (
-  connector='polling_http',
+  connector='http',
   endpoint='http://127.0.0.1:18080/poll',
   method='GET',
   poll='interval(1000)',

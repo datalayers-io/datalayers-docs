@@ -1,6 +1,6 @@
 ---
 title: "流计算案例"
-description: "通过 Kafka、MQTT 和 Polling HTTP 三类案例，展示 Datalayers 流计算在实时清洗、阈值过滤和外部数据接入中的使用方式。"
+description: "通过 Kafka、MQTT 和 HTTP 三类案例，展示 Datalayers 流计算在实时清洗、阈值过滤和外部数据接入中的使用方式。"
 ---
 
 # 流计算案例
@@ -104,7 +104,7 @@ WHERE value >= 2.0;
 - 适合现场 MQTT 主题的在线接入
 - 可以先完成统一 schema 和基础过滤，再进入内部分析链路
 
-## 场景 3：Polling HTTP 外部接口接入
+## 场景 3：HTTP 外部接口接入
 
 ### HTTP 场景
 
@@ -118,7 +118,7 @@ CREATE SOURCE src_http_once (
   sid STRING NOT NULL,
   value FLOAT64
 ) WITH (
-  connector='polling_http',
+  connector='http',
   endpoint='http://127.0.0.1:18080/once',
   method='GET',
   poll='once',
@@ -134,7 +134,7 @@ CREATE SOURCE src_http_poll (
   sid STRING NOT NULL,
   value FLOAT64
 ) WITH (
-  connector='polling_http',
+  connector='http',
   endpoint='http://127.0.0.1:18080/poll?ts=${now_ts}',
   method='GET',
   poll='interval(200)',
