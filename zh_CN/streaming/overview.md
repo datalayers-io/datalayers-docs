@@ -119,7 +119,7 @@ DROP SOURCE src_kafka;
 ## 相关文档
 
 - 了解如何快速体验一条最小流计算链路：[快速开始](./quick-start.md)
-- 了解 source、pipeline、sink table 等核心概念：[核心概念](./concepts.md)
+- 了解 Datalayers 的流计算模型 ：[计算模型](./model.md)
 - 了解流计算的典型业务场景和示例：[案例](./use_cases.md)
 - 了解 JSON、CSV 等消息格式及其配置方式：[Formats](./format.md)
 - 了解当前支持的 connector 类型和配置方式：[Connectors](./connectors.md)

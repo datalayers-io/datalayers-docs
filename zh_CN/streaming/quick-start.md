@@ -182,6 +182,6 @@ docker rm -f dl-kafka
 
 ## 下一步
 
-- 想了解对象关系和约束，请继续阅读 [核心概念](./concepts.md)
+- 了解 Datalayers 的流计算模型，请参考 [计算模型](./model.md)
 - 想了解支持的消息格式，请参考 [Formats](./format.md)
 - 想了解支持的 Connectors、配置方式、示例，请参考 [Connectors](./connectors.md)
