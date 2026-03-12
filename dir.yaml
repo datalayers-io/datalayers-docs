@@ -350,6 +350,42 @@
       title_cn: 向量索引
       path: vector-search/vector-index
 
+- title_en: Streaming
+  title_cn: 流计算
+  collapsed: true
+  children:
+    - title_en: Streaming Overview
+      title_cn: 概述
+      path: streaming/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: streaming/quick-start
+    - title_en: Computation Model
+      title_cn: 计算模型
+      path: streaming/model
+    - title_en: Use cases
+      title_cn: 案例
+      path: streaming/use_cases
+    - title_en: Formats
+      title_cn: Formats
+      path: streaming/format
+    - title_en: Connectors
+      title_cn: Connectors
+      collapsed: true
+      children:
+        - title_en: Connectors Overview
+          title_cn: Connectors 概述
+          path: streaming/connectors
+        - title_en: Kafka
+          title_cn: Kafka
+          path: streaming/kafka
+        - title_en: MQTT
+          title_cn: MQTT
+          path: streaming/mqtt
+        - title_en: HTTP
+          title_cn: HTTP
+          path: streaming/http
+
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
   collapsed: true

@@ -66,6 +66,81 @@ ENGINE=TimeSeries
 with (ttl='10d')
 ```
 
+### 创建 Source
+
+`CREATE SOURCE` 用于定义一个流式输入对象。它描述外部数据源的字段、connector 和 format，但它本身不是一个表，无法接查询和写入。
+
+语法
+
+```SQL
+CREATE SOURCE source_name (
+    column_name data_type [NOT NULL],
+    ...
+) WITH (
+    connector='kafka|mqtt|polling_http',
+    format='json|csv',
+    key='value',
+    ...
+)
+```
+
+示例
+
+```SQL
+CREATE SOURCE src_kafka (
+    ts TIMESTAMP(9) NOT NULL,
+    sid STRING NOT NULL,
+    value FLOAT64
+) WITH (
+    connector='kafka',
+    brokers='127.0.0.1:9092',
+    topic='topic_stream_demo',
+    offset='earliest',
+    format='json'
+);
+```
+
+说明
+
+- `WITH (...)` 为必填，且不能为空。
+- source 至少需要定义一个列。
+- `CREATE SOURCE` 暂不支持 `IF NOT EXISTS`。
+- connector 配置项取决于具体 connector，详见 [Connectors 概述](../../streaming/connectors.md)。
+
+### 创建 Pipeline
+
+`CREATE PIPELINE` 用于创建持续运行的流任务。pipeline 从一个 source 读取数据，执行实时计算，然后把结果写入一个已有的 sink table。
+
+语法
+
+```SQL
+CREATE PIPELINE pipeline_name
+SINK TO [database.]sink_table_name
+AS
+SELECT ...
+```
+
+示例
+
+```SQL
+CREATE PIPELINE p_kafka
+SINK TO sink_t
+AS
+SELECT ts, sid, value
+FROM src_kafka
+WHERE value >= 2.0;
+```
+
+说明
+
+- `CREATE PIPELINE` 暂不支持 `IF NOT EXISTS`。
+- `AS` 后必须是 `SELECT` 查询。
+- 当前一个 pipeline 只能引用一个 source。
+- 当前仅支持投影与过滤，不支持 join、聚合、窗口、排序、limit、union、子查询等更复杂算子。
+- sink table 必须已经存在，且必须是 TimeSeries 表。
+- 查询输出列必须与 sink table 的列名和类型兼容；sink table 中无默认值的非空列必须出现在查询输出中。
+- 执行 `CREATE PIPELINE` 时，当前用户需要对 source 具备 `SELECT` 权限，并对 sink table 具备 `INSERT` 权限。
+
 ### 建表时声明索引（INVERTED / VECTOR）
 
 除了使用 `CREATE INDEX` 在建表后创建索引，Datalayers 也支持在 `CREATE TABLE` 的表约束中直接声明索引。
