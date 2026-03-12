@@ -9,7 +9,7 @@ description: "Datalayers 流计算概述，介绍 source、pipeline、sink table
 
 流计算用于持续接收外部事件流，并在数据到达时执行实时计算和写入。相比先落库再离线处理的方式，流计算更适合实时监控、告警预处理、在线数据清洗等延迟敏感型任务。
 
-在 Datalayers 中，一条最小的流计算链路由三部分组成：
+在 Datalayers 中，流计算链路由三部分组成：
 
 - `SOURCE`：定义外部数据流的 schema、connector 和 format
 - `PIPELINE`：定义实时处理逻辑
@@ -30,17 +30,15 @@ Kafka / MQTT / HTTP
    TimeSeries sink table
 ```
 
-## 可以做什么
-
-当前版本适合以下场景：
+## 应用场景
 
 - 从 Kafka、MQTT、Polling HTTP 持续接收或拉取数据
 - 在数据入库前做字段筛选、投影、阈值过滤等实时计算
 - 将清洗、转换后的结果写入内部时序表，供 SQL 查询、看板或告警系统使用
 
-当前版本暂不适合复杂流分析。`PIPELINE` 查询目前只支持单个 source 上的 `SELECT`、`WHERE` 和投影，不支持 join、聚合、窗口、排序、limit、union、子查询等复杂算子。
+`PIPELINE` 计算目前只支持单个 source 上的 `SELECT`、`WHERE` 和投影， 暂不支持 join、聚合、窗口、排序、limit、union、子查询等复杂算子。
 
-## 主要 SQL 对象
+## 核心 SQL 对象
 
 ### Source
 

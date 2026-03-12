@@ -161,7 +161,7 @@ FROM src_http_poll
 WHERE value >= 201.0;
 ```
 
-### HTTP 场景价值
+### HTTP 应用场景
 
 - 适合轮询第三方接口、设备网关接口或内部 HTTP 服务
 - 可以把 API 返回结果直接转成持续可查的表数据

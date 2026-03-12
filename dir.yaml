@@ -364,7 +364,7 @@
       title_cn: 计算模型
       path: streaming/model
     - title_en: Use cases
-      title_cn: 案例
+      title_cn: 应用示例
       path: streaming/use_cases
     - title_en: Formats
       title_cn: Formats
