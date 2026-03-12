@@ -373,8 +373,8 @@
       title_cn: Connectors
       collapsed: true
       children:
-        - title_en: Connectors Overview
-          title_cn: Connectors 概述
+        - title_en: Overview
+          title_cn: 概述
           path: streaming/connectors
         - title_en: Kafka
           title_cn: Kafka

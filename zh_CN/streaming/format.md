@@ -3,7 +3,7 @@ title: "流计算 Formats"
 description: "介绍 Datalayers 流计算当前支持的 JSON 和 CSV 格式，以及相关配置项、示例数据和配置方式。"
 ---
 
-# 流计算 Formats
+# Formats
 
 format 用于把 connector 读取到的消息体解析成 source 的列结构。
 

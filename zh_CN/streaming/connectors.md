@@ -3,7 +3,7 @@ title: "流计算 Connectors"
 description: "介绍 Datalayers 流计算中的 connector 概念、connector support matrix，以及 Kafka、MQTT、HTTP 三类 connector 的入口文档。"
 ---
 
-# 流计算 Connectors
+# Connectors
 
 ## 什么是 Connector
 
