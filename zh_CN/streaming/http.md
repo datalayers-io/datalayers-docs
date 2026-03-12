@@ -90,12 +90,14 @@ endpoint='http://127.0.0.1:18080/export_${now_compact}.csv'
 
 ```python
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlparse
 
 HOST = "127.0.0.1"
 PORT = 18080
 
 poll_counter = 0
+POLL_BASE_TIME = datetime(2025, 1, 1, 0, 0, 10, tzinfo=timezone.utc)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -107,9 +109,11 @@ class Handler(BaseHTTPRequestHandler):
             body = "2025-01-01T00:00:03Z,sid-once,101\n"
         elif path == "/poll":
             poll_counter += 1
+            ts = (POLL_BASE_TIME + timedelta(seconds=poll_counter)).strftime(
+                "%Y-%m-%dT%H:%M:%SZ"
+            )
             body = (
-                f"2025-01-01T00:00:{10 + poll_counter:02d}Z,"
-                f"sid-poll-{poll_counter},{200 + poll_counter}\n"
+                f"{ts},sid-poll-{poll_counter},{200 + poll_counter}\n"
             )
         else:
             self.send_response(404)
