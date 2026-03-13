@@ -17,7 +17,7 @@ Datalayers 支持的 Ubuntu 版本包括：
 :::: tabs
 ::: tab amd64
 
-1. 下载安装包：[datalayers-{@version_number@}-ubuntu24.04-amd64.deb](https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb)。
+1. 下载安装包：<a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb" download="datalayers-{@version_number@}-ubuntu24.04-amd64.deb">datalayers-{@version_number@}-ubuntu24.04-amd64.deb</a>。
 
 > 或者直接使用`wget`命令下载安装包：
 >
@@ -35,7 +35,7 @@ sudo dpkg -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 
 ::: tab arm64
 
-1. 下载安装包：[datalayers-{@version_number@}-ubuntu24.04-arm64.deb](https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb)。
+1. 下载安装包：<a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb" download="datalayers-{@version_number@}-ubuntu24.04-arm64.deb">datalayers-{@version_number@}-ubuntu24.04-arm64.deb</a>
 
 > 或者直接使用`wget`命令下载安装包：
 >

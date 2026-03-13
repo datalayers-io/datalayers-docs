@@ -13,7 +13,7 @@ Datalayers 支持的 CentOS 版本为：
 
 ## 安装 Datalayers
 
-1. 下载安装包：[datalayers-{@version_number@}-el7-amd64.rpm](https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm)。
+1. 下载安装包：<a href="https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm" download="datalayers-{@version_number@}-el7-amd64.rpm">datalayers-{@version_number@}-el7-amd64.rpm</a>
 
 > 或者直接使用`wget`命令下载安装包：
 >
