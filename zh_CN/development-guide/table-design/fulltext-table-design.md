@@ -1,12 +1,12 @@
 ---
-title: "日志存储使用指南"
-description: "日志表模型是针对日志检索场景优化的数据模型。Datalayers 结合列式存储、分区机制与倒排索引能力，支持高吞吐写入与低延迟检索。"
+title: "全文检索使用指南"
+description: "日志检索是全文检索使用场景之一。Datalayers 结合列式存储、分区机制与倒排索引能力，支持高吞吐写入与低延迟检索。"
 ---
-# 日志存储使用指南
+# 全文检索使用指南
 
 ## 概述
 
-日志表模型是针对日志检索场景优化的数据模型。Datalayers 结合列式存储、分区机制与倒排索引能力，支持高吞吐写入与低延迟检索。
+日志检索是全文检索使用场景之一。Datalayers 结合列式存储、分区机制与倒排索引能力，支持高吞吐写入与低延迟检索。
 
 在日志场景中，建议优先明确以下目标：
 
@@ -32,9 +32,15 @@ PARTITION BY HASH(partition_key) PARTITIONS n
 [ WITH ( [ key = value ] [, ... ] ) ]
 ```
 
+其中：
+
+- `message` 等待检索列建议使用 `STRING`
+- 倒排索引建议直接在建表语句中声明，避免遗漏索引配置
+- 分区键应优先选择查询中常用的过滤维度，例如 `service`、`tenant_id`
+
 ## 建表实践
 
-### 场景一：通用日志检索（按服务隔离）
+### 场景一：通用全文检索（按服务隔离）
 
 在通用日志场景中，通常按 `service` 做分区，日志正文放在 `message` 字段，并在建表时直接声明倒排索引。
 
@@ -64,8 +70,9 @@ PARTITION BY HASH(service) PARTITIONS 2;
 - `ts` 必须为 `TIMESTAMP`，并通过 `TIMESTAMP KEY` 指定
 - `message` 建议使用 `STRING`，作为全文检索主字段
 - 分区键选 `service` 有利于按服务过滤和并行查询
+- 如果查询经常按 `level` 过滤，可将其保留为独立字段，而不是写入 `message` 正文
 
-### 场景二：多租户日志检索（按租户隔离）
+### 场景二：多租户全文检索（按租户隔离）
 
 在多租户场景中，建议使用 `tenant_id` 作为分区键，先按租户过滤，再在日志正文中做全文检索。
 
@@ -98,6 +105,13 @@ PARTITION BY HASH(tenant_id) PARTITIONS 4;
 - 通过 `filters` 指定过滤器链（如 `lowercase,english_stop,english_stemmer`）
 - `with_position=true` 可支持更精确的短语检索与相关性排序
 
+## 设计建议
+
+- 将结构化过滤字段与全文字段分开建模，例如将 `service`、`tenant_id`、`level` 单独存列
+- 全文检索字段应聚焦真正需要搜索的正文内容，避免把大量低价值冗余文本写入同一列
+- 中英文混合日志需要根据主语言选择分词器，并评估是否需要额外过滤器链
+- 若索引创建前已存在历史数据，需要执行 `REFRESH INDEX` 补建索引
+
 ## PARTITIONS 数量建议
 
 - 当前 `PARTITIONS` 数量在建表后不支持动态修改，需在建表阶段一次性规划
@@ -111,4 +125,4 @@ PARTITION BY HASH(tenant_id) PARTITIONS 4;
 - [REFRESH 语句详解](../../sql-reference/statements/refresh.md)
 - [DROP 语句详解](../../sql-reference/statements/drop.md)
 - [全文索引函数](../../sql-reference/fulltext-functions.md)
-- [日志检索概述](../../log-search/overview.md)
+- [全文检索概述](../../fulltext-search/overview.md)

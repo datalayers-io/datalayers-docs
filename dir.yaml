@@ -89,9 +89,9 @@
         - title_en: Time-Series Table Design
           title_cn: 时序存储
           path: development-guide/table-design/timeseries-table-design
-        - title_en: Log Table Design
-          title_cn: 日志存储
-          path: development-guide/table-design/log-table-design
+        - title_en: Fulltext
+          title_cn: 全文检索
+          path: development-guide/table-design/fulltext-table-design
     - title_en: High-Performance Writing
       title_cn: 高性能写入
       path: development-guide/high-performance-ingestion
@@ -299,15 +299,15 @@
       title_cn: 列编码与压缩算法
       path: sql-reference/column-codec
 - title_en: Log Search
-  title_cn: 日志检索（Beta）
+  title_cn: 全文检索（Beta）
   collapsed: true
   children:
     - title_en: Overview
       title_cn: 概述
-      path: log-search/overview
+      path: fulltext-search/overview
     - title_en: Quick Start
       title_cn: 快速开始
-      path: log-search/quick-start
+      path: fulltext-search/quick-start
 #- title_en: Clustering
 #  title_cn: 构建集群
 #  path: cluster/introduction

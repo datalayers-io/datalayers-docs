@@ -108,4 +108,4 @@ PARTITION BY HASH(tenant_id) PARTITIONS 4;
 - [REFRESH Statement](../../sql-reference/statements/refresh.md)
 - [DROP Statement](../../sql-reference/statements/drop.md)
 - [Fulltext Functions](../../sql-reference/fulltext-functions.md)
-- [Log Search Overview](../../log-search/overview.md)
+- [Log Search Overview](../../fulltext-search/overview.md)

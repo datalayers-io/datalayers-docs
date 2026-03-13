@@ -1,6 +1,6 @@
 ---
 title: "全文检索函数"
-description: "Datalayers 全文检索函数参考：介绍 MATCH、QUERY、SCORE 的语法、参数与使用约束，帮助你构建高效日志检索查询。"
+description: "Datalayers 全文检索函数参考：介绍 MATCH、QUERY、SCORE 的语法、参数与使用约束，帮助你构建高效全文检索。"
 ---
 # 全文检索函数
 
