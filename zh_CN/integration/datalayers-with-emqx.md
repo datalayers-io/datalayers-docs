@@ -92,3 +92,7 @@ demo> select * from sensor_info;
 +-------------------------------+-----+------+
 2 rows in set (0.001 sec)
 ```
+
+## 更多配置方式参考
+
+- [EMQX 数据集成](https://docs.emqx.com/zh/emqx/latest/data-integration/data-bridge-datalayers.html)
