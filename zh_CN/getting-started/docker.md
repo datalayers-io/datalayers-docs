@@ -1,10 +1,10 @@
 ---
-title: "Docker 环境安装指南"
-description: "Datalayers Docker 环境安装指南：介绍镜像拉取、容器启动与基础验证步骤，帮助你快速完成本地部署。"
+title: "Datalayers Docker 安装指南"
+description: "介绍如何通过 Docker 快速部署 Datalayers，包括镜像拉取、容器启动、端口说明与基础连接验证。"
 ---
-# Docker 环境安装指南
+# Datalayers Docker 安装指南
 
-本文介绍如何使用 Docker 快速部署和体验 Datalayers 数据库。若尚未安装 Docker，请前往 <a href="https://docs.docker.com/get-docker/" target="_blank">Docker 官方文档</a> 查看安装说明。
+本文介绍如何通过 Docker 快速部署 Datalayers，适用于本地体验、开发测试和功能验证。若尚未安装 Docker，请前往 [Docker 官方文档](https://docs.docker.com/get-docker/) 查看安装说明。
 
 ## 通过 Docker 启动
 
@@ -33,7 +33,7 @@ docker run --name datalayers -d \
   datalayers/datalayers:v{@version_number@} 
 ```
 
-**参数说明**
+### 参数说明
 
 - -v ~/data:/var/lib/datalayers：将主机目录挂载至容器，确保数据持久化
 - -p 8360:8360：映射 gRPC 服务端口
@@ -44,13 +44,15 @@ docker run --name datalayers -d \
 
 ### 验证服务状态
 
-可以通过 `docker ps -a` 命令查看容器运行状态。
+可以通过 `docker ps -a` 查看容器运行状态。
 
-此外，也可以执行以下命令进入容器：
+如需进一步检查容器内部环境，也可以执行以下命令进入容器：
 
 ``` bash
 docker exec -it datalayers bash
 ```
+
+如果需要验证数据库是否已正常对外提供服务，可以继续使用 [命令行工具](./command-line-tool.md) 或 [HTTP REST API](../development-guide/rest-api/overview.md) 连接实例。
 
 ## 体验功能
 

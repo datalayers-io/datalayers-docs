@@ -4,9 +4,7 @@ description: "Datalayers 集成 Grafana 可视化指南：介绍如何安装 Dat
 ---
 # Datalayers 集成 Grafana 可视化指南
 
-随着物联网 (IoT)、工业自动化、智能能源等领域的迅猛发展，数据量呈现爆炸式增长。如何高效管理这些时序数据并实现实时监控，已成为各行业面临的关键挑战。Datalayers 作为一款专为工业 IoT 和连接车辆等场景优化的时序数据库，提供了强大的分布式存储和计算能力。而通过与 Grafana 的集成，用户可以将这些复杂的时序数据以可视化的形式呈现出来，帮助实现实时数据洞察。
-
-本文将介绍如何将 Datalayers 与 Grafana 集成，以实现数据存储、可视化，以下是具体的集成步骤：
+本文介绍如何将 Datalayers 与 Grafana 集成，实现时序数据查询、可视化分析和 Dashboard 构建。该方案适用于监控看板、设备数据展示、工业指标分析等场景。
 
 我们提供 **手动部署** 与 **Docker Compose 一键部署**，下面将分别介绍这两种部署方式。
 
@@ -17,8 +15,6 @@ description: "Datalayers 集成 Grafana 可视化指南：介绍如何安装 Dat
 - Grafana 版本必须 >= 9.2.5。
 
 ### 安装 Datalayers
-
-Datalayers 支持多种安装方式，具体安装方法请参考**快速开始**章节。
 
 此处我们以 Ubuntu 操作系统、amd64 平台为例，请前往 [下载页](https://datalayers.cn/download?broker=ubuntu) 下载对应平台的 `deb` 安装包。
 
@@ -56,13 +52,13 @@ CREATE TABLE demo.sensor_info (
 INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('101', 34.12, 40.6), ('102', 56.12, 52.3);
 ```
 
-- 关于更多 SQL 的支持，请查看[SQL参考](../sql-reference/data-type.md)。
+- 关于更多 SQL 的支持，请查看 [SQL 参考](../sql-reference/data-type.md)。
 
-- 关于命令行工具，更详细的用法请参考[命令行工具](../getting-started/command-line-tool.md)。
+- 关于命令行工具，更详细的用法请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)。
 
 ### 安装 Grafana
 
-请前往 [Grafana 官网下载页](https://grafana.com/grafana/download)。
+请前往 [Grafana 官网下载页](https://grafana.com/grafana/download) 获取安装包。
 
 此处我们下载并安装 Linux 的 开源版本 11.2.0：
 
@@ -169,4 +165,4 @@ git clone https://github.com/datalayers-io/datalayers-with-grafana.git
 
 当你完成上述步骤后，就已经自动完成了上述所有的安装、配置、写入示例数据步骤，你可以直接进行数据查询、添加 Dashboard 相关操作。
 
-将 Datalayers 与 Grafana 集成，不仅能够大幅提升时序数据的管理与分析效率，还能通过灵活的可视化工具为用户提供更加直观的业务洞察。无论是在工业 IoT 还是智能能源等领域，Datalayers 与 Grafana 的结合都能帮助企业实现数据驱动的决策和优化，推动业务智能化转型。
+通过将 Datalayers 与 Grafana 结合，可以更高效地完成时序数据可视化、指标分析与业务看板构建。

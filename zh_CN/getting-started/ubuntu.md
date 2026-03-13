@@ -1,10 +1,10 @@
 ---
-title: "Ubuntu 系统安装指南"
-description: "Datalayers Ubuntu 安装指南：介绍安装包下载、安装步骤、服务启动与基础验证，帮助你快速完成部署。"
+title: "Datalayers Ubuntu 安装指南"
+description: "介绍如何在 Ubuntu 上安装 Datalayers，包括安装包下载、升级、systemd 服务管理与基础连接验证。"
 ---
-# Ubuntu 系统安装指南
+# Datalayers Ubuntu 安装指南
 
-本文详细介绍在 Ubuntu 系统中安装、使用 Datalayers 数据库的完整流程。
+本文介绍如何在 Ubuntu 系统中安装、升级和管理 Datalayers，适用于首次部署与运维维护场景。
 
 Datalayers 支持的 Ubuntu 版本包括：
 
@@ -17,7 +17,7 @@ Datalayers 支持的 Ubuntu 版本包括：
 :::: tabs
 ::: tab amd64
 
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb" download="datalayers-{@version_number@}-ubuntu24.04-amd64.deb">点击下载</a>deb安装包。
+1. 下载安装包：[datalayers-{@version_number@}-ubuntu24.04-amd64.deb](https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-amd64.deb)。
 
 > 或者直接使用`wget`命令下载安装包：
 >
@@ -35,7 +35,7 @@ sudo dpkg -i ./datalayers-{@version_number@}-ubuntu24.04-amd64.deb
 
 ::: tab arm64
 
-1. 下载安装包, <a href="https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb" download="datalayers-{@version_number@}-ubuntu24.04-arm64.deb">点击下载</a>deb安装包。
+1. 下载安装包：[datalayers-{@version_number@}-ubuntu24.04-arm64.deb](https://docs.datalayers.cn/public/ubuntu/datalayers-{@version_number@}-ubuntu24.04-arm64.deb)。
 
 > 或者直接使用`wget`命令下载安装包：
 >
@@ -60,7 +60,7 @@ sudo dpkg -i ./datalayers-{@version_number@}-ubuntu24.04-arm64.deb
 
 对于配置文件，我们优先保留您修改的配置，以确保升级不会导致您的自定义配置丢失。
 
-**配置文件冲突处理策略**
+### 配置文件冲突处理策略
 
 1. 如果您没有修改默认的配置，则升级后会使用新版本的配置文件。
 2. 如果您修改了默认的配置，但是修改内容与新版本的配置文件不冲突，我们保留您所修改的配置，同时会加入新的配置。
@@ -79,7 +79,7 @@ Configuration file '/etc/datalayers/datalayers.toml'
 *** datalayers.toml (Y/I/N/O/D/Z) [default=N] ? 
 ```
 
-**强制处理选项**
+### 强制处理选项
 
 - 强制保留您的配置文件
 
@@ -151,7 +151,7 @@ sudo dpkg -P datalayers
 
 ## 体验功能
 
-成功启动容器后，您可以通过以下方式体验 Datalayers：
+服务启动成功后，您可以通过以下方式体验 Datalayers：
 
 - 使用[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作

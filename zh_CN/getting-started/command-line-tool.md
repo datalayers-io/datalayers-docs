@@ -1,19 +1,20 @@
 ---
-title: "使用命令行工具操作 Datalayers"
-description: "dlsql 是 Datalayers 内置的、通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。"
+title: "Datalayers 命令行工具 dlsql 使用指南"
+description: "介绍如何使用 Datalayers 命令行工具 dlsql 连接数据库、创建对象、写入查询数据并执行常见管理操作。"
 ---
-# 使用命令行工具操作 Datalayers
+# Datalayers 命令行工具 dlsql 使用指南
 
 ## 工具简介
 
-`dlsql` 是 Datalayers 内置的、通过 SQL 交互的命令行管理工具，为用户提供高效、便捷的数据库操作与管理。
+`dlsql` 是 Datalayers 提供的命令行 SQL 交互工具，可用于连接数据库、执行 SQL、查看对象定义以及进行基础运维管理。
 
 详细用法参考 [命令行工具](../admin/datalayers-cli.md)。
 
 ## 连接数据库
 
-Datalayers 安装完成后，便可使用 dlsql 工具实现数据库的连接，其格式如下：
-> 在静态认证的模式下（默认为静态认证），Datalayers 提供了一个默认账号，其用户名/密码为: `admin/public`
+Datalayers 安装完成后，即可使用 `dlsql` 连接数据库。
+
+> 在静态认证模式下（默认配置），系统提供默认账号 `admin/public`。
 
 ``` bash
 dlsql -h 127.0.0.1 -u admin -p public
@@ -25,29 +26,29 @@ dlsql -h 127.0.0.1 -u admin -p public
 - `-u`参数用于指定用户名；
 - `-p`参数用于指定用户对应的密码；
 
-以下是使用 dlsql 来连接 Datalayers 数据库的简单实例：
+以下是一个最基本的连接示例：
 
 ``` bash
 dlsql -h 127.0.0.1 -u admin -p public
 ```
 
-若需要更换主机地址、启动端口等参数，可使用以下命令执行：
+如需指定不同的主机地址或端口，可使用以下命令：
 
 ``` bash
 dlsql -h <host> -P <port> -u admin -p public
 ```
 
-可以通过 `dlsql --help` 命令查看更多用法。
+可以通过 `dlsql --help` 查看完整参数说明。
 
 ## 创建数据库
 
-连接数据库服务后，可以执行以下命令创建一个数据库：
+连接成功后，可以先创建一个数据库：
 
 ``` sql
 > create database demo;
 ```
 
-可通过以下命令查看当前帐户下所有数据库：
+可通过以下命令查看当前账户下的所有数据库：
 
 ``` sql
 > show databases;
@@ -61,7 +62,7 @@ dlsql -h <host> -P <port> -u admin -p public
 > use demo;
 ```
 
-接着，可以通过以下命令尝试创建数据表：
+接着可以创建一张时序表示例：
 
 ``` sql
 CREATE TABLE sensor_info (
@@ -79,7 +80,7 @@ CREATE TABLE sensor_info (
 
 ## 写入数据
 
-可以执行以下命令写入一些示例数据：
+然后写入一些示例数据：
 
 ``` sql
 INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('101', 34.12, 40.6), ('102', 56.12, 52.3);
@@ -93,7 +94,7 @@ INSERT INTO sensor_info(sn, speed, temperature) VALUES('100', 22.12, 30.8), ('10
 use demo;
 ```
 
-以下是一些查询操作示例：
+以下是一些常见查询示例：
 
 - 查询表中记录总条数：
 
@@ -151,4 +152,4 @@ DROP DATABASE demo;
 
 使用 `exit` 或者 `quit` 命令可退出交互终端。
 
-更多 SQL 相关的使用，可查看 [SQL 参考](../sql-reference/data-type.md) 章节。
+更多 SQL 语法和对象说明，可查看 [SQL 参考](../sql-reference/data-type.md)。

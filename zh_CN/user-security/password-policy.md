@@ -1,10 +1,10 @@
 ---
-title: "密码策略"
-description: "Datalayers 的密码策略用于定义系统密码的强度要求和认证安全机制，包括密码复杂度规则和防暴力破解保护。"
+title: "Datalayers 密码策略"
+description: "介绍 Datalayers 的密码强度策略与防暴力破解配置，帮助你提升账户认证安全性。"
 ---
-# 密码策略
+# Datalayers 密码策略
 
-Datalayers 的密码策略用于定义系统密码的强度要求和认证安全机制，包括密码复杂度规则和防暴力破解保护。
+Datalayers 的密码策略用于定义账户密码强度要求和认证安全机制，包括密码复杂度规则与防暴力破解保护。该能力适用于需要提升账户安全性和满足基础安全规范的部署场景。
 
 ## 配置
 
@@ -32,3 +32,8 @@ password_lockout = "3/5/5"
 ## 注意事项
 
 - 修改密码策略配置后需要重启服务才能生效
+
+## 相关文档
+
+- 了解认证方式，请参考 [Datalayers 连接认证概述](./authentication/overview.md)
+- 了解访问控制体系，请参考 [Datalayers 访问控制概述](./rbac/overview.md)

@@ -1,10 +1,10 @@
 ---
-title: "Arrow Flight SQL 的高速数据传输协议"
-description: "Datalayers 完整实现了 Arrow Flight SQL 协议，基于该协议实现高性能数据链路。该协议结合了 Apache Arrow 的内存列式格式与 gRPC 的高效通信框架，专为大规模数据分析场景设计，实现高速的数据传输。"
+title: "Datalayers Arrow Flight SQL 协议指南"
+description: "介绍 Datalayers 对 Arrow Flight SQL 协议的支持、核心优势和多语言接入方式，适用于高性能数据传输场景。"
 ---
 # Arrow Flight SQL 的高速数据传输协议
 
-Datalayers 完整实现了 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，基于该协议实现高性能数据链路。该协议结合了 Apache Arrow 的内存列式格式与 gRPC 的高效通信框架，专为大规模数据分析场景设计，实现高速的数据传输。
+Datalayers 完整实现了 [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html#arrow-flight-sql) 协议，可基于 Arrow 列式内存格式和 gRPC 通信框架实现高性能数据传输。该协议适合大数据量查询、高吞吐写入和低延迟数据交换场景。
 
 ## 核心优势
 
@@ -22,3 +22,8 @@ Datalayers 支持多种语言的 Arrow Flight SQL 客户端接入，具体示例
 - [JDBC](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver) 基于 Arrow Flight SQL JDBC 驱动
 
 更多接入介绍参考：[arrow-adbc](https://github.com/apache/arrow-adbc)
+
+## 相关文档
+
+- 了解连接协议选择，请参考 [Datalayers 数据库连接指南](./connection.md)
+- 了解 DBeaver 图形化接入方式，请参考 [Datalayers 集成 DBeaver 指南](../integration/datalayers-with-dbeaver.md)

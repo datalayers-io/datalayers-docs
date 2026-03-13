@@ -1,18 +1,18 @@
 ---
-title: "HTTP REST API 接入指南"
-description: "Datalayers 提供标准的 HTTP 协议接口，支持通过简单的 RESTful 请求直接与数据库交互（如执行 SQL 语句、管理数据库对象等）。本指南将介绍如何快速接入 API，包括认证方式、基础用法、常见操作示例及错误处理规范。"
+title: "Datalayers HTTP REST API 接入指南"
+description: "介绍 Datalayers HTTP REST API 的认证方式、请求格式、SQL 执行示例与错误处理规范，帮助你快速完成 API 接入。"
 ---
-# HTTP REST API 接入指南
+# Datalayers HTTP REST API 接入指南
 
 ## 概述
 
-Datalayers 提供标准的 HTTP 协议接口，支持通过简单的 RESTful 请求直接与数据库交互（如执行 SQL 语句、管理数据库对象等）。本指南将介绍如何快速接入 API，包括认证方式、基础用法、常见操作示例及错误处理规范。
+Datalayers 提供标准的 HTTP REST API，可通过 HTTP 请求直接执行 SQL、管理数据库对象并获取结构化响应。该接口适合脚本调用、应用集成、自动化运维以及无法直接使用专用驱动的场景。
 
-通过 HTTP REST API，您可以使用任意支持 HTTP 请求的工具（如 curl、Postman 或自定义代码）与 Datalayers 通信，无需依赖特定客户端库。该接口设计遵循 RESTful 原则，以 SQL 语句为核心操作载体，通过 HTTP 方法提交 SQL 请求，并返回结构化结果（JSON 格式）与操作状态码。
+通过 HTTP REST API，你可以使用 curl、Postman 或任意支持 HTTP 的编程语言快速接入 Datalayers，无需额外依赖专用客户端库。
 
 ## 认证方式
 
-Datalayers REST API 默认使用 `HTTP BASIC` 认证 认证方式，认证凭据通过 HTTP 头部传递。帐户信息参考：[认证与权限](../../user-security/authentication/overview.md)
+Datalayers REST API 默认使用 `HTTP BASIC` 认证，认证凭据通过 HTTP 头部传递。账户与权限信息可参考 [Datalayers 连接认证概述](../../user-security/authentication/overview.md)。
 
 ## 基本用法
 
@@ -23,14 +23,14 @@ http://<HOST>:<PORT>/api/v1/sql?db=<database_name> \
 -d '<SQL STATEMENT>'
 ```
 
-**参数说明**：
+### 参数说明
 
 - `<username>:<password>`：Datalayers 的认证凭据（如 admin:public）。
 - `<HOST>:<PORT>`：Datalayers 服务的 HTTP API 地址（示例中为 127.0.0.1:8361，实际以您的部署配置为准）。
 - `db=<database_name>`：目标数据库名称（通过 ?db=参数指定，若操作不涉及数据库可省略）。
 - `<SQL STATEMENT>`：待执行的 SQL 语句（如建库、建表、插入数据等，需用单引号包裹）。
 
-## 示例
+## 常见示例
 
 ### 创建数据库
 
@@ -82,7 +82,7 @@ http://127.0.0.1:8361/api/v1/sql?db=demo \
 
 ## HTTP 状态码
 
-Datalayers 遵循标准的 [HTTP状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 规范，提供清晰的错误信息帮助用户快速定位和解决问题。本文详细说明各类错误码的含义和相应的处理建议。
+Datalayers 遵循标准的 [HTTP 状态码](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 规范，并通过响应体返回进一步的错误信息，便于定位请求参数、权限或 SQL 执行问题。
 
 | HTTP CODE | 描述 |
 | --- | --- |
@@ -97,10 +97,15 @@ Datalayers 遵循标准的 [HTTP状态码](https://developer.mozilla.org/en-US/d
 | 409 | 请求的资源已存在或数量超过限制 |
 | 500 | 服务端处理请求时发生内部错误，可通过 Body 返回内容与日志判断具体原因 |
 
-**错误报文**
+### 错误报文示例
 
 ```json
 {
   "error": "Only support execute one statement"
 }
 ```
+
+## 相关文档
+
+- 想了解认证方式与权限模型，请参考 [Datalayers 连接认证概述](../../user-security/authentication/overview.md)
+- 想通过命令行工具执行 SQL，请参考 [Datalayers 命令行工具 dlsql 使用指南](../../getting-started/command-line-tool.md)

@@ -1,10 +1,10 @@
 ---
 title: "向量检索快速开始"
-description: "Datalayers 向量检索快速开始：介绍向量表创建、向量写入与相似度检索查询，帮助你快速完成向量能力验证。"
+description: "通过一个最小示例快速体验 Datalayers 向量检索，包括向量表创建、向量写入与相似度查询。"
 ---
 # 向量检索快速开始
 
-本文介绍如何在 Datalayers 数据库中进行向量数据存储与检索。
+本文通过一个最小示例演示如何在 Datalayers 中创建向量列、写入向量数据并执行相似度查询。该示例用于验证基础向量能力；如果需要更大规模的近似最近邻检索，请进一步结合向量索引使用。
 
 ## 创建向量表
 
@@ -63,7 +63,7 @@ INSERT INTO t (id, tag, embed) VALUES
 +-------+
 ```
 
-这里我们使用 L2 距离函数来计算向量距离。Datalayers 提供了许多[向量函数](../sql-reference/vector-functions.md)供用户使用。
+这里使用 `l2_distance` 计算向量距离。Datalayers 提供了多种[向量函数](../sql-reference/vector-functions.md)，可根据业务场景选择不同的距离度量方式。
 
 ## 注意事项
 
@@ -74,3 +74,9 @@ INSERT INTO t (id, tag, embed) VALUES
 - 一个表可以包含多个向量列。
 - 不支持将向量列修改为其他数据类型。
 - 向量检索在 Datalayers v2.3.6 中引入，如使用该功能请确保使用版本不低于 v2.3.6。
+
+## 相关文档
+
+- 想了解向量检索原理和典型场景，请参考 [向量检索概述](./overview.md)
+- 想了解如何创建向量索引，请参考 [向量索引](./vector-index.md)
+- 想查看更多距离函数与检索函数，请参考 [向量函数](../sql-reference/vector-functions.md)
