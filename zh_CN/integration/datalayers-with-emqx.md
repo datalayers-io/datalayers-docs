@@ -1,8 +1,8 @@
 ---
-title: "通过 EMQX 实现数据写入"
-description: "Datalayers 应用集成 - EMQX 是一款高度可扩展、高性能的开源 MQTT 消息代理，用于处理海量物联网设备消息。本文介绍如何通过 EMQX 规则引擎将 MQTT 数据写入 Datalayers。"
+title: "Datalayers 集成 EMQX 数据写入指南"
+description: "介绍如何通过 EMQX 规则引擎将 MQTT 消息写入 Datalayers，适用于 IoT 设备数据接入与实时入库场景。"
 ---
-# 通过 EMQX 实现数据写入
+# Datalayers 集成 EMQX 数据写入指南
 
 [EMQX](https://www.emqx.com/en) 是一款高度可扩展、高性能的开源 MQTT 消息代理（Message Broker），用于处理海量物联网设备的消息通信。它是基于 Erlang/OTP 语言开发的，具有卓越的并发处理能力和稳定性。EMQX 主要应用于物联网（IoT）领域，帮助设备通过 MQTT 协议进行消息发布和订阅，广泛用于智慧城市、智能制造、车联网、能源管理等领域。
 
@@ -48,7 +48,7 @@ Query OK, 0 rows affected. (0.034 sec)
 
 ![demo](../assets/datalayers-with-emqx.jpg)
 
-**注**：服务器通讯地址填写 `Datalayers HTTP 地址`
+注意：服务器通讯地址应填写 `Datalayers HTTP 地址`。
 
 - 点击`创建`，保存资源配置
 
@@ -66,9 +66,7 @@ Query OK, 0 rows affected. (0.034 sec)
 - 在右下角点击创建，以保存动作
 - 在创建规则页面，点击`保存`  
 
-```text
-此时，经过以上几步实现了使用 EMQX 规则引擎将数据写入到 Datalayers 中。
-```
+完成以上步骤后，EMQX 规则引擎就会将匹配的 MQTT 消息写入 Datalayers。
 
 ## 数据写入示例
 
@@ -80,9 +78,7 @@ Query OK, 0 rows affected. (0.034 sec)
 
   ![emqx pub sub](../assets/emqx_pub_sub.jpg)
 
-```text
-此时，说明已经成功将数据 pub 到了 MQTT Broker 中。
-```
+此时说明消息已经成功发布到 MQTT Broker。
 
 - 使用 Datalayers dlsql 命令行工具查看写入的数据
 

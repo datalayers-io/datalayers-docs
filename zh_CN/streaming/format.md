@@ -1,9 +1,9 @@
 ---
-title: "流计算 Formats"
-description: "介绍 Datalayers 流计算支持的消息格式及相关配置。"
+title: "Datalayers 流计算 Formats"
+description: "介绍 Datalayers 流计算支持的消息格式、配置项、示例以及 JSON 与 CSV 的选型建议。"
 ---
 
-# Formats
+# 流计算 Formats
 
 Format 用于将 connector 读取的消息解析为 source 的列结构。
 
@@ -123,4 +123,4 @@ CREATE SOURCE src_csv (
 
 ## 相关文档
 
-- [Connectors](./connectors.md)
+- [流计算 Connectors](./connectors.md)

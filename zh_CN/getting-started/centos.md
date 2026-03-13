@@ -1,10 +1,10 @@
 ---
-title: "CentOS 系统安装指南"
-description: "Datalayers CentOS 安装指南：介绍 RPM 安装包部署、服务启动与基础验证步骤，帮助你快速完成环境搭建。"
+title: "Datalayers CentOS 安装指南"
+description: "介绍如何在 CentOS 上通过 RPM 安装 Datalayers，包括安装、升级、systemd 服务管理与基础连接验证。"
 ---
-# CentOS 系统安装指南
+# Datalayers CentOS 安装指南
 
-本文详细介绍在 CentOS 系统中安装、使用 Datalayers 数据库的完整流程。
+本文介绍如何在 CentOS 系统中安装、升级和管理 Datalayers，适用于开发测试与生产环境部署前的基础准备。
 
 Datalayers 支持的 CentOS 版本为：
 
@@ -13,7 +13,7 @@ Datalayers 支持的 CentOS 版本为：
 
 ## 安装 Datalayers
 
-1. 下载安装包，<a href="https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm" download="datalayers-{@version_number@}-el7-amd64.rpm">点击下载</a>rpm安装包。
+1. 下载安装包：[datalayers-{@version_number@}-el7-amd64.rpm](https://docs.datalayers.cn/public/centos/datalayers-{@version_number@}-el7-amd64.rpm)。
 
 > 或者直接使用`wget`命令下载安装包：
 >
@@ -83,7 +83,7 @@ sudo yum remove datalayers
 
 ## 体验功能
 
-成功启动容器后，您可以通过以下方式体验 Datalayers：
+服务启动成功后，您可以通过以下方式体验 Datalayers：
 
 - 使用[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作

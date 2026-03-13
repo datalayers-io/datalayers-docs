@@ -1,8 +1,10 @@
 ---
 title: "用户管理指南"
-description: "Datalayers 用户管理指南：介绍用户名@主机名账户模型、用户生命周期管理及常用用户操作语法。"
+description: "介绍 Datalayers 用户账户模型、用户创建与删除、密码管理及常见用户操作语法。"
 ---
 # 用户管理指南
+
+本文介绍 Datalayers 的用户账户模型与常见管理操作，适用于 RBAC 场景下的账户创建、维护和安全治理。
 
 ## 用户账户概述
 
@@ -88,3 +90,9 @@ SELECT USER();
 ## 防暴力破解密码
 
 通过修改 [server 配置](../../admin/configuration-fields/server.md)中的 `password_lockout` 参数来设置防暴力破解密码的策略。
+
+## 相关文档
+
+- 了解访问控制模型，请参考 [Datalayers 访问控制概述](./overview.md)
+- 了解角色授权方式，请参考 [角色管理指南](./role.md)
+- 了解权限授予与回收，请参考 [权限管理](./privilege.md)

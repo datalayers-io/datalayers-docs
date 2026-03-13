@@ -1,8 +1,8 @@
 ---
-title: "查询并行度优化指南"
-description: "Datalayers 采用智能并行查询策略，默认情况下会自动调度多核CPU资源，通过任务并行化来加速大数据量查询。但在高并发小查询场景下，过度的并行化可能带来额外开销，合理配置并行度可显著提升系统整体QPS。"
+title: "Datalayers 查询并行度优化指南"
+description: "介绍如何通过 parallel_degree Hint 调整 Datalayers 查询并行度，以平衡单查询性能与整体吞吐。"
 ---
-# 查询并行度优化指南
+# Datalayers 查询并行度优化指南
 
 ## 概述
 
@@ -27,3 +27,13 @@ Datalayers 采用智能并行查询策略，默认情况下会自动调度多核
 ```sql
 SELECT /*+ SET_VAR(parallel_degree=1) */ * FROM table;
 ```
+
+## 使用建议
+
+- 大范围扫描和重聚合查询，通常适合较高并行度
+- 高频小查询场景，可适当降低并行度以提升整体吞吐
+- 建议结合压测结果和执行计划观察来调整 `parallel_degree`
+
+## 相关文档
+
+- 了解 SQL Hints 总体能力，请参考 [SQL Hints 使用指南](./overview.md)

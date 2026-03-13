@@ -1,9 +1,9 @@
 ---
-title: "流计算概述"
-description: "介绍 Datalayers 流计算的基本链路、核心对象和能力边界。"
+title: "Datalayers 流计算概述"
+description: "介绍 Datalayers 流计算的核心链路、Source 与 Pipeline 模型、支持的接入方式以及当前能力边界。"
 ---
 
-# 流计算概述
+# Datalayers 流计算概述
 
 ## 什么是流计算
 
@@ -30,7 +30,7 @@ Kafka / MQTT / HTTP
    TimeSeries sink table
 ```
 
-## 应用场景
+## 典型应用场景
 
 - 从 Kafka、MQTT、HTTP 持续接收或拉取数据
 - 在数据入库前做字段筛选、投影、阈值过滤等实时计算
@@ -74,43 +74,43 @@ WHERE value >= 2.0;
 
 `SINK` 不是独立对象，而是一张已存在的内部表。当前必须使用 `TimeSeries` 引擎，且查询输出 schema 必须与 sink table 严格兼容。
 
-## Connectors 与 Formats
+## Connector 与 Format
 
 Connector 用于描述外部数据系统，决定 source 如何读取数据。
 
 Format 用于描述消息编码格式，Datalayers 会据此将原始消息解码为表结构。
 
-当前版本支持的 connectors 请参考 [Connectors](./connectors.md)。
+当前版本支持的 connector 类型请参考 [流计算 Connectors](./connectors.md)。
 
-当前版本支持的 formats 请参考 [Formats](./format.md)。
+当前版本支持的消息格式请参考 [流计算 Formats](./format.md)。
 
 ## 管理与运维
 
 流计算对象创建后，可以用以下语句查看和控制：
 
 ```sql
-# 查看当前数据库下的所有 source
+-- 查看当前数据库下的所有 source
 SHOW SOURCES;
 
-# 查看当前数据库下的所有 pipeline
+-- 查看当前数据库下的所有 pipeline
 SHOW PIPELINES;
 
-# 查看指定 source 的定义 SQL
+-- 查看指定 source 的定义 SQL
 SHOW CREATE SOURCE src_kafka;
 
-# 查看指定 pipeline 的定义 SQL
+-- 查看指定 pipeline 的定义 SQL
 SHOW CREATE PIPELINE p_kafka;
 
-# 停止一个运行中的 pipeline
+-- 停止一个运行中的 pipeline
 ALTER PIPELINE p_kafka STOP;
 
-# 重启一个 pipeline
+-- 重启一个 pipeline
 ALTER PIPELINE p_kafka RESTART;
 
-# 删除指定 pipeline
+-- 删除指定 pipeline
 DROP PIPELINE p_kafka;
 
-# 删除指定 source
+-- 删除指定 source
 DROP SOURCE src_kafka;
 ```
 
@@ -119,5 +119,5 @@ DROP SOURCE src_kafka;
 - 了解如何快速体验一条最小流计算链路：[快速开始](./quick-start.md)
 - 了解 Datalayers 的流计算模型 ：[计算模型](./model.md)
 - 了解流计算的典型业务场景和示例：[应用示例](./use_cases.md)
-- 了解 JSON、CSV 等消息格式及其配置方式：[Formats](./format.md)
-- 了解当前支持的 connector 类型和配置方式：[Connectors](./connectors.md)
+- 了解 JSON、CSV 等消息格式及其配置方式：[流计算 Formats](./format.md)
+- 了解当前支持的 connector 类型和配置方式：[流计算 Connectors](./connectors.md)

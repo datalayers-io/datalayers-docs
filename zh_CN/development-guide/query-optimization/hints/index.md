@@ -1,6 +1,6 @@
 ---
-title: "Index Hints 使用指南"
-description: "Datalayers Index Hints 使用指南 - Index Hints（索引提示）是一种在 SQL 查询中显式指定索引使用策略的技术。通过 Index Hints，可以强制查询优化器在执行时使用或忽略特定的索引，主要用于性能优化和对比测试场景。"
+title: "Datalayers Index Hints 使用指南"
+description: "介绍 Datalayers Index Hints 的语法、适用场景和使用注意事项，帮助你手动控制索引选择。"
 ---
 # Index Hints 使用指南
 
@@ -18,3 +18,7 @@ select * from t [[use|ignore] index (index_list)]
 
 - 默认优化器索引选择不佳（不符合预期）时
 - 评估不同索引的性能差异
+
+## 相关文档
+
+- 了解 SQL Hints 总体能力，请参考 [SQL Hints 使用指南](./overview.md)
