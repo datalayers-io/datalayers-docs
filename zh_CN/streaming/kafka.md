@@ -24,7 +24,7 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 | `group_id` | STRING | 无 | No | 消费组 ID，用于基于已提交 offset 的启动和消费进度跟踪 |
 | `auth_type` | STRING | `none` | No | 鉴权类型，支持 `none`、`sasl` |
 | `protocol` | STRING | `sasl_plaintext` | No | SASL 协议。仅在 `auth_type='sasl'` 时生效；当前仅支持 `sasl_plaintext` |
-| `mechanism` | STRING | `plain` | No | SASL 机制。仅在 `auth_type='sasl'` 时生效；支持 `plain`、`scram_sha_256`、`scram_sha_512` |
+| `mechanism` | STRING | `PLAIN` | No | SASL 机制。仅在 `auth_type='sasl'` 时生效；支持 `PLAIN`、`SCRAM-SHA-256`、`SCRAM-SHA-512` |
 | `username` | STRING | 无 | No | SASL 用户名。仅在 `auth_type='sasl'` 时必填 |
 | `password` | STRING | 无 | No | SASL 密码。仅在 `auth_type='sasl'` 时必填 |
 
@@ -32,7 +32,7 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 
 - `auth_type='none'`：表示不使用鉴权。此时不能设置 `protocol`、`mechanism`、`username`、`password`。
 - `auth_type='sasl'`：表示使用 SASL 鉴权。此时必须同时设置 `username` 和 `password`。
-- `auth_type='sasl'` 时，`protocol` 和 `mechanism` 可省略，分别默认取 `sasl_plaintext` 和 `plain`。
+- `auth_type='sasl'` 时，`protocol` 和 `mechanism` 可省略，分别默认取 `sasl_plaintext` 和 `PLAIN`。
 - 当前 `protocol` 仅支持 `sasl_plaintext`。`sasl_ssl` 还未支持，配置后会报错。
 - `offset='at(<timestamp>)'` 中的 `<timestamp>` 必须是整数时间戳。
 
