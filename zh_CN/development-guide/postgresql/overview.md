@@ -12,6 +12,11 @@ Datalayers 兼容 PostgreSQL 网络连接协议，可对接 PostgreSQL 生态中
 - 希望复用 PostgreSQL JDBC、连接池或 SQL IDE 进行开发调试
 - 希望在不改动过多连接方式的前提下快速接入数据库
 
+## 前置条件
+
+- 已启用 Datalayers 的 PostgreSQL 协议服务
+- 客户端侧已准备 PostgreSQL 兼容工具或驱动
+
 ## 使用说明
 
 - 使用 PostgreSQL 连接协议时，需使用 PostgreSQL 方言。

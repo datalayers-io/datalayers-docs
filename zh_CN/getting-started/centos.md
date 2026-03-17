@@ -52,7 +52,7 @@ sudo systemctl start datalayers
 可通过以下命令查看其启动状态：
 
 ``` bash
-systemctl status datalayers
+sudo systemctl status datalayers
 ```
 
 ### 停止服务
@@ -79,7 +79,7 @@ sudo systemctl restart datalayers
 sudo yum remove datalayers
 ```
 
-该命令会清理数据与配置文件。
+该命令会卸载软件包。建议在卸载前备份配置文件与数据目录，避免影响现有环境中的业务数据。
 
 ## 体验功能
 
@@ -88,3 +88,9 @@ sudo yum remove datalayers
 - 使用[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
 - 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作
+
+## 下一步
+
+- 如需查看常用配置项，请参考 [配置文件介绍](../admin/datalayers-configuration.md)
+- 如需进行图形化查询，请参考 [Datalayers 集成 DBeaver 指南](../integration/datalayers-with-dbeaver.md)
+- 如需构建监控看板，请参考 [系统监控](../admin/system-monitor-grafana.md)

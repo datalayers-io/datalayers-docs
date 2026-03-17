@@ -1,6 +1,6 @@
 ---
 title: "全文检索快速开始"
-description: "通过一个日志表示例，快速了解在 Datalayers 中创建倒排索引、补建历史索引并执行全文检索的基本流程。"
+description: "通过一个日志表示例，快速了解在 Datalayers 中创建倒排索引、补建历史索引、执行全文检索并验证结果的基本流程。"
 ---
 # 全文检索快速开始
 
@@ -12,7 +12,7 @@ description: "通过一个日志表示例，快速了解在 Datalayers 中创建
 
 首先创建一张用于存放日志的示例表，其中 `message` 为待检索字段：
 
-```SQL
+```sql
 CREATE TABLE logs (
   ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   service STRING,
@@ -27,7 +27,7 @@ PARTITION BY HASH(service) PARTITIONS 1;
 
 在 `message` 列上创建倒排索引：
 
-```SQL
+```sql
 CREATE INVERTED INDEX idx_message ON logs (message)
 WITH (tokenizer='standard', filters='lowercase,english_stop', with_position='true');
 ```
@@ -42,7 +42,7 @@ WITH (tokenizer='standard', filters='lowercase,english_stop', with_position='tru
 
 如果 `idx_message` 创建前表中已经存在历史数据，需要执行一次索引刷新，将存量数据纳入倒排索引：
 
-```SQL
+```sql
 REFRESH INDEX idx_message ON logs;
 ```
 
@@ -50,7 +50,7 @@ REFRESH INDEX idx_message ON logs;
 
 `MATCH` 适合直接按关键词或多个词项进行检索：
 
-```SQL
+```sql
 SELECT ts, service, level, message
 FROM logs
 WHERE MATCH('message', 'database timeout')
@@ -60,7 +60,7 @@ LIMIT 20;
 
 `QUERY` 适合表达短语匹配、布尔逻辑或集合匹配：
 
-```SQL
+```sql
 SELECT ts, service, level, message
 FROM logs
 WHERE QUERY('message:"connection refused" OR message:in [timeout retry]')
@@ -74,11 +74,15 @@ LIMIT 20;
 - `SCORE()` 必须与全文检索函数一起使用
 - `ORDER BY SCORE() DESC` 可让最相关的结果排在前面
 
-## 5. 删除索引（可选）
+## 5. 验证结果
+
+如果查询能够返回包含目标关键词或短语的日志记录，并且最相关结果排在前面，说明倒排索引已生效，全文检索链路验证成功。
+
+## 6. 删除索引（可选）
 
 如果需要清理测试环境中的索引，可执行：
 
-```SQL
+```sql
 DROP INDEX idx_message ON logs;
 ```
 

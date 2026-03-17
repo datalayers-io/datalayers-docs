@@ -57,12 +57,9 @@ sudo -u datalayers dlsql
 
 **Peer 认证注意事项**：
 
-- **认证限制**
-  - 仅限本地访问：Peer 认证仅支持通过 Unix Socket 的本地连接
-- **连接端权限要求**：连接端账号必须满足以下条件之一：
-  - 具备超级管理员权限（root 用户）
-  - 用户的 UID 与数据库服务运行时的 UID 完全一致
-- **权限**：通过 Peer 认证建立的连接将获得系统级最高权限
+- 仅限本地访问：Peer 认证仅支持通过 Unix Socket 的本地连接
+- 连接端账号必须满足以下条件之一：具备超级管理员权限，或用户 UID 与数据库服务运行时的 UID 完全一致
+- 通过 Peer 认证建立的连接将获得系统级最高权限
 - 配置 `Unix Socket` 服务后，需重启 Datalayers，以确保服务生效
 
 ## Web 控制台
@@ -79,7 +76,7 @@ dlsql --web-console 9362
 
 ## 连接参数详解
 
-| 参数 | <div style="width:28px">简写 </div> | 描述 |
+| 参数 | 简写 | 描述 |
 | --- | --- | --- |
 | --host | -h | 设置连接 Datalayers 服务器地址, 默认为本地路径通过 Unix Socket 方式连接: /var/lib/datalayers/run/datalayers.sock |
 | --username | -u | 设置连接 Datalayers 使用的用户名 |
@@ -87,9 +84,15 @@ dlsql --web-console 9362
 | --port | -P | 设置连接 Datalayers 的端口 |
 | --database | -d | 设置连接 Datalayers 时使用的数据库 |
 | --execute | -e | 运行一次 SQL STATEMENT 后退出 |
-| --load-file |  | 执行指定的 SQL 脚本文件 |
-| --web-console |  | 指定 Web 控制台的监听端口并启动 Web 控制台 |
+| --load-file | - | 执行指定的 SQL 脚本文件 |
+| --web-console | - | 指定 Web 控制台的监听端口并启动 Web 控制台 |
 | --version | -V | 显示 CLI 工具的版本 |
-| --tls |  | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt |
-| --max-display-rows |  | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为：`40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制） |
-| --help |  | show this help, then exit |
+| --tls | - | 通过 TLS 加密方式与数据库进行交互。自签证书则需指定 root ca，如：--tls /etc/datalayers/datalayers.crt |
+| --max-display-rows | - | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为：`40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制） |
+| --help | - | show this help, then exit |
+
+## 下一步
+
+- 想快速完成连接、建库和查询，请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)
+- 想了解服务参数与认证配置，请参考 [配置文件介绍](./datalayers-configuration.md)
+- 想通过浏览器或图形化工具访问实例，请参考 [Datalayers 集成 DBeaver 指南](../integration/datalayers-with-dbeaver.md)

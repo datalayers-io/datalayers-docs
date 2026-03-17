@@ -1,6 +1,6 @@
 ---
 title: "Datalayers Docker 安装指南"
-description: "介绍如何通过 Docker 快速部署 Datalayers，包括镜像拉取、容器启动、端口说明与基础连接验证。"
+description: "介绍如何通过 Docker 快速部署 Datalayers，包括镜像拉取、容器启动、端口映射、数据持久化与基础连接验证。"
 ---
 # Datalayers Docker 安装指南
 
@@ -61,3 +61,8 @@ docker exec -it datalayers bash
 - 使用[命令行工具](./command-line-tool.md)连接数据库进行操作
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
 - 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作
+
+## 下一步
+
+- 如果你需要长期运行或托管为系统服务，请参考 [Datalayers Ubuntu 安装指南](./ubuntu.md)
+- 如果你希望验证交互式 SQL 操作，请参考 [Datalayers 命令行工具 dlsql 使用指南](./command-line-tool.md)

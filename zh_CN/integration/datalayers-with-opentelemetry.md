@@ -1,10 +1,22 @@
 ---
 title: "Datalayers 集成 OpenTelemetry 指南"
-description: "Datalayers 集成 OpenTelemetry 指南：介绍如何使用 OpenTelemetry Collector 的 InfluxDB Exporter 将链路与指标数据写入 Datalayers，并给出最简配置示例。"
+description: "介绍如何使用 OpenTelemetry Collector 的 InfluxDB Exporter 将指标、日志或链路数据写入 Datalayers，并给出最简配置示例。"
 ---
 # Datalayers 集成 OpenTelemetry 指南
 
 Datalayers 支持 InfluxDB Line Protocol，因此可以通过 OpenTelemetry Collector 的 InfluxDB Exporter 将指标、链路等观测数据写入 Datalayers。该方案适用于统一接入 OpenTelemetry 采集链路，并将数据存入 Datalayers 进行后续分析和存储。
+
+## 适用场景
+
+- 将 OpenTelemetry 采集到的可观测数据统一写入 Datalayers
+- 通过 Collector 聚合并转发指标、日志或链路数据
+- 为后续查询分析、存储归档和可视化提供统一数据入口
+
+## 前置条件
+
+- 已部署可用的 Datalayers 实例
+- 已安装 OpenTelemetry Collector，建议使用 Contrib 版本
+- 已创建目标数据库，并确认 Datalayers HTTP 写入地址可访问
 
 ![architecture diagram](../assets/architecture-diagram.png)
 
@@ -82,13 +94,14 @@ service:
 
 ## 配置说明
 
-* `endpoint` 需要替换为实际的 Datalayers HTTP 地址
-* 当前 Datalayers 默认以 InfluxDB v1 兼容方式接收 Line Protocol，因此需要开启 `v1_compatibility.enabled=true`
-* 目标数据库需要提前在 Datalayers 中创建
-* `receivers` 接收的数据会先经过 `processors`，再发送到 `exporters`，最终写入 Datalayers
-* 如果目标表不存在，系统会根据配置自动建表；如果关闭了自动建表功能，则需要提前创建表结构
+- `endpoint` 需要替换为实际的 Datalayers HTTP 地址
+- 当前 Datalayers 默认以 InfluxDB v1 兼容方式接收 Line Protocol，因此需要开启 `v1_compatibility.enabled=true`
+- 目标数据库需要提前在 Datalayers 中创建
+- `receivers` 接收的数据会先经过 `processors`，再发送到 `exporters`，最终写入 Datalayers
+- 如果目标表不存在，系统会根据配置自动建表；如果关闭了自动建表功能，则需要提前创建表结构
 
 ## 相关文档
 
-* 想了解 InfluxDB 行协议写入方式，请参考 [使用 InfluxDB 行协议写入数据](../development-guide/writing-with-influxdb-line-protocol.md)
-* 想了解 HTTP 接入方式，请参考 [Datalayers HTTP REST API 接入指南](../development-guide/rest-api/overview.md)
+- 想了解 InfluxDB 行协议写入方式，请参考 [使用 InfluxDB 行协议写入数据](../development-guide/writing-with-influxdb-line-protocol.md)
+- 想了解 HTTP 接入方式，请参考 [Datalayers HTTP REST API 接入指南](../development-guide/rest-api/overview.md)
+- 想了解可视化展示方式，请参考 [Datalayers 集成 Grafana 可视化指南](./datalayers-with-grafana.md)

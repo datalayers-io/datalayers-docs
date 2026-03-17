@@ -1,8 +1,10 @@
 ---
 title: "Datalayers 命令行工具 dlsql 使用指南"
-description: "介绍如何使用 Datalayers 命令行工具 dlsql 连接数据库、创建对象、写入查询数据并执行常见管理操作。"
+description: "介绍如何使用 Datalayers 命令行工具 dlsql 连接数据库、创建数据库与表、写入和查询数据，并执行常见管理操作。"
 ---
 # Datalayers 命令行工具 dlsql 使用指南
+
+`dlsql` 是 Datalayers 提供的命令行 SQL 客户端，适合用于数据库连接验证、日常查询、对象管理和运维排查。
 
 ## 工具简介
 
@@ -114,6 +116,8 @@ SELECT AVG(speed) FROM sensor_info;
 SELECT date_bin('1 days', ts) as timepoint, count(*) as total from sensor_info group by timepoint;
 ```
 
+你也可以结合聚合函数、过滤条件和时间窗口语法构造更复杂的分析查询。
+
 ## 其他常见操作
 
 查看所有表：
@@ -152,4 +156,8 @@ DROP DATABASE demo;
 
 使用 `exit` 或者 `quit` 命令可退出交互终端。
 
-更多 SQL 语法和对象说明，可查看 [SQL 参考](../sql-reference/data-type.md)。
+## 下一步
+
+- 了解更多命令参数和管理命令，请参考 [命令行工具](../admin/datalayers-cli.md)
+- 了解完整 SQL 能力，请参考 [SQL 参考](../sql-reference/data-type.md)
+- 如果你希望通过图形化工具连接实例，请参考 [Datalayers 集成 DBeaver 指南](../integration/datalayers-with-dbeaver.md)

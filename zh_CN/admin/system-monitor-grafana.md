@@ -92,3 +92,9 @@ docker run --name my-grafana --network host grafana/grafana
 以下为监控面板示意图：
 
 ![metrics example](../assets/dashboard_metrics.png)
+
+## 下一步
+
+- 想了解指标写入与协议兼容，请参考 [Datalayers Prometheus 协议兼容](../prometheus/overview.md)
+- 想直接构建数据分析面板，请参考 [Datalayers 集成 Grafana 可视化指南](../integration/datalayers-with-grafana.md)
+- 想调整服务参数和资源限制，请参考 [配置文件介绍](./datalayers-configuration.md)

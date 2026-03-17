@@ -30,13 +30,16 @@ password = "public"
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 ```
 
+修改配置后，需要重启 Datalayers 服务使其生效。
+
 ## 注意事项
 
 - 静态认证模式下，通过认证的用户将拥有系统高权限
 - 需要将配置文件中的 `server.auth.type` 设置为 `static` 才能启用静态认证
 - 如果环境中存在多用户隔离或权限分级需求，建议改用 RBAC 认证
 
-## 相关文档
+## 下一步
 
-- 了解认证方式选择，请参考 [Datalayers 连接认证概述](./overview.md)
-- 了解 RBAC 认证，请参考 [RBAC（基于角色的访问控制）](./rbac.md)
+- 如果需要更细粒度的授权能力，请参考 [Datalayers 访问控制概述](../rbac/overview.md)
+- 如果需要提升凭据安全性，请参考 [Datalayers 密码策略](../password-policy.md)
+- 如果需要保护传输链路，请参考 [Datalayers TLS 连接加密配置指南](../tls.md)

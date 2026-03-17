@@ -45,6 +45,8 @@ cpu_cores = 4
 
 以上配置表示 CPU 的最后4个 Core 用于后台任务，其余的为前台线程。详见：[runtime](../admin/configuration-fields/runtime.md)
 
+建议在 CPU 核数较多且后台任务占比较高的环境中启用该类隔离，以降低前台请求与后台维护任务之间的资源竞争。
+
 ## 自动改表
 
 在通过 InfluxDB 行协议写入时，Datalayers 支持根据行协议约定进行自动建表与改表，系统在高负载情况下，改表过程中可能会对写入性能产生一定影响，因此在生产环境中我们建议将自动改表功能关闭掉。
@@ -56,3 +58,9 @@ cpu_cores = 4
 # Default: false.
 auto_alter_table = false
 ```
+
+## 下一步
+
+- 想做系统层优化，请参考 [Datalayers 系统调优指南](./system-tune.md)
+- 想查看配置字段细节，请参考 [runtime 配置字段](./configuration-fields/runtime.md)
+- 想做查询层调优，请参考 [查询性能调优概述](../development-guide/query-performance-tuning-overview.md)
