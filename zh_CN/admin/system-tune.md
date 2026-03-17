@@ -51,7 +51,7 @@ echo "* hard nofile 65535" >>  /etc/security/limits.conf
 - 结合 [系统监控指标](./system-metrics.md) 观察 CPU、内存、Flush 和 Compact 指标是否改善
 - 在业务高峰或压测场景中复核系统稳定性和延迟表现
 
-## 下一步
+## 相关文档
 
 - 想查看监控指标与阈值建议，请参考 [系统监控指标](./system-metrics.md)
 - 想配置服务资源和缓存参数，请参考 [配置文件介绍](./datalayers-configuration.md)

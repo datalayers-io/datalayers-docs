@@ -59,7 +59,7 @@ cpu_cores = 4
 auto_alter_table = false
 ```
 
-## 下一步
+## 相关文档
 
 - 想做系统层优化，请参考 [Datalayers 系统调优指南](./system-tune.md)
 - 想查看配置字段细节，请参考 [runtime 配置字段](./configuration-fields/runtime.md)

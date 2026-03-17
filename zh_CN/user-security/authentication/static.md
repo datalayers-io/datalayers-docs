@@ -38,7 +38,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 - 需要将配置文件中的 `server.auth.type` 设置为 `static` 才能启用静态认证
 - 如果环境中存在多用户隔离或权限分级需求，建议改用 RBAC 认证
 
-## 下一步
+## 相关文档
 
 - 如果需要更细粒度的授权能力，请参考 [Datalayers 访问控制概述](../rbac/overview.md)
 - 如果需要提升凭据安全性，请参考 [Datalayers 密码策略](../password-policy.md)

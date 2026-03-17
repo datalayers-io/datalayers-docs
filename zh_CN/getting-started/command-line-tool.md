@@ -156,7 +156,7 @@ DROP DATABASE demo;
 
 使用 `exit` 或者 `quit` 命令可退出交互终端。
 
-## 下一步
+## 相关文档
 
 - 了解更多命令参数和管理命令，请参考 [命令行工具](../admin/datalayers-cli.md)
 - 了解完整 SQL 能力，请参考 [SQL 参考](../sql-reference/data-type.md)

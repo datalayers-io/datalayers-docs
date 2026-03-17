@@ -167,7 +167,7 @@ git clone https://github.com/datalayers-io/datalayers-with-grafana.git
 
 通过将 Datalayers 与 Grafana 结合，可以更高效地完成时序数据可视化、指标分析与业务看板构建。
 
-## 下一步
+## 相关文档
 
 - 如果你还没有准备测试数据，请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)
 - 如果你希望使用图形化数据库工具排查查询结果，请参考 [Datalayers 集成 DBeaver 指南](./datalayers-with-dbeaver.md)

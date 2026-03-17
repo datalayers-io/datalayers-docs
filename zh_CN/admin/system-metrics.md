@@ -69,7 +69,7 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | **fdb_exporter_latency_seconds** | gauge | <span style="color:red">*</span> 访问元数据服务的时延，单位：秒。不应该大于 `1` |
 | fdb_process_disk_total_bytes | gauge | 元数据存储磁盘的总空间大小，单位：bytes |
 
-## 下一步
+## 相关文档
 
 - 想了解如何采集和展示这些指标，请参考 [系统监控](./system-monitor-grafana.md)
 - 想根据指标调整服务配置，请参考 [配置文件介绍](./datalayers-configuration.md)

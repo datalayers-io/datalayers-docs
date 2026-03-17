@@ -173,7 +173,7 @@ test> SELECT * FROM device;
 10 rows in set (0.002 sec)
 ```
 
-## 下一步
+## 相关文档
 
 - 想了解连接与查询验证，请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)
 - 想了解服务配置与数据目录设置，请参考 [配置文件介绍](./datalayers-configuration.md)

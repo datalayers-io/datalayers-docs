@@ -93,7 +93,7 @@ docker run --name my-grafana --network host grafana/grafana
 
 ![metrics example](../assets/dashboard_metrics.png)
 
-## 下一步
+## 相关文档
 
 - 想了解指标写入与协议兼容，请参考 [Datalayers Prometheus 协议兼容](../prometheus/overview.md)
 - 想直接构建数据分析面板，请参考 [Datalayers 集成 Grafana 可视化指南](../integration/datalayers-with-grafana.md)

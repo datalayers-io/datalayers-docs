@@ -62,7 +62,7 @@ docker exec -it datalayers bash
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
 - 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作
 
-## 下一步
+## 相关文档
 
 - 如果你需要长期运行或托管为系统服务，请参考 [Datalayers Ubuntu 安装指南](./ubuntu.md)
 - 如果你希望验证交互式 SQL 操作，请参考 [Datalayers 命令行工具 dlsql 使用指南](./command-line-tool.md)

@@ -89,7 +89,7 @@ sudo yum remove datalayers
 - 使用 [DBeaver](../integration/datalayers-with-dbeaver.md) 连接数据库进行操作
 - 使用 [HTTP](../development-guide/rest-api/overview.md) 协议连接数据库进行操作
 
-## 下一步
+## 相关文档
 
 - 如需查看常用配置项，请参考 [配置文件介绍](../admin/datalayers-configuration.md)
 - 如需进行图形化查询，请参考 [Datalayers 集成 DBeaver 指南](../integration/datalayers-with-dbeaver.md)

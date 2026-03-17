@@ -91,7 +91,7 @@ dlsql --web-console 9362
 | --max-display-rows | - | 在使用 `dlsql` 查询数据时最多显示多少条记录，缺省值为：`40`，如需显示更多记录，则需通过该参数进行指定（`0` 表示无限制） |
 | --help | - | show this help, then exit |
 
-## 下一步
+## 相关文档
 
 - 想快速完成连接、建库和查询，请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)
 - 想了解服务参数与认证配置，请参考 [配置文件介绍](./datalayers-configuration.md)
