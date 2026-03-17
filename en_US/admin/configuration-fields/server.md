@@ -24,7 +24,7 @@ These settings define the communication ports for different protocols used by th
 
 - **`redis`**:  
   Specifies the Redis Service endpoint, which is only available in cluster mode.  
-  - **Default**: `"0.0.0.0:8362"`.  
+  - **Default**: `"0.0.0.0:6379"`.  
   - Note: This option is commented out, so it is disabled by default. Uncomment it to enable.
 
 ## Session Management

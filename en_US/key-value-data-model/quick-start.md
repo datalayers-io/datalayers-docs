@@ -22,5 +22,5 @@ To launch the Datalayers Service with Redis support enabled (assuming the defaul
 2. Once installed, connect to the Datalayers Redis Service using the following command:
 
     ```bash
-    redis-cli -p 8362
+    redis-cli -p 6379
     ```

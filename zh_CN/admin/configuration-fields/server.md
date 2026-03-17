@@ -90,7 +90,7 @@ path = "run/datalayers.sock"
 # Users can start this service only when Datalayers server starts in cluster mode.
 # Do not support redis service by default.
 # Default: "".
-# addr = "0.0.0.0:8362"
+# addr = "0.0.0.0:6379"
 
 # The username.
 # Default: "admin".
