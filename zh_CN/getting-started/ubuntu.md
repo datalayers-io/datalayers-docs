@@ -1,6 +1,6 @@
 ---
 title: "Datalayers Ubuntu 安装指南"
-description: "介绍如何在 Ubuntu 上安装 Datalayers，包括安装包下载、升级、systemd 服务管理与基础连接验证。"
+description: "介绍如何在 Ubuntu 上安装 Datalayers，包括安装包下载、升级、systemd 服务管理、卸载与基础连接验证。"
 ---
 # Datalayers Ubuntu 安装指南
 
@@ -108,7 +108,7 @@ sudo systemctl start datalayers
 可通过以下命令查看其启动状态：
 
 ``` bash
-systemctl status datalayers
+sudo systemctl status datalayers
 ```
 
 ### 停止服务

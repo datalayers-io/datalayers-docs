@@ -1,6 +1,6 @@
 ---
 title: "向量检索快速开始"
-description: "通过一个最小示例快速体验 Datalayers 向量检索，包括向量表创建、向量写入与相似度查询。"
+description: "通过一个最小示例快速体验 Datalayers 向量检索，包括向量表创建、向量写入、相似度查询与结果验证。"
 ---
 # 向量检索快速开始
 
@@ -19,7 +19,7 @@ CREATE TABLE t(
     timestamp key (ts)
 )
 PARTITION BY HASH(id) PARTITIONS 4
-ENGINE=TimeSeries
+ENGINE=TimeSeries;
 ```
 
 其中，`embed VECTOR(3)` 表示创建一个名为 `embed` 的向量列，该列中每个向量的维度为 3。
