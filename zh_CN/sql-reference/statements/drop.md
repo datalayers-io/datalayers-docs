@@ -66,7 +66,8 @@ DROP PIPELINE [IF EXISTS] [db.]pipeline_name
 
 说明
 
-- 删除 pipeline 时，系统会尝试先停止正在运行的任务，然后再删除元数据。
+- 只有处于 `Stopped` 或 `Failed` 状态的 pipeline 才允许删除。
+- 如果 pipeline 仍在运行，请先执行 `ALTER PIPELINE ... STOP`，再执行 `DROP PIPELINE`。
 - `IF EXISTS` 可用于忽略不存在对象的报错。
 
 ### DROP NODE

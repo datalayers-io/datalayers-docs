@@ -21,7 +21,7 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 | `endpoint` | STRING | 无 | Yes | 轮询地址，支持 `${...}` 时间变量 |
 | `method` | STRING | `get` | No | HTTP 方法，支持 `GET` 和 `POST` |
 | `poll` | STRING | `once` | No | 轮询模式，支持 `once` 或 `interval(<millis>)` |
-| `timeout` | INT | 无 | No | 请求超时时间，单位毫秒 |
+| `timeout` | INT | 无 | No | 请求超时时间，单位秒 |
 | `headers` | STRING | 无 | No | 请求头，格式为 `k1:v1;k2:v2` |
 | `auth_type` | STRING | `none` | No | 鉴权类型，支持 `none` 和 `basic_auth` |
 | `username` | STRING | 无 | No | Basic Auth 用户名 |
@@ -32,7 +32,7 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 - `auth_type='none'`：表示不使用鉴权。此时不能输入 `username`、`password`，否则会报错。
 - `auth_type='basic_auth'`：表示使用 Basic Auth。此时必须同时输入 `username` 和 `password`。
 
-Format 相关配置请参考 [Formats](./format.md)。
+Format 相关配置请参考 [Formats](./format.md)。其中 `parquet` 目前仅支持 `http` connector。
 
 ## endpoint 支持的时间变量
 
@@ -147,16 +147,16 @@ CREATE DATABASE stream_demo_http;
 USE stream_demo_http;
 
 CREATE TABLE sink_http_once (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64,
   TIMESTAMP KEY(ts)
 ) ENGINE=TimeSeries
 PARTITION BY HASH(sid) PARTITIONS 1;
 
 CREATE SOURCE src_http_once (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64
 ) WITH (
   connector='http',
@@ -183,16 +183,16 @@ SELECT ts, sid, value FROM sink_http_once ORDER BY ts;
 
 ```sql
 CREATE TABLE sink_http_poll (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64,
   TIMESTAMP KEY(ts)
 ) ENGINE=TimeSeries
 PARTITION BY HASH(sid) PARTITIONS 1;
 
 CREATE SOURCE src_http_poll (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64
 ) WITH (
   connector='http',
@@ -220,3 +220,4 @@ SELECT ts, sid, value FROM sink_http_poll ORDER BY ts;
 
 - 当前 HTTP connector 仅支持作为 source，不支持作为 sink
 - `poll='once'` 适合一次性抓取，`poll='interval(...)'` 适合持续轮询
+- `format='parquet'` 目前仅支持 `http` connector，且按整个 payload 解码一份完整 Parquet 文件

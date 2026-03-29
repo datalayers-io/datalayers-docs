@@ -80,3 +80,4 @@ ALTER PIPELINE pipeline_name RESTART;
 
 - 目前不支持 `ALTER SOURCE`。
 - 目前不支持修改 pipeline 的 SQL、source 或 sink 定义；如需调整这类内容，请重新创建对象。
+- 如需删除一个正在运行的 pipeline，请先执行 `ALTER PIPELINE ... STOP`。

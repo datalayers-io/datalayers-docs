@@ -65,8 +65,8 @@ CREATE DATABASE stream_demo;
 USE stream_demo;
 
 CREATE TABLE sink_t (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64,
   TIMESTAMP KEY(ts)
 ) ENGINE=TimeSeries
@@ -81,8 +81,8 @@ PARTITION BY HASH(sid) PARTITIONS 1;
 
 ```sql
 CREATE SOURCE src_kafka (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64
 ) WITH (
   connector='kafka',
@@ -165,6 +165,9 @@ ALTER PIPELINE p_kafka RESTART;
 ### Step 8：清理资源
 
 ```sql
+-- 删除前先停止 pipeline
+ALTER PIPELINE p_kafka STOP;
+
 -- 删除 pipeline
 DROP PIPELINE p_kafka;
 

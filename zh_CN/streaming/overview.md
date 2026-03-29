@@ -47,9 +47,10 @@ Kafka / MQTT / HTTP
 
 ```sql
 CREATE SOURCE src_kafka (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
-  value FLOAT64
+  ts TIMESTAMP(9),
+  source_topic STRING METADATA FROM 'topic',
+  topic_tag STRING AS source_topic,
+  value FLOAT64,
 ) WITH (
   connector='kafka',
   brokers='127.0.0.1:9092',
@@ -73,7 +74,8 @@ WHERE value >= 2.0;
 
 ### Sink Table
 
-`SINK` 不是独立对象，而是一张已存在的内部表。当前必须使用 `TimeSeries` 引擎，且查询输出 schema 必须与 sink table 严格兼容。
+`SINK` 不是独立对象，而是一张已存在的内部表。当前必须使用
+`TimeSeries` 引擎，且查询输出 schema 必须与 sink table 兼容；当类型可转换时，系统会自动补充 cast。
 
 ## Connector 与 Format
 
@@ -107,6 +109,9 @@ ALTER PIPELINE p_kafka STOP;
 
 -- 重启一个 pipeline
 ALTER PIPELINE p_kafka RESTART;
+
+-- 删除前先停止 pipeline
+ALTER PIPELINE p_kafka STOP;
 
 -- 删除指定 pipeline
 DROP PIPELINE p_kafka;

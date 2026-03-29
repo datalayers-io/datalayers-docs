@@ -35,9 +35,11 @@ external system -> source -> pipeline -> sink table
 
 ```sql
 CREATE SOURCE src_mqtt (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
-  value FLOAT64
+  ts TIMESTAMP(9),
+  source_topic STRING METADATA FROM 'topic',
+  topic_tag STRING AS source_topic,
+  value FLOAT64,
+  WATERMARK FOR ts
 ) WITH (
   connector='mqtt',
   broker='127.0.0.1:1883',
@@ -84,7 +86,7 @@ sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当
 
 - sink table 必须事先创建
 - sink table 必须使用 `TimeSeries` 引擎
-- pipeline 输出列名和类型必须与 sink table 严格兼容
+- pipeline 输出列名和类型必须与 sink table 兼容；当类型可转换时，系统会自动补充 cast
 - sink table 中非空且没有默认值的列，必须出现在 pipeline 输出里
 
 这意味着在设计 sink table 时，应先确定 pipeline 输出 schema，再创建表结构。
@@ -104,5 +106,6 @@ sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当
 ```sql
 ALTER PIPELINE p1 STOP;
 ALTER PIPELINE p1 RESTART;
+ALTER PIPELINE p1 STOP;
 DROP PIPELINE p1;
 ```
