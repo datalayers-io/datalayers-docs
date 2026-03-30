@@ -88,7 +88,7 @@ CREATE SOURCE source_name (
 其中 `source_field` 支持三种写法：
 
 ```SQL
-column_name data_type
+column_name data_type [NULL | NOT NULL] [COMMENT 'text']
 column_name data_type METADATA FROM 'metadata_key'
 column_name data_type AS expr
 ```
@@ -97,11 +97,19 @@ column_name data_type AS expr
 - 第二种是 metadata field，从 connector 读取的消息元信息中提取，常见的 metadata 包括 Kafka 的 topic、partition、offset，HTTP 的 header 等。`METADATA FROM` 的 key 取决于具体 connector，且 metadata 列类型必须与该 key 的类型完全一致。
 - 第三种是 computed field，基于 physical field 和 metadata field 定义的计算。Computed field 只能基于 physical field 和 metadata field 定义，不能基于其他 computed field 定义。
 
+当前版本对 source field 的列选项约束如下：
+
+- 只有 physical field 允许指定列选项，且仅支持 `NULL`、`NOT NULL` 和 `COMMENT`
+- 如果一个 physical field 没有显式指定 `NULL` 或 `NOT NULL`，则默认为 `NULL`
+- 如果一个 physical field 被 watermark 声明为事件时间列，则该列会隐式被视为 `NOT NULL`。如果用户显式指定了 `NULL` 会报错
+- metadata field 和 computed field 不支持列选项
+- 同一个 metadata key 不能被多个 source 列重复引用
+
 示例
 
 ```SQL
 CREATE SOURCE src_kafka (
-    ts TIMESTAMP(9),
+    ts TIMESTAMP(9) NOT NULL COMMENT 'event time',
     source_topic STRING METADATA FROM 'topic',
     value_label STRING AS source_topic,
     WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
@@ -117,7 +125,6 @@ CREATE SOURCE src_kafka (
 说明
 
 - source 至少需要定义一个列。
-- source field 不支持列选项，例如 `NOT NULL`、`DEFAULT` 等。
 - `WITH (...)` 为必填，且不能为空。
 - `CREATE SOURCE` 暂不支持 `IF NOT EXISTS`。
 - connector 配置项取决于具体 connector，详见 [Connectors 概述](../../streaming/connectors.md)。
@@ -132,6 +139,7 @@ Watermark 用于声明 source 的事件时间语义。它由 `CREATE SOURCE` 中
 
 - 一个 source 至多定义一个 watermark
 - `WATERMARK FOR <column>` 中的事件时间列必须来自 physical field 或 metadata field，不能是 computed field
+- `WATERMARK FOR <column>` 中的事件时间列会被视为 non-nullable；显式指定 `NULL` 会报错
 - Watermark 表达式也只能基于 physical field 或 metadata field 构建
 - Watermark 表达式的结果类型必须是 `TIMESTAMP`
 
