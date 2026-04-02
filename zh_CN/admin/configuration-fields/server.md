@@ -44,20 +44,23 @@ timezone = "Asia/Shanghai"
 # The configurations of authorization.
 [server.auth]
 # The type of the authorization.
-# type = "static" or "rbac"
+# static: authenticate only with the configured built-in username and password.
+# rbac: authenticate only with RBAC-managed users.
+# chain: try static authentication first, then fall back to RBAC if static authentication fails.
+# type = "static", "rbac" or "chain"
 # Default: "static"
 type = "static"
 
 # The username.
-# Default: "admin".
+# Required when auth.type is "static" or "chain".
 username = "admin"
 
 # The password.
-# Default: "public".
+# Required when auth.type is "static" or "chain".
 password = "public"
 
 # The provided JSON Web Token.
-# Default: "871b3c2d706d875e9c6389fb2457d957".
+# Required for all auth modes.
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 # Password strength requirements.
@@ -93,12 +96,12 @@ path = "run/datalayers.sock"
 # addr = "0.0.0.0:6379"
 
 # The username.
-# Default: "admin".
+# Required when Redis service is enabled.
 #username = "admin"
 
 # The password.
-# Default: "public".
-#password = "public"
+# Required when Redis service is enabled.
+# password = "public"
 
 # The configurations of the Prometheus server.
 [server.prometheus]

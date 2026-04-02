@@ -13,7 +13,7 @@ description: "介绍 Datalayers 静态认证的配置方式、适用场景与使
 ```toml
 # The configurations of authorization.
 [server.auth]
-# 认证类型，可选：static/rbac
+# 认证类型，可选：static/rbac/chain
 # 默认: "static"
 type = "static" 
 

@@ -79,20 +79,25 @@ timezone = "Asia/Shanghai"
 # The configurations of authorization.
 [server.auth]
 # The type of the authorization.
-# type = "static" or "rbac"
+# static: authenticate only with the configured built-in username and password.
+# rbac: authenticate only with RBAC-managed users.
+# chain: try static authentication first, then fall back to RBAC if static authentication fails.
+# type = "static", "rbac" or "chain"
 # Default: "static"
 type = "static"
 
-# The username.
-# Default: "admin".
+# The username used by static authentication.
+# Used by: static, and the static branch of chain.
+# Required when auth.type is "static" or "chain".
 username = "admin"
 
-# The password.
-# Default: "public".
+# The password used by static authentication.
+# Used by: static, and the static branch of chain.
+# Required when auth.type is "static" or "chain".
 password = "public"
 
-# The provided JSON Web Token.
-# Default: "871b3c2d706d875e9c6389fb2457d957".
+# The JSON Web Token secret shared by all auth modes.
+# Required for all auth modes.
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
 # Password strength requirements.
@@ -107,7 +112,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # Password protection against brute-force attacks.
 # Form as "a/b/c", means:
 # Account locked for "b" minutes after "a" failed password attempts,
-#  and locked for another "c" minutes after each failed attempt.
+#  and locked for another "c" miniutes after the each failed attempt.
 # The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
 # 0/-/- means no lockout.
 # Default: "0/0/0"
@@ -116,7 +121,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# Do not configure this option if you do not want UDS server support.
+# DONOT configure this options means do not support uds server by default.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 
@@ -128,11 +133,11 @@ path = "run/datalayers.sock"
 # addr = "0.0.0.0:6379"
 
 # The username.
-# Default: "admin".
+# Required when Redis service is enabled.
 #username = "admin"
 
 # The password.
-# Default: "public".
+# Required when Redis service is enabled.
 #password = "public"
 
 # The configurations of the Prometheus server.
@@ -158,10 +163,10 @@ ttl = "365d"
 [server.mcp]
 # Whether to enable MCP over Streamable HTTP.
 # Default: false.
-# enable = true
+# enable = false
 
 # Whether to enable auth middleware for MCP endpoints.
-# Default: true.
+# Default: false.
 # enable_auth = false
 
 # Whether to enable stateful mode.
@@ -207,6 +212,10 @@ meta_cache_size = "2GB"
 # Cache size for last value. Setting it to 0 to disable the cache.
 # Default: 2GB
 last_cache_size = "2GB"
+
+# Cache size for index. Setting it to 0 to disable the cache.
+# Default: 2GB
+index_cache_size = "2GB"
 
 # Whether or not to preload parquet metadata on startup.
 # This config only takes effect if the `ts_engine.meta_cache_size` is greater than 0.
@@ -301,7 +310,7 @@ write_rate_limit = "2MB"
 
 # The configurations of the S3 object store.
 # We support both virtual-hosted–style and path-style URL access in S3 service.
-# Set to true to enable virtual-hosted–style request.
+# Set To true to enable virtual-hosted–style request.
 # In a virtual-hosted–style URI, the bucket name is part of the domain name in the URL,
 # the endpoint use the following format: https://bucket-name.s3.region-code.amazonaws.com.
 # In a path-style URI, the bucket is the first slash-delimited component of the Request-URI,
@@ -319,14 +328,14 @@ write_rate_limit = "2MB"
 # virtual_hosted_style = true
 
 # [storage.object_store.azure]
-# container = "datalayers" # you can customize this value
+# container = "datalayers" 
 # account_name = "PLEASE CHANGE ME"
 # account_key = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
 # write_rate_limit = "0MB"
 
 # [storage.object_store.gcs]
-# bucket = "datalayers" # you can customize this value
+# bucket = "datalayers" 
 # scope = "PLEASE CHANGE ME"
 # credential_path = "PLEASE CHANGE ME"
 # endpoint = "PLEASE CHANGE ME"
