@@ -47,7 +47,7 @@ SHOW SOURCES
 SHOW PIPELINES
 ```
 
-返回结果包含 pipeline 名称、pipeline ID、source、sink、分配节点、运行状态、最后错误和创建时间等信息。
+返回结果包含 pipeline 名称、pipeline ID、source、sink、运行状态、运行时长、创建时间等信息；在集群模式下还会展示分配节点等集群相关列。
 
 说明：
 

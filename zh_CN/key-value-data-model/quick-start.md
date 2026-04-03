@@ -1,6 +1,6 @@
 ---
 title: "KV 存储快速开始"
-description: "通过一个最小示例快速启用 Datalayers 的 Redis 兼容键值存储服务，并完成连接与读写验证。"
+description: "通过一个最小示例快速启用 Datalayers 的 Redis 兼容键值存储服务，并完成连接、认证与读写验证。"
 ---
 # KV 存储快速开始
 
@@ -28,6 +28,8 @@ username = "admin"
 # Default: "public".
 password = "public"
 ```
+
+其中，`addr` 决定 Redis 兼容服务监听的地址和端口。后续使用 `redis-cli` 连接时，请以这里配置的端口为准。
 
 ## 启动 Datalayers
 

@@ -8,6 +8,12 @@ description: "介绍 Datalayers 对 Prometheus Remote Write 与 PromQL 的兼容
 
 Datalayers 兼容 Prometheus 的 Remote Write 协议与 PromQL 查询语言，可直接接入现有 Prometheus 与 Grafana 生态，用于承接监控指标写入、查询与可视化。
 
+## 适用场景
+
+- 将现有 Prometheus 指标写入 Datalayers
+- 复用 PromQL 查询已有监控数据
+- 与 Grafana 配合构建统一监控与分析看板
+
 这意味着你可以：
 
 - 继续使用现有的 Prometheus 采集配置，只需调整 Remote Write 目标地址，即可将监控数据写入 Datalayers；

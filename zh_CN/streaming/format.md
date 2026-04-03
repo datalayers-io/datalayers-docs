@@ -13,6 +13,7 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 | --- | --- | --- |
 | JSON | Kafka、MQTT、HTTP | 适合结构化事件消息 |
 | CSV | Kafka、MQTT、HTTP | 适合简单表格型文本或按行输入 |
+| Parquet | HTTP | 适合一次性抓取或轮询返回的完整 Parquet 文件 |
 
 ## 通用规则
 
@@ -26,7 +27,8 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 说明：
 
 - `bad_data` 仅对 source 生效
-- 当前按逐行方式解码消息，适合 newline-delimited JSON 和按行 CSV
+- `json` 和 `csv` 默认按逐行方式解码，适合 newline-delimited JSON 和按行 CSV
+- `parquet` 按整个 payload 解码为一份完整 Parquet 文件
 
 ## JSON
 
@@ -53,8 +55,8 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 
 ```sql
 CREATE SOURCE src_json (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64
 ) WITH (
   connector='kafka',
@@ -92,8 +94,8 @@ CREATE SOURCE src_json (
 
 ```sql
 CREATE SOURCE src_csv (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
+  ts TIMESTAMP(9),
+  sid STRING,
   value FLOAT64
 ) WITH (
   connector='http',
@@ -106,12 +108,38 @@ CREATE SOURCE src_csv (
 );
 ```
 
+## Parquet
+
+### Parquet 特点
+
+- 适合 HTTP connector 返回的完整 Parquet 文件
+- 更适合批量导入型 source，而不是逐行文本流
+- 压缩信息由 Parquet 文件自身 metadata 描述，无需额外配置
+
+### Parquet 配置示例
+
+```sql
+CREATE SOURCE src_parquet (
+  ts TIMESTAMP(9),
+  sid STRING,
+  value FLOAT64
+) WITH (
+  connector='http',
+  endpoint='http://127.0.0.1:18080/export.parquet',
+  method='GET',
+  poll='once',
+  format='parquet',
+  bad_data='fail'
+);
+```
+
 ## 选型建议
 
 | 格式 | 推荐场景 | 不足 |
 | --- | --- | --- |
 | JSON | 结构化事件、MQTT / Kafka 消息 | 文本体积通常更大 |
 | CSV | 简单行式数据、HTTP 接口文本返回 | 字段可读性和扩展性较弱 |
+| Parquet | HTTP 返回的列式文件、批量抓取 | 当前仅支持 HTTP connector |
 
 ## 常见问题
 

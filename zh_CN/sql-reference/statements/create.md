@@ -74,23 +74,45 @@ with (ttl='10d')
 
 ```SQL
 CREATE SOURCE source_name (
-    column_name data_type [NOT NULL],
-    ...
+    source_field,
+    ...,
+    [WATERMARK FOR event_time_column [AS expr]]
 ) WITH (
     connector='kafka|mqtt|http',
-    format='json|csv',
+    format='json|csv|parquet',
     key='value',
     ...
 )
 ```
 
+其中 `source_field` 支持三种写法：
+
+```SQL
+column_name data_type [NULL | NOT NULL] [COMMENT 'text']
+column_name data_type METADATA FROM 'metadata_key'
+column_name data_type AS expr
+```
+
+- 第一种是普通的 physical field，直接从消息 payload 中解码得到。
+- 第二种是 metadata field，从 connector 读取的消息元信息中提取，常见的 metadata 包括 Kafka 的 topic、partition、offset，HTTP 的 header 等。`METADATA FROM` 的 key 取决于具体 connector，且 metadata 列类型必须与该 key 的类型完全一致。
+- 第三种是 computed field，基于 physical field 和 metadata field 定义的计算。Computed field 只能基于 physical field 和 metadata field 定义，不能基于其他 computed field 定义。
+
+当前版本对 source field 的列选项约束如下：
+
+- 只有 physical field 允许指定列选项，且仅支持 `NULL`、`NOT NULL` 和 `COMMENT`
+- 如果一个 physical field 没有显式指定 `NULL` 或 `NOT NULL`，则默认为 `NULL`
+- 如果一个 physical field 被 watermark 声明为事件时间列，则该列会隐式被视为 `NOT NULL`。如果用户显式指定了 `NULL` 会报错
+- metadata field 和 computed field 不支持列选项
+- 同一个 metadata key 不能被多个 source 列重复引用
+
 示例
 
 ```SQL
 CREATE SOURCE src_kafka (
-    ts TIMESTAMP(9) NOT NULL,
-    sid STRING NOT NULL,
-    value FLOAT64
+    ts TIMESTAMP(9) NOT NULL COMMENT 'event time',
+    source_topic STRING METADATA FROM 'topic',
+    value_label STRING AS source_topic,
+    WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
 ) WITH (
     connector='kafka',
     brokers='127.0.0.1:9092',
@@ -102,14 +124,29 @@ CREATE SOURCE src_kafka (
 
 说明
 
-- `WITH (...)` 为必填，且不能为空。
 - source 至少需要定义一个列。
+- `WITH (...)` 为必填，且不能为空。
 - `CREATE SOURCE` 暂不支持 `IF NOT EXISTS`。
 - connector 配置项取决于具体 connector，详见 [Connectors 概述](../../streaming/connectors.md)。
 
+#### Watermark
+
+Watermark 用于声明 source 的事件时间语义。它由 `CREATE SOURCE` 中的 `WATERMARK FOR ...` 子句定义，系统会基于该表达式在运行时持续生成 watermark signal，并传递给下游算子。
+
+最简单的写法是直接把某个时间列声明为事件时间列：`WATERMARK FOR ts`。也可以显式给出 watermark 表达式，例如 `WATERMARK FOR ts AS ts - INTERVAL '5' SECOND`，表示 watermark 信号比事件时间落后 5 秒。
+
+当前版本的约束如下：
+
+- 一个 source 至多定义一个 watermark
+- `WATERMARK FOR <column>` 中的事件时间列必须来自 physical field 或 metadata field，不能是 computed field
+- `WATERMARK FOR <column>` 中的事件时间列会被视为 non-nullable；显式指定 `NULL` 会报错
+- Watermark 表达式也只能基于 physical field 或 metadata field 构建
+- Watermark 表达式的结果类型必须是 `TIMESTAMP`
+
 ### 创建 Pipeline
 
-`CREATE PIPELINE` 用于创建持续运行的流任务。pipeline 从一个 source 读取数据，执行实时计算，然后把结果写入一个已有的 sink table。
+`CREATE PIPELINE` 用于创建持续运行的流任务。pipeline 从一个 source
+读取数据，执行实时计算，然后把结果写入一个已有的 sink table。
 
 语法
 
@@ -138,7 +175,8 @@ WHERE value >= 2.0;
 - 当前一个 pipeline 只能引用一个 source。
 - 当前仅支持投影与过滤，不支持 join、聚合、窗口、排序、limit、union、子查询等更复杂算子。
 - sink table 必须已经存在，且必须是 TimeSeries 表。
-- 查询输出列必须与 sink table 的列名和类型兼容；sink table 中无默认值的非空列必须出现在查询输出中。
+- sink table 中无默认值的非空列必须出现在查询输出中。
+- 查询输出列必须与 sink table 的列名和类型兼容；当类型可转换时，系统会自动补充必要的 cast。如果不兼容，则会报错。
 - 执行 `CREATE PIPELINE` 时，当前用户需要对 source 具备 `SELECT` 权限，并对 sink table 具备 `INSERT` 权限。
 
 ### 建表时声明索引（INVERTED / VECTOR）

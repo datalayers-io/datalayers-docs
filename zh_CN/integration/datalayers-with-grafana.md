@@ -1,6 +1,6 @@
 ---
 title: "Datalayers 集成 Grafana 可视化指南"
-description: "Datalayers 集成 Grafana 可视化指南：介绍如何安装 Datalayers 与 Grafana 插件、完成数据源配置、执行 SQL 查询并构建 Dashboard，帮助你快速实现时序数据可视化。"
+description: "介绍如何将 Datalayers 集成到 Grafana，包括插件安装、数据源配置、SQL 查询和 Dashboard 构建，帮助你快速实现时序数据可视化。"
 ---
 # Datalayers 集成 Grafana 可视化指南
 
@@ -166,3 +166,8 @@ git clone https://github.com/datalayers-io/datalayers-with-grafana.git
 当你完成上述步骤后，就已经自动完成了上述所有的安装、配置、写入示例数据步骤，你可以直接进行数据查询、添加 Dashboard 相关操作。
 
 通过将 Datalayers 与 Grafana 结合，可以更高效地完成时序数据可视化、指标分析与业务看板构建。
+
+## 相关文档
+
+- 如果你还没有准备测试数据，请参考 [Datalayers 命令行工具 dlsql 使用指南](../getting-started/command-line-tool.md)
+- 如果你希望使用图形化数据库工具排查查询结果，请参考 [Datalayers 集成 DBeaver 指南](./datalayers-with-dbeaver.md)

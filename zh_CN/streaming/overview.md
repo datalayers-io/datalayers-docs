@@ -1,13 +1,13 @@
 ---
 title: "Datalayers 流计算概述"
-description: "介绍 Datalayers 流计算的核心链路、Source 与 Pipeline 模型、支持的接入方式以及当前能力边界。"
+description: "介绍 Datalayers 流计算的核心链路、Source 与 Pipeline 模型、支持的接入方式、典型场景以及当前能力边界。"
 ---
 
 # Datalayers 流计算概述
 
-## 什么是流计算
+流计算用于持续接收外部事件流，并在数据到达时完成处理和写入。它也可以理解为实时 ETL、实时数据清洗或轻量级流式处理。相比先落库再离线处理的方式，它更适合实时监控、告警预处理和在线数据清洗等低延迟场景。
 
-流计算用于持续接收外部事件流，并在数据到达时完成处理和写入。相比先落库再离线处理的方式，它更适合实时监控、告警预处理和在线数据清洗等低延迟场景。
+## 核心处理链路
 
 在 Datalayers 中，流计算链路由三部分组成：
 
@@ -33,8 +33,9 @@ Kafka / MQTT / HTTP
 ## 典型应用场景
 
 - 从 Kafka、MQTT、HTTP 持续接收或拉取数据
-- 在数据入库前做字段筛选、投影、阈值过滤等实时计算
+- 在数据入库前做字段筛选、投影、阈值过滤等实时处理
 - 将清洗、转换后的结果写入内部时序表，供 SQL 查询、看板或告警系统使用
+- 作为边缘采集或消息接入后的第一段在线处理链路
 
 当前 `PIPELINE` 仅支持基于单个 source 的投影和过滤，暂不支持 join、聚合、窗口、排序、limit、union、子查询等复杂算子。
 
@@ -46,9 +47,10 @@ Kafka / MQTT / HTTP
 
 ```sql
 CREATE SOURCE src_kafka (
-  ts TIMESTAMP(9) NOT NULL,
-  sid STRING NOT NULL,
-  value FLOAT64
+  ts TIMESTAMP(9),
+  source_topic STRING METADATA FROM 'topic',
+  topic_tag STRING AS source_topic,
+  value FLOAT64,
 ) WITH (
   connector='kafka',
   brokers='127.0.0.1:9092',
@@ -72,7 +74,8 @@ WHERE value >= 2.0;
 
 ### Sink Table
 
-`SINK` 不是独立对象，而是一张已存在的内部表。当前必须使用 `TimeSeries` 引擎，且查询输出 schema 必须与 sink table 严格兼容。
+`SINK` 不是独立对象，而是一张已存在的内部表。当前必须使用
+`TimeSeries` 引擎，且查询输出 schema 必须与 sink table 兼容；当类型可转换时，系统会自动补充 cast。
 
 ## Connector 与 Format
 
@@ -106,6 +109,9 @@ ALTER PIPELINE p_kafka STOP;
 
 -- 重启一个 pipeline
 ALTER PIPELINE p_kafka RESTART;
+
+-- 删除前先停止 pipeline
+ALTER PIPELINE p_kafka STOP;
 
 -- 删除指定 pipeline
 DROP PIPELINE p_kafka;
