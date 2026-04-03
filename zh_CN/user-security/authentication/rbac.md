@@ -19,7 +19,7 @@ RBAC 提供完整的身份认证和权限管理体系，支持多用户、多角
 ```toml
 # The configurations of authorization.
 [server.auth]
-# 认证类型，可选：static/rbac
+# 认证类型，可选：static/rbac/chain
 # 默认: "static"
 type = "rbac" 
 

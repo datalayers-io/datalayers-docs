@@ -524,6 +524,9 @@
         - title_en: RBAC 
           title_cn: 基于角色的访问控制（RBAC）
           path: user-security/authentication/rbac
+        - title_en: Authentication chain 
+          title_cn: 认证链
+          path: user-security/authentication/chain
       - title_en: Authorization
         title_cn: 访问控制 
         collapsed: true

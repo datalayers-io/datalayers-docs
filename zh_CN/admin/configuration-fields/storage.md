@@ -64,8 +64,8 @@ write_rate_limit = "2MB"
 # 否则 bucket name 将作为 URI 第一个分隔符之后路径，例如: https://s3.region-code.amazonaws.com/bucket-name
 # [storage.object_store.s3]
 # bucket = "datalayers"
-# access_key = "CPjH8R6WYrb9KB6riEZo"
-# secret_key = "TsTal5DGJXNoebYevijfEP2DkgWs96IKVm0uores"
+# access_key = "PLEASE_CHANGE_ME"
+# secret_key = "PLEASE_CHANGE_ME"
 # endpoint = "https://bucket-name.s3.region-code.amazonaws.com"
 # region = "region-code"
 # write_rate_limit = "0MB"
