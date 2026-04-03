@@ -192,6 +192,9 @@
             - title_en: PIVOT
               title_cn: PIVOT
               path: sql-reference/statements/pivot
+            - title_en: UNPIVOT
+              title_cn: UNPIVOT
+              path: sql-reference/statements/unpivot
             - title_en: SUBQUERY
               title_cn: SUBQUERY
               path: sql-reference/statements/subquery
