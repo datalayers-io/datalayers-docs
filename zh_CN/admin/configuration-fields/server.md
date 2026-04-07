@@ -126,13 +126,13 @@ ttl = "365d"
 [server.mcp]
 # Whether to enable MCP over Streamable HTTP.
 # Default: false.
-# enable = true
+# enable = false
 
 # Whether to enable auth middleware for MCP endpoints.
 # Default: true.
-# enable_auth = false
+# enable_auth = true
 
 # Whether to enable stateful mode.
-# Default: false.
+# Default: true.
 # stateful_mode = true
 ```

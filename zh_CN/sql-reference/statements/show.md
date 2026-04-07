@@ -19,39 +19,12 @@ SHOW DATABASES
 
 ## SHOW TABLES
 
-查看某个 `database` 下所有的table。
+查看当前数据库下所有的表，支持可选的 `LIKE` 模式过滤。
 
 ```SQL
 SHOW TABLES
+SHOW TABLES LIKE 'sx%'
 ```
-
-## SHOW SOURCES
-
-查看当前数据库下的所有 source。
-
-```SQL
-SHOW SOURCES
-```
-
-返回结果包含 source 名称、source ID、connector 和创建时间等信息；具体展示列以当前版本实际输出为准。
-
-说明：
-
-- 当前用户需要对当前数据库具备 `SELECT` 权限。
-
-## SHOW PIPELINES
-
-查看当前数据库下的所有 pipeline。
-
-```SQL
-SHOW PIPELINES
-```
-
-返回结果包含 pipeline 名称、pipeline ID、source、sink、运行状态、运行时长、创建时间等信息；在集群模式下还会展示分配节点等集群相关列。
-
-说明：
-
-- 当前用户需要对当前数据库具备 `SELECT` 权限。
 
 ## SHOW INDEX
 
@@ -61,28 +34,20 @@ SHOW PIPELINES
 SHOW INDEX FROM [db].table_name
 ```
 
+## SHOW CREATE DATABASE
+
+回显指定数据库的创建 SQL。
+
+```sql
+SHOW CREATE DATABASE db_name
+```
+
 ## SHOW CREATE TABLE
 
 获取指定 table 的 SCHEMA
 
 ```SQL
 SHOW CREATE TABLE table_name
-```
-
-## SHOW CREATE SOURCE
-
-回显指定 source 的定义 SQL。
-
-```SQL
-SHOW CREATE SOURCE source_name
-```
-
-## SHOW CREATE PIPELINE
-
-回显指定 pipeline 的定义 SQL。
-
-```SQL
-SHOW CREATE PIPELINE pipeline_name
 ```
 
 ## SHOW LICENSE
@@ -129,10 +94,31 @@ SHOW TASKS
 SHOW TASKS flush
 ```
 
-## SHOW CURRENT node
+## SHOW CURRENT NODE
 
 在集群模式下，通过该命令可查看当前连接对应的节点。  
 注：在单机模式下该命令会返回空。
+
+```sql
+SHOW CURRENT NODE
+```
+
+## SHOW GRANTS
+
+查看当前用户或指定用户/角色的授权信息。
+
+```sql
+SHOW GRANTS
+SHOW GRANTS FOR 'user1'@'127.0.0.1'
+```
+
+## SHOW PRIVILEGES
+
+查看系统当前支持的权限类型。
+
+```sql
+SHOW PRIVILEGES
+```
 
 ## SHOW VERSION
 

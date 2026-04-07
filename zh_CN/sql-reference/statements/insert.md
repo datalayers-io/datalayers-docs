@@ -2,6 +2,8 @@
 title: "INSERT 语句参考指南"
 description: "Datalayers INSERT 语句参考指南 - INSERT 语句是 SQL 中用于向数据库表插入新记录的核心操作。"
 ---
+# INSERT 语句参考指南
+
 ## 概述
 
 INSERT 语句是 SQL 中用于向数据库表插入新记录的核心操作。
@@ -112,3 +114,14 @@ SELECT sid, value FROM source;
 - `SELECT` 读取到的源表也必须是 `TimeSeries` 表。
 
 因此，`INSERT INTO ... SELECT ...` 当前更适合用于时序表之间的数据搬运和过滤写入。
+
+### 3. 支持源表和目标表为同一张表
+
+当前版本允许如下写法：
+
+```sql
+INSERT INTO sink
+SELECT * FROM sink;
+```
+
+这会基于语句开始时的读取快照执行一次性复制，而不是持续订阅。
