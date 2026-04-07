@@ -38,24 +38,15 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     ...,
     [TIMESTAMP KEY(ts_column_name)],
     [PRIMARY KEY(col1 [, col2 ...])],
-    [UNIQUE KEY [index_name] (col1 [, col2 ...])],
-    [KEY [index_name] (col1 [, col2 ...])],
     [INVERTED INDEX [index_name] (string_column) [WITH (key=value, ...)]],
     [VECTOR INDEX [index_name] (vector_column) [WITH (key=value, ...)]]
 )
-[ENGINE = TimeSeries | Relational]
+[ENGINE = TimeSeries]
 [PARTITION BY HASH(expr) [PARTITIONS partition_num]]
 [WITH (key=value, ...)]
 ```
 
 其中 `COMMENT 'text'` 用于为列添加注释。
-
-当前版本主要支持两类表引擎：
-
-- `ENGINE=TimeSeries`
-- `ENGINE=Relational`
-
-#### TimeSeries 表约束
 
 对于时序（`TimeSeries`）引擎，当前实现要求：
 
@@ -84,30 +75,6 @@ CREATE TABLE sx1(
 PARTITION BY HASH(sid) PARTITIONS 1
 ENGINE=TimeSeries
 with (ttl='10d')
-```
-
-#### Relational 表约束
-
-对于关系表（`Relational`）引擎，当前实现支持：
-
-- `PRIMARY KEY(...)`
-- `UNIQUE KEY(...)` / `UNIQUE (...)`
-- `KEY(...)`
-- `AUTO_INCREMENT`
-
-但不支持：
-
-- `TIMESTAMP KEY(...)`
-- `PARTITION BY HASH(...)`
-
-示例：
-
-```sql
-CREATE TABLE rel_table_ok (
-    id INT PRIMARY KEY,
-    name STRING,
-    value DOUBLE
-) ENGINE=Relational;
 ```
 
 ### 创建 Source
