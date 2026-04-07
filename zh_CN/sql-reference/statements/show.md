@@ -26,6 +26,34 @@ SHOW TABLES
 SHOW TABLES LIKE 'sx%'
 ```
 
+## SHOW SOURCES
+
+查看当前数据库下的所有 source。
+
+```SQL
+SHOW SOURCES
+```
+
+返回结果包含 source 名称、source ID、connector 和创建时间等信息；具体展示列以当前版本实际输出为准。
+
+说明：
+
+- 当前用户需要具备当前数据库的 `SELECT` 权限
+
+## SHOW PIPELINES
+
+查看当前数据库下的所有 pipeline。
+
+```SQL
+SHOW PIPELINES
+```
+
+返回结果包含 pipeline 名称、pipeline ID、source、sink、运行状态、运行时长、创建时间等信息；在集群模式下还会展示分配节点等集群相关列。
+
+说明：
+
+- 当前用户需要具备当前数据库的 `SELECT` 权限
+
 ## SHOW INDEX
 
 查看某个 `table` 下所有的索引。
@@ -48,6 +76,22 @@ SHOW CREATE DATABASE db_name
 
 ```SQL
 SHOW CREATE TABLE table_name
+```
+
+## SHOW CREATE SOURCE
+
+回显指定 source 的定义 SQL。
+
+```sql
+SHOW CREATE SOURCE source_name
+```
+
+## SHOW CREATE PIPELINE
+
+回显指定 pipeline 的定义 SQL。
+
+```sql
+SHOW CREATE PIPELINE pipeline_name
 ```
 
 ## SHOW LICENSE
