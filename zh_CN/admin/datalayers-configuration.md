@@ -166,11 +166,11 @@ ttl = "365d"
 # enable = false
 
 # Whether to enable auth middleware for MCP endpoints.
-# Default: false.
-# enable_auth = false
+# Default: true.
+# enable_auth = true
 
 # Whether to enable stateful mode.
-# Default: false.
+# Default: true.
 # stateful_mode = true
 
 # Query related configurations.
