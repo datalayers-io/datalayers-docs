@@ -160,7 +160,7 @@ jobs:
 
       - name: refresh zh cdn
         if: matrix.docs_language == 'zh'
-        uses: Swilder-M/refresh-huawei-cdn@master
+        uses: emqx/refresh-huawei-cdn@main
         with:
           access_key_id: ${{ secrets.HUAWEI_ACCESS_KEY_ID }}
           access_key_secret: ${{ secrets.HUAWEI_ACCESS_KEY_SECRET }}
@@ -168,7 +168,7 @@ jobs:
 
       - name: refresh en cdn
         if: matrix.docs_language == 'en'
-        uses: Swilder-M/refresh-ali-cdn@master
+        uses: emqx/refresh-ali-cdn@main
         with:
           access_key_id: ${{ secrets.ALI_OSS_ACCESSKEY_ID }}
           access_key_secret: ${{ secrets.ALI_OSS_ACCESSKEY_SECRET }}
@@ -176,7 +176,7 @@ jobs:
 
       - name: update search index
         if: matrix.docs_language == 'zh'
-        uses: Swilder-M/docsearch-scraper-simple@next
+        uses: emqx/docsearch-scraper@main
         env:
           APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
           API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
