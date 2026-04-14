@@ -1,6 +1,6 @@
 ---
 title: "Server 配置"
-description: "Datalayers Server 配置说明：介绍服务启动模式、FlightSQL/HTTP 监听地址、会话超时、时区和 TLS 证书等关键参数。"
+description: "Datalayers Server 配置说明：介绍服务启动模式、FlightSQL/HTTP/Posrgre/Redis/Prometheus 监听地址、会话超时、时区和 TLS 证书等关键参数。"
 ---
 # Server 配置
 
@@ -37,9 +37,9 @@ timezone = "Asia/Shanghai"
 # The configurations of tls certificates.
 [server.tls]
 # The key file for services with tls, both for https and flightsql
-#key = "/etc/datalayers/certs/server.key"
+# key = "/etc/datalayers/certs/server.key"
 # The cert file for services with tls, both for https and flightsql
-#cert = "/etc/datalayers/certs/server.crt"
+# cert = "/etc/datalayers/certs/server.crt"
 
 # The configurations of authorization.
 [server.auth]
@@ -51,15 +51,17 @@ timezone = "Asia/Shanghai"
 # Default: "static"
 type = "static"
 
-# The username.
+# The username used by static authentication.
+# Used by: static, and the static branch of chain.
 # Required when auth.type is "static" or "chain".
 username = "admin"
 
-# The password.
+# The password used by static authentication.
+# Used by: static, and the static branch of chain.
 # Required when auth.type is "static" or "chain".
 password = "public"
 
-# The provided JSON Web Token.
+# The JSON Web Token secret shared by all auth modes.
 # Required for all auth modes.
 jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 
@@ -75,7 +77,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # Password protection against brute-force attacks.
 # Form as "a/b/c", means:
 # Account locked for "b" minutes after "a" failed password attempts,
-#  and locked for another "c" minutes after each failed attempt.
+#  and locked for another "c" miniutes after the each failed attempt.
 # The maximum of a/b/c is 10/120/120 respectively, and will be set to 3/5/5 if too big.
 # 0/-/- means no lockout.
 # Default: "0/0/0"
@@ -84,7 +86,7 @@ jwt_secret = "871b3c2d706d875e9c6389fb2457d957"
 # The configurations of the unix domain socket server.
 [server.uds]
 # The path of the unix domain socket, relative to `base_dir`.
-# Do not configure this option if you do not want UDS server support.
+# DONOT configure this options means do not support uds server by default.
 # Recommend: "run/datalayers.sock"
 path = "run/datalayers.sock"
 
@@ -97,7 +99,7 @@ path = "run/datalayers.sock"
 
 # The username.
 # Required when Redis service is enabled.
-#username = "admin"
+# username = "admin"
 
 # The password.
 # Required when Redis service is enabled.
@@ -120,7 +122,7 @@ ttl = "365d"
 # The endpoint of the server.
 # Don't support postgres protocol by default.
 # Recommend: "0.0.0.0:5432".
-#addr = "0.0.0.0:5432"
+# addr = "0.0.0.0:5432"
 
 # The configurations of the MCP (Model Context Protocol) server.
 [server.mcp]
@@ -129,10 +131,10 @@ ttl = "365d"
 # enable = false
 
 # Whether to enable auth middleware for MCP endpoints.
-# Default: true.
-# enable_auth = true
+# Default: false.
+# enable_auth = false
 
 # Whether to enable stateful mode.
-# Default: true.
+# Default: false.
 # stateful_mode = true
 ```

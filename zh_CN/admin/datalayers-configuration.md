@@ -559,4 +559,4 @@ username = "admin"
 ## 配置项优先级与覆盖规则
 
 - DATALAYERS 配置按以下顺序进行优先级排序：命令行参数 > 环境变量 > datalayers.toml > 操作系统设置(timezone)。
-- 以“DATALAYERS_”开头的环境变量设置具有最高优先级，并将覆盖 etc/datalayers.toml 文件中的任何设置。
+- 以“DATALAYERS_”开头的环境变量设置具有最高优先级，并将覆盖 `/etc/datalayers/datalayers.toml` 文件中的任何设置。
