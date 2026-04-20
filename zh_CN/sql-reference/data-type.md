@@ -171,19 +171,11 @@ INSERT INTO sx_nested (ts, sid, payloads) VALUES
 
 ### 查询示例
 
-简单字段访问：
+嵌套字段访问：
 
 ```sql
 SELECT sid, payload.a, payload.b
 FROM sx_struct
-ORDER BY sid;
-```
-
-嵌套字段访问：
-
-```sql
-SELECT sid, payload.inner.a, payload.inner.b, payload.note
-FROM sx4
 ORDER BY sid;
 ```
 
