@@ -20,21 +20,40 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 | `connector` | STRING | 无 | Yes | 固定为 `kafka` |
 | `brokers` | STRING | 无 | Yes | Kafka broker 列表，逗号分隔，格式为 `host:port` |
 | `topic` | STRING | 无 | Yes | 要消费的 topic |
-| `offset` | STRING | `latest` | No | 起始消费位置，支持 `earliest`、`latest`、`at(<timestamp>)` |
-| `group_id` | STRING | 无 | No | 消费组 ID，用于基于已提交 offset 的启动和消费进度跟踪 |
-| `auth_type` | STRING | `none` | No | 鉴权类型，支持 `none`、`sasl` |
-| `protocol` | STRING | `sasl_plaintext` | No | SASL 协议。仅在 `auth_type='sasl'` 时生效；当前仅支持 `sasl_plaintext` |
-| `mechanism` | STRING | `PLAIN` | No | SASL 机制。仅在 `auth_type='sasl'` 时生效；支持 `PLAIN`、`SCRAM-SHA-256`、`SCRAM-SHA-512` |
-| `username` | STRING | 无 | No | SASL 用户名。仅在 `auth_type='sasl'` 时必填 |
-| `password` | STRING | 无 | No | SASL 密码。仅在 `auth_type='sasl'` 时必填 |
+| `offset` | STRING | `latest` | No | 起始消费位置，支持 `earliest`、`latest` |
+| `group.id` | STRING | `datalayers-<job_id>-group` | No | Consumer group ID，用于提交和恢复消费进度 |
+| `client.id` | STRING | `datalayers-<job_id>-consumer` | No | Kafka client ID |
+| `security.protocol` | STRING | 无 | No | 安全协议，支持 `PLAINTEXT`、`SSL`、`SASL_PLAINTEXT`、`SASL_SSL` |
+| `sasl.mechanism` | STRING | 无 | No | SASL 机制，支持 `PLAIN`、`SCRAM-SHA-256`、`SCRAM-SHA-512` |
+| `sasl.username` | STRING | 无 | No | SASL 用户名 |
+| `sasl.password` | STRING | 无 | No | SASL 密码 |
 
-## 配置约束
+## Metadata 字段
 
-- `auth_type='none'`：表示不使用鉴权。此时不能设置 `protocol`、`mechanism`、`username`、`password`。
-- `auth_type='sasl'`：表示使用 SASL 鉴权。此时必须同时设置 `username` 和 `password`。
-- `auth_type='sasl'` 时，`protocol` 和 `mechanism` 可省略，分别默认取 `sasl_plaintext` 和 `PLAIN`。
-- 当前 `protocol` 仅支持 `sasl_plaintext`。`sasl_ssl` 还未支持，配置后会报错。
-- `offset='at(<timestamp>)'` 中的 `<timestamp>` 必须是整数时间戳。
+Kafka source 当前支持以下 metadata key：
+
+| metadata key | 类型 | 说明 |
+| --- | --- | --- |
+| `topic` | STRING | 当前消息所在的 topic |
+| `partition` | INT32 | 当前消息所在分区 |
+| `offset` | INT64 | 当前消息 offset |
+
+示例：
+
+```sql
+CREATE SOURCE src_kafka_meta (
+  ts TIMESTAMP(9),
+  value FLOAT64,
+  source_topic STRING METADATA FROM 'topic',
+  source_partition INT32 METADATA FROM 'partition',
+  source_offset INT64 METADATA FROM 'offset'
+) WITH (
+  connector='kafka',
+  brokers='127.0.0.1:9092',
+  topic='topic_stream_demo',
+  format='json'
+);
+```
 
 Format 相关配置请参考 [Formats](./format.md)。
 
@@ -98,6 +117,8 @@ CREATE SOURCE src_kafka (
   brokers='127.0.0.1:9092',
   topic='topic_stream_demo',
   offset='earliest',
+  group.id='stream_demo_group',
+  client.id='stream_demo_client',
   format='json'
 );
 

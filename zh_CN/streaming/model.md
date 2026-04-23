@@ -38,8 +38,7 @@ CREATE SOURCE src_mqtt (
   ts TIMESTAMP(9) NOT NULL COMMENT 'event time',
   source_topic STRING METADATA FROM 'topic',
   topic_tag STRING AS source_topic,
-  value FLOAT64,
-  WATERMARK FOR ts
+  value FLOAT64
 ) WITH (
   connector='mqtt',
   broker='127.0.0.1:1883',
@@ -99,7 +98,7 @@ sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当
 - `Stopped`
 - `Failed`
 
-如果 pipeline 运行失败，`SHOW PIPELINES` 中还会看到 `last_error`，可用于定位问题。
+`SHOW PIPELINES` 当前会展示 `state`、`up_time`、`stopped_time` 等状态列；在 cluster 模式下还会展示 `assigned_node`。
 
 常见运维动作：
 

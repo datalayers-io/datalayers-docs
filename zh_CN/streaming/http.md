@@ -19,18 +19,15 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 | --- | --- | --- | --- | --- |
 | `connector` | STRING | 无 | Yes | 固定为 `http` |
 | `endpoint` | STRING | 无 | Yes | 轮询地址，支持 `${...}` 时间变量 |
-| `method` | STRING | `get` | No | HTTP 方法，支持 `GET` 和 `POST` |
-| `poll` | STRING | `once` | No | 轮询模式，支持 `once` 或 `interval(<millis>)` |
-| `timeout` | INT | 无 | No | 请求超时时间，单位秒 |
+| `method` | STRING | `GET` | No | HTTP 方法，支持 `GET` 和 `POST` |
+| `poll` | STRING | `once` | No | 轮询模式，支持 `once` 或 `interval(<duration>)` |
+| `connect_timeout` | STRING | `10s` | No | 建立连接的超时时间 |
+| `timeout` | STRING | `3s` | No | 请求超时时间 |
 | `headers` | STRING | 无 | No | 请求头，格式为 `k1:v1;k2:v2` |
-| `auth_type` | STRING | `none` | No | 鉴权类型，支持 `none` 和 `basic_auth` |
-| `username` | STRING | 无 | No | Basic Auth 用户名 |
-| `password` | STRING | 无 | No | Basic Auth 密码 |
-
-鉴权约束如下：
-
-- `auth_type='none'`：表示不使用鉴权。此时不能输入 `username`、`password`，否则会报错。
-- `auth_type='basic_auth'`：表示使用 Basic Auth。此时必须同时输入 `username` 和 `password`。
+| `jwt_token` | STRING | 无 | No | Bearer token，会以 `Authorization: Bearer <token>` 方式发送 |
+| `ca` | STRING | 无 | No | HTTPS 场景的 CA 文件或内容 |
+| `cert` | STRING | 无 | No | HTTPS 场景的客户端证书 |
+| `key` | STRING | 无 | No | HTTPS 场景的客户端私钥 |
 
 Format 相关配置请参考 [Formats](./format.md)。其中 `parquet` 目前仅支持 `http` connector。
 
@@ -73,6 +70,13 @@ endpoint='http://127.0.0.1:18080/export_${now_compact}.csv'
 ```
 
 如果上游接口会根据时间参数返回不同结果，建议将时间变量与 `poll='interval(...)'` 组合使用。
+
+## 配置约束
+
+- `headers` 中每一项都必须是 `key:value` 形式
+- `connect_timeout` 和 `timeout` 必须大于 `0`
+- 当 `endpoint` 使用 `https://` 时，才能配置 `ca`、`cert`、`key`
+- `poll='once'` 时，source 成功拉取一次后结束；`poll='interval(...)'` 时会持续轮询
 
 ## 示例
 
@@ -198,7 +202,9 @@ CREATE SOURCE src_http_poll (
   connector='http',
   endpoint='http://127.0.0.1:18080/poll?ts=${now_ts}',
   method='GET',
-  poll='interval(200)',
+  poll='interval(200ms)',
+  connect_timeout='10s',
+  timeout='5s',
   format='csv'
 );
 

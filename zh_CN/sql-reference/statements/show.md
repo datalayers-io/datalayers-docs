@@ -34,7 +34,14 @@ SHOW TABLES LIKE 'sx%'
 SHOW SOURCES
 ```
 
-返回结果包含 source 名称、source ID、connector 和创建时间等信息；具体展示列以当前版本实际输出为准。
+当前版本返回以下列：
+
+| 列名 | 含义 |
+| --- | --- |
+| `source` | source 名称 |
+| `version` | source 元信息的 version |
+| `created_time` | source 创建时间，ISO 8601 字符串 |
+| `updated_time` | source 最近一次更新时间，ISO 8601 字符串 |
 
 说明：
 
@@ -48,7 +55,18 @@ SHOW SOURCES
 SHOW PIPELINES
 ```
 
-返回结果包含 pipeline 名称、pipeline ID、source、sink、运行状态、运行时长、创建时间等信息；在集群模式下还会展示分配节点等集群相关列。
+当前版本返回以下列：
+
+| 列名 | 含义 |
+| --- | --- |
+| `pipeline_name` | pipeline 名称 |
+| `source_name` | pipeline 读取的 source 名称；如果有多个 source，会用逗号拼接 |
+| `sink_name` | pipeline 写入的 sink 名称 |
+| `state` | pipeline 当前状态 |
+| `up_time` | 从启动到当前的运行时长；未启动时为 `-` |
+| `stopped_time` | pipeline 停止时间；未停止时为 `-` |
+| `created_time` | pipeline 创建时间，ISO 8601 字符串 |
+| `assigned_node` | 仅在 cluster 模式下显示，表示当前调度到的节点 |
 
 说明：
 
@@ -85,6 +103,11 @@ SHOW CREATE TABLE table_name
 ```sql
 SHOW CREATE SOURCE source_name
 ```
+
+说明：
+
+- 输出的是规范化后的 `CREATE SOURCE` 语句，而不是用户的原始输入
+- 敏感参数会被遮罩，例如密码类字段
 
 ## SHOW CREATE PIPELINE
 

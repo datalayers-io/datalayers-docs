@@ -50,7 +50,7 @@ CREATE SOURCE src_kafka (
   ts TIMESTAMP(9),
   source_topic STRING METADATA FROM 'topic',
   topic_tag STRING AS source_topic,
-  value FLOAT64,
+  value FLOAT64
 ) WITH (
   connector='kafka',
   brokers='127.0.0.1:9092',
