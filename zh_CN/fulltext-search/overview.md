@@ -65,7 +65,7 @@ description: "介绍 Datalayers 基于倒排索引的全文检索能力，包括
 
 ## 相关文档
 
-- 全文索引函数：[全文索引函数](../sql-reference/fulltext-functions.md)
+- 全文检索函数：[全文检索函数](../sql-reference/fulltext-functions.md)
 - 创建索引：[CREATE 语句（含 CREATE INVERTED INDEX / CREATE VECTOR INDEX）](../sql-reference/statements/create.md)
 - 刷新索引：[REFRESH 语句详解](../sql-reference/statements/refresh.md)
 - 删除索引：[DROP 语句详解](../sql-reference/statements/drop.md)

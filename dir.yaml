@@ -278,7 +278,7 @@
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window
         - title_en: Fulltext Functions
-          title_cn: 全文索引函数
+          title_cn: 全文检索函数
           path: sql-reference/fulltext-functions
         - title_en: Vector Functions
           title_cn: 向量函数
