@@ -63,7 +63,7 @@ CREATE SOURCE src_json (
   brokers='127.0.0.1:9092',
   topic='topic_json_demo',
   format='json',
-  unstructured='FALSE',
+  unstructured='false',
   bad_data='fail'
 );
 ```
@@ -103,7 +103,7 @@ CREATE SOURCE src_csv (
   method='GET',
   poll='interval(1s)',
   format='csv',
-  has_header='FALSE',
+  has_header='false',
   delimiter=','
 );
 ```
