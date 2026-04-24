@@ -34,7 +34,7 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 CREATE SOURCE src_kafka_meta (
   ...
 ) WITH (
-  'group.id' = "your_group_id"
+  'group.id' = "your_group_id",
   'client.id' = "your_client_id"
 );
 ```
