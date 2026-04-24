@@ -124,5 +124,5 @@ PARTITION BY HASH(tenant_id) PARTITIONS 4;
 - [CREATE 语句参考指南](../../sql-reference/statements/create.md)
 - [REFRESH 语句详解](../../sql-reference/statements/refresh.md)
 - [DROP 语句详解](../../sql-reference/statements/drop.md)
-- [全文索引函数](../../sql-reference/fulltext-functions.md)
+- [全文检索函数](../../sql-reference/fulltext-functions.md)
 - [全文检索概述](../../fulltext-search/overview.md)
