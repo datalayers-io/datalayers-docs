@@ -28,6 +28,17 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 | `sasl.username` | STRING | 无 | No | SASL 用户名 |
 | `sasl.password` | STRING | 无 | No | SASL 密码 |
 
+当配置项存在特殊字符，例如'.'号，在配置这些配置项时，需使用单引号括起来，例如：
+
+```sql
+CREATE SOURCE src_kafka_meta (
+  ...
+) WITH (
+  'group.id' = "your_group_id"
+  'client.id' = "your_client_id"
+);
+```
+
 ## Metadata 字段
 
 Kafka source 当前支持以下 metadata key：
@@ -117,8 +128,8 @@ CREATE SOURCE src_kafka (
   brokers='127.0.0.1:9092',
   topic='topic_stream_demo',
   offset='earliest',
-  group.id='stream_demo_group',
-  client.id='stream_demo_client',
+  'group.id'='stream_demo_group',
+  'client.id'='stream_demo_client',
   format='json'
 );
 

@@ -66,7 +66,7 @@ SHOW PIPELINES
 | `up_time` | 从启动到当前的运行时长；未启动时为 `-` |
 | `stopped_time` | pipeline 停止时间；未停止时为 `-` |
 | `created_time` | pipeline 创建时间，ISO 8601 字符串 |
-| `assigned_node` | 仅在 cluster 模式下显示，表示当前调度到的节点 |
+| `assigned_node` | 仅在集群模式下显示，pipeline 相关任务将被调度到该节点运行 |
 
 说明：
 
@@ -107,7 +107,7 @@ SHOW CREATE SOURCE source_name
 说明：
 
 - 输出的是规范化后的 `CREATE SOURCE` 语句，而不是用户的原始输入
-- 敏感参数会被遮罩，例如密码类字段
+- 敏感参数在输出时会被脱敏处理，例如密码类字段会以 * 号代替
 
 ## SHOW CREATE PIPELINE
 

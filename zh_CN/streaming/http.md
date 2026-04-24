@@ -25,13 +25,19 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 | `timeout` | STRING | `3s` | No | 请求超时时间 |
 | `headers` | STRING | 无 | No | 请求头，格式为 `k1:v1;k2:v2` |
 | `jwt_token` | STRING | 无 | No | Bearer token，会以 `Authorization: Bearer <token>` 方式发送 |
-| `ca` | STRING | 无 | No | HTTPS 场景的 CA 文件或内容 |
-| `cert` | STRING | 无 | No | HTTPS 场景的客户端证书 |
-| `key` | STRING | 无 | No | HTTPS 场景的客户端私钥 |
+| `ca` | STRING | 无 | No | TLS CA 文件或 |
+| `cert` | STRING | 无 | No | TLS 客户端证书 |
+| `key` | STRING | 无 | No | TLS 客户端私钥 |
 
 Format 相关配置请参考 [Formats](./format.md)。其中 `parquet` 目前仅支持 `http` connector。
 
-## endpoint 支持的时间变量
+## Endpoint Basic Authentication
+
+服务端使用 BasicAuth 方式进行认证时，endpoint 可以使用如下方式来指定 username/password:
+
+`endpoint = "http://username:password@host:port/path"`
+
+## Endpoint 支持的时间变量
 
 | 变量 | 说明 |
 | --- | --- |
