@@ -25,7 +25,7 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 | `timeout` | STRING | `3s` | No | 请求超时时间 |
 | `headers` | STRING | 无 | No | 请求头，格式为 `k1:v1;k2:v2` |
 | `jwt_token` | STRING | 无 | No | Bearer token，会以 `Authorization: Bearer <token>` 方式发送 |
-| `ca` | STRING | 无 | No | TLS CA 文件或 |
+| `ca` | STRING | 无 | No | TLS CA 证书 |
 | `cert` | STRING | 无 | No | TLS 客户端证书 |
 | `key` | STRING | 无 | No | TLS 客户端私钥 |
 

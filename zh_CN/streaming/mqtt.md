@@ -21,7 +21,7 @@ MQTT connector 用于订阅 MQTT broker 中的主题消息，并持续读入 Dat
 | `version` | STRING | 无 | No | MQTT 协议版本，支持 `3.1.1`、`5.0` |
 | `username` | STRING | 无 | No | 认证用户名 |
 | `password` | STRING | 无 | No | 认证密码 |
-| `ca` | STRING | 无 | No | TLS 客户端私钥 |
+| `ca` | STRING | 无 | No | TLS CA 证书 |
 | `cert` | STRING | 无 | No | TLS 客户端证书 |
 | `key` | STRING | 无 | No | TLS 客户端私钥 |
 
