@@ -36,6 +36,7 @@ external system -> source -> pipeline -> sink table
 ```sql
 CREATE SOURCE src_mqtt (
   ts TIMESTAMP(9) NOT NULL COMMENT 'event time',
+  sid STRING,
   source_topic STRING METADATA FROM 'topic',
   topic_tag STRING AS source_topic,
   value FLOAT64

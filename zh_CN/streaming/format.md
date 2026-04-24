@@ -21,7 +21,7 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 
 | 配置项 | 类型 | 默认值 | 必选 | 说明 |
 | --- | --- | --- | --- | --- |
-| `format` | STRING | 无 | Yes | 指定消息格式，当前支持 `json` 和 `csv` |
+| `format` | STRING | 无 | Yes | 指定消息格式，当前支持 `json`、`csv` 和 `parquet` |
 | `bad_data` | STRING | `drop` | No | 坏数据处理策略，支持 `drop` 或 `fail` |
 
 说明：
@@ -101,7 +101,7 @@ CREATE SOURCE src_csv (
   connector='http',
   endpoint='http://127.0.0.1:18080/poll',
   method='GET',
-  poll='interval(1000)',
+  poll='interval(1s)',
   format='csv',
   has_header='false',
   delimiter=','
