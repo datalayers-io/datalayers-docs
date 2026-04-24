@@ -82,10 +82,9 @@ with (ttl='10d')
 `CREATE SOURCE` 用于定义一个流式输入对象。它描述外部数据源的字段、connector 和 format，但它本身不是一个表，无法接查询和写入。
 
 ```sql
-CREATE SOURCE source_name (
+CREATE SOURCE [IF NOT EXISTS] source_name (
     source_field,
-    ...,
-    [WATERMARK FOR event_time_column [AS expr]]
+    ...
 ) WITH (
     connector='kafka|mqtt|http',
     format='json|csv|parquet',
@@ -110,7 +109,6 @@ column_name data_type AS expr
 
 - 只有物理字段支持 `NULL` / `NOT NULL` / `COMMENT`
 - 物理字段未显式声明可空性时，默认是 `NULL`
-- 被 `WATERMARK FOR` 引用的物理字段会被隐式视为 `NOT NULL`，显式写成 `NULL` 会报错
 - 元数据字段和计算列都不支持列选项
 - 同一个 metadata key 不能被多个 source 字段重复引用
 
@@ -120,8 +118,8 @@ column_name data_type AS expr
 CREATE SOURCE src_kafka (
     ts TIMESTAMP(9) NOT NULL COMMENT 'event time',
     source_topic STRING METADATA FROM 'topic',
-    value_label STRING AS source_topic,
-    WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
+    value_label STRING AS concat(source_topic, '_label'),
+    value FLOAT64
 ) WITH (
     connector='kafka',
     brokers='127.0.0.1:9092',
@@ -135,29 +133,14 @@ CREATE SOURCE src_kafka (
 
 - source 至少要定义一个字段
 - `WITH (...)` 必填，且不能为空
-- `CREATE SOURCE` 暂不支持 `IF NOT EXISTS`
 - connector 相关选项依赖具体 connector，请参考 [Connector 配置说明](../../streaming/connectors.md)
-
-#### Watermark
-
-Watermark 用于声明 source 的事件时间语义。它由 `CREATE SOURCE` 中的 `WATERMARK FOR ...` 子句定义，系统会基于该表达式在运行时持续生成 watermark signal，并传递给下游算子。
-
-如果只写 `WATERMARK FOR ts`，则默认等价于 `WATERMARK FOR ts AS ts`。如果写成 `AS ts - INTERVAL '5' SECOND`，则表示 watermark 相对事件时间延迟 5 秒推进。
-
-约束如下：
-
-- 一个 source 最多定义一个 watermark
-- 事件时间列必须来自物理字段或元数据字段，不能是计算列
-- 事件时间列会被视为非空列，显式声明为 `NULL` 会报错
-- watermark 表达式只能基于前面定义的物理字段或元数据字段
-- watermark 表达式结果类型必须是 `TIMESTAMP`
 
 ### 创建 Pipeline
 
 `CREATE PIPELINE` 用于创建持续运行的流任务。pipeline 从一个 source 读取数据，执行实时计算，然后把结果写入一个已有的 sink table。
 
 ```sql
-CREATE PIPELINE pipeline_name
+CREATE PIPELINE [IF NOT EXISTS] pipeline_name
 SINK TO [database.]sink_table_name
 AS
 SELECT ...
@@ -176,7 +159,6 @@ WHERE value >= 2.0;
 
 说明：
 
-- `CREATE PIPELINE` 暂不支持 `IF NOT EXISTS`
 - `AS` 后必须是 `SELECT` 语句
 - 一个 pipeline 当前只能引用一个 source
 - 当前支持的查询能力以投影、过滤为主

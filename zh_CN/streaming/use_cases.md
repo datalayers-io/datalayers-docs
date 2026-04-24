@@ -137,7 +137,7 @@ CREATE SOURCE src_http_poll (
   connector='http',
   endpoint='http://127.0.0.1:18080/poll?ts=${now_ts}',
   method='GET',
-  poll='interval(200)',
+  poll='interval(200ms)',
   format='csv'
 );
 ```
