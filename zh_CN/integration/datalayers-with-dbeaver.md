@@ -12,7 +12,7 @@ description: "介绍如何将 Datalayers 集成到 DBeaver，包括 Arrow Flight
 
 - 已安装 Datalayers，版本不低于 `v2.2.4`
 - 已安装 DBeaver，可参考 [DBeaver 安装文档](https://github.com/dbeaver/dbeaver/wiki/Installation)
-- 已下载 [Arrow Flight SQL JDBC Driver](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver/18.3.0)
+- 已下载 [Arrow Flight SQL JDBC Driver](https://mvnrepository.com/artifact/org.apache.arrow/flight-sql-jdbc-driver/19.0.0)
 - 已获取 Datalayers 实例地址、端口、用户名和密码
 
 ## 配置 DBeaver
