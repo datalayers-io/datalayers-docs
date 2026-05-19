@@ -21,8 +21,10 @@ HTTP connector 通过单次或持续轮询 HTTP endpoint，将返回内容作为
 | `endpoint` | STRING | 无 | Yes | 轮询地址，支持 `${...}` 时间变量 |
 | `method` | STRING | `GET` | No | HTTP 方法，支持 `GET` 和 `POST` |
 | `poll` | STRING | `once` | No | 轮询模式，支持 `once` 或 `interval(<duration>)` |
-| `connect_timeout` | STRING | `10s` | No | 建立连接的超时时间 |
-| `timeout` | STRING | `3s` | No | 请求超时时间 |
+| `connect_timeout` | STRING | `3s` | No | 建立连接的超时时间 |
+| `read_timeout` | STRING | `10s` | No | 读取响应 body 的超时时间 |
+| `timeout` | STRING | `60s` | No | 单次请求的整体超时时间 |
+| `max_body_size` | STRING | `512MiB` | No | 单次 HTTP 响应 body 的最大大小，采用 size 格式，例如 `512MB`、`512MiB` |
 | `headers` | STRING | 无 | No | 请求头，格式为 `k1:v1;k2:v2` |
 | `jwt_token` | STRING | 无 | No | Bearer token，会以 `Authorization: Bearer <token>` 方式发送 |
 | `ca` | STRING | 无 | No | TLS CA 证书 |
@@ -80,9 +82,15 @@ endpoint='http://127.0.0.1:18080/export_${now_compact}.csv'
 ## 配置约束
 
 - `headers` 中每一项都必须是 `key:value` 形式
-- `connect_timeout` 和 `timeout` 必须大于 `0`
+- `connect_timeout`、`read_timeout`、`timeout` 必须大于 `0`
+- `max_body_size` 必须大于 `0`
 - 当 `endpoint` 使用 `https://` 时，才能配置 `ca`、`cert`、`key`
 - `poll='once'` 时，source 成功拉取一次后结束；`poll='interval(...)'` 时会持续轮询
+
+## 运行时行为
+
+- `poll='once'` 模式下，HTTP 请求失败会直接导致 source 执行失败
+- `poll='interval(...)'` 模式下，单次 HTTP 请求失败只会记录一条 `warn` 日志，source 不会因为这一轮请求失败而退出，下一轮会继续轮询
 
 ## 示例
 
@@ -209,8 +217,10 @@ CREATE SOURCE src_http_poll (
   endpoint='http://127.0.0.1:18080/poll?ts=${now_ts}',
   method='GET',
   poll='interval(200ms)',
-  connect_timeout='10s',
+  connect_timeout='3s',
+  read_timeout='10s',
   timeout='5s',
+  max_body_size='16MiB',
   format='csv'
 );
 
