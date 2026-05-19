@@ -1,6 +1,6 @@
 ---
 title: "Datalayers 流计算 Formats"
-description: "介绍 Datalayers 流计算支持的消息格式、配置项、示例以及 JSON 与 CSV 的选型建议。"
+description: "介绍 Datalayers 流计算支持的消息格式、配置项、示例以及 JSON、CSV、Parquet 的选型建议。"
 ---
 
 # 流计算 Formats
@@ -37,6 +37,7 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 - 适合结构化或半结构化事件
 - 常用于 Kafka、MQTT 和 HTTP 返回的结构化消息
 - 字段名通常可直接映射到 source 列名
+- 默认使用非 strict 模式解码，schema 之外的额外字段会被忽略
 
 ### JSON 示例数据
 
@@ -44,12 +45,6 @@ Format 用于将 connector 读取的消息解析为 source 的列结构。
 {"ts":"2025-01-01T00:00:01Z","sid":"sid-1","value":1.0}
 {"ts":"2025-01-01T00:00:02Z","sid":"sid-2","value":2.0}
 ```
-
-### JSON 配置项
-
-| 配置项 | 类型 | 默认值 | 必选 | 说明 |
-| --- | --- | --- | --- | --- |
-| `unstructured` | BOOL | `false` | No | 是否允许更宽松的 JSON 解码，默认按 schema 严格解析 |
 
 ### JSON 配置示例
 
@@ -63,7 +58,6 @@ CREATE SOURCE src_json (
   brokers='127.0.0.1:9092',
   topic='topic_json_demo',
   format='json',
-  unstructured='false',
   bad_data='fail'
 );
 ```
