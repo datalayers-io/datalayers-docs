@@ -68,7 +68,7 @@ CREATE SOURCE src_kafka_meta (
 
 Format 相关配置请参考 [Formats](./format.md)。
 
-## 示例：读取 Kafka JSON 事件流
+## 示例1：读取 Kafka JSON 事件流
 
 ### 1. 启动 Kafka
 
@@ -164,6 +164,70 @@ SELECT ts, sid, value FROM sink_t ORDER BY ts;
 ```
 
 预期仅看到 `value >= 2.0` 的两行。
+
+## 示例2：Unix 时间戳处理
+
+一个常见的场景是，当消息中的时间字段为 Unix 时间戳，非 RFC3339 / ISO8601 格式的时间字符串。同时 sink table 的时间戳列为 Timestamp 类型，且精度可能与消息中时间戳精度不一致。我们支持两种方式处理这种场景。
+
+### 方式一：CREATE SOURCE 时用计算列转换
+
+在 source 中声明 `ts` 为 `INT64`，再用计算列语法（使用 `AS` 指定列的运行时计算表达式）将其转为时间戳。这个转换发生在运行时，source 读入数据后会自动根据表达式和列类型计算 `ts_timestamp` 列：
+
+```sql
+CREATE SOURCE src_kafka_unixtime (
+  ts INT64,
+  sid STRING,
+  value FLOAT64,
+  ts_timestamp TIMESTAMP(3) AS ts * 1000
+) WITH (
+  connector='kafka',
+  brokers='127.0.0.1:9092',
+  topic='topic_unixtime_demo',
+  format='json'
+);
+
+CREATE PIPELINE p_kafka_unixtime
+SINK TO sink_t
+AS
+SELECT ts_timestamp AS ts, sid, value
+FROM src_kafka_unixtime
+WHERE value >= 2.0;
+```
+
+其中 `ts * 1000` 将秒级时间戳转为毫秒，系统自动 CAST 为 `TIMESTAMP(3)`。也可以显式声明类型转换，例如 `ts_timestamp TIMESTAMP(3) AS CAST(ts * 1000 AS TIMESTAMP(3))`。
+
+### 方式二：CREATE PIPELINE 时用 UDF 转换
+
+source 保持 `ts` 为 `INT64`，pipeline 中调用函数转换：
+
+```sql
+CREATE SOURCE src_kafka_unixtime (
+  ts INT64,
+  sid STRING,
+  value FLOAT64
+) WITH (
+  connector='kafka',
+  brokers='127.0.0.1:9092',
+  topic='topic_unixtime_demo',
+  format='json'
+);
+
+CREATE PIPELINE p_kafka_unixtime
+SINK TO sink_t
+AS
+SELECT from_unixtime(ts) AS ts, sid, value
+FROM src_kafka_unixtime
+WHERE value >= 2.0;
+```
+
+### 发布消息
+
+```json
+{"ts":1735689600,"sid":"sid-1","value":1.0}
+{"ts":1735689660,"sid":"sid-2","value":2.0}
+```
+
+`sink_t` 表结构与示例1相同。两种方式均输出 `TIMESTAMP` 类型的时间戳列，可与 sink 表兼容。
 
 ## 注意事项
 
