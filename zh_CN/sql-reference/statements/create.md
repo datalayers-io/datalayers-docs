@@ -77,6 +77,60 @@ ENGINE=TimeSeries
 with (ttl='10d')
 ```
 
+### 从查询结果创建表
+
+`CREATE TABLE AS` 基于 SELECT 查询的结果创建表，新表的列类型和列顺序由查询的输出 schema 自动推导。
+
+```SQL
+CREATE TABLE [database.]table_name
+(
+    [table_constraint, ...]
+)
+[PARTITION BY HASH(expr) [PARTITIONS partition_num]]
+[ENGINE = TimeSeries]
+[WITH (key=value, ...)]
+AS select_statement
+```
+
+#### 说明
+
+- 与普通 `CREATE TABLE` 不同，`CREATE TABLE AS` **不允许**在括号内定义列定义。列的类型和顺序从 `SELECT` 语句的输出 schema 自动推导。
+- 括号内仅可包含表级约束，例如 `TIMESTAMP KEY(...)`、`PRIMARY KEY(...)` 等。
+- **不支持** `IF NOT EXISTS` 子句。
+- 当前仅支持 `ENGINE = TimeSeries`。
+- `AS` 后可以是任意合法的 `SELECT` 语句，支持 `JOIN`、`UNION`、CTE 等复杂查询。
+- 表创建成功后，查询结果会自动写入新表，返回值为写入的行数。
+
+#### 示例
+
+基础用法
+
+```SQL
+CREATE TABLE sink (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT ts, sid, value FROM source WHERE sid >= 2
+```
+
+带 JOIN 的用法
+
+```SQL
+CREATE TABLE sink_join (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT source.ts, source.sid, source.value, dim.name
+FROM source
+JOIN dim
+ON source.sid = dim.sid
+WHERE source.sid >= 2
+```
+
 ### 创建 Source
 
 `CREATE SOURCE` 用于定义一个流式输入对象。它描述外部数据源的字段、connector 和 format，但它本身不是一个表，无法接查询和写入。

@@ -55,6 +55,60 @@ ENGINE=TimeSeries
 with (ttl='10d')
 ```
 
+### Create Table From Query Result
+
+`CREATE TABLE AS` creates a table based on the results of a SELECT query. The column types and order of the new table are automatically derived from the output schema of the query.
+
+```SQL
+CREATE TABLE [database.]table_name
+(
+    [table_constraint, ...]
+)
+[PARTITION BY HASH(expr) [PARTITIONS partition_num]]
+[ENGINE = TimeSeries]
+[WITH (key=value, ...)]
+AS select_statement
+```
+
+#### Notes
+
+- Unlike regular `CREATE TABLE`, `CREATE TABLE AS` **does not allow** column definitions inside the parentheses — column types and order are derived from the SELECT statement's output schema.
+- Only table-level constraints such as `TIMESTAMP KEY(...)`, `PRIMARY KEY(...)` may appear inside the parentheses.
+- `IF NOT EXISTS` is **not supported**.
+- Only `ENGINE = TimeSeries` is currently supported.
+- Any valid `SELECT` statement can follow `AS`, including complex queries with `WHERE`, `JOIN`, etc.
+- Once the table is created, query results are automatically inserted into the new table. The return value is the number of rows written.
+
+#### Examples
+
+Basic usage
+
+```SQL
+CREATE TABLE sink (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT ts, sid, value FROM source WHERE sid >= 2
+```
+
+With JOIN
+
+```SQL
+CREATE TABLE sink_join (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT source.ts, source.sid, source.value, dim.name
+FROM source
+JOIN dim
+ON source.sid = dim.sid
+WHERE source.sid >= 2
+```
+
 ### Declare indexes in CREATE TABLE (INVERTED / VECTOR)
 
 Besides creating indexes after table creation with `CREATE INDEX`, Datalayers also supports declaring indexes directly inside `CREATE TABLE` table constraints.
