@@ -122,6 +122,10 @@ DROP PIPELINE p_kafka;
 DROP SOURCE src_kafka;
 ```
 
+## 注意事项
+
+- 流计算目前仅支持单机版本，计划在一下版中支持集群模式。
+
 ## 相关文档
 
 - 了解如何快速体验一条最小流计算链路：[快速开始](./quick-start.md)
