@@ -19,7 +19,7 @@ This document introduces the computation capabilities currently supported by Dat
 
 ## Environment Setup
 
-The following examples are based on a Kafka source. Please complete the basic environment setup described in [Quick Start](/streaming/quick-start), including:
+The following examples are based on a Kafka source. Please complete the basic environment setup described in [Quick Start](./quick-start.md), including:
 
 1. **Start Kafka**
 

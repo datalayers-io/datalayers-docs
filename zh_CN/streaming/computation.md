@@ -19,7 +19,7 @@ description: "介绍 Datalayers 流计算支持的计算功能，包括投影、
 
 ## 环境准备
 
-以下示例均基于 Kafka source。请确保已完成 [快速开始](/streaming/quick-start) 中的基础环境准备，包括：
+以下示例均基于 Kafka source。请确保已完成 [快速开始](./quick-start.md) 中的基础环境准备，包括：
 
 1. **启动 Kafka**
 
