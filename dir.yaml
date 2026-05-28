@@ -360,6 +360,9 @@
     - title_en: Use cases
       title_cn: 应用示例
       path: streaming/use_cases
+    - title_en: Computation
+      title_cn: 计算能力
+      path: streaming/computation
     - title_en: Formats
       title_cn: Formats
       path: streaming/format
