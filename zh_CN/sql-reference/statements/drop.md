@@ -70,6 +70,19 @@ DROP PIPELINE [IF EXISTS] [db.]pipeline_name
 - 如果 pipeline 仍在运行，请先执行 `ALTER PIPELINE ... STOP`，再执行 `DROP PIPELINE`。
 - `IF EXISTS` 可用于忽略不存在对象的报错。
 
+### DROP SINK
+
+删除指定 sink。
+
+```SQL
+DROP SINK [IF EXISTS] [db.]sink_name
+```
+
+说明
+
+- 如果 sink 仍被某个 pipeline 引用，删除会失败。
+- `IF EXISTS` 可用于忽略不存在对象的报错。
+
 ### DROP NODE
 
 ```SQL

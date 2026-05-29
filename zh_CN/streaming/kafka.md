@@ -21,8 +21,8 @@ Kafka connector 用于将 Kafka topic 中的消息持续读入 Datalayers source
 | `brokers` | STRING | 无 | Yes | Kafka broker 列表，逗号分隔，格式为 `host:port` |
 | `topic` | STRING | 无 | Yes | 要消费的 topic |
 | `offset` | STRING | `latest` | No | 起始消费位置，支持 `earliest`、`latest` |
-| `group.id` | STRING | `datalayers-<job_id>-group` | No | Consumer group ID，用于提交和恢复消费进度 |
-| `client.id` | STRING | `datalayers-<job_id>-consumer` | No | Kafka client ID |
+| `group.id` | STRING | `datalayers-<pipeline_id>-group` | No | Consumer group ID，用于提交和恢复消费进度 |
+| `client.id` | STRING | `datalayers-<pipeline_id>-<task_index>-consumer` | No | Kafka client ID |
 | `security.protocol` | STRING | 无 | No | 安全协议，支持 `PLAINTEXT`、`SSL`、`SASL_PLAINTEXT`、`SASL_SSL` |
 | `sasl.mechanism` | STRING | 无 | No | SASL 机制，支持 `PLAIN`、`SCRAM-SHA-256`、`SCRAM-SHA-512` |
 | `sasl.username` | STRING | 无 | No | SASL 用户名 |

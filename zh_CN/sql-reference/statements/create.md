@@ -222,6 +222,32 @@ WHERE value >= 2.0;
 - pipeline 输出列需要与 sink table 列按名称和类型兼容，必要时系统会尝试插入 cast
 - 当前用户需要具备 source 的 `SELECT` 权限以及 sink table 的 `INSERT` 权限
 
+### 创建 Sink
+
+`CREATE SINK` 用于定义一个独立的流式输出对象，描述数据写入的目标 connector。与 sink table 不同，`SINK` 是一个独立的对象，可以直接被 pipeline 引用作为输出目标。
+
+```sql
+CREATE SINK [IF NOT EXISTS] [database.]sink_name
+WITH (
+    connector='<connector_type>',
+    ...
+)
+```
+
+示例：
+
+```sql
+CREATE SINK bh WITH (connector='blackhole');
+```
+
+说明：
+
+- `WITH (...)` 必填，且不能为空
+- `connector` 选项是必填的，决定数据写入的目标类型
+- 当前仅支持 `blackhole` connector，用于丢弃所有写入数据（通常用于测试或性能压测场景）
+- 不支持使用共享 connector 引用（即 connector 值必须为内置 connector 类型，不可引用已创建的 `CONNECTOR` 对象）
+- connector 相关配置请参考 [Connector 配置说明](../../streaming/connectors.md)
+
 ### 建表时声明索引（INVERTED / VECTOR）
 
 除了使用 `CREATE INDEX` 在建表后创建索引，Datalayers 也支持在 `CREATE TABLE` 的表约束中直接声明索引。

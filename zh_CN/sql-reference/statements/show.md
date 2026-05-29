@@ -117,6 +117,39 @@ SHOW CREATE SOURCE source_name
 SHOW CREATE PIPELINE pipeline_name
 ```
 
+## SHOW SINKS
+
+查看当前数据库下的所有 sink。
+
+```SQL
+SHOW SINKS
+```
+
+当前版本返回以下列：
+
+| 列名 | 含义 |
+| --- | --- |
+| `sink` | sink 名称 |
+| `version` | sink 元信息的 version |
+| `created_time` | sink 创建时间，ISO 8601 字符串 |
+| `updated_time` | sink 最近一次更新时间，ISO 8601 字符串 |
+
+说明：
+
+- 当前用户需要具备当前数据库的 `SELECT` 权限
+
+## SHOW CREATE SINK
+
+回显指定 sink 的定义 SQL。
+
+```sql
+SHOW CREATE SINK sink_name
+```
+
+说明：
+
+- 输出的是规范化后的 `CREATE SINK` 语句，而不是用户的原始输入
+
 ## SHOW LICENSE
 
 获取系统的 License 信息

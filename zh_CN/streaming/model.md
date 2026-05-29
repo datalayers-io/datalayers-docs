@@ -7,10 +7,10 @@ description: "介绍 Datalayers 流计算的核心对象及其关系。"
 
 ## 总体模型
 
-Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 处理后写入内部 sink table。
+Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 处理后写入 sink 或 sink table。
 
 ```text
-external system -> source -> pipeline -> sink table
+external system -> source -> pipeline -> sink / sink table
 ```
 
 这一模型强调两点：
@@ -56,11 +56,11 @@ CREATE SOURCE src_mqtt (
 
 ## Pipeline
 
-`PIPELINE` 是持续运行的实时任务定义，绑定一个 source、一个 sink table 和一条 `AS SELECT ...` 查询。
+`PIPELINE` 是持续运行的实时任务定义，绑定一个 source、一个 sink 和一条 `AS SELECT ...` 查询。
 
 ```sql
 CREATE PIPELINE p_mqtt
-SINK TO sink_t
+SINK TO bh
 AS
 SELECT ts, sid, value
 FROM src_mqtt
@@ -71,7 +71,7 @@ pipeline 的职责是：
 
 - 从 source 中持续读取事件
 - 执行轻量级实时处理
-- 将结果写入 sink table
+- 将结果写入指定的 sink
 
 当前版本对于 pipeline 有如下限制：
 
@@ -80,9 +80,26 @@ pipeline 的职责是：
 - 只支持投影和过滤
 - 不支持 join、聚合、窗口、排序、limit、union、子查询等复杂算子
 
+## Sink
+
+`SINK` 是独立的流式输出对象，描述数据写入的目标 connector。通过 `CREATE SINK` 创建后，可以直接被 pipeline 引用为输出目标。
+
+```sql
+CREATE SINK bh WITH (connector='blackhole');
+```
+
+示例中创建了一个 `blackhole` sink，它会丢弃所有输入数据。当前支持的 sink connector 类型请参考 [流计算 Connectors](./connectors.md)。
+
+需要注意：
+
+- sink 只描述输出目标，不保存数据
+- `WITH (...)` 必须非空，且 connector 是必填项
+- 当前仅支持 `blackhole` connector
+- sink 支持 `SHOW SINKS`、`SHOW CREATE SINK` 和 `DROP SINK` 等管理操作
+
 ## Sink Table
 
-sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当前版本要求：
+作为一种替代方案，pipeline 也可以将结果写入一张 Datalayers 内部表。当前版本要求：
 
 - sink table 必须事先创建
 - sink table 必须使用 `TimeSeries` 引擎

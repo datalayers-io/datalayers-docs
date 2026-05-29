@@ -15,7 +15,7 @@ MQTT connector 用于订阅 MQTT broker 中的主题消息，并持续读入 Dat
 | `broker` | STRING | 无 | Yes | MQTT broker 地址，格式为 `[scheme://]host:port`；未写 scheme 时默认 `tcp` |
 | `topic` | STRING | 无 | Yes | 要订阅的 topic |
 | `qos` | STRING | `0` | No | 服务质量等级，支持 `0`、`1`、`2` |
-| `client_id` | STRING | `datalayers-<job_id>-consumer` | No | MQTT client ID |
+| `client_id` | STRING | `datalayers-<pipeline_id>-<task_index>-consumer` | No | MQTT client ID |
 | `keep_alive` | STRING | `60s` | No | keep alive 时间，采用 duration 格式，例如 `60s` |
 | `connect_timeout` | STRING | `10s` | No | 建立连接的超时时间 |
 | `version` | STRING | 无 | No | MQTT 协议版本，支持 `3.1.1`、`5.0` |

@@ -379,6 +379,9 @@
         - title_en: HTTP
           title_cn: HTTP
           path: streaming/http
+        - title_en: Blackhole
+          title_cn: Blackhole
+          path: streaming/blackhole
 
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
