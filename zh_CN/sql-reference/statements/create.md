@@ -224,7 +224,7 @@ WHERE value >= 2.0;
 
 ### 创建 Sink
 
-`CREATE SINK` 用于定义一个独立的流式输出对象，描述数据写入的目标 connector。与 sink table 不同，`SINK` 是一个独立的对象，可以直接被 pipeline 引用作为输出目标。
+`CREATE SINK` 用于注册一个外部的流式输出对象，对接到指定的 connector。与内部的 sink table 类似，外部的 sink 可以直接被 create pipeline 引用，作为输出目标。
 
 ```sql
 CREATE SINK [IF NOT EXISTS] [database.]sink_name
@@ -242,11 +242,8 @@ CREATE SINK bh WITH (connector='blackhole');
 
 说明：
 
-- `WITH (...)` 必填，且不能为空
 - `connector` 选项是必填的，决定数据写入的目标类型
-- 当前仅支持 `blackhole` connector，用于丢弃所有写入数据（通常用于测试或性能压测场景）
-- 不支持使用共享 connector 引用（即 connector 值必须为内置 connector 类型，不可引用已创建的 `CONNECTOR` 对象）
-- connector 相关配置请参考 [Connector 配置说明](../../streaming/connectors.md)
+- 当前仅支持 `blackhole` connector，用于丢弃所有写入数据（通常用于性能压测）
 
 ### 建表时声明索引（INVERTED / VECTOR）
 

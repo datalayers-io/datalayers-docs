@@ -125,7 +125,7 @@ SHOW CREATE PIPELINE pipeline_name
 SHOW SINKS
 ```
 
-当前版本返回以下列：
+返回以下列：
 
 | 列名 | 含义 |
 | --- | --- |
@@ -140,7 +140,7 @@ SHOW SINKS
 
 ## SHOW CREATE SINK
 
-回显指定 sink 的定义 SQL。
+展示指定 sink 的 create sink SQL。
 
 ```sql
 SHOW CREATE SINK sink_name

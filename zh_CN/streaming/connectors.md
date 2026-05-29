@@ -53,14 +53,4 @@ HTTP connector 适合按固定周期轮询第三方 API 或内部 HTTP 服务。
 Blackhole connector 是一个 sink 专用 connector，它会接收所有输入数据并直接丢弃，不写入任何存储。常用于测试、开发调试以及流计算框架的基准压测场景。
 
 - 文档入口：[Blackhole Connector](./blackhole.md)
-- 作为 source：No
-- 作为 sink：Yes
-- 不需要额外配置选项
-
-使用示例：
-
-```sql
-CREATE SINK bh WITH (connector='blackhole');
-```
-
-然后可以在 pipeline 中将它作为输出目标使用。
+- format：不支持配置 format，因为它不需要对输入数据进行解码

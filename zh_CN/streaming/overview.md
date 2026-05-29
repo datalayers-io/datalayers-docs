@@ -27,7 +27,7 @@ Kafka / MQTT / HTTP
   CREATE PIPELINE ... AS SELECT ...
         |
         v
-   CREATE SINK / sink table
+   Sink Table / External Sink
 ```
 
 ## 典型应用场景
