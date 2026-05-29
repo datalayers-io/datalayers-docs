@@ -7,10 +7,10 @@ description: "介绍 Datalayers 流计算的核心对象及其关系。"
 
 ## 总体模型
 
-Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 处理后写入内部 sink table。
+Datalayers 的流计算采用 Dataflow 风格的处理模型。数据从外部系统持续进入 source，经由 pipeline 处理后写入 sink table 或外部 sink。
 
 ```text
-external system -> source -> pipeline -> sink table
+external system -> source -> pipeline -> sink table / external sink
 ```
 
 这一模型强调两点：
@@ -56,7 +56,7 @@ CREATE SOURCE src_mqtt (
 
 ## Pipeline
 
-`PIPELINE` 是持续运行的实时任务定义，绑定一个 source、一个 sink table 和一条 `AS SELECT ...` 查询。
+`PIPELINE` 是持续运行的实时任务定义，绑定一个 source、一个 sink 和一条 `AS SELECT ...` 查询。
 
 ```sql
 CREATE PIPELINE p_mqtt
@@ -71,7 +71,7 @@ pipeline 的职责是：
 
 - 从 source 中持续读取事件
 - 执行轻量级实时处理
-- 将结果写入 sink table
+- 将结果写入指定的 sink
 
 当前版本对于 pipeline 有如下限制：
 
@@ -80,16 +80,31 @@ pipeline 的职责是：
 - 只支持投影和过滤
 - 不支持 join、聚合、窗口、排序、limit、union、子查询等复杂算子
 
-## Sink Table
+## Sink
 
-sink 不是独立对象，而是 Datalayers 中已存在的一张内部表。当前版本要求：
+`SINK` 描述流计算的输出目标，可以为一个内部表（sink table）或一个外部 connector（external sink）。内部表通过 `CREATE TABLE` 创建，外部 connector 则通过 `CREATE SINK` 定义。它们均可用于 pipeline 的输出。
+
+### Sink Table
+
+Pipeline 可以将结果写入一张 Datalayers 内部表。当前版本要求：
 
 - sink table 必须事先创建
 - sink table 必须使用 `TimeSeries` 引擎
 - pipeline 输出列名和类型必须与 sink table 兼容；当类型可转换时，系统会自动补充 cast
 - sink table 中非空且没有默认值的列，必须出现在 pipeline 输出里
 
-这意味着在设计 sink table 时，应先确定 pipeline 输出 schema，再创建表结构。
+### External Sink
+
+```sql
+CREATE SINK bh WITH (connector='blackhole');
+```
+
+示例中创建了一个 `blackhole` sink，它会丢弃所有输入数据。当前支持的 sink connector 类型请参考 [流计算 Connectors](./connectors.md)。
+
+需要注意：
+
+- connector 是必填项
+- 当前仅支持 `blackhole` connector
 
 ## Pipeline 生命周期与状态
 
