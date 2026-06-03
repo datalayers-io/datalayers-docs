@@ -29,11 +29,12 @@ PARTITION BY HASH(service) PARTITIONS 1;
 
 ```sql
 CREATE INVERTED INDEX idx_message ON logs (message)
-WITH (tokenizer='standard', filters='lowercase,english_stop', with_position='true');
+WITH (indexer='tantivy', tokenizer='standard', filters='lowercase,english_stop', with_position='true');
 ```
 
 索引参数说明：
 
+- `indexer='tantivy'`: 采用 tantivy 作为检索引擎，
 - `tokenizer='standard'`：适合英文文本，按空格和标点进行分词
 - `filters='lowercase,english_stop'`：统一大小写并过滤常见英文停用词
 - `with_position='true'`：保存词位置信息，便于短语检索和更准确的相关性排序
