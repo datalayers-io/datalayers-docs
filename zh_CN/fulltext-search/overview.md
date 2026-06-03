@@ -21,7 +21,7 @@ description: "介绍 Datalayers 基于倒排索引的全文检索能力，包括
 - 支持 `QUERY`：适合短语检索、布尔表达式和更复杂的查询条件
 - 支持 `SCORE()`：返回命中结果的相关性评分，用于排序
 - 支持在 `STRING` 列上创建 `INVERTED INDEX` 以加速全文检索
-- 支持通过 `tokenizer`、`filters`、`with_position` 配置索引行为
+- 支持通过 `indexer`、`tokenizer`、`filters`、`with_position` 配置索引行为
 
 ## 如何选择 MATCH 与 QUERY
 
