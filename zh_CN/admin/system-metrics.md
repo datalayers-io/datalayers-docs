@@ -59,6 +59,9 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | datalayers_hybrid_cached_file_memory_config_size | gauge | 缓存对象存储文件内容的最大内存使用量 |
 | datalayers_hybrid_cached_file_disk_config_size | gauge | 缓存对象存储文件内容的最大磁盘使用量 |
 | datalayers_hybrid_cached_file_meta_memory_config_size | gauge | 缓存对象存储文件 meta 信息的最大内存使用量 |
+| datalayers_last_value_cache_usage | gauge | last cache 已使用内存大小 |
+| datalayers_last_value_cache_config_size | gauge | last cache 配置的最大使用内存大小 |
+| datalayers_last_value_cache_op_total | counter | last cache 相关指标，包括 miss 与 hit |
 
 ## FDB Metrics
 
