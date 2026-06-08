@@ -117,6 +117,9 @@
             - title_en: Query Parallelism Control
               title_cn: 查询并行度控制
               path: development-guide/query-optimization/hints/parallel-degree
+            - title_en: Hybrid Cache Control
+              title_cn: 混合缓存控制
+              path: development-guide/query-optimization/hints/hybrid-cache
             - title_en: Index Hints
               title_cn: Index Hints
               path: development-guide/query-optimization/hints/index
