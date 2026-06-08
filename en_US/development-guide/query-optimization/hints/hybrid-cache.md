@@ -6,7 +6,7 @@ description: "Control object store cache behavior per query using the hybrid_cac
 
 ## Overview
 
-Datalayers uses Hybrid Cache (a foyer-based memory + disk cache) to cache Parquet file metadata and content from object stores, accelerating queries. In some scenarios, bypassing the cache for direct storage reads is preferable. The `hybrid_cache` hint enables per-query control over cache behavior.
+Datalayers uses a Hybrid Cache (memory + disk cache) to cache Parquet file data and object metadata from object stores, accelerating queries. However, in some scenarios, bypassing the cache is desirable. The `hybrid_cache` hint temporarily disables the hybrid cache for an individual query.
 
 ## Syntax
 
@@ -14,18 +14,18 @@ Datalayers uses Hybrid Cache (a foyer-based memory + disk cache) to cache Parque
 -- Disable cache for the current query
 SELECT /*+ SET_VAR(hybrid_cache=off) */ * FROM t;
 
--- Explicitly enable cache (default behavior)
+-- Explicitly enable cache (default behavior, no need to set). Note: Hybrid Cache must be configured in the config file for it to actually take effect
 SELECT /*+ SET_VAR(hybrid_cache=on) */ * FROM t;
 ```
 
-Supported values:
+Supported values (case insensitive):
 
 | Value | Meaning |
 |-------|---------|
-| `on`, `1`, `true` | Enable cache (default) |
-| `off`, `0`, `false` | Disable cache |
+| `on` or `1` | Enable cache (default) |
+| `off` or `0` | Disable cache |
 
-Case insensitive. Can be combined with other hints:
+Can be combined with other hints:
 
 ```sql
 SELECT /*+ SET_VAR(parallel_degree=4), SET_VAR(hybrid_cache=off) */ * FROM t;
@@ -39,21 +39,14 @@ SELECT /*+ SET_VAR(parallel_degree=4), SET_VAR(hybrid_cache=off) */ * FROM t;
 
 ## Verification
 
-Use `EXPLAIN ANALYZE VERBOSE` to inspect the physical plan output:
+Use `EXPLAIN` or `EXPLAIN ANALYZE` to inspect the physical plan output for the hybrid cache state:
 
 ```sql
--- Default: shows hybrid_cache=on
-EXPLAIN ANALYZE VERBOSE SELECT * FROM t;
+-- If Hybrid Cache is configured, the PartitionScanExec operator shows hybrid_cache=on
+EXPLAIN SELECT * FROM t;
 
--- Cache disabled: shows hybrid_cache=off
-EXPLAIN ANALYZE VERBOSE SELECT /*+ SET_VAR(hybrid_cache=off) */ * FROM t;
+-- If Hybrid Cache is not configured, or disabled by hint, the PartitionScanExec operator shows hybrid_cache=off
+EXPLAIN SELECT /*+ SET_VAR(hybrid_cache=off) */ * FROM t;
 ```
 
-Look for `hybrid_cache=on` or `hybrid_cache=off` in the `PartitionScanExec` node of the physical plan.
-
-> **Note**: If the instance has no Hybrid Cache configured (`object_store.file_cache` and `metadata_cache` are both empty), the output always shows `hybrid_cache=off` regardless of the hint value.
-
-## See Also
-
-- For SQL Hints overview, see [SQL Hints Guide](./overview.md)
-- For query parallelism control, see [Parallel Degree Guide](./parallel-degree.md)
+> **Note**: If Hybrid Cache is not configured at startup (`object_store.file_cache` and `object_store.metadata_cache` are both empty), the output always shows `hybrid_cache=off` regardless of the hint value.
