@@ -60,7 +60,6 @@ SHOW PIPELINES
 | 列名 | 含义 |
 | --- | --- |
 | `pipeline_name` | pipeline 名称 |
-| `source_name` | pipeline 读取的 source 名称；如果有多个 source，会用逗号拼接 |
 | `sink_name` | pipeline 写入的 sink 名称 |
 | `state` | pipeline 当前状态 |
 | `up_time` | 从启动到当前的运行时长；未启动时为 `-` |

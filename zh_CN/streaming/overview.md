@@ -49,7 +49,6 @@ Kafka / MQTT / HTTP
 CREATE SOURCE src_kafka (
   ts TIMESTAMP(9),
   sid STRING,
-  source_name STRING METADATA FROM 'source_name',
   source_topic STRING METADATA FROM 'topic',
   topic_tag STRING AS source_topic,
   value FLOAT64
