@@ -62,6 +62,16 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | datalayers_last_value_cache_usage | gauge | last cache 已使用内存大小 |
 | datalayers_last_value_cache_config_size | gauge | last cache 配置的最大使用内存大小 |
 | datalayers_last_value_cache_op_total | counter | last cache 相关指标，包括 miss 与 hit |
+| datalayers_disk_usage_percent | gauge | 磁盘已使用空间比例 |
+| datalayers_disk_read_total | gauge | 磁盘或分区总读取次数，可用于计算 IOPS |
+| datalayers_disk_write_total | gauge | 磁盘或分区总写入次数，可用于计算 IOPS |
+| datalayers_disk_read_bytes_total | gauge | 磁盘或分区总读取字节数，可用于计算平均读取速度 |
+| datalayers_disk_write_bytes_total | gauge | 磁盘或分区总写入字节数，可用于计算平均写入速度 |
+| datalayers_disk_io_ticks_total | gauge | 磁盘或分区的非空闲时间 |
+| datalayers_network_rx_bytes_total | gauge | 网卡接收的总字节数，可用于计算网卡吞吐速度 |
+| datalayers_network_tx_bytes_total | gauge | 网卡发送的总字节数，可用于计算网卡吞吐速度 |
+| datalayers_network_rx_packets_total | gauge | 网卡接收的总报文数 |
+| datalayers_network_tx_packets_total | gauge | 网卡发送的总报文数 |
 
 ## FDB Metrics
 
@@ -71,6 +81,40 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | **fdb_process_disk_free_bytes** | gauge | <span style="color:red">*</span> 元数据存储磁盘已使用空间大小，单位：bytes, 使用空间超过 `95%` 会导致服务不可用 |
 | **fdb_exporter_latency_seconds** | gauge | <span style="color:red">*</span> 访问元数据服务的时延，单位：秒。不应该大于 `1` |
 | fdb_process_disk_total_bytes | gauge | 元数据存储磁盘的总空间大小，单位：bytes |
+
+### FDB Backup Metrics
+
+| Key | Type | 说明 |
+| --- | --- | --- |
+| fdb_backup_bytes_per_second | gauge | 备份速度，单位：bytes/s |
+| fdb_backup_requests_failed | gauge | 备份失败的次数  |
+| fdb_backup_requests_successful | gauge | 备份成功的次数 |
+| fdb_backup_paused | gauge | 备份是否暂停，1表示暂停，0表示未暂停 |
+| fdb_backup_total_workers | gauge | 备份实例总的 worker 数量 |
+| fdb_backup_instances_running | gauge | 正在运行中的备份实例的数量 |
+| fdb_backup_instances_total | gauge | 总的备份实例的数量 |
+| fdb_backup_instance_bytes_per_second | gauge | 每个备份实例的备份速度，单位：bytes/s |
+| fdb_backup_tags_total | gauge | 总的备份 tag 的数量 |
+| fdb_backup_tag_current_status | gauge | 指定 tag 的备份的当前状态，状态值在下面说明 |
+| fdb_backup_tag_seconds_behind | gauge | 指定 tag 的备份落后最新状态时间，单位：s |
+| fdb_backup_tag_bytes_written | gauge | 指定 tag 的备份的写入字节数，单位：bytes |
+| fdb_backup_tag_is_running_backup | gauge | 指定 tag 的备份是否正在执行，1表示是，0表示否 |
+||||
+
+```fdb_backup_tag_current_status``` 的取值含义
+
+| 取值 | 说明 |
+| --- | --- |
+| 0 | 没有取到状态，或未知的状态 |
+| 1 | 已提交备份任务 |
+| 2 | 已开始备份任务 |
+| 3 | 正在进行差异备份 |
+| 4 | 已成功完成备份 |
+| 5 | 备份任务从未开始 |
+| 6 | 备份任务被终止 |
+| 7 | 备份任务被部分终止 |
+| 8 | 备份任务出错 |
+||||
 
 ## 相关文档
 
