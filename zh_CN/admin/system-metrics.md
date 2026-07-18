@@ -72,6 +72,7 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | datalayers_network_tx_bytes_total | gauge | 网卡发送的总字节数，可用于计算网卡吞吐速度 |
 | datalayers_network_rx_packets_total | gauge | 网卡接收的总报文数 |
 | datalayers_network_tx_packets_total | gauge | 网卡发送的总报文数 |
+| datalayers_license_valid_days | gauge | 许可证剩余有效时间，单位：天 |
 
 ## FDB Metrics
 
