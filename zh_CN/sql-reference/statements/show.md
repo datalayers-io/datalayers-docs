@@ -118,7 +118,7 @@ SHOW CREATE PIPELINE pipeline_name
 
 ## SHOW LICENSE
 
-获取系统的 License 信息
+获取系统的 License 信息，集群版会展示所有节点的 License 信息。
 
 ```SQL
 SHOW LICENSE
