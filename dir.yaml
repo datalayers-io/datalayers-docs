@@ -109,9 +109,6 @@
         - title_en: Last Cache
           title_cn: Last Cache
           path: development-guide/query-optimization/last-cache-optimization
-        - title_en: 查询性能指标说明
-          title_cn: Performance Metrics
-          path: development-guide/query-optimization/explain-metrics
         - title_en: SQL Hints
           title_cn: SQL Hints
           path: development-guide/query-optimization/hints/overview
