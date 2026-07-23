@@ -44,6 +44,12 @@ Datalayers 配置文件为 `datalayers.toml`，根据安装方式其所在位置
 # The root directory of all local data storage paths
 base_dir = "/var/lib/datalayers"
 
+# 存储某些计算中间过程产生的临时文件的目录。
+# 配置相对路径就是相对于 `base_dir` 的路径，也可以配置绝对路径。
+# 不配置会默认使用操作系统的临时目录。
+# Default: None.
+temp_dir = "temp"
+
 # The configurations of Datalayers server.
 [server]
 # In which mode to start the Datalayers server.

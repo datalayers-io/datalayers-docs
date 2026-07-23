@@ -73,6 +73,12 @@ Datalayers 原生支持与 Prometheus 集成，实现高效的监控数据采集
 | datalayers_network_rx_packets_total | gauge | 网卡接收的总报文数 |
 | datalayers_network_tx_packets_total | gauge | 网卡发送的总报文数 |
 | datalayers_license_valid_days | gauge | 许可证剩余有效时间，单位：天 |
+| latency_build_tantivy_per_mb_ms | histogram | 使用 tantivy 引擎创建全文索引每 10M 数据的用时 |
+| ratio_build_tantivy_inflate | histogram | 使用 tantivy 引擎创建全文索引文件大小相对比数据的膨胀率，单位：百分比 |
+| query_full_text_total | counter | 使用全文检索查询的请求次数 |
+| query_tantivy_warmup_size | histogram | 使用 tantivy 引擎查询单个索引文件产生的预热内存大小分布 |
+| latency_query_full_text_ms | histogram | 使用全文检索查询的耗时分布，统计单次 sql 查询的耗时 |
+| latency_query_tantivy_ms | histogram | 使用 tantivy 引擎查询单个索引文件的耗时分布 |
 
 ## FDB Metrics
 
