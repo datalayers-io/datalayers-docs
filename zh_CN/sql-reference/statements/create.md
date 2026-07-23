@@ -280,7 +280,7 @@ ON [database.]table_name (column_name)
 
 选项
 
-- `indexer`: 倒排索引引擎，`tantivy | native`，默认 `tantivy`
+- `indexer`: 倒排索引引擎，默认 `tantivy`，目前仅支持 `tantivy`，可以不指定
 - `tokenizer`：分词器，`standard | chinese`，默认 `standard`
 - `with_position`：是否保存词位置信息，`true | false`，默认 `false`
 - `filters`：过滤器列表，使用 `,` 分隔，默认 `lowercase,english_stop`
@@ -309,7 +309,7 @@ CREATE INVERTED INDEX idx_message_std ON logs (message)
 WITH (tokenizer='standard', filters='lowercase,english_stop,english_stemmer');
 
 CREATE INVERTED INDEX idx_message_cn ON logs (message)
-WITH (indexer='native', tokenizer='chinese', filters='lowercase,english_stop', with_position='true');
+WITH (indexer='tantivy', tokenizer='chinese', filters='lowercase,english_stop', with_position='true');
 ```
 
 ### CREATE VECTOR INDEX
