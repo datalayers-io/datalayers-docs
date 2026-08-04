@@ -4,6 +4,22 @@ description: "Datalayers 版本更新日志（Changelog）：按版本列出新�
 ---
 # 版本更新日志
 
+## 2.4.5
+
+发布日期: 2026-08-04
+
+本版本重点完善了 PostgreSQL 兼容性适配。
+
+### 功能增强
+
+- PostgreSQL 兼容性提升，现在 Grafana 中可使用 PostgreSQL 协议与 Datalayers 进行交互。
+
+### 问题修复
+
+- Prepared Statement 优化：修复服务重启后因客户端缓存可能执行失败的问题。
+- PostgreSQL SQL Hint 修复：PostgreSQL 协议支持 SQL Hint，提升兼容性与执行稳定性。
+- 聚合稳定性修复：修复 `count` 查询在特定场景（SQL Hint）下可能触发 panic 的问题。
+
 ## 2.4.4
 
 发布日期: 2026-07-22
