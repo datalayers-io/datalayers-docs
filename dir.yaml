@@ -448,6 +448,9 @@
         - title_en: Query Configuration
           title_cn: 查询配置
           path: admin/configuration-fields/query
+        - title_en: Index Configuration
+          title_cn: 索引配置
+          path: admin/configuration-fields/index
         - title_en: Scheduler Configuration
           title_cn: 调度器配置
           path: admin/configuration-fields/scheduler
