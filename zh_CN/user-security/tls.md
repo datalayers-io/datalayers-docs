@@ -12,7 +12,7 @@ Datalayers 支持 TLS（Transport Layer Security）加密连接，用于保护�
 
 ### 服务端配置
 
-在配置文件中启用 TLS（包括 HTTPS 与 Arrow Flight SQL）：
+在配置文件中启用 TLS（包括 HTTPS、Postgres、Arrow Flight SQL）：
 
 ```toml
 [server.tls]
@@ -30,6 +30,7 @@ cert = "/etc/datalayers/certs/server.crt"
 ## 适用范围
 
 - HTTPS 接口访问
+- Postgres 加密连接
 - Arrow Flight SQL 加密连接
 - 需要满足传输加密要求的生产环境部署
 
