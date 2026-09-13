@@ -9,26 +9,50 @@ description: "Datalayers 日志配置说明：介绍 log 配置组中的日志�
 ## 配置示例
 
 ```toml
+# Logging configuration.
+[log]
+# The directory to store log files.
+# Default: "/var/log/datalayers".
+path = "/var/log/datalayers/"
+
+# The verbose level of logging.
+# Supported levels (the case is not sensitive):
+# - trace.
+# - debug.
+# - info.
+# - warn.
+# - error.
+# Default: "info".
+level = "info"
+
 # The fixed time period for switching to a new log file.
-# Supported rotation kinds:
+# Supported rotation values:
 # - "MINUTELY" or "M".
 # - "HOURLY" or "H".
 # - "DAILY" or "D".
-# - "NEVER" or "N".
-# Default: "HOURLY".
-rotation = "DAILY"
+# Default: "DAILY".
+# rotation = "DAILY"
 
-# 日志是否输出到标准输出中，在容器中，将默认输出到标准输出 
+# Optional. Maximum reserved count of log(all, error, slow query) rolling files.
+# Note: "all" here covers only the info, error, and slow query logs;
+# audit logs are NOT included and are not subject to this limit.
+# Value rule:
+#   Unset / set to 0 → Unlimited, keep forever
+#   Positive integer N → Keep at most N rolling log files
+# Default: Unlimited, keep forever.
+# max_files = 30
+
+# Enables logging to stdout if set to true.
 # Default: true.
-enable_stdout = false
+enable_stdout = true
 
 # Enables logging to files if set to true.
 # Default: false.
-enable_file = true
+enable_file = false
 
-# 设置错误日志是否启用单独的文件文件存储.
+# Enables logging errors to dedicated files if set to true.
 # Default: false.
-enable_err_file = true
+enable_err_file = false
 
 # Makes the logging more verbose by inserting line number and file name.
 # Default: true.

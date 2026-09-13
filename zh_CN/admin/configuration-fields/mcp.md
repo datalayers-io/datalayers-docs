@@ -9,24 +9,24 @@ description: "Datalayers MCP 配置说明：介绍 Model Context Protocol 服务
 ## 配置示例
 
 ```toml
-# The configurations of the MCP (Model Context Protocol) server.
-[server.mcp]
-# Whether to enable MCP over Streamable HTTP.
-# Default: false.
-enable = false
-
+# Optional MCP (Model Context Protocol) settings.
+# [server.http.mcp]
 # Whether to enable auth middleware for MCP endpoints.
-# Default: true.
-enable_auth = true
+# Default: false.
+# enable_auth = false
 
 # Whether to enable stateful mode.
-# Default: true.
-stateful_mode = true
+# Default: false.
+# stateful_mode = true
+
+# Optional Postgres sql settings.
+# [server.postgres]
+# Default: "0.0.0.0:5432".
+# addr = "0.0.0.0:5432"
 ```
 
 ## 配置项说明
 
-- `enable`：是否启用 MCP 服务。未启用时，`/mcp` 路径不会注册。
 - `enable_auth`：是否对 MCP 请求启用鉴权中间件。开启后，访问 MCP 需要通过 Datalayers 的认证校验。
 - `stateful_mode`：是否启用有状态会话模式。当前默认值为 `true`。
 
