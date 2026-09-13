@@ -9,45 +9,51 @@ Datalayers 提供数据库操作审计能力，可记录用户对数据库的查
 ## 配置示例
 
 ```toml
-# 审计日志配置
-[audit]
-# 是否启用审计日志功能
-# 默认值：false
-enable = true
+# Optional audit log settings.
+# [audit]
 
-# 审计日志文件存储目录
-# 路径相对于 `base_dir` 配置项
-# 默认值："audit"
-path = "audit"
+# The directory to store audit log files.
+# Relative paths are resolved against `base_dir`.
+# Default: "audit".
+# path = "audit"
 
-# 审计日志文件最大保留数量
-# 系统每日生成新的日志文件
-# 默认值：30
-max_files = 30
+# The fixed time period for switching to a new log file.
+# Supported rotation values:
+# - "MINUTELY" or "M".
+# - "HOURLY" or "H".
+# - "DAILY" or "D".
+# Default: "DAILY".
+# rotation = "DAILY"
 
-# 需要记录的审计日志类型，多个类型用逗号分隔
-# 支持的类型："read", "write", "ddl", "dql", "admin", "misc"
-# 特殊值："all" 表示记录所有类型
-# 默认值："ddl,admin"
-kinds = "ddl,admin"
+# Optional. Maximum reserved count of log rolling files.
+# Value rule:
+#   Unset / set to 0 → Unlimited, keep forever
+#   Positive integer N → Keep at most N rolling log files
+# Default: Unlimited, keep forever.
+# max_files = 30
 
-# 需要记录的审计操作类型，多个操作用逗号分隔
-# 支持的操作："select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim", 
-# "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke", 
-# "flush", "cluster", "migrate", "compact", "export", "misc",
-# 特殊值："all" 表示记录所有操作
-# 默认值："all"
-actions = "all"
+# Supported kinds of audit logs, separated by comma.
+# Kind list: "dml", "ddl", "dql", "admin", "misc"
+# "all" means all kinds could be logged.
+# Default: "ddl,admin"
+# kinds = "ddl,admin"
 
-# 要排除记录的审计操作类型，多个操作用逗号分隔
-# 支持的操作和 actions 相同
-# 默认值："select,insert"
-excludes = "select,insert"
+# Supported actions of audit logs, separated by comma.
+# Action list: "select", "insert", "update", "delete", "create", "alter", "drop", "truncate", "trim",
+#   "desc", "show", "create_user", "drop_user", "set_password", "grant", "revoke",
+#   "flush", "cluster", "migrate", "compact", "export", "misc",
+# "all" means all actions could be logged.
+# Default: "all"
+# actions = "all"
+
+# Exclude actions of audit logs, separated by comma.
+# Optional value is the same as `actions`.
+# Default: "select,insert"
+# excludes = ""
 ```
 
 ## 配置说明
 
-- **enable**: 设置为 true 以启用审计日志功能
 - **path**: 指定日志存储路径，支持相对路径（基于 base_dir）或绝对路径
 - **max_files**: 控制日志文件轮转数量，避免磁盘空间过度占用
 - **kinds**: 精细化控制需要记录的日志类型，减少不必要的日志记录
