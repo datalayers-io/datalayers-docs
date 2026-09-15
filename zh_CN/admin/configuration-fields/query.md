@@ -18,12 +18,8 @@ description: "Datalayers 查询配置说明：介绍 query 配置组中的内存
 # 示例：memory_pool_size = "8GB"
 # memory_pool_size = "8GB"
 
-# 慢查询日志配置
-[query.slow_query]
-
-# 是否启用慢查询日志记录功能
-# 默认值：false
-# enable = true
+# 慢查询日志配置（可选）
+# [query.slow_query]
 
 # 慢查询时间阈值，执行时间超过此阈值的查询将被记录
 # 默认值："5s"（5秒）
