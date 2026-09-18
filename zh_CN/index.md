@@ -52,6 +52,11 @@ Datalayers 是面向可观测性、物联网、日志分析与 AI 应用场景�
 - 支持按需弹性伸缩，适应写入峰值、查询波动与长期存储需求
 - 支持主流云对象存储及兼容 S3 协议的存储服务，便于构建低成本长期存储方案
 
+### 零成本与大数据生态集成
+
+- 通过存算分离的部署方式，以零成本实现与大数据平台互通
+- Datalayers 底层采用 Parquet 列存格式，大数据平台可直接分析
+
 ### 边缘与受限环境支持
 
 - 面向资源受限设备和边缘节点（边缘网关、盒子等）进行优化
@@ -60,7 +65,7 @@ Datalayers 是面向可观测性、物联网、日志分析与 AI 应用场景�
 
 ## 应用集成
 
-- 支持 `Arrow Flight SQL`、`PostgreSQL` 连接协议
-- 支持 InfluxDB Line Protocol、Prometheus 查询协议与 Remote Write 协议，便于接入现有监控与数据生态
+- 兼容 `PostgreSQL`、`Arrow Flight SQL` 连接协议，可使用生态中相关驱动直接接入
 - 支持 JDBC 驱动接入，同时提供多语言 SDK，支持应用、平台和数据工具的快速集成
-- 以 SQL（兼容 MySQL、PostgreSQL 方言）作为主要查询语言，降低学习和迁移成本
+- 以 SQL（兼容 MySQL、PostgreSQL 方言）作为主要查询语言，降低学习与迁移成本
+- 支持 InfluxDB Line Protocol、Prometheus 查询协议与 Remote Write 协议，便于接入现有监控与数据生态
