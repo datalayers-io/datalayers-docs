@@ -8,9 +8,10 @@ Datalayers 兼容 PostgreSQL 网络连接协议，可对接 PostgreSQL 生态中
 
 ## 适用场景
 
-- 希望使用 PostgreSQL 生态中的客户端工具连接 Datalayers
-- 希望复用 PostgreSQL JDBC、连接池或 SQL IDE 进行开发调试
-- 希望在不改动过多连接方式的前提下快速接入数据库
+- 使用 PostgreSQL 生态中的客户端工具连接 Datalayers
+- 复用 PostgreSQL JDBC、连接池或 SQL IDE 进行开发调试
+- 在不改动过多连接方式的前提下快速接入数据库
+- 使用 **Reactive PostgreSQL Driver**（PostgreSQL 响应式驱动）接入
 
 ## 前置条件
 
