@@ -32,4 +32,4 @@ jobs:
         uses: actions/checkout@main
 
       - name: Check spelling with the `typos` checker
-        uses: crate-ci/typos@master
+        uses: crate-ci/typos@main
