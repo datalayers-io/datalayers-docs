@@ -24,6 +24,7 @@ Datalayers SQL 支持标量数据类型、嵌套数据类型、向量数据类�
 | FLOAT16 | - | 半精度浮点数（2 字节） |
 | FLOAT32 | FLOAT、REAL | 单精度浮点数（4 字节） |
 | FLOAT64 | DOUBLE | 双精度浮点数（8 字节） |
+| [DECIMAL](./decimal.md) | DEC, NUMERIC | Exact fixed-point number with precision up to 76 |
 
 ## Date/Time Types
 
