@@ -136,6 +136,11 @@
     - title_en: Data Type
       title_cn: 数据类型
       path: sql-reference/data-type
+      collapsed: true
+      children:
+        - title_en: DECIMAL
+          title_cn: DECIMAL
+          path: sql-reference/decimal
     - title_en: Operator
       title_cn: 运算符
       path: sql-reference/operators
