@@ -39,7 +39,8 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
     [TIMESTAMP KEY(ts_column_name)],
     [PRIMARY KEY(col1 [, col2 ...])],
     [INVERTED INDEX [index_name] (string_column) [WITH (key=value, ...)]],
-    [VECTOR INDEX [index_name] (vector_column) [WITH (key=value, ...)]]
+    [VECTOR INDEX [index_name] (vector_column) [WITH (key=value, ...)]],
+    [BLOOM INDEX [index_name] (column) [WITH (key=value, ...)]]
 )
 [ENGINE = TimeSeries]
 [PARTITION BY HASH(expr) [PARTITIONS partition_num]]
@@ -222,7 +223,7 @@ WHERE value >= 2.0;
 - pipeline 输出列需要与 sink table 列按名称和类型兼容，必要时系统会尝试插入 cast
 - 当前用户需要具备 source 的 `SELECT` 权限以及 sink table 的 `INSERT` 权限
 
-### 建表时声明索引（INVERTED / VECTOR）
+### 建表时声明索引（INVERTED / VECTOR / BLOOM）
 
 除了使用 `CREATE INDEX` 在建表后创建索引，Datalayers 也支持在 `CREATE TABLE` 的表约束中直接声明索引。
 
@@ -232,8 +233,9 @@ WHERE value >= 2.0;
 CREATE TABLE [IF NOT EXISTS] [database.]table_name (
     ...,
     timestamp key(ts_column),
-    inverted index [index_name] (string_column) [with (key=value, ...)],
-    vector index [index_name] (vector_column) [with (key=value, ...)]
+    INVERTED INDEX [index_name] (string_column) [with (key=value, ...)],
+    VECTOR INDEX [index_name] (vector_column) [with (key=value, ...)],
+    BLOOM INDEX [index_name] (column) [with (key=value, ...)]
 )
 PARTITION BY HASH(expr) PARTITIONS n
 ```
@@ -246,7 +248,7 @@ CREATE TABLE sx1(
     sid INT32,
     message STRING,
     timestamp key(ts),
-    inverted index idx_message (message) with (tokenizer=standard)
+    INVERTED INDEX idx_message (message) with (tokenizer=standard)
 )
 PARTITION BY HASH(sid) PARTITIONS 1;
 
@@ -255,7 +257,7 @@ CREATE TABLE sx2(
     sid INT32,
     vec VECTOR(3),
     timestamp key(ts),
-    vector index (vec)
+    VECTOR INDEX (vec)
 )
 PARTITION BY HASH(sid) PARTITIONS 1;
 ```
@@ -345,4 +347,40 @@ WITH (type=IVF_PQ, distance=L2);
 
 CREATE VECTOR INDEX idx_embed_hnsw ON logs (embed)
 WITH (type=HNSW, distance=cosine, max_level=7, m=10, ef_construction=50);
+```
+
+### CREATE BLOOM INDEX
+
+作用
+
+在高基数整型和字符串列上创建布隆过滤器，用于提升数据文件的剪枝效果，减少磁盘IO。  
+仅在使用'='及'IN'条件时应用布隆过滤器的剪枝。
+
+**当前布隆过滤器的实现使用的是 Parquet 内置的能力。**
+
+语法
+
+```SQL
+CREATE BLOOM INDEX [IF NOT EXISTS] [index_name]
+ON [database.]table_name (column_name)
+[WITH (key=value, ...)]
+```
+
+选项
+
+- `FPP`：假阳性概率，表示**一个不存在的值，被误判为存在**的概率，默认 `0.01`
+  * fpp 越小，布隆过滤器位图越大，Parquet 文件 footer 开销变大，剪枝效果更好，误判更少。
+  * fpp 越大，索引占用空间更小；假阳性变高，无法有效过滤 RowGroup，查询性能下降。
+- `NDV`：预估唯一值数量，该字段在单个 RowGroup 内预估的**不同值的个数**，用于计算布隆过滤器位图大小，默认 `1000`
+  * ndv 设置**小于真实唯一值**，布隆过滤器会过载，实际假阳性率会远高于配置的 fpp，剪枝失效。
+  * ndv 设置**远大于真实唯一值**，位图分配过大，Parquet 文件体积上升，内存占用增加，但假阳性会低于设定值
+
+示例
+
+```SQL
+CREATE BLOOM INDEX idx_message ON logs (message);
+
+CREATE BLOOM INDEX IF NOT EXISTS idx_message ON logs (message);
+
+CREATE BLOOM INDEX idx_message_cn ON logs (message) WITH (fpp=0.05, ndv=1000);
 ```
