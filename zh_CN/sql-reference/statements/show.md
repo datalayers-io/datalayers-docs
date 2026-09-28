@@ -199,3 +199,11 @@ SHOW PRIVILEGES
 +---------+
 1 row in set (0.003 sec)
 ```
+
+## SHOW MIGRATIONS
+
+当执行过 EXCLUDE NODE / REBALANCE，或者发生过故障转移时，通过该命令查询节点资源的迁移记录
+
+```shell
+> show migrations [details]
+```

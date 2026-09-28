@@ -158,7 +158,7 @@ SHOW PRIVILEGES;
 | SHOW DATABASES | 能查看至少有一种数据库权限或数据库内表权限，若具有 SHOW DATABASES 权限，则能查看所有数据库 |
 | SHOW GRANTS | SUPER 权限（查看当前用户则无需权限） |
 | SHOW LICENSE | SUPER 权限 |
-| SHOW MIGRATION | SUPER 权限 |
+| SHOW MIGRATIONS | SUPER 权限 |
 | SHOW PARTITIONS | 如果指定了 `ON TABLE` 选项，则需要该表的 SELECT 权限；<br> 否则能够查看所有具备 `SELECT` 权限的表的 parititons |
 | SHOW PRIVILEGES | 无权限要求 |
 | SHOW TABLES | 能查看至少有一种权限的表 |
