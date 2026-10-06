@@ -32,3 +32,6 @@ REFRESH INDEX idx_message ON logs LIMIT 1;
 
 REFRESH INDEX idx_message ON logs SYNC;
 ```
+
+## 注意事项
+Bloom 类型的 INDEX 不支持刷新
