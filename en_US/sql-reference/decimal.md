@@ -1,6 +1,6 @@
 ---
-title: "DECIMAL"
-description: "Learn how to store exact decimals with DECIMAL, and the common rules for writes, calculations, and conversions."
+title: "DECIMAL Data Type"
+description: "Store exact decimals with DECIMAL, and the common rules for writes, calculations, and conversions."
 ---
 
 # DECIMAL
@@ -67,7 +67,7 @@ Result:
 +-----------+---------------+
 ```
 
-The next three results are `1.0000000000`, `1`, and `1.00`. Specify both `P` and `S` when creating tables to avoid confusion with defaults in other databases.
+The next three results are `1.0000000000`, `1`, and `1.00`. Specify both `P` and `S` when creating tables.
 
 ```sql
 SELECT
@@ -88,21 +88,36 @@ Result:
 
 ## Why Choose DECIMAL
 
-1. Wider representable range. The supported ranges for precision and scale have been significantly expanded.
-2. Better performance. DECIMAL adapts storage by `P` (see the table below). Datalayers chooses the smallest footprint (memory/disk) for the declared `P`.
+`DECIMAL` supports up to 76 digits and is suitable when you need to avoid the approximation of `FLOAT` or `DOUBLE`. Datalayers chooses the in-memory representation from the declared `P`:
 
-| Range of `P` | Footprint (memory/disk) |
+| Range of `P` | Memory per value (excluding other overhead) |
 | --- | --- |
 | 1–9 | 4 bytes |
 | 10–18 | 8 bytes |
 | 19–38 | 16 bytes |
 | 39–76 | 32 bytes |
 
-3. More complete precision inference. Different expressions apply different precision-derivation rules to determine the result precision.
+Choosing a smaller `P` when it meets your needs can reduce memory overhead to some extent. Both columns below have different precisions, but both display as `1.20`:
+
+```sql
+SELECT
+  CAST('1.20' AS DECIMAL(9, 2)) AS smaller_precision,
+  CAST('1.20' AS DECIMAL(38, 2)) AS larger_precision;
+```
+
+Result:
+
+```text
++-------------------+------------------+
+| smaller_precision | larger_precision |
++-------------------+------------------+
+| 1.20              | 1.20             |
++-------------------+------------------+
+```
 
 ## Create a Table, Insert, and Query
 
-The following time-series table stores prices as `DECIMAL(9, 2)`. The timestamp key must still use a timestamp type; `DECIMAL` cannot be used as the timestamp key.
+The following time-series table stores prices as `DECIMAL(9, 2)`.
 
 ```sql
 CREATE TABLE decimal_example (
@@ -115,7 +130,43 @@ PARTITION BY HASH(device_id) PARTITIONS 1
 ENGINE=TimeSeries;
 ```
 
-`DECIMAL` can also be an entity key. For example, this table includes `amount` in its primary key and partitions by it:
+After inserting data, query, filter, and sort these values like other numeric columns:
+
+```sql
+INSERT INTO decimal_example (device_id, price, ts)
+VALUES (1, 12.34, 1000), (2, 1.20, 2000);
+
+SELECT device_id, price FROM decimal_example ORDER BY device_id;
+```
+
+Result:
+
+```text
++-----------+-------+
+| device_id | price |
++-----------+-------+
+| 1         | 12.34 |
+| 2         | 1.20  |
++-----------+-------+
+```
+
+```sql
+SELECT device_id, price
+FROM decimal_example
+WHERE price >= 1.20
+ORDER BY price;
+```
+
+```text
++-----------+-------+
+| device_id | price |
++-----------+-------+
+| 2         | 1.20  |
+| 1         | 12.34 |
++-----------+-------+
+```
+
+`DECIMAL` can be used in a primary key. For example, this table includes `amount` in its primary key and partitions by it:
 
 ```sql
 CREATE TABLE decimal_entity_key (
@@ -144,43 +195,11 @@ Result:
 +--------+
 ```
 
-Filter and sort these values like other numeric columns. Because `price` is not marked `NOT NULL`, it also accepts `NULL`:
+## Type Conversions
 
-```sql
-INSERT INTO decimal_example (device_id, price, ts)
-VALUES (1, 12.34, 1000), (2, 1.20, 2000), (3, NULL, 3000);
+### Converting to DECIMAL
 
-SELECT device_id, price FROM decimal_example ORDER BY device_id;
-```
-```text
-+-----------+-------+
-| device_id | price |
-+-----------+-------+
-| 1         | 12.34 |
-| 2         | 1.20  |
-| 3         | NULL  |
-+-----------+-------+
-```
-
-```sql
-SELECT device_id, price
-FROM decimal_example
-WHERE price >= 1.20
-ORDER BY price;
-```
-
-```text
-+-----------+-------+
-| device_id | price |
-+-----------+-------+
-| 2         | 1.20  |
-| 1         | 12.34 |
-+-----------+-------+
-```
-
-## Rounding and Values That Do Not Fit
-
-When an input has more decimal places than `S`, Datalayers rounds it to the declared number of decimal places. The following results are `1.24`, `-1.24`, and `1.20`:
+When `CAST` converts a value to `DECIMAL(P, S)`, extra decimal places are rounded to `S` places. For a negative value, the magnitude is rounded before the minus sign is restored. Thus `-1.235` rounded to two decimal places is `-1.24`, not `-1.23`:
 
 ```sql
 SELECT
@@ -221,12 +240,10 @@ Result:
 The rounded result must still fit the declared type. The maximum for `DECIMAL(5, 2)` is `999.99`. Because `999.995` rounds to `1000.00`, a regular `CAST` fails:
 
 ```sql
-
-> SELECT CAST('999.995' AS DECIMAL(5, 2)) AS too_large;
-Invalid argument error: 1000.00 is too large to store in a Decimal32 of precision 5. Max is 999.99
+SELECT CAST('999.995' AS DECIMAL(5, 2)) AS too_large;
 ```
 
-Error: `1000.00` is outside the representable range of `DECIMAL(5, 2)`.
+Result: an error because `1000.00` is outside the representable range of `DECIMAL(5, 2)`.
 
 Use `TRY_CAST` if you want a failed conversion to return `NULL`. The second and third columns below are `NULL`:
 
@@ -245,6 +262,66 @@ Result:
 +---------------+----------------+---------------+
 | 999.99        | NULL           | NULL          |
 +---------------+----------------+---------------+
+```
+
+### Avoid Converting Long Numbers to Floating Point First
+
+An unquoted long number is parsed as a floating-point value before it is converted to `DECIMAL`. Digits lost in that floating-point conversion cannot be restored by a later `CAST`. To preserve all the digits, write the value as text and convert it to the intended type:
+
+```sql
+SELECT
+  CAST('12345678901234567890.12' AS DECIMAL(22, 2)) AS exact_number,
+  CAST(12345678901234567890.12 AS DECIMAL(22, 2)) AS converted_number;
+```
+
+Result:
+
+```text
++-------------------------+-------------------------+
+| exact_number            | converted_number        |
++-------------------------+-------------------------+
+| 12345678901234567890.12 | 12345678901234567741.44 |
++-------------------------+-------------------------+
+```
+
+### Floating-Point Values That Cannot Be Converted
+
+`NaN` and infinity cannot be converted to `DECIMAL`. With `TRY_CAST`, a failed conversion returns `NULL`:
+
+```sql
+SELECT
+  TRY_CAST(CAST('NaN' AS DOUBLE) AS DECIMAL(9, 2)) AS nan_value,
+  TRY_CAST(CAST('Infinity' AS DOUBLE) AS DECIMAL(9, 2)) AS infinity_value;
+```
+
+Result:
+
+```text
++-----------+----------------+
+| nan_value | infinity_value |
++-----------+----------------+
+| NULL      | NULL           |
++-----------+----------------+
+```
+
+### Converting to an Integer
+
+Converting `DECIMAL` to an integer drops the fractional part instead of rounding:
+
+```sql
+SELECT
+  CAST(CAST('12.99' AS DECIMAL(9, 2)) AS BIGINT) AS positive,
+  CAST(CAST('-12.99' AS DECIMAL(9, 2)) AS BIGINT) AS negative;
+```
+
+Result:
+
+```text
++----------+----------+
+| positive | negative |
++----------+----------+
+| 12       | -12      |
++----------+----------+
 ```
 
 ## Arithmetic
@@ -280,57 +357,87 @@ The operation determines the result's `P` and `S`, which need not match the inpu
 
 | Operation | Value above | Result type above |
 | --- | --- | --- |
-| `a + b` | `14.00` | `DECIMAL(10, 2)` |
-| `a - b` | `6.00` | `DECIMAL(10, 2)` |
-| `a * b` | `40.0000` | `DECIMAL(19, 4)` |
-| `a / b` | `2.500000` | `DECIMAL(15, 6)` |
+| `a + b` | `14.00` | `DECIMAL(9, 2)` |
+| `a - b` | `6.00` | `DECIMAL(9, 2)` |
+| `a * b` | `40.0000` | `DECIMAL(9, 4)` |
+| `a / b` | `2.500000` | `DECIMAL(9, 6)` |
 | `a % b` | `2.00` | `DECIMAL(9, 2)` |
 
-For these two `DECIMAL(9, 2)` inputs:
+For these two `DECIMAL(9, 2)` inputs, addition, subtraction, and remainder keep 2 decimal places, multiplication uses 4, and division uses 6. The arithmetic result keeps the input's storage width, so its `P` is capped at 9 in this example. It does not automatically widen to 10, 19, or 15 digits merely because of the operation.
 
-- Addition and subtraction keep 2 decimal places and reserve one more digit for a possible carry, giving `DECIMAL(10, 2)`.
-- Multiplication combines the operands' decimal places, so `S` becomes 4. It also reserves more whole-number digits for larger products, giving `DECIMAL(19, 4)`.
-- Division reserves four more decimal places for the quotient, so `S` becomes 6 and the result is `DECIMAL(15, 6)`.
-- Remainder keeps 2 decimal places and returns `DECIMAL(9, 2)`.
+### When a Calculation Exceeds Its Range
 
-The result's `P` is capped at 76. Even when a calculation rule would reserve more digits, a value that actually fits can still succeed. The query below returns `3`. An actual result that does not fit causes an error rather than being truncated:
+`DECIMAL(9, 2)` can hold at most `9999999.99`. The addition below should produce `10000000.00`, which is out of range. The current version does not report an error at this step, but displays `1000000.00` after execution:
 
 ```sql
-SELECT CAST(1 AS DECIMAL(76, 0)) + CAST(2 AS DECIMAL(76, 0)) AS result;
+SELECT CAST(9999999.99 AS DECIMAL(9,2))
+     + CAST(0.01 AS DECIMAL(9,2)) AS result;
+```
+
+Current-version display:
+
+```text
++------------+
+| result     |
++------------+
+| 1000000.00 |
++------------+
+```
+
+This out-of-range result is unreliable. Do not treat the displayed value as the correct answer.
+
+If a value during calculation exceeds what the current computation can hold, the query reports an arithmetic overflow error. For example:
+
+```sql
+> SELECT CAST('9999999.99' AS DECIMAL(9,2)) * CAST('2.00' AS DECIMAL(9,2)) AS result;
+Arrow error: Arithmetic overflow: Overflow happened on: 999999999 * 200
+```
+
+Result: an arithmetic overflow error.
+
+When calculating near the limit, explicitly convert the operands to a wider precision before the operation, not afterward. This addition returns `10000000.00`:
+
+```sql
+SELECT CAST('9999999.99' AS DECIMAL(18, 2))
+     + CAST('0.01' AS DECIMAL(18, 2)) AS result;
 ```
 
 Result:
 
 ```text
-+--------+
-| result |
-+--------+
-| 3      |
-+--------+
++-------------+
+| result      |
++-------------+
+| 10000000.00 |
++-------------+
 ```
 
 ### Calculate with Integers and Floating-Point Values
 
-Datalayers treats an ordinary SQL literal with a decimal point as an exact decimal value. This query directly returns `0.3`; you do not need to rewrite `0.1` and `0.2` as text first:
+An ordinary SQL literal with a decimal point is a `DOUBLE` value, not an exact `DECIMAL`. This query therefore returns the floating-point approximation:
 
 ```sql
-SELECT 0.1 + 0.2 AS exact_result;
+SELECT 0.1 + 0.2 AS approximate_result;
 ```
 
 Result:
 
 ```text
-+--------------+
-| exact_result |
-+--------------+
-| 0.3          |
-+--------------+
++---------------------+
+| approximate_result  |
++---------------------+
+| 0.30000000000000004 |
++---------------------+
 ```
 
-An integer can take part in a `DECIMAL` calculation as an exact value; the first query returns `14.34`. Explicitly mixing `DECIMAL` with `DOUBLE` uses approximate floating-point calculation. The second query returns `3.75`, but exact representation of every decimal fraction is no longer guaranteed:
+For exact decimal arithmetic, explicitly give both operands a `DECIMAL` type. The first query returns `14.34`. In the second query, the current version converts both `DECIMAL(9, 2)` and `BIGINT` to integers, dropping the fractional part of `12.34`, so the result is `14`. The third query mixes `DECIMAL` with `DOUBLE` and produces the floating-point value `3.75`; other decimal fractions can still be approximate:
 
 ```sql
-SELECT CAST('12.34' AS DECIMAL(9, 2)) + CAST(2 AS BIGINT) AS exact_result;
+SELECT CAST('12.34' AS DECIMAL(9, 2))
+     + CAST(2 AS DECIMAL(9, 2)) AS exact_result;
+
+SELECT CAST('12.34' AS DECIMAL(9, 2))
+     + CAST(2 AS BIGINT) AS bigint_result;
 
 SELECT CAST('1.25' AS DECIMAL(9, 2)) + CAST(2.5 AS DOUBLE) AS approximate_result;
 ```
@@ -344,6 +451,12 @@ Result:
 | 14.34        |
 +--------------+
 
++---------------+
+| bigint_result |
++---------------+
+| 14            |
++---------------+
+
 +--------------------+
 | approximate_result |
 +--------------------+
@@ -353,14 +466,14 @@ Result:
 
 ## Aggregation
 
-Use `SUM`, `AVG`, `MIN`, and `MAX` with `DECIMAL`. For the three rows below, the sum is `5.00`, the average is `1.666667`, and the minimum and maximum are `1.00` and `2.00`:
+`DECIMAL` works with `SUM`, `AVG`, `MIN`, and `MAX`. Two aggregate results in the current version deserve special attention.
+
+### AVG May Show More Decimal Places
+
+The inputs below have two decimal places, but the average is displayed with six:
 
 ```sql
-SELECT
-  SUM(amount) AS total,
-  AVG(amount) AS average,
-  MIN(amount) AS minimum,
-  MAX(amount) AS maximum
+SELECT AVG(amount) AS average
 FROM (
   VALUES
     (CAST('1.00' AS DECIMAL(9, 2))),
@@ -372,110 +485,55 @@ FROM (
 Result:
 
 ```text
-+-------+----------+---------+---------+
-| total | average  | minimum | maximum |
-+-------+----------+---------+---------+
-| 5.00  | 1.666667 | 1.00    | 2.00    |
-+-------+----------+---------+---------+
++----------+
+| average  |
++----------+
+| 1.666666 |
++----------+
 ```
 
-- `SUM` adds values from multiple rows, so the total can be larger than any single input. It reserves more whole-number digits but keeps the same number of decimal places. Here, `DECIMAL(9, 2)` produces a `DECIMAL(19, 2)` result of `5.00`.
-- `AVG` calculates a mean that may need more decimal places. Here, `5.00 / 3` rounds to six decimal places, giving `1.666667` with result type `DECIMAL(13, 6)`.
-- `MIN` and `MAX` only select existing values, so they retain `DECIMAL(9, 2)`.
+The average of these three values is `5.00 ÷ 3`. The current version drops digits beyond the sixth decimal place, giving `1.666666` instead of `1.666667`, which rounding to six places would produce.
 
-For other `DECIMAL(P, S)` inputs, `SUM` keeps `S` and reserves 10 more total digits. `AVG` reserves 4 more total digits and 4 more decimal places. Total precision is capped at 76; an actual aggregate result that does not fit causes an error.
+### SUM May Display an Incorrect Out-of-Range Result
 
-You can also aggregate distinct values. The repeated `1.25` is counted once, so `SUM(DISTINCT amount)` returns `4.00`:
+The correct sum of the two values below is `10000000.00`, which exceeds the range of the input type `DECIMAL(9, 2)`. The current version does not reliably report an error and instead displays `1000000.00`:
 
 ```sql
-SELECT SUM(DISTINCT amount) AS distinct_total
+SELECT SUM(amount) AS total
 FROM (
   VALUES
-    (CAST('1.25' AS DECIMAL(9, 2))),
-    (CAST('1.25' AS DECIMAL(9, 2))),
-    (CAST('2.75' AS DECIMAL(9, 2)))
+    (CAST('9999999.99' AS DECIMAL(9, 2))),
+    (CAST('0.01' AS DECIMAL(9, 2)))
 ) AS t(amount);
 ```
 
 Result:
 
 ```text
-+----------------+
-| distinct_total |
-+----------------+
-| 4.00           |
-+----------------+
++------------+
+| total      |
++------------+
+| 1000000.00 |
++------------+
 ```
 
-With no non-`NULL` values, `SUM` and `AVG` return `NULL`, not zero:
+If the sum may exceed the column's range, convert the inputs to a sufficiently large precision before summing. For the same two values, the following query returns the correct `10000000.00`:
 
 ```sql
-SELECT SUM(amount) AS total, AVG(amount) AS average
-FROM (VALUES (CAST(NULL AS DECIMAL(9, 2)))) AS t(amount);
+SELECT SUM(CAST(amount AS DECIMAL(18, 2))) AS total
+FROM (
+  VALUES
+    (CAST('9999999.99' AS DECIMAL(9, 2))),
+    (CAST('0.01' AS DECIMAL(9, 2)))
+) AS t(amount);
 ```
 
 Result:
 
 ```text
-+-------+---------+
-| total | average |
-+-------+---------+
-| NULL  | NULL    |
-+-------+---------+
++-------------+
+| total       |
++-------------+
+| 10000000.00 |
++-------------+
 ```
-
-## Conversions and Client Parameters
-
-For a long decimal value, send the digits as text and explicitly convert them to the intended `DECIMAL` type. This avoids an approximate floating-point conversion in the client. The following result keeps all 22 digits:
-
-```sql
-SELECT CAST('12345678901234567890.12' AS DECIMAL(22, 2)) AS exact_number;
-```
-
-Result:
-
-```text
-+-------------------------+
-| exact_number            |
-+-------------------------+
-| 12345678901234567890.12 |
-+-------------------------+
-```
-
-Converting `DECIMAL` to an integer drops the decimal part; it does not round. The following results are `12` and `-12`:
-
-```sql
-SELECT
-  CAST(CAST('12.99' AS DECIMAL(9, 2)) AS BIGINT) AS positive,
-  CAST(CAST('-12.99' AS DECIMAL(9, 2)) AS BIGINT) AS negative;
-```
-
-Result:
-
-```text
-+----------+----------+
-| positive | negative |
-+----------+----------+
-| 12       | -12      |
-+----------+----------+
-```
-
-`NaN` and infinity are not fixed-point decimal values and cannot be converted to `DECIMAL`. Use `TRY_CAST` to turn these failed conversions into `NULL`. Both columns below return `NULL`:
-
-```sql
-SELECT
-  TRY_CAST(CAST('NaN' AS DOUBLE) AS DECIMAL(9, 2)) AS nan_value,
-  TRY_CAST(CAST('Infinity' AS DOUBLE) AS DECIMAL(9, 2)) AS infinity_value;
-```
-
-Result:
-
-```text
-+-----------+----------------+
-| nan_value | infinity_value |
-+-----------+----------------+
-| NULL      | NULL           |
-+-----------+----------------+
-```
-
-Converting to `DOUBLE` and back cannot restore digits already lost. The `0.1 + 0.2` SQL at the start shows this approximation. For Flight SQL prepared statements, bind values according to the parameter types returned by the server.
