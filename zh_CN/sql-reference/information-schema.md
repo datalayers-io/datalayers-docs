@@ -10,6 +10,15 @@ description: "INFORMATION_SCHEMA 是 Datalayers 提供的标准元数据目录�
 
 部分 system table 会根据当前用户的权限对结果进行裁剪，因此不同用户看到的内容可能不同。
 
+## catalogs
+
+`catalogs` 用于列出已创建的数据目录，包括内置的默认 catalog 以及用户创建的外部数据目录。
+
+| 字段 | 类型 | 含义 |
+| --- | --- | --- |
+| `catalog` | `STRING` | catalog 名称 |
+| `created_time` | `STRING` | catalog 创建时间 |
+
 ## schemata
 
 `schemata` 用于列出当前 catalog 下可见的数据库。

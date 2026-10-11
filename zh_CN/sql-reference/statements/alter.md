@@ -11,6 +11,7 @@ ALTER 语句用于修改已有对象。当前主要包括：
 
 - `ALTER TABLE`：修改表结构或表选项
 - `ALTER PIPELINE`：控制流计算 pipeline 的运行状态
+- `ALTER CATALOG`：修改外部数据目录的定义
 
 ## ALTER TABLE
 
@@ -175,3 +176,38 @@ ALTER PIPELINE pipeline_name RESTART;
 - 目前不支持 `ALTER SOURCE`。
 - 目前不支持修改 pipeline 的 SQL、source 或 sink 定义；如需调整这类内容，请重新创建对象。
 - 如需删除一个正在运行的 pipeline，请先执行 `ALTER PIPELINE ... STOP`。
+
+## ALTER CATALOG
+
+`ALTER CATALOG` 用于修改外部数据目录的名称或连接选项。支持在一条语句中组合多个操作，多个操作之间使用逗号分隔。
+
+### 语法
+
+```SQL
+ALTER CATALOG catalog_name alter_catalog_action [, alter_catalog_action ...];
+
+alter_catalog_action:
+  RENAME TO new_catalog_name
+| MODIFY OPTIONS key=value [, key=value ...]
+```
+
+### RENAME TO
+
+重命名数据目录。
+
+```SQL
+ALTER CATALOG mysql RENAME TO mysql_new;
+```
+
+### MODIFY OPTIONS
+
+修改数据目录的连接选项，给出的选项会合并到现有选项上。
+
+```SQL
+ALTER CATALOG mysql MODIFY OPTIONS pool_max=200;
+```
+
+说明
+
+- 不支持通过 `MODIFY OPTIONS` 修改 catalog 的 `type`。
+- 选项的合法取值与 `CREATE CATALOG` 保持一致，请参考 [CREATE 语句详解](./create.md)。

@@ -27,6 +27,26 @@ DROP DATABASE [IF EXISTS] database_name
 
 删除指定的 `database`。如果 `database` 不为空（database 下存在 table），则不可删除。  
 
+### DROP CATALOG
+
+删除指定的外部数据目录。
+
+```SQL
+DROP CATALOG [IF EXISTS] catalog_name
+```
+
+示例
+
+```SQL
+DROP CATALOG mysql;
+
+DROP CATALOG IF EXISTS mysql;
+```
+
+说明
+
+- `IF EXISTS` 可用于忽略不存在对象的报错。
+
 ### DROP INDEX
 
 删除指定索引（包括倒排索引和向量索引）。

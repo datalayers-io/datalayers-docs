@@ -383,6 +383,17 @@
           title_cn: HTTP
           path: streaming/http
 
+- title_en: Federated Query
+  title_cn: 联邦查询
+  collapsed: true
+  children:
+    - title_en: Overview
+      title_cn: 概述
+      path: federated-query/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: federated-query/quick-start
+
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
   collapsed: true
