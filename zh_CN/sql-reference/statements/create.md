@@ -65,7 +65,7 @@ CREATE CATALOG pg WITH (
 
 - 创建 catalog 后，可通过 `catalog.database.table` 三段式名称访问外部表，并与本地表进行 Join。
 - `IF NOT EXISTS` 可用于在 catalog 已存在时忽略报错。
-- 更多能力与使用限制请参考 [联邦查询概述](../../federated-query/overview.md)。
+- 更多能力与使用限制请参考 [联邦查询概述](../../query-federation/overview.md)。
 
 ### 创建表
 

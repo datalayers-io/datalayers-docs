@@ -136,8 +136,10 @@ DROP CATALOG mysql;
 ## 使用限制
 
 - 当前支持的外部数据源为 MySQL 与 PostgreSQL。
+- 外部数据源不支持查看`INFORMATION_SCHEMA`等系统表。
 - 与外部表相关的算子会尽可能下推到外部数据库执行，具体下推能力受外部数据库支持情况限制。
 - `ALTER CATALOG` 仅支持重命名与修改连接选项，不支持修改 `type`。
+- 当前外部表不支持 `INSERT`,`UPDATE`及`DELETE` 等写入操作。
 
 ## 相关文档
 
