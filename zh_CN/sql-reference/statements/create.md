@@ -45,11 +45,19 @@ CREATE CATALOG [IF NOT EXISTS] catalog_name WITH (key=value, ...)
 
 ```SQL
 CREATE CATALOG mysql WITH (
-  type=mysql, addr='localhost:3306', user='root', password='123456', db='demo'
+  type=mysql, 
+  addr='localhost:3306', 
+  user='root', 
+  password='123456', 
+  db='demo'
 );
 
 CREATE CATALOG pg WITH (
-  type=postgres, addr='localhost:5432', user='root', password='123456', db='admin'
+  type=postgres, 
+  addr='localhost:5432', 
+  user='root', 
+  password='123456', 
+  db='admin'
 );
 ```
 

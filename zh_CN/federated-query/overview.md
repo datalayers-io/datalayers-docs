@@ -67,12 +67,20 @@ CREATE CATALOG [IF NOT EXISTS] <name> WITH (key=value, ...)
 ```SQL
 -- 创建 MySQL 数据目录
 CREATE CATALOG mysql WITH (
-  type=mysql, addr='localhost:3306', user='root', password='123456', db='demo'
+  type=mysql, 
+  addr='localhost:3306', 
+  user='root', 
+  password='123456', 
+  db='demo'
 );
 
 -- 创建 PostgreSQL 数据目录
 CREATE CATALOG pg WITH (
-  type=postgres, addr='localhost:5432', user='root', password='123456', db='admin'
+  type=postgres, 
+  addr='localhost:5432', 
+  user='root', 
+  password='123456', 
+  db='admin'
 );
 ```
 
