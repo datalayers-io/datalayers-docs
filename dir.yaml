@@ -343,7 +343,7 @@
     - title_en: Quick Start
       title_cn: 快速开始
       path: vector-search/quick-start
-    - title_en: Vector Index 
+    - title_en: Vector Index
       title_cn: 向量索引
       path: vector-search/vector-index
 
@@ -383,6 +383,17 @@
           title_cn: HTTP
           path: streaming/http
 
+- title_en: Query Federation
+  title_cn: 联邦查询
+  collapsed: true
+  children:
+    - title_en: Overview
+      title_cn: 概述
+      path: query-federation/overview
+    - title_en: Quick Start
+      title_cn: 快速开始
+      path: query-federation/quick-start
+
 - title_en: Key Value Data Model
   title_cn: Key-Value 存储
   collapsed: true
@@ -416,7 +427,7 @@
   collapsed: true
   children:
     #- title_en: Support Platform
-    #  title_cn: 支持平台 
+    #  title_cn: 支持平台
     #  path: admin/support-platform
     - title_en: Performance and Tuning
       title_cn: 性能与调优
@@ -472,7 +483,7 @@
     #- title_en: Capacity Model
     #  title_cn: 容量模型
     #  path: admin/capacity-model
-    - title_en: Backup and Restore 
+    - title_en: Backup and Restore
       title_cn: 备份与恢复
       path: admin/backup-restore
     #- title_en: Compute Node Scaling
@@ -522,36 +533,36 @@
       title_cn: 认证与权限
       collapsed: true
       children:
-      - title_en: Authentication
-        title_cn: 连接认证
-        path: user-security/authentication/overview
-        collapsed: true
-        children:
-        - title_en: Overview
-          title_cn: 静态认证
-          path: user-security/authentication/static
-        - title_en: RBAC 
-          title_cn: 基于角色的访问控制（RBAC）
-          path: user-security/authentication/rbac
-        - title_en: Authentication chain 
-          title_cn: 认证链
-          path: user-security/authentication/chain
-      - title_en: Authorization
-        title_cn: 访问控制 
-        collapsed: true
-        children:
-        - title_en: Overview
-          title_cn: 概述
-          path: user-security/rbac/overview
-        - title_en: User Management 
-          title_cn: 用户管理
-          path: user-security/rbac/user
-        - title_en: Role Management
-          title_cn: 角色管理
-          path: user-security/rbac/role
-        - title_en: Privileges
-          title_cn: 权限管理
-          path: user-security/rbac/privilege
+        - title_en: Authentication
+          title_cn: 连接认证
+          path: user-security/authentication/overview
+          collapsed: true
+          children:
+            - title_en: Overview
+              title_cn: 静态认证
+              path: user-security/authentication/static
+            - title_en: RBAC
+              title_cn: 基于角色的访问控制（RBAC）
+              path: user-security/authentication/rbac
+            - title_en: Authentication chain
+              title_cn: 认证链
+              path: user-security/authentication/chain
+        - title_en: Authorization
+          title_cn: 访问控制
+          collapsed: true
+          children:
+            - title_en: Overview
+              title_cn: 概述
+              path: user-security/rbac/overview
+            - title_en: User Management
+              title_cn: 用户管理
+              path: user-security/rbac/user
+            - title_en: Role Management
+              title_cn: 角色管理
+              path: user-security/rbac/role
+            - title_en: Privileges
+              title_cn: 权限管理
+              path: user-security/rbac/privilege
     - title_en: Audit Logs
       title_cn: 审计日志
       path: user-security/audit-logs

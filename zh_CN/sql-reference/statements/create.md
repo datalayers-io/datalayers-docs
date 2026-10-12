@@ -29,6 +29,44 @@ CREATE DATABASE hello_datalayers
 
 表示创建一个名为 `hello_datalayers` 的数据库。
 
+### 创建 Catalog
+
+`CREATE CATALOG` 用于创建一个外部数据目录，用于在 SQL 中访问 MySQL、PostgreSQL 等外部数据库的表。
+
+```SQL
+CREATE CATALOG [IF NOT EXISTS] catalog_name WITH (key=value, ...)
+```
+
+必填选项：`type`（支持 `mysql` / `postgres`）、`addr`、`user`、`password`、`db`。
+
+可选选项：`sslmode`、`ca`、`pool_min`（仅 MySQL 支持）、`pool_max`。
+
+示例
+
+```SQL
+CREATE CATALOG mysql WITH (
+  type=mysql, 
+  addr='localhost:3306', 
+  user='root', 
+  password='123456', 
+  db='demo'
+);
+
+CREATE CATALOG pg WITH (
+  type=postgres, 
+  addr='localhost:5432', 
+  user='root', 
+  password='123456', 
+  db='admin'
+);
+```
+
+说明
+
+- 创建 catalog 后，可通过 `catalog.database.table` 三段式名称访问外部表，并与本地表进行 Join。
+- `IF NOT EXISTS` 可用于在 catalog 已存在时忽略报错。
+- 更多能力与使用限制请参考 [联邦查询概述](../../query-federation/overview.md)。
+
 ### 创建表
 
 ```SQL
