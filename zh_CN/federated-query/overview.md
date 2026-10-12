@@ -57,7 +57,7 @@ CREATE CATALOG [IF NOT EXISTS] <name> WITH (key=value, ...)
 
 | 选项 | 说明 |
 | --- | --- |
-| `sslmode` | SSL 模式，MySQL 支持 `disable` / `require` / `prefer`；PostgreSQL 额外支持 `verify-ca` / `verify-full` |
+| `sslmode` | SSL 模式，默认 `disable`，MySQL 支持 `disable` / `require` / `prefer`；PostgreSQL 额外支持 `verify-ca` / `verify-full` |
 | `ca` | SSL 根证书路径 |
 | `pool_min` | 连接池最小连接数，默认 `1`，仅 MySQL 支持 |
 | `pool_max` | 连接池最大连接数，默认 `100` |
