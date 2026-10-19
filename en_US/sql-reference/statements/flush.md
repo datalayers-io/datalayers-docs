@@ -28,6 +28,14 @@ FLUSH DATABASE db_name
 FLUSH NODE name
 ```
 
+### FLUSH ALL
+
+将所有 table 内存中的数据刷到磁盘。
+
+```SQL
+FLUSH ALL
+```
+
 ## 注意事项
 
 * 所有 `FLUSH` 指定均为异步执行，如需查看进度/状态，请通过 `SHOW` Statement 语句进行查询。
