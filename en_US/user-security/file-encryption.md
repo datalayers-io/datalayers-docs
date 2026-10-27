@@ -176,35 +176,55 @@ File encryption does not prevent authorized query users from reading plaintext d
 
 ## Performance Impact
 
-File encryption adds CPU work for decryption and integrity verification when scanning encrypted columns. This can increase query latency or reduce query throughput. Unchanged SQL syntax does not mean unchanged performance. The impact depends on the amount of data scanned, query conditions, cache state, CPU capabilities, and concurrent load.
+File encryption leaves SQL syntax and query results unchanged, but some queries may take longer. The impact mainly depends on how much data the query needs to check, which columns it uses, and whether it is the first query.
 
-### Query Scenarios
+The examples below use the earlier `encrypted_table_example` table. Its `phone` and `reading` columns are encrypted; `device_id` and `ts` are not.
 
-| Query scenario | Potential additional work |
-| --- | --- |
-| Aggregates such as `SUM` or `AVG` over encrypted columns, or scans of multiple columns | Required encrypted data pages must be decrypted before decompression, decoding, and computation. Reading more encrypted data generally requires more decryption work. |
-| Filters on encrypted columns that return few rows | If statistics or indexes cannot exclude pages beforehand, the columns used by the filter still need to be read and decrypted. Returning 1% of rows does not mean decrypting only 1% of the data. |
-| First queries, queries after a restart, or metadata cache misses | In addition to data pages, the reader may need to load and decrypt the footer, column metadata, and related indexes, and initialize decryption contexts. This work accumulates across files. |
-| Unfiltered `COUNT(*)` whose row count can be obtained from file metadata | Even without scanning ordinary data columns, loading encrypted metadata for the first time can add latency. Metadata cache hits can reduce this repeated work. |
-| Plans that only need unencrypted timestamp or primary-key columns | These plans can avoid decrypting ordinary column data pages, but may still incur the initial cost of loading encrypted file metadata. |
+### Calculate a Total or Average
 
-Warm queries can still incur decryption costs. The operating system file cache holds the ciphertext stored in the files. If a plan scans those encrypted pages again, they still need to be decrypted. The Parquet metadata cache can reduce repeated metadata loading and decryption; it does not mean that scanning encrypted column data becomes free of decryption costs.
+```sql
+SELECT SUM(reading) AS total_reading
+FROM encrypted_table_example;
+```
 
-### Pushdown and Data Pruning
+This SQL sums `reading` across the entire table. When it needs to process a large amount of encrypted data, it may take longer than the same query on a plaintext table. Also consider this impact for `AVG(reading)` and queries that group results by device. If you only need statistics for a particular period, restrict the time range in `WHERE`.
 
-File encryption does not disable column pruning, predicate pushdown, or pruning based on partitions, time ranges, and statistics. Data that can be skipped in advance can still be skipped. Whether these optimizations apply depends on the query conditions, data distribution, available statistics, and execution plan.
+### Find a Device by Phone Number
 
-Predicate pushdown does not evaluate comparisons directly against ciphertext. For encrypted data pages that must be scanned, the reader still decrypts and decodes them before evaluating the filter. For example, the earlier `WHERE phone = 13800138000` may scan multiple pages even if it returns only one row. Encrypted columns used by `WHERE`, `ORDER BY`, or operations such as aggregation may also need to be read and decrypted even when they do not appear in the `SELECT` output.
+```sql
+SELECT device_id
+FROM encrypted_table_example
+WHERE phone = '13800138000';
+```
 
-### Writes and Background Tasks
+Although the result only returns the unencrypted `device_id`, the condition uses the encrypted `phone` column and can add latency. Returning one device can still require checking many records. If you know the device or time range, add those conditions to narrow the search.
 
-Generating Parquet files adds encryption work. Comparing only `INSERT` response times may miss the full cost of background persistence. Also observe the time until persistence completes and sustained ingestion throughput. File merge tasks that read and rewrite encrypted columns likewise add decryption and encryption work.
+### Query a Device Within a Time Range
 
-### Evaluation and Usage Guidance
+```sql
+SELECT phone, reading
+FROM encrypted_table_example
+WHERE device_id = 'device-1'
+  AND ts >= TIMESTAMP '2025-01-01 00:00:00'
+  AND ts < TIMESTAMP '2025-01-01 00:00:01';
+```
 
-Use your own data volume, file layout, and application SQL to compare encrypted and plaintext tables for query latency, throughput, and CPU usage. Measure first queries separately from repeated queries with warm caches. A single SQL statement or a fixed percentage does not represent every workload.
+Filtering by device and time still applies and can usually reduce the amount of data processed. This SQL returns the encrypted `phone` and `reading` columns, so it may still take longer than a plaintext query with the same conditions. If you only need device IDs and timestamps, select just `device_id` and `ts` to avoid fetching phone numbers and readings unnecessarily.
 
-Select only the columns you need and provide conditions that help partition, time-range, or statistics-based pruning where possible. For concurrent scans of encrypted columns, allow for additional CPU demand. Decryption CPU costs can matter even when disk or object storage is not the bottleneck.
+### Count All Rows in a Table
+
+```sql
+SELECT COUNT(*) AS row_count
+FROM encrypted_table_example;
+```
+
+After a service restart or when a table is first accessed, the database needs to prepare information for reading its files. File encryption can add to this initial work. Even a row-count query can therefore take longer than its plaintext equivalent on first access. Repeated queries may be faster because of caching, so evaluate first and repeated executions separately.
+
+### Evaluate the Impact on Your Application
+
+Compare encrypted and plaintext tables using your own application SQL and data, measuring response time and concurrent query throughput. Selecting fewer columns and restricting device and time ranges remain useful. Avoid `SELECT *` when you do not need every field. Do not judge the amount of query work only by the number of rows returned, or apply the timing change of one SQL statement to every query.
+
+Evaluate writes and queries separately. Similar bulk-ingestion throughput does not imply similar latency for every query. For writes, include the time until the final batch is persisted. For queries, cover your common aggregates, lookups, and time-range queries, and distinguish first queries from repeated executions.
 
 ## Key Storage and Recovery
 
