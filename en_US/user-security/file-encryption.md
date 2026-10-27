@@ -32,7 +32,7 @@ Use the 64 characters in the output as the `ENCRYPTION_KEY` value and keep the k
 The keys in the SQL examples below are public demonstration values. Replace them with your own randomly generated keys in production.
 :::
 
-## Use a Table Key
+## Use a Table Key(Recommand)
 
 Set `ENCRYPTION_KEY` in the `WITH` clause of `CREATE TABLE`. The following table uses a 32-byte key:
 
@@ -172,7 +172,7 @@ This feature applies to Parquet data files of TimeSeries tables. It does not enc
 | WAL, database metadata, and separate index files | No |
 | SQL query results and network traffic between clients and the server | No |
 
-Configure [TLS](./tls.md) separately to protect network traffic. File encryption does not prevent authorized query users from reading plaintext data. Database privileges still control data access.
+File encryption does not prevent authorized query users from reading plaintext data. Database privileges still control data access.
 
 ## Key Storage and Recovery
 
