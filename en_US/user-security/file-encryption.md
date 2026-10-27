@@ -174,6 +174,38 @@ This feature applies to Parquet data files of TimeSeries tables. It does not enc
 
 File encryption does not prevent authorized query users from reading plaintext data. Database privileges still control data access.
 
+## Performance Impact
+
+File encryption adds CPU work for decryption and integrity verification when scanning encrypted columns. This can increase query latency or reduce query throughput. Unchanged SQL syntax does not mean unchanged performance. The impact depends on the amount of data scanned, query conditions, cache state, CPU capabilities, and concurrent load.
+
+### Query Scenarios
+
+| Query scenario | Potential additional work |
+| --- | --- |
+| Aggregates such as `SUM` or `AVG` over encrypted columns, or scans of multiple columns | Required encrypted data pages must be decrypted before decompression, decoding, and computation. Reading more encrypted data generally requires more decryption work. |
+| Filters on encrypted columns that return few rows | If statistics or indexes cannot exclude pages beforehand, the columns used by the filter still need to be read and decrypted. Returning 1% of rows does not mean decrypting only 1% of the data. |
+| First queries, queries after a restart, or metadata cache misses | In addition to data pages, the reader may need to load and decrypt the footer, column metadata, and related indexes, and initialize decryption contexts. This work accumulates across files. |
+| Unfiltered `COUNT(*)` whose row count can be obtained from file metadata | Even without scanning ordinary data columns, loading encrypted metadata for the first time can add latency. Metadata cache hits can reduce this repeated work. |
+| Plans that only need unencrypted timestamp or primary-key columns | These plans can avoid decrypting ordinary column data pages, but may still incur the initial cost of loading encrypted file metadata. |
+
+Warm queries can still incur decryption costs. The operating system file cache holds the ciphertext stored in the files. If a plan scans those encrypted pages again, they still need to be decrypted. The Parquet metadata cache can reduce repeated metadata loading and decryption; it does not mean that scanning encrypted column data becomes free of decryption costs.
+
+### Pushdown and Data Pruning
+
+File encryption does not disable column pruning, predicate pushdown, or pruning based on partitions, time ranges, and statistics. Data that can be skipped in advance can still be skipped. Whether these optimizations apply depends on the query conditions, data distribution, available statistics, and execution plan.
+
+Predicate pushdown does not evaluate comparisons directly against ciphertext. For encrypted data pages that must be scanned, the reader still decrypts and decodes them before evaluating the filter. For example, the earlier `WHERE phone = 13800138000` may scan multiple pages even if it returns only one row. Encrypted columns used by `WHERE`, `ORDER BY`, or operations such as aggregation may also need to be read and decrypted even when they do not appear in the `SELECT` output.
+
+### Writes and Background Tasks
+
+Generating Parquet files adds encryption work. Comparing only `INSERT` response times may miss the full cost of background persistence. Also observe the time until persistence completes and sustained ingestion throughput. File merge tasks that read and rewrite encrypted columns likewise add decryption and encryption work.
+
+### Evaluation and Usage Guidance
+
+Use your own data volume, file layout, and application SQL to compare encrypted and plaintext tables for query latency, throughput, and CPU usage. Measure first queries separately from repeated queries with warm caches. A single SQL statement or a fixed percentage does not represent every workload.
+
+Select only the columns you need and provide conditions that help partition, time-range, or statistics-based pruning where possible. For concurrent scans of encrypted columns, allow for additional CPU demand. Decryption CPU costs can matter even when disk or object storage is not the bottleneck.
+
 ## Key Storage and Recovery
 
 Table and column keys are persisted with table metadata. Closing a client session, reconnecting, or restarting the service does not require you to register or set the keys again. Datalayers continues to use the saved configuration to read and write files.
