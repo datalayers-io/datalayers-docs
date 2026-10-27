@@ -87,6 +87,8 @@ CREATE TABLE [IF NOT EXISTS] [database.]table_name
 
 其中 `COMMENT 'text'` 用于为列添加注释。
 
+TimeSeries 表可在 `WITH` 中通过 `ENCRYPTION_KEY='十六进制密钥'` 启用 Parquet 文件加密，也可在普通数据列后使用 `ENCRYPTION_KEY '十六进制密钥'` 设置列级密钥。完整用法、密钥格式与限制请参考[文件加解密](../../user-security/file-encryption.md)。
+
 对于时序（`TimeSeries`）引擎，当前实现要求：
 
 - 至少有一个 `TIMESTAMP` 列，并通过 `TIMESTAMP KEY(...)` 指定时间列

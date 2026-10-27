@@ -1,0 +1,233 @@
+
+# CREATE Statement
+
+CREATE 语句是一种用于创建数据库对象（如数据库、表等）的 SQL 语句。通过 CREATE 语句，用户可以定义对象的结构、约束以及属性，是数据库设计和初始化的基础。
+
+## 语法
+
+### 创建数据库
+
+```SQL
+CREATE DATABASE [IF NOT EXISTS] database_name
+```
+
+示例
+
+```SQL
+CREATE DATABASE hello_datalayers
+```
+
+表示创建一个名为 `hello_datalayers` 的数据库。
+
+### 创建表
+
+```SQL
+CREATE TABLE [IF NOT EXISTS] [database.]table_name
+(
+    column_name data_type [column_constraint] [ DEFAULT default_expr ]，
+    ...
+    ...
+    timestamp key (ts_column_name)
+)
+PARTITION BY HASH(expr) PARTITIONS PARTITOIN_NUM
+ENGINE=TimeSeries
+with(k=v,k1=v1)
+```
+
+对于时序（TimeSeries）引擎，至少有一个列需要为 **TIMESTAMP** 类型，且必须使用 `timestamp key` 语句来指定唯一的 timestamp key 列，这个列的类型必须为 **TIMESTAMP**。
+
+For TimeSeries tables, set `ENCRYPTION_KEY='hexadecimal-key'` in `WITH` to enable Parquet file encryption. An ordinary data column can override its key with `ENCRYPTION_KEY 'hexadecimal-key'`. See [File Encryption and Decryption](../../user-security/file-encryption.md) for examples, key formats, and limitations.
+
+::: tip
+针对非 **TIMESTAMP** 类型，默认值只支持常量设置。针对 **TIMESTAMP** 类型，默认值除了常量外还支持输出`CURRENT_TIMESTAMP`，在写入数据时如果没有给出时间戳值将会使用写入时间。
+:::
+
+示例
+
+```SQL
+CREATE TABLE sx1(
+    ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    sid INT32,
+    value REAL,
+    flag INT8,
+    timestamp key (ts),
+    )
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+with (ttl='10d')
+```
+
+### Create Table From Query Result
+
+`CREATE TABLE AS` creates a table based on the results of a SELECT query. The column types and order of the new table are automatically derived from the output schema of the query.
+
+```SQL
+CREATE TABLE [database.]table_name
+(
+    [table_constraint, ...]
+)
+[PARTITION BY HASH(expr) [PARTITIONS partition_num]]
+[ENGINE = TimeSeries]
+[WITH (key=value, ...)]
+AS select_statement
+```
+
+#### Notes
+
+- Unlike regular `CREATE TABLE`, `CREATE TABLE AS` **does not allow** column definitions inside the parentheses — column types and order are derived from the SELECT statement's output schema.
+- Only table-level constraints such as `TIMESTAMP KEY(...)`, `PRIMARY KEY(...)` may appear inside the parentheses.
+- `IF NOT EXISTS` is **not supported**.
+- Only `ENGINE = TimeSeries` is currently supported.
+- Any valid `SELECT` statement can follow `AS`, including complex queries with `WHERE`, `JOIN`, etc.
+- Once the table is created, query results are automatically inserted into the new table. The return value is the number of rows written.
+
+#### Examples
+
+Basic usage
+
+```SQL
+CREATE TABLE sink (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT ts, sid, value FROM source WHERE sid >= 2
+```
+
+With JOIN
+
+```SQL
+CREATE TABLE sink_join (
+    timestamp key(ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries
+AS
+SELECT source.ts, source.sid, source.value, dim.name
+FROM source
+JOIN dim
+ON source.sid = dim.sid
+WHERE source.sid >= 2
+```
+
+### Declare indexes in CREATE TABLE (INVERTED / VECTOR)
+
+Besides creating indexes after table creation with `CREATE INDEX`, Datalayers also supports declaring indexes directly inside `CREATE TABLE` table constraints.
+
+Syntax (fragment)
+
+```SQL
+CREATE TABLE [IF NOT EXISTS] [database.]table_name (
+    ...,
+    timestamp key(ts_column),
+    inverted index [index_name] (string_column) [with (key=value, ...)],
+    vector index [index_name] (vector_column) [with (key=value, ...)]
+)
+PARTITION BY HASH(expr) PARTITIONS n
+```
+
+Examples
+
+```SQL
+CREATE TABLE sx1(
+    ts TIMESTAMP,
+    sid INT32,
+    message STRING,
+    timestamp key(ts),
+    inverted index idx_message (message) with (tokenizer=standard)
+)
+PARTITION BY HASH(sid) PARTITIONS 1;
+
+CREATE TABLE sx2(
+    ts TIMESTAMP,
+    sid INT32,
+    vec VECTOR(3),
+    timestamp key(ts),
+    vector index (vec)
+)
+PARTITION BY HASH(sid) PARTITIONS 1;
+```
+
+::: tip
+Index creation syntax is documented below on this page; for index refresh and drop, see [REFRESH Statement](./refresh.md) and [DROP Statement](./drop.md).
+:::
+
+### CREATE INVERTED INDEX
+
+Purpose
+
+Creates an inverted index on a string column to accelerate full-text search for log and text workloads.
+
+Syntax
+
+```SQL
+CREATE INVERTED INDEX [CONCURRENTLY] [IF NOT EXISTS] [index_name]
+ON [database.]table_name (column_name)
+[WITH (key=value, ...)]
+```
+
+Options
+
+- `tokenizer`: tokenizer, `standard | chinese`, default `standard`
+- `with_position`: whether term positions are stored, `true | false`, default `false`
+- `filters`: filter list separated by `,` default `lowercase,english_stop`
+
+`filters` options:
+
+| Filter | Purpose | Recommended use |
+| --- | --- | --- |
+| `lowercase` | Normalizes English tokens to lowercase to reduce case variance | English logs or mixed Chinese-English text search |
+| `english_stop` | Removes English stop words (for example, `the`, `is`) | Reduce noise from high-frequency function words |
+| `english_stemmer` | Applies English stemming (for example, `running` -> `run`) | Improve recall across inflected word forms |
+
+`standard` tokenizer notes: `standard` tokenizes text by whitespace and punctuation and is suitable for English text.
+
+Examples
+
+```SQL
+CREATE INVERTED INDEX idx_message ON logs (message);
+
+CREATE INVERTED INDEX IF NOT EXISTS idx_message ON logs (message);
+
+CREATE INVERTED INDEX idx_message_cn ON logs (message)
+WITH (tokenizer='chinese', filters='lowercase,english_stop', with_position='true');
+
+CREATE INVERTED INDEX idx_message_std ON logs (message)
+WITH (tokenizer='standard', filters='lowercase,english_stop,english_stemmer');
+```
+
+### CREATE VECTOR INDEX
+
+Purpose
+
+Creates a vector index on a vector column to accelerate approximate nearest-neighbor search.
+
+Syntax
+
+```SQL
+CREATE VECTOR INDEX [CONCURRENTLY] [IF NOT EXISTS] [index_name]
+ON [database.]table_name (vector_column)
+[WITH (key=value, ...)]
+```
+
+Options
+
+- `type`: vector index type, such as `IVF_PQ`, `IVF_RQ`, `HNSW`, `HNSW_PQ`
+- `distance`: distance function, `l2 | cosine | dot`
+- `num_cells`: IVF cluster count, default `32`
+- `num_sub_vectors`: PQ sub-vector count, default `32`
+- `num_bits`: PQ code bits, currently supports `8`
+- `max_level`: HNSW max level, default `7`
+- `m`: HNSW max neighbors per node, default `10`
+- `ef_construction`: HNSW construction candidate neighbors, default `50`
+
+Examples
+
+```SQL
+CREATE VECTOR INDEX idx_embed ON logs (embed)
+WITH (type=IVF_PQ, distance=L2);
+
+CREATE VECTOR INDEX idx_embed_hnsw ON logs (embed)
+WITH (type=HNSW, distance=cosine, max_level=7, m=10, ef_construction=50);
+```
