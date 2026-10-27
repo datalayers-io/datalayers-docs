@@ -63,6 +63,7 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 | MAX_ROW_GROUP_LENGTH | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000` |
 | WAL_FSYNC_INTERVAL | 用于配置 WAL 文件落盘的间隔，如果设置为 0，则实时刷盘。缺省值：`3000`，最大值：60000（60 秒）。单位：ms（毫秒） |
 | COMPRESSION | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW |
+| ENCRYPTION_KEY | Parquet 文件加密的表级数据密钥（DEK），默认不设置，即不启用加密。支持 32 或 64 个十六进制字符，分别表示 16 或 32 字节密钥。用于加密普通数据列和文件 footer；列级密钥优先于表级密钥。只能在建表时设置，不支持通过 ALTER 设置或更换。完整用法与加密范围见[文件加解密](../../user-security/file-encryption.md)。 |
 | UPDATE_MODE | 写入重复数据时的处理方式，目前支持 `Overwrite`、`Append` 两种模式，缺省值为：`Append`。`Append` 模式拥有更好的性能，目前 `Append` 模式暂不支持更新与删除。 |
 | STORAGE_TYPE | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。支持：S3、FDB 等对象存储服务 |
 | COMPACT_WINDOW | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
@@ -107,6 +108,8 @@ PARTITION BY HASH(zone) PARTITIONS 2
 ```
 
 ## 修改表
+
+以下新增和删除列的示例仅适用于未启用文件加密的表。加密表暂不支持新增或删除列。
 
 ```SQL
 -- add a new column with name "k" to the table "INT", it will be filled with the default value NULL
