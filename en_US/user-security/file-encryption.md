@@ -220,11 +220,9 @@ FROM encrypted_table_example;
 
 After a service restart or when a table is first accessed, the database needs to prepare information for reading its files. File encryption can add to this initial work. Even a row-count query can therefore take longer than its plaintext equivalent on first access. Repeated queries may be faster because of caching, so evaluate first and repeated executions separately.
 
-### Evaluate the Impact on Your Application
+### Write Performance
 
-Compare encrypted and plaintext tables using your own application SQL and data, measuring response time and concurrent query throughput. Selecting fewer columns and restricting device and time ranges remain useful. Avoid `SELECT *` when you do not need every field. Do not judge the amount of query work only by the number of rows returned, or apply the timing change of one SQL statement to every query.
-
-Evaluate writes and queries separately. Similar bulk-ingestion throughput does not imply similar latency for every query. For writes, include the time until the final batch is persisted. For queries, cover your common aggregates, lookups, and time-range queries, and distinguish first queries from repeated executions.
+In the tested bulk-ingestion workloads, file encryption had no noticeable impact on write performance. 
 
 ## Key Storage and Recovery
 
