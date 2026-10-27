@@ -32,7 +32,7 @@ Use the 64 characters in the output as the `ENCRYPTION_KEY` value and keep the k
 The keys in the SQL examples below are public demonstration values. Replace them with your own randomly generated keys in production.
 :::
 
-## Use a Table Key(Recommand)
+## Use a Table Key(Recommend)
 
 Set `ENCRYPTION_KEY` in the `WITH` clause of `CREATE TABLE`. The following table uses a 32-byte key:
 
