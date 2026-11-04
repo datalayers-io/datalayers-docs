@@ -4,6 +4,18 @@ description: "Datalayers 版本更新日志（Changelog）：按版本列出新�
 ---
 # 版本更新日志
 
+## 2.4.10
+
+发布日期: 2026-11-03
+
+### 功能增强
+
+- 支持创建 Bloom Filter 索引，提升等值查询的过滤效率。
+- 向量索引新增标量量化（Scalar Quantization）支持。
+- 支持查询联邦：可通过外部 Catalog 接入并查询外部数据源。
+- 新增 `FLUSH ALL` 语句，强制所有 memtable 中的数据落盘。
+- 新增 Decimal 类型支持：`DECIMAL32`、`DECIMAL64`、`DECIMAL128` 和 `DECIMAL256`。
+
 ## 2.4.9
 
 发布日期: 2026-09-18
