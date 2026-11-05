@@ -97,16 +97,7 @@ SELECT sid, value FROM sink;
 
 ## 当前版本限制
 
-### 1. 不支持为 INSERT INTO ... SELECT ... 指定目标列列表
-
-下面的 SQL 当前会报错：
-
-```SQL
-INSERT INTO sink (sid, value)
-SELECT sid, value FROM source;
-```
-
-### 2. 当前只支持时序表到时序表的数据写入
+### 1. 当前只支持时序表到时序表的数据写入
 
 实现层会校验：
 
@@ -115,7 +106,7 @@ SELECT sid, value FROM source;
 
 因此，`INSERT INTO ... SELECT ...` 当前更适合用于时序表之间的数据搬运和过滤写入。
 
-### 3. 支持源表和目标表为同一张表
+### 2. 支持源表和目标表为同一张表
 
 当前版本允许如下写法：
 
