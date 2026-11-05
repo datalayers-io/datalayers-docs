@@ -34,6 +34,15 @@ last_cache_size = "2GB"
 # Default: true.
 preload_parquet_metadata = true
 
+# 定期 flush memtable 中缓存的数据
+# 设置为 0 可关闭该功能
+# Default: "24h".
+# flush_interval = "24h"
+
+# 当用户建表时未通过 table options 指定 memtable_size，则使用该默认的配置
+# Default: "128MB".
+# memtable_size = "128MB"
+
 [ts_engine.schemaless]
 # 使用 InfluxDB 行协议写入时，如果列的信息发生变化，是否允许系统自动改表。
 # 尽可能保持写入数据的列的数量是稳定的，频繁新增列触发改表，会影响写入性能
