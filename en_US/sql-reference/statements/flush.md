@@ -1,6 +1,6 @@
 # FLUSH Statement
 
-将指定 table 的内存数据刷到磁盘上。
+将指定 table 的 memtable 中数据刷到磁盘上。
 
 ## 语法
 
@@ -10,7 +10,7 @@
 FLUSH TABLE [db.]table_name
 ```
 
-将指定 `table_name` 内存的数据刷到磁盘。
+将指定 `table_name` 对应 memtable 中的数据刷到磁盘。
 
 ### FLUSH DATABASE
 
@@ -18,11 +18,11 @@ FLUSH TABLE [db.]table_name
 FLUSH DATABASE db_name
 ```
 
-将指定 db_name 中所有 table 的内存数据刷到磁盘上。
+将指定 db_name 中所有 table 对应的 memtable 中数据刷到磁盘上。
 
 ### FLUSH NODE
 
-将指定集群节点上所有 partition 的内存数据刷到磁盘上。
+将指定节点上所有 memtable 数据刷到磁盘上。
 
 ```SQL
 FLUSH NODE name
@@ -30,7 +30,7 @@ FLUSH NODE name
 
 ### FLUSH ALL
 
-将所有 table 内存中的数据刷到磁盘。
+将所有 table memtable 中的数据刷到磁盘。
 
 ```SQL
 FLUSH ALL
