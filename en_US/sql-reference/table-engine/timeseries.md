@@ -37,6 +37,7 @@ PARTITION BY HASH(column_name) PARTITIONS 2
 |  MAX_ROW_GROUP_LENGTH      | 数据文件中单个 Row Group 存放的最大行数，缺省值为：`1000000`                                                                     |  
 |  WAL_FSYNC_INTERVAL        | 用于配置 WAL 文件落盘的间隔，如果设置为0，则实时刷盘。缺省值：`3000`， 最大值：60000（60秒）。单位：ms（毫秒）                          |  
 |  COMPRESSION               | 用于设置持久化文件的压缩方式。缺省值为：`ZSTD(1)`, 目前支持以下选项：UNCOMPRESSED、SNAPPY、LZO、BROTLI、LZ4、ZSTD(level)、LZ4_RAW                  |  
+| ENCRYPTION_KEY | Table data encryption key (DEK) for Parquet files. Unset by default, leaving file encryption disabled. Accepts 32 or 64 hexadecimal characters for a 16-byte or 32-byte key. All ordinary data columns and the file footer share this key; separate column keys are not supported. New files are unencrypted while the table has no ordinary data columns. Set at table creation only; setting or replacing it through ALTER is not supported. See [File Encryption and Decryption](../../user-security/file-encryption.md) for usage and scope. |
 |  UPDATE_MODE               | 写入重复数据时的处理方式，目前仅支持：`Overwrite`                                                                                   |  
 |  STORAGE_TYPE              | 持久化文件存储类型，standalone 模式下默认为：`LOCAL`。集群模式下支持：S3、FDB 两种类型 |  
 |  COMPACT_WINDOW            | Compaction 的窗口大小，缺省值为：`1d`，支持单位：d（天），h（小时） |
@@ -61,6 +62,8 @@ WITH (ttl='7d', memtable_size='512MiB')
 ```
 
 ## 修改表
+
+Both plaintext and encrypted tables support adding and dropping ordinary data columns. New columns in an encrypted table automatically use the table key. After all ordinary data columns are dropped, new files are unencrypted; adding an ordinary data column again restores encryption for new files. See [File Encryption and Decryption](../../user-security/file-encryption.md).
 
 ```SQL
 -- add a new column with name "k" to the table "INT", it will be filled with the default value NULL
