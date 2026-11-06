@@ -1,12 +1,12 @@
 ---
 title: "FLUSH 语句详解"
-description: "FLUSH 语句是 Datalayers 时序与日志引擎的数据管理命令，用于将内存中的 WAL 数据强制刷盘到存储引擎，以提升数据持久化安全性。"
+description: "FLUSH 语句是 Datalayers 时序与日志引擎的数据管理命令，用于将 memtable 中的 WAL 数据强制刷盘到存储引擎，以提升数据持久化安全性。"
 ---
 # FLUSH 语句详解
 
 ## 功能概述
 
-FLUSH 语句是 Datalayers 时序与日志引擎的数据管理命令，用于将内存中的 WAL 数据强制刷盘到存储引擎。
+FLUSH 语句是 Datalayers 时序与日志引擎的数据管理命令，用于将 memtable 中的数据强制刷盘到存储引擎。
 
 ## 语法
 
@@ -25,25 +25,25 @@ FLUSH
 
 示例：
 
-### 将指定 `table` 内存的数据刷到磁盘
+### 将指定 `table` 中所有 memtable 的数据刷到磁盘
 
 ```SQL
 FLUSH TABLE demo.sx1
 ```
 
-### 将指定 db 中所有 table 的内存数据刷到磁盘上
+### 将指定 db 中所有 memtable 的数据刷到磁盘上
 
 ```SQL
 FLUSH DATABASE demo
 ```
 
-### 将指定集群节点上所有 partition 的内存数据刷到磁盘上
+### 将指定节点上所有  memtable 中的数据刷到磁盘上
 
 ```SQL
 FLUSH NODE 'localhost:8366'
 ```
 
-### 将所有 table 内存中的数据刷到磁盘
+### 将所有 table 对应的 memtable 中的数据刷到磁盘
 
 ```SQL
 FLUSH ALL

@@ -6,7 +6,7 @@ description: "Datalayers 版本更新日志（Changelog）：按版本列出新�
 
 ## 2.4.10
 
-发布日期: 2026-11-03
+发布日期: 2026-11-06
 
 ### 功能增强
 
@@ -15,6 +15,7 @@ description: "Datalayers 版本更新日志（Changelog）：按版本列出新�
 - 支持查询联邦：可通过外部 Catalog 接入并查询外部数据源。
 - 新增 `FLUSH ALL` 语句，强制所有 memtable 中的数据落盘。
 - 新增 Decimal 类型支持：`DECIMAL32`、`DECIMAL64`、`DECIMAL128` 和 `DECIMAL256`。
+- INSERT INTO SELECT 语句支持指定列。
 
 ## 2.4.9
 
