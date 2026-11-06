@@ -56,7 +56,8 @@ PARTITION BY HASH(column_list) PARTITIONS 2
 | Name | Description |
 | --- | --- |
 | TTL | 数据文件的过期时间，超过该时间的文件将被自动删除，缺省值为 `0`，表示永不过期。支持时间单位：m（分钟）、h（小时）、d（天） |
-| MEMTABLE_SIZE | 每个 `partition` 内存中缓存的数据大小，缺省值为 `256MiB`。支持单位：MiB、GiB |
+| MEMTABLE_SIZE | 每个`partition memtable`中缓存的数据大小，缺省值为 `128MiB`。支持单位：MiB、GiB |
+| MAX_MEMTABLE_SIZE | 每个`partition memtable`所能使用的最大内存，该配置值必须大于`MEMTABLE_SIZE`，缺省值为`MEMTABLE_SIZE`的三倍。支持单位：MiB、GiB |
 | FLUSH_INTERVAL | 每间隔多长时间自动将内存数据持久化到文件中，缺省值为`1d`。如关闭则设置为`0`。支持单位：m（分钟）、h（小时）、d（天） |
 | FLUSH_ON_EXIT | 程序退出前是否将未落盘的 memtable 持久化到存储中，缺省值为`true` |
 | BACKFILL_TIME_WINDOW | 允许数据补录的时间窗口，缺省值为`30d`。支持单位：h(小时)、d(天)。每个`partition`独立计算，仅在`memtable`发生持久化之后生效。每一次`memtable`持久化后都会刷新该时间窗口。如果同时配置了`TTL`，则以两者中的较小值为准。例如：某个 partition 的 memtable 持久化时包含的最大时间戳为 2025-06-30 11:29:46，TTL=10d，BACKFILL_TIME_WINDOW=30d，则允许补录数据的最小时间为 2025-06-20 11:29:46 |
