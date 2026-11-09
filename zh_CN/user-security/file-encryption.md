@@ -7,7 +7,7 @@ description: "通过表级密钥加密 Parquet 数据文件，了解建表、写
 
 Datalayers 支持为 TimeSeries 表的 Parquet 数据文件配置加密。建表时提供密钥后，Datalayers 会在生成数据文件时加密，在查询时自动解密。
 
-每张表可以通过 Table Option `ENCRYPTION_KEY` 配置密钥，该密钥作用于除主键列和时间列,分区列以外的所有普通列。
+每张表可以通过 Table Option `ENCRYPTION_KEY` 配置密钥，该密钥用于加密 Parquet 文件中的所有列，包括主键列、时间列和分区列。
 
 ## 准备密钥
 
@@ -52,7 +52,7 @@ WITH (
 );
 ```
 
-在这个表中，`phone` 和 `reading` 是普通数据列，使用表级密钥加密。。`device_id` 是主键和分区列，`ts` 是时间列，它们的列数据不在本功能的加密范围内。
+在这个表中，`device_id`、`ts`、`phone` 和 `reading` 都使用表级密钥加密。
 
 ### 写入和查询
 
@@ -105,7 +105,7 @@ FROM encrypted_table_example;
 
 ## 新增和删除列
 
-加密表可以使用普通的 `ADD COLUMN` 和 `DROP COLUMN`，仍遵循 TimeSeries 表原有的列变更限制。新增普通数据列会自动使用表级密钥，不需要再次提供密钥：
+加密表可以使用普通的 `ADD COLUMN` 和 `DROP COLUMN`，仍遵循 TimeSeries 表原有的列变更限制。新增列会自动使用表级密钥，不需要再次提供密钥：
 
 ```sql
 ALTER TABLE encrypted_table_example ADD COLUMN voltage DOUBLE;
@@ -116,7 +116,7 @@ ALTER TABLE encrypted_table_example ADD COLUMN voltage DOUBLE;
 ```sql
 ALTER TABLE encrypted_table_example DROP COLUMN voltage;
 ```
-注意: 表级密钥只能在建表时设置，设置后不支持更改, 全部普通数据列已删除，只剩时间列、主键列等特殊列，新写的文件不会再加密，之后再次新增普通数据列，再次新写的文件将恢复使用表级密钥加密普通数据列。
+注意: 表级密钥只能在建表时设置，设置后不支持更改。增删列不会关闭文件加密。
 
 ## 加密范围
 
@@ -124,9 +124,8 @@ ALTER TABLE encrypted_table_example DROP COLUMN voltage;
 
 | 内容 | 是否通过本功能加密 |
 | --- | --- |
-| 普通数据列在 Parquet 文件中的列数据 | 是，使用表级密钥 |
-| Parquet 文件 footer | 文件中有普通数据列时，使用表级密钥加密；否则不加密 |
-| 时间列、主键列、分区列 | 否 |
+| Parquet 文件中的所有列，包括主键列、时间列和分区列 | 是，使用表级密钥 |
+| Parquet 文件 footer | 是，使用表级密钥 |
 | WAL、数据库元数据及独立索引文件（如倒排索引、向量索引文件） | 否 |
 | SQL 查询结果、客户端与服务端之间的网络传输 | 否 |
 
@@ -134,7 +133,7 @@ ALTER TABLE encrypted_table_example DROP COLUMN voltage;
 
 启用文件加密后，SQL 的写法和返回结果保持不变，部分查询可能需要更长时间。影响主要取决于查询要检查多少数据、用到哪些列，以及是否为首次查询。
 
-下面继续使用前面的 `encrypted_table_example` 表，其中 `phone` 和 `reading` 已加密，`device_id` 和 `ts` 未加密。
+下面继续使用前面的 `encrypted_table_example` 表。
 
 ### 计算总量或平均值
 
@@ -153,7 +152,7 @@ FROM encrypted_table_example
 WHERE phone = '13800138000';
 ```
 
-虽然结果只返回未加密的 `device_id`，查询条件仍然使用了加密的 `phone`，因此可能增加耗时。即使最终只返回一个设备，也可能需要检查大量记录。已知设备或时间范围时，可以同时增加相应条件，缩小查找范围。
+这条 SQL 使用 `phone` 筛选记录并返回 `device_id`，读取加密数据可能增加耗时。即使最终只返回一个设备，也可能需要检查大量记录。已知设备或时间范围时，可以同时增加相应条件，缩小查找范围。
 
 ### 查询某台设备在指定时间段的数据
 
@@ -178,7 +177,7 @@ FROM encrypted_table_example;
 
 ### 写入性能
 
-在已验证的批量写入场景中，文件加密对写入性能没有明显影响。
+开启文件加密会增加加解密开销，实际写入和查询性能建议结合业务数据测试。
 
 ## 密钥保存与恢复
 
@@ -186,14 +185,14 @@ FROM encrypted_table_example;
 
 当前版本暂时不支持通过 KMS 托管密钥。密钥以可恢复的十六进制形式保存在数据库元数据中，请限制数据库元数据和备份文件的访问权限。
 
-客户端执行 `SHOW CREATE TABLE` 会显示真实密钥，可供查看设置的密钥；包含建表语句的导出文件也会携带密钥。请将这些输出作为敏感信息保管。恢复加密数据时，需要保留对应的密钥和表结构；如果密钥丢失，无法仅凭加密文件恢复原始数据。
+具有该表 `SELECT` 权限的用户可以通过 `SHOW CREATE TABLE` 查看真实密钥。包含建表语句的导出文件也会携带密钥。请将这些输出作为敏感信息保管。恢复加密数据时，需要保留对应的密钥和表结构；如果密钥丢失，无法仅凭加密文件恢复原始数据。
 
-服务端 SQL 日志（包括慢查询日志、审计日志）中的 `ENCRYPTION_KEY` 值会脱敏为 `[REDACTED]`，不改变实际执行的 SQL 或客户端查询结果。
+当服务端记录包含 `ENCRYPTION_KEY` 的 SQL 时，密钥值会保留在 SQL 文本中，可能出现在慢查询日志、审计日志或其他请求日志中。请限制这些日志及其导出文件的访问权限。
 
 ## 当前使用限制
 
-- 仅支持 TimeSeries 表中包含普通数据列时，生成的 Parquet 文件才启用加密。
-- 只支持表级密钥，暂不支持列级密钥，也不能为单个普通数据列关闭加密。
+- 仅支持 TimeSeries 表。
+- 只支持表级密钥，暂不支持列级密钥，也不能为单个列关闭加密。
 - 加密配置必须在建表时确定，不支持通过 `ALTER TABLE ... MODIFY OPTIONS ENCRYPTION_KEY` 为已有表启用加密、设置或更换表级密钥，包括重新设置同一把密钥。
 
 重命名表、修改 `FLUSH_INTERVAL` 等非加密选项仍遵循原有规则。不要直接修改持久化元数据中的密钥，否则已有文件可能无法解密。
@@ -202,7 +201,5 @@ FROM encrypted_table_example;
 
 | 错误信息片段 | 处理方式 |
 | --- | --- |
-| `expected 32 or 64 hexadecimal characters` | 检查密钥是否恰好为 32 或 64 个十六进制字符。 |
-| `expected only hexadecimal characters` | 移除 `0x` 前缀、空格或其他非十六进制字符。 |
-| `24-byte AES keys are not supported` | 改用 16 字节或 32 字节密钥。 |
-| `ALTER TABLE cannot set or replace the table ENCRYPTION_KEY` | 在建表时确定密钥，当前不支持通过 ALTER 修改。 |
+| `must be a hex string of 32 (AES-128) or 64 (AES-256) characters` | 使用 32 或 64 个十六进制字符，移除 `0x` 前缀、空格和其他非十六进制字符。 |
+| `Unsupported to alter ENCRYPTION_KEY` | 在建表时设置密钥。ALTER 不支持设置或更换密钥。 |

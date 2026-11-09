@@ -7,7 +7,7 @@ description: "Encrypt Parquet data files with a table key, including table creat
 
 Datalayers supports encryption for the Parquet data files of TimeSeries tables. Supply a key when creating a table, and Datalayers encrypts data as it writes files and decrypts it during queries.
 
-You can configure a key for each table through the `ENCRYPTION_KEY` table option. The key applies to all ordinary columns, excluding primary-key, timestamp, and partition columns.
+You can configure a key for each table through the `ENCRYPTION_KEY` table option. The key encrypts all columns in Parquet files, including primary-key, timestamp, and partition columns.
 
 ## Prepare a Key
 
@@ -52,7 +52,7 @@ WITH (
 );
 ```
 
-In this table, `phone` and `reading` are ordinary data columns and use the table key. `device_id` is a primary-key and partition column, and `ts` is the timestamp column. Their column data is outside the scope of this encryption feature.
+In this table, `device_id`, `ts`, `phone`, and `reading` all use the table key for encryption.
 
 ### Insert and Query
 
@@ -105,7 +105,7 @@ Result:
 
 ## Add and Drop Columns
 
-Encrypted tables support ordinary `ADD COLUMN` and `DROP COLUMN` statements, subject to the existing TimeSeries rules for column changes. A new ordinary data column automatically uses the table key; you do not need to supply the key again:
+Encrypted tables support ordinary `ADD COLUMN` and `DROP COLUMN` statements, subject to the existing TimeSeries rules for column changes. A new column automatically uses the table key; you do not need to supply the key again:
 
 ```sql
 ALTER TABLE encrypted_table_example ADD COLUMN voltage DOUBLE;
@@ -117,7 +117,7 @@ When the column is no longer needed, you can drop it:
 ALTER TABLE encrypted_table_example DROP COLUMN voltage;
 ```
 
-Note: The table key can only be set when creating the table and cannot be changed afterward. If all ordinary data columns are dropped, leaving only special columns such as timestamp and primary-key columns, newly written files are not encrypted. Adding an ordinary data column again causes subsequently written files to resume encrypting ordinary data columns with the table key.
+Note: The table key can only be set when creating the table and cannot be changed afterward. Adding or dropping columns does not disable file encryption.
 
 ## Encryption Scope
 
@@ -125,9 +125,8 @@ This feature applies to Parquet data files of TimeSeries tables. It does not enc
 
 | Content | Encrypted by this feature |
 | --- | --- |
-| Ordinary column data in Parquet files | Yes, with the table key |
-| Parquet file footer | Encrypted with the table key when the file contains ordinary data columns; otherwise unencrypted |
-| Timestamp, primary-key, and partition columns | No |
+| All columns in Parquet files, including primary-key, timestamp, and partition columns | Yes, with the table key |
+| Parquet file footer | Yes, with the table key |
 | WAL, database metadata, and separate index files (such as inverted and vector index files) | No |
 | SQL query results and network traffic between clients and the server | No |
 
@@ -135,7 +134,7 @@ This feature applies to Parquet data files of TimeSeries tables. It does not enc
 
 File encryption leaves SQL syntax and query results unchanged, but some queries may take longer. The impact mainly depends on how much data the query needs to check, which columns it uses, and whether it is the first query.
 
-The examples below use the earlier `encrypted_table_example` table. Its `phone` and `reading` columns are encrypted; `device_id` and `ts` are not.
+The examples below use the earlier `encrypted_table_example` table.
 
 ### Calculate a Total or Average
 
@@ -154,7 +153,7 @@ FROM encrypted_table_example
 WHERE phone = '13800138000';
 ```
 
-Although the result only returns the unencrypted `device_id`, the condition uses the encrypted `phone` column and can add latency. Returning one device can still require checking many records. If you know the device or time range, add those conditions to narrow the search.
+This SQL filters records by `phone` and returns `device_id`. Reading encrypted data can add latency. Returning one device can still require checking many records. If you know the device or time range, add those conditions to narrow the search.
 
 ### Query a Device Within a Time Range
 
@@ -179,7 +178,7 @@ After a service restart or when a table is first accessed, the database needs to
 
 ### Write Performance
 
-In the tested bulk-ingestion workloads, file encryption had no noticeable impact on write performance.
+Enabling file encryption adds encryption and decryption overhead. Test write and query performance with your own workload data.
 
 ## Key Storage and Recovery
 
@@ -187,14 +186,14 @@ The table key is persisted with table metadata. Closing a client session, reconn
 
 The current version does not support managing keys through a KMS. Keys are stored as recoverable hexadecimal values in database metadata. Restrict access to database metadata and backups.
 
-Running `SHOW CREATE TABLE` from a client displays the actual key so you can check the configured value. Exports containing table creation statements also include the key. Handle these outputs as sensitive information. To recover encrypted data, retain the corresponding keys and table definitions. Encrypted files alone cannot recover the original data if the keys are lost.
+Users with `SELECT` permission on the table can view the actual key with `SHOW CREATE TABLE`. Exports containing table creation statements also include the key. Handle these outputs as sensitive information. To recover encrypted data, retain the corresponding keys and table definitions. Encrypted files alone cannot recover the original data if the keys are lost.
 
-Server SQL logs, including slow-query and audit logs, mask `ENCRYPTION_KEY` values as `[REDACTED]`; this does not change the executed SQL or results returned to clients.
+When the server logs a SQL statement containing `ENCRYPTION_KEY`, the SQL text retains the key value. It may appear in slow query logs, audit logs, or other request logs. Restrict access to these logs and their exports.
 
 ## Current Limitations
 
-- Only TimeSeries tables are supported. Parquet encryption is enabled for new files only when the table contains ordinary data columns.
-- Only table keys are supported. Separate column keys are not currently supported, and you cannot disable encryption for an individual ordinary data column.
+- Only TimeSeries tables are supported.
+- Only table keys are supported. Separate column keys are not currently supported, and you cannot disable encryption for an individual column.
 - Configure encryption when creating the table. You cannot use `ALTER TABLE ... MODIFY OPTIONS ENCRYPTION_KEY` to enable encryption for an existing table or to set or replace its table key, even with the same key value.
 
 Table renaming and changes to unrelated options such as `FLUSH_INTERVAL` continue to follow their existing rules. Do not directly edit keys in persisted metadata, as existing files may become unreadable.
@@ -203,7 +202,5 @@ Table renaming and changes to unrelated options such as `FLUSH_INTERVAL` continu
 
 | Error message fragment | Action |
 | --- | --- |
-| `expected 32 or 64 hexadecimal characters` | Check that the key contains exactly 32 or 64 hexadecimal characters. |
-| `expected only hexadecimal characters` | Remove any `0x` prefix, spaces, or other non-hexadecimal characters. |
-| `24-byte AES keys are not supported` | Use a 16-byte or 32-byte key. |
-| `ALTER TABLE cannot set or replace the table ENCRYPTION_KEY` | Set keys when creating the table; changing them through ALTER is not supported. |
+| `must be a hex string of 32 (AES-128) or 64 (AES-256) characters` | Use 32 or 64 hexadecimal characters. Remove any `0x` prefix, spaces, and other non-hexadecimal characters. |
+| `Unsupported to alter ENCRYPTION_KEY` | Set the key when creating the table. ALTER cannot set or replace the key. |
