@@ -86,6 +86,29 @@ SELECT sid, value FROM sink;
 
 执行结果会将 `source` 中 `sid >= 2` 的记录写入 `sink`。
 
+## 从表函数写入
+
+`INSERT INTO ... SELECT ...` 可以使用[表函数](../table-functions.md)生成数据行。表函数不是物理表，不需要预先创建；其输出的 `value` 列可以用于构造目标表的列值。
+
+```sql
+INSERT INTO sink
+SELECT CAST(1000 + value AS TIMESTAMP(3)) AS ts,
+       CAST(value AS INT) AS sid,
+       CAST(value AS FLOAT) AS value
+FROM generate_series(0, 9);
+```
+
+表函数也可以与时序表 Join 后再写入目标表：
+
+```sql
+INSERT INTO sink
+SELECT CAST(g.value AS TIMESTAMP(3)) AS ts,
+       CAST(s.sid AS INT) AS sid,
+       s.value
+FROM generate_series(0, 2) AS g
+JOIN source AS s ON s.sid = g.value;
+```
+
 ## 执行语义
 
 `INSERT INTO ... SELECT ...` 是一次性的快照写入，不是持续同步任务。
@@ -97,14 +120,15 @@ SELECT sid, value FROM sink;
 
 ## 当前版本限制
 
-### 1. 当前只支持时序表到时序表的数据写入
+### 1. 目标表必须为时序表
 
 实现层会校验：
 
 - 目标表必须是 `TimeSeries` 表。
-- `SELECT` 读取到的源表也必须是 `TimeSeries` 表。
+- `SELECT` 的源可以是 `TimeSeries` 表，也可以是表函数，或两者的 Join。
+- 其他类型的表不能作为当前 `INSERT INTO ... SELECT ...` 的数据来源。
 
-因此，`INSERT INTO ... SELECT ...` 当前更适合用于时序表之间的数据搬运和过滤写入。
+因此，`INSERT INTO ... SELECT ...` 当前适合用于时序表之间的数据搬运、过滤写入，以及从表函数生成并写入测试或派生数据。
 
 ### 2. 支持源表和目标表为同一张表
 
