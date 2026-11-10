@@ -282,6 +282,9 @@
         - title_en: Cast
           title_cn: 类型转换函数
           path: sql-reference/cast
+        - title_en: Table Functions
+          title_cn: 表函数
+          path: sql-reference/table-functions
         - title_en: Streaming Window Functions
           title_cn: 流式窗口函数
           path: sql-reference/streaming-window

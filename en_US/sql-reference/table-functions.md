@@ -1,0 +1,287 @@
+---
+title: "Table Functions"
+description: "Datalayers table functions generate rows in the FROM clause. The supported functions are generate_series and range."
+---
+# Table Functions
+
+## Overview
+
+A table function generates rows directly in the `FROM` clause of a query. It does not depend on an existing physical table, which makes it useful for creating test data, generating numeric or time sequences, and producing derived rows without first writing to a temporary table.
+
+Datalayers provides the following two table functions:
+
+- `generate_series`: Generates a sequence that includes the end value.
+- `range`: Generates a sequence that excludes the end value.
+
+The argument forms, supported data types, restrictions, and examples for each function are documented separately below.
+
+## generate_series
+
+`generate_series` generates values from `start` through `end`, including `end`. It returns a column named `value`, and that column is never `NULL`.
+
+### generate_series Argument Forms
+
+| Call form | Argument count | Defaults | End boundary |
+| --- | --- | --- | --- |
+| `generate_series(end)` | 1 | `start = 0`, `step = 1` | Includes `end` |
+| `generate_series(start, end)` | 2 | `step = 1` | Includes `end` |
+| `generate_series(start, end, step)` | 3 | None | Includes `end` |
+| `generate_series(start_timestamp, end_timestamp, step_interval)` | 3 | None | Includes `end_timestamp` |
+| `generate_series(start_date, end_date, step_interval)` | 3 | None | Includes `end_date` |
+
+### generate_series Data Types and Output
+
+| Input form | Argument requirements | Output `value` type |
+| --- | --- | --- |
+| Integer | `start`, `end`, and `step` must be `INT64` | `INT64` |
+| Timestamp | Requires exactly 3 arguments: `TIMESTAMP_NS` start, `TIMESTAMP_NS` end, and `INTERVAL` step | `TIMESTAMP_NS`, using the time zone of the start value |
+| Date | Requires exactly 3 arguments: `DATE` start, `DATE` end, and `INTERVAL` step | `TIMESTAMP_NS` without a time zone |
+
+### generate_series Restrictions
+
+- Only integer, timestamp, and date inputs are supported. Floating-point, `DECIMAL`, string, and other input types are not supported.
+- The integer form accepts 1 to 3 arguments. The timestamp and date forms require exactly 3 arguments.
+- Start and end values in the same sequence must use the same type family. Integer, timestamp, and date values cannot be mixed.
+- Timestamp arguments are processed at nanosecond precision. In the timestamp and date forms, the step must be a valid `INTERVAL` and cannot be zero. In the integer form, `step` cannot be zero.
+- The date form converts `DATE` values to nanosecond timestamps. Dates outside the range that can be represented as nanosecond timestamps (approximately 1677-09-21 through 2262-04-11) return an error.
+- In the integer form, a negative `step` generates a descending sequence. In the timestamp and date forms, a negative `INTERVAL` can generate a reverse sequence.
+- If the generation direction does not match the direction of the step, or the start/end range is empty, the function returns no rows.
+- In the integer form, any `NULL` argument returns no rows. In the timestamp and date forms, a `NULL` end value or step returns no rows.
+- Arguments must be constant expressions that can be simplified during planning. They cannot reference table columns.
+- A table function is not a persistent table. It cannot be used with table management statements such as `SHOW`, `DROP`, or `ALTER`, and its scans are not subject to regular table privilege checks.
+
+### generate_series Examples
+
+Generate an integer sequence that includes the end value:
+
+```sql
+SELECT * FROM generate_series(1, 5);
+```
+
+Result:
+
+```text
++-------+
+| value |
++-------+
+| 1     |
+| 2     |
+| 3     |
+| 4     |
+| 5     |
++-------+
+```
+
+With only the end value, `generate_series(6)` returns `0` through `6`, for a total of 7 rows:
+
+```sql
+SELECT * FROM generate_series(6);
+```
+
+Use a negative step to generate a descending sequence:
+
+```sql
+SELECT * FROM generate_series(6, -1, -2);
+```
+
+The result is `6`, `4`, `2`, and `0`.
+
+Generate a timestamp sequence by minute:
+
+```sql
+SELECT * FROM generate_series(
+  TIMESTAMP '2024-01-01 00:00:00',
+  TIMESTAMP '2024-01-01 00:03:00',
+  INTERVAL '1 minute'
+);
+```
+
+The result contains `00:00:00`, `00:01:00`, `00:02:00`, and `00:03:00`.
+
+Generate a date sequence by day. The result is returned as nanosecond timestamps:
+
+```sql
+SELECT * FROM generate_series(
+  DATE '2024-01-01',
+  DATE '2024-01-03',
+  INTERVAL '1 day'
+);
+```
+
+The result contains `2024-01-01 00:00:00`, `2024-01-02 00:00:00`, and `2024-01-03 00:00:00`.
+
+`generate_series` can be combined with aggregation, filtering, sorting, CTEs, and joins:
+
+```sql
+-- Aggregation
+SELECT sum(value) FROM generate_series(1, 5);
+
+-- Filtering and sorting
+SELECT value
+FROM generate_series(1, 100)
+WHERE value % 10 = 0
+ORDER BY value;
+
+-- CTE
+WITH s AS (SELECT value FROM generate_series(1, 5))
+SELECT sum(value) FROM s;
+```
+
+Write values generated by `generate_series` into a time-series table:
+
+```sql
+CREATE TABLE gen_sink (
+  ts TIMESTAMP(3) NOT NULL,
+  sid INT32,
+  val INT64,
+  timestamp KEY (ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries;
+
+INSERT INTO gen_sink
+SELECT CAST(1000 + value AS TIMESTAMP(3)) AS ts,
+       CAST(value AS INT) AS sid,
+       value AS val
+FROM generate_series(0, 9);
+
+SELECT count(*) FROM gen_sink;
+```
+
+## range
+
+`range` generates values from `start` through `end`, including `start` but excluding `end`. It returns a column named `value`, and that column is never `NULL`.
+
+### range Argument Forms
+
+| Call form | Argument count | Defaults | End boundary |
+| --- | --- | --- | --- |
+| `range(end)` | 1 | `start = 0`, `step = 1` | Excludes `end` |
+| `range(start, end)` | 2 | `step = 1` | Excludes `end` |
+| `range(start, end, step)` | 3 | None | Excludes `end` |
+| `range(start_timestamp, end_timestamp, step_interval)` | 3 | None | Excludes `end_timestamp` |
+| `range(start_date, end_date, step_interval)` | 3 | None | Excludes `end_date` |
+
+### range Data Types and Output
+
+| Input form | Argument requirements | Output `value` type |
+| --- | --- | --- |
+| Integer | `start`, `end`, and `step` must be `INT64` | `INT64` |
+| Timestamp | Requires exactly 3 arguments: `TIMESTAMP_NS` start, `TIMESTAMP_NS` end, and `INTERVAL` step | `TIMESTAMP_NS`, using the time zone of the start value |
+| Date | Requires exactly 3 arguments: `DATE` start, `DATE` end, and `INTERVAL` step | `TIMESTAMP_NS` without a time zone |
+
+### range Restrictions
+
+- Only integer, timestamp, and date inputs are supported. Floating-point, `DECIMAL`, string, and other input types are not supported.
+- The integer form accepts 1 to 3 arguments. The timestamp and date forms require exactly 3 arguments.
+- Start and end values in the same sequence must use the same type family. Integer, timestamp, and date values cannot be mixed.
+- Timestamp arguments are processed at nanosecond precision. In the timestamp and date forms, the step must be a valid `INTERVAL` and cannot be zero. In the integer form, `step` cannot be zero.
+- The date form converts `DATE` values to nanosecond timestamps. Dates outside the range that can be represented as nanosecond timestamps (approximately 1677-09-21 through 2262-04-11) return an error.
+- In the integer form, a negative `step` generates a descending sequence. In the timestamp and date forms, a negative `INTERVAL` can generate a reverse sequence.
+- If the generation direction does not match the direction of the step, or the start/end range is empty, the function returns no rows.
+- In the integer form, any `NULL` argument returns no rows. In the timestamp and date forms, a `NULL` end value or step returns no rows.
+- Arguments must be constant expressions that can be simplified during planning. They cannot reference table columns.
+- A table function is not a persistent table. It cannot be used with table management statements such as `SHOW`, `DROP`, or `ALTER`, and its scans are not subject to regular table privilege checks.
+
+### range Examples
+
+Generate an integer sequence that excludes the end value:
+
+```sql
+SELECT * FROM range(1, 5);
+```
+
+Result:
+
+```text
++-------+
+| value |
++-------+
+| 1     |
+| 2     |
+| 3     |
+| 4     |
++-------+
+```
+
+With only the end value, `range(5)` returns `0` through `4`, for a total of 5 rows:
+
+```sql
+SELECT * FROM range(5);
+```
+
+Use a negative step to generate a descending sequence:
+
+```sql
+SELECT * FROM range(6, 0, -2);
+```
+
+The result is `6`, `4`, and `2`.
+
+Generate a timestamp sequence by minute, excluding the end timestamp:
+
+```sql
+SELECT * FROM range(
+  TIMESTAMP '2024-01-01 00:00:00',
+  TIMESTAMP '2024-01-01 00:03:00',
+  INTERVAL '1 minute'
+);
+```
+
+The result contains `00:00:00`, `00:01:00`, and `00:02:00`.
+
+Generate a date sequence by day, excluding the end date:
+
+```sql
+SELECT * FROM range(
+  DATE '2024-01-01',
+  DATE '2024-01-03',
+  INTERVAL '1 day'
+);
+```
+
+The result contains `2024-01-01 00:00:00` and `2024-01-02 00:00:00`.
+
+`range` can be combined with aggregation, filtering, sorting, CTEs, and joins:
+
+```sql
+-- Aggregation
+SELECT sum(value) FROM range(1, 5);
+
+-- Filtering and sorting
+SELECT value
+FROM range(1, 100)
+WHERE value % 10 = 0
+ORDER BY value;
+
+-- CTE
+WITH s AS (SELECT value FROM range(1, 5))
+SELECT sum(value) FROM s;
+```
+
+Write values generated by `range` into a time-series table:
+
+```sql
+CREATE TABLE range_sink (
+  ts TIMESTAMP(3) NOT NULL,
+  sid INT32,
+  val INT64,
+  timestamp KEY (ts)
+)
+PARTITION BY HASH(sid) PARTITIONS 1
+ENGINE=TimeSeries;
+
+INSERT INTO range_sink
+SELECT CAST(1000 + value AS TIMESTAMP(3)) AS ts,
+       CAST(value AS INT) AS sid,
+       value AS val
+FROM range(0, 10);
+
+SELECT count(*) FROM range_sink;
+```
+
+## Related Documentation
+
+- Learn the complete query syntax: [SELECT](./statements/select.md)
+- Learn how to write query results into a table: [INSERT](./statements/insert.md)
+- Learn about CTEs and joins: [CTE](./statements/cte.md), [JOIN](./statements/join.md)
