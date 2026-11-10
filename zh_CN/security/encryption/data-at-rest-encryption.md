@@ -1,13 +1,13 @@
 ---
 title: "文件加解密"
-description: "通过表级密钥加密 Parquet 数据文件，了解建表、写入、查询、增删列和密钥保管方法。"
+description: "通过表级密钥加密数据文件，了解建表、写入、查询、增删列和密钥保管方法。"
 ---
 
 # 文件加解密
 
-Datalayers 支持为 TimeSeries 表的 Parquet 数据文件配置加密。建表时提供密钥后，Datalayers 会在生成数据文件时加密，在查询时自动解密。
+Datalayers 支持数据加密存储，通过建表时提供密钥后，Datalayers 会在生成数据文件时加密，在查询时自动解密。
 
-每张表可以通过 Table Option `ENCRYPTION_KEY` 配置密钥，该密钥用于加密 Parquet 文件中的所有列，包括主键列、时间列和分区列。
+每张表可以通过 Table Option `ENCRYPTION_KEY` 配置密钥，该密钥用于加密存储的数据文件。
 
 ## 准备密钥
 
@@ -18,7 +18,7 @@ Datalayers 支持为 TimeSeries 表的 Parquet 数据文件配置加密。建表
 | 16 字节 | 32 个字符 | AES-128-GCM |
 | 32 字节 | 64 个字符 | AES-256-GCM |
 
-每两个十六进制字符表示一个字节，因此 32 个字符表示 16 字节，而不是 32 字节。字符可以是 `0–9`、`a–f` 或 `A–F`，不要添加 `0x` 前缀或空格。当前不支持 24 字节密钥。
+每两个十六进制字符表示一个字节，因此 32 个字符表示 16 字节，而不是 32 字节。字符可以是 `0–9`、`a–f` 或 `A–F`，不要添加 `0x` 前缀或空格。
 
 在安装了 OpenSSL 的终端中，可以生成一把 32 字节随机密钥：
 
@@ -48,7 +48,7 @@ CREATE TABLE encrypted_table_example (
 PARTITION BY HASH(device_id) PARTITIONS 1
 ENGINE=TimeSeries
 WITH (
-  ENCRYPTION_KEY='00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff'
+  ENCRYPTION_KEY=00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff
 );
 ```
 
@@ -120,14 +120,13 @@ ALTER TABLE encrypted_table_example DROP COLUMN voltage;
 
 ## 加密范围
 
-本功能针对 TimeSeries 表的 Parquet 数据文件，不是整个数据库目录的加密开关。
+本功能针对 TimeSeries 表的 SST 文件，不是整个数据库目录的加密开关。
 
 | 内容 | 是否通过本功能加密 |
 | --- | --- |
-| Parquet 文件中的所有列，包括主键列、时间列和分区列 | 是，使用表级密钥 |
-| Parquet 文件 footer | 是，使用表级密钥 |
+| 文件中的所有列 | 是，使用表级密钥 |
+| 文件 footer | 是，使用表级密钥 |
 | WAL、数据库元数据及独立索引文件（如倒排索引、向量索引文件） | 否 |
-| SQL 查询结果、客户端与服务端之间的网络传输 | 否 |
 
 ## 性能影响
 
@@ -187,17 +186,13 @@ FROM encrypted_table_example;
 
 具有该表 `SELECT` 权限的用户可以通过 `SHOW CREATE TABLE` 查看真实密钥。包含建表语句的导出文件也会携带密钥。请将这些输出作为敏感信息保管。恢复加密数据时，需要保留对应的密钥和表结构；如果密钥丢失，无法仅凭加密文件恢复原始数据。
 
-当服务端记录包含 `ENCRYPTION_KEY` 的 SQL 时，密钥值会保留在 SQL 文本中，可能出现在慢查询日志、审计日志或其他请求日志中。请限制这些日志及其导出文件的访问权限。
-
 ## 当前使用限制
 
-- 仅支持 TimeSeries 表。
+- 仅支持时序引擎。
 - 只支持表级密钥，暂不支持列级密钥，也不能为单个列关闭加密。
 - 加密配置必须在建表时确定，不支持通过 `ALTER TABLE ... MODIFY OPTIONS ENCRYPTION_KEY` 为已有表启用加密、设置或更换表级密钥，包括重新设置同一把密钥。
 
-重命名表、修改 `FLUSH_INTERVAL` 等非加密选项仍遵循原有规则。不要直接修改持久化元数据中的密钥，否则已有文件可能无法解密。
-
-## 常见错误
+## 常见问题
 
 | 错误信息片段 | 处理方式 |
 | --- | --- |
